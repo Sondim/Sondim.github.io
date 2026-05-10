@@ -153,10 +153,16 @@
                     <p id="result-description" class="text-lg text-zinc-300 leading-relaxed">Result description goes here.</p>
                 </div>
                 
-                <h3 class="text-2xl font-bold text-white mb-6">Let's fix the emotional pipeline.</h3>
-                <button onclick="bookFromResults()" class="px-10 py-5 bg-white text-black rounded-xl font-black text-lg transition-all active:translate-y-1 shadow-[0_5px_0_0_#d4d4d8] hover:bg-zinc-200">
-                    Book your free teardown &rarr;
-                </button>
+                <h3 class="text-2xl font-bold text-white mb-6">Your Next Step:</h3>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <a id="result-download-btn" href="#" download class="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-black text-lg transition-all active:translate-y-1 shadow-[0_5px_0_0_#1e3a8a] text-center w-full sm:w-auto">
+                        Download Action Plan
+                    </a>
+                    
+                    <button onclick="bookFromResults()" class="px-8 py-4 bg-zinc-800 border border-zinc-700 hover:bg-zinc-700 text-white rounded-xl font-bold transition-all active:translate-y-1 shadow-[0_5px_0_0_#27272a] text-center w-full sm:w-auto">
+                        Book Free Teardown
+                    </button>
+                </div>
             </div>
 
         </div>
@@ -190,18 +196,28 @@
             }
         ];
 
+        // This object now controls which PDF is served based on the result!
         const resultsData = {
             grinder: {
                 title: "The White-Knuckle Grinder",
-                desc: "You have an incredible work ethic, but you are relying on brute-force willpower to get across the finish line. You sacrifice your physical and mental health to move the Jira board. To reach true mastery, we need to transition you from working harder to working clearer."
+                desc: "You have an incredible work ethic, but you are relying on brute-force willpower to get across the finish line. You sacrifice your physical and mental health to move the Jira board. To reach true mastery, we need to transition you from working harder to working clearer.",
+                pdfFile: "survival-guide.pdf", // Swap this when you make a specific grinder PDF
+                pdfName: "The_Grinder_Action_Plan",
+                btnText: "Download Grinder Guide"
             },
             visionary: {
                 title: "The Over-Extended Visionary",
-                desc: "You are building something beautiful, but scope creep is your silent killer. You constantly shift the goalposts to achieve perfection, which leads to endless development cycles. We need to build boundaries to protect your game from yourself."
+                desc: "You are building something beautiful, but scope creep is your silent killer. You constantly shift the goalposts to achieve perfection, which leads to endless development cycles. We need to build boundaries to protect your game from yourself.",
+                pdfFile: "survival-guide.pdf", // Swap this when you make a specific visionary PDF
+                pdfName: "The_Visionary_Action_Plan",
+                btnText: "Download Visionary Guide"
             },
             martyr: {
                 title: "The Studio Martyr",
-                desc: "You are the glue holding the team together, but you are absorbing all the impact. You shield your team from stress leaving you entirely isolated. You are leading with empathy, but running on empty. We need to build a system where you are supported too."
+                desc: "You are the glue holding the team together, but you are absorbing all the impact. You shield your team from stress leaving you entirely isolated. You are leading with empathy, but running on empty. We need to build a system where you are supported too.",
+                pdfFile: "survival-guide.pdf", // Swap this when you make a specific martyr PDF
+                pdfName: "The_Martyr_Action_Plan",
+                btnText: "Download Martyr Guide"
             }
         };
 
@@ -212,11 +228,10 @@
         const resultsState = document.getElementById('state-results');
 
         function openAssessment() {
-            // Reset state
             currentQuestionIndex = 0;
             scores = { grinder: 0, visionary: 0, martyr: 0 };
             
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden'; 
             modal.classList.remove('hidden');
             quizState.classList.remove('hidden');
             resultsState.classList.add('hidden');
@@ -226,7 +241,7 @@
         }
 
         function closeAssessment() {
-            document.body.style.overflow = 'auto'; // Restore scrolling
+            document.body.style.overflow = 'auto'; 
             modal.classList.add('hidden');
             quizState.classList.remove('fade-in', 'fade-out');
             resultsState.classList.remove('fade-in');
@@ -270,11 +285,19 @@
         function showResults() {
             quizState.classList.add('hidden');
             
+            // Tally the scores and pick the winner
             const winningArchetype = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
             const resultData = resultsData[winningArchetype];
 
+            // Update text content
             document.getElementById('result-title').innerText = resultData.title;
             document.getElementById('result-description').innerText = resultData.desc;
+
+            // Dynamically update the download button for this specific archetype!
+            const downloadBtn = document.getElementById('result-download-btn');
+            downloadBtn.href = resultData.pdfFile;
+            downloadBtn.download = resultData.pdfName;
+            downloadBtn.innerText = resultData.btnText;
 
             resultsState.classList.remove('hidden');
             resultsState.classList.add('fade-in');
