@@ -43,7 +43,8 @@
             100% { scale: 1 1; }
         }
 
-        .ball {
+        .ball
+         {
             --curve: cubic-bezier(0.123, 0.5, 0.5, 1);
             --stretch-ratio: 1.25;
             --squash-ratio: 1.5;
@@ -51,7 +52,8 @@
             
             width: 50px;
             height: 50px;
-            background: theme('colors.blue.500'); /* Matched to site branding */
+            /* Replaced with a hardcoded vibrant yellow hex code */
+            background: #eab308; 
             border-radius: 50%;
             
             animation:
@@ -59,7 +61,8 @@
                 bounce 400ms var(--curve) infinite alternate;
             
             transform-origin: center bottom;
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3), 0 0 20px theme('colors.blue.500');
+            /* Updated the glow to match the yellow ball */
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3), 0 0 20px rgba(234, 179, 8, 0.5);
         }
         
         /* Slider Styling */
