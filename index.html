@@ -8,124 +8,200 @@
     
     <style>
         html { scroll-behavior: smooth; }
+        .fade-in { animation: fadeIn 0.5s ease-in forwards; }
+        .fade-out { animation: fadeOut 0.5s ease-out forwards; }
         
-        /* Shimmer animation for the primary button */
-        @keyframes shimmer {
-            100% { left: 150%; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .animate-shimmer {
-            animation: shimmer 1.8s infinite;
-        }
-
-        /* Subtle float for the image */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        .animate-float {
-            animation: float 5s ease-in-out infinite;
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
         }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
+<body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden min-h-screen flex flex-col">
 
-    <nav class="sticky top-0 z-50 bg-zinc-950/70 backdrop-blur-xl border-b border-white/5">
-        <div class="max-w-4xl mx-auto px-6 py-4 md:py-6 flex justify-between items-center">
-            <div class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-default">
-                <span class="transition-transform group-hover:-translate-y-1">S</span>
-                <span class="transition-transform group-hover:translate-y-1">O</span>
-                <span class="transition-transform group-hover:-rotate-12 text-blue-500">N</span>
-                <span class="transition-transform group-hover:rotate-12">D</span>
-                <span class="transition-transform group-hover:scale-125">I</span>
-                <span class="transition-transform group-hover:-translate-y-1">M</span>
-            </div>
-            <a href="#book" class="text-xs font-mono uppercase tracking-widest text-zinc-400 hover:text-blue-400 transition-colors">
-                [ Book_Now ]
-            </a>
+    <nav class="w-full bg-zinc-950/70 backdrop-blur-xl border-b border-white/5 z-50">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-xl font-black tracking-[0.2em] text-white">SONDIM</div>
         </div>
     </nav>
 
-    <section class="max-w-4xl mx-auto px-6 py-12 md:py-24 flex flex-col md:flex-row items-center gap-12 relative">
+    <main class="flex-1 flex flex-col justify-center w-full max-w-4xl mx-auto px-6 py-12 relative">
         
-        <div class="absolute -top-24 -left-24 w-72 h-72 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-        
-        <div class="group relative w-56 h-56 md:w-72 md:h-72 flex-shrink-0 animate-float">
-            <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl blur opacity-20 group-hover:opacity-60 transition duration-500"></div>
-            <div class="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-zinc-900 border border-white/10">
-                <img 
-                    src="beard.png" 
-                    alt="Magnus" 
-                    class="w-full h-full object-cover transition-all duration-700 hover:grayscale cursor-crosshair scale-110 group-hover:scale-100"
-                >
-            </div>
-        </div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-        <div class="flex-1 text-center md:text-left z-10">
-            <h1 class="text-4xl md:text-6xl font-black mb-6 text-white leading-[0.9] tracking-tighter">
-                Where <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">joy</span> meets ambition.
+        <div id="state-hero" class="text-center z-10 transition-all duration-500">
+            <div class="inline-block px-4 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold mb-8 tracking-widest uppercase border border-blue-500/20">
+                The Indie Studio Diagnostic
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-6 text-white leading-[0.9] tracking-tighter">
+                Are you building a game,<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 to-zinc-600">or is it breaking you?</span>
             </h1>
-            <p class="text-lg md:text-xl text-zinc-400 mb-10 leading-relaxed max-w-lg mx-auto md:mx-0 font-medium">
-                Programs to unlock meaning, mastery, and aliveness. Build a high-performance studio without breaking your soul.
+            <p class="text-xl text-zinc-400 mb-12 leading-relaxed max-w-2xl mx-auto font-medium">
+                Find out your exact founder archetype and discover where your studio's hidden bottlenecks are before they lead to burnout.
             </p>
             
-            <div class="flex flex-col sm:flex-row gap-6 justify-center md:justify-start">
-                <a href="#book" class="relative group px-8 py-4 bg-white text-black rounded-xl font-black transition-all duration-75 active:translate-y-1 active:shadow-[0_0px_0_0_#1e1e1e] shadow-[0_5px_0_0_#d4d4d8] text-center overflow-hidden">
-                    <span class="relative z-10">Book 60-min Session</span>
-                    <div class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white/40 opacity-40 animate-shimmer"></div>
-                </a>
+            <button onclick="startAssessment()" class="group relative px-10 py-5 bg-white text-black rounded-xl font-black text-lg transition-all duration-75 active:translate-y-1 active:shadow-[0_0px_0_0_#1e1e1e] shadow-[0_5px_0_0_#d4d4d8] overflow-hidden inline-block cursor-pointer">
+                <span class="relative z-10">Start Free Assessment &rarr;</span>
+                <div class="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-white/40 opacity-40 group-hover:animate-[shimmer_1.5s_infinite]"></div>
+            </button>
+        </div>
 
-                <a href="survival-guide.pdf" download="Sondim-Survival-Guide" class="px-8 py-4 bg-zinc-900 border border-zinc-700 text-zinc-300 rounded-xl font-bold transition-all duration-75 active:translate-y-1 active:shadow-[0_0px_0_0_#000] shadow-[0_5px_0_0_#27272a] text-center hover:bg-zinc-800">
-                    Get the Guide
-                </a>
+        <div id="state-quiz" class="hidden z-10 w-full max-w-2xl mx-auto">
+            <div class="mb-8 flex justify-between items-center text-xs font-mono text-zinc-500 uppercase tracking-widest">
+                <span id="question-counter">Question 1 of 3</span>
+                <span>Sondim Diagnostic</span>
+            </div>
+            
+            <h2 id="question-text" class="text-3xl md:text-4xl font-bold text-white mb-10 leading-tight">
+                Question goes here?
+            </h2>
+
+            <div id="answers-container" class="flex flex-col gap-4">
+                </div>
+        </div>
+
+        <div id="state-results" class="hidden z-10 w-full">
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <div class="text-blue-500 font-mono text-sm uppercase tracking-[0.3em] mb-4 font-bold">Your Archetype</div>
+                <h2 id="result-title" class="text-4xl md:text-6xl font-black text-white mb-6">Result Title</h2>
+                <div class="p-8 rounded-2xl bg-zinc-900/50 border border-white/10 text-left">
+                    <p id="result-description" class="text-lg text-zinc-300 leading-relaxed">
+                        Result description goes here.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mb-12">
+                <h3 class="text-2xl font-bold text-white mb-4">Let's fix the emotional pipeline.</h3>
+                <p class="text-zinc-400">Book your free 60-minute teardown session below to build a sustainable system.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(59,130,246,0.15)] min-h-[600px] border-4 border-white">
+                <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Eoq_4KUvBNMyPqUt0U2YPmV1BrPI7w8sx-0h1uALKplFu_uigELHtjWVFKe-8-oqYK1a9DCrM?gv=true" style="border: 0" width="100%" height="700" frameborder="0"></iframe>
             </div>
         </div>
-    </section>
 
-    <section class="bg-zinc-900/40 border-y border-white/5 py-16 md:py-24 relative overflow-hidden">
-        <div class="max-w-3xl mx-auto px-6 relative z-10">
-            <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-8 text-center md:text-left font-bold">// Meet_Magnus</h2>
-            <div class="space-y-6 text-zinc-300 text-base md:text-lg leading-relaxed">
-                <p>
-                    For a decade, I worked as a physiotherapist—treating the physical toll of stress. It wasn't until a period of intense anxiety and insomnia that I discovered the world of sound as an anchor. That pivot led to a career in audio post-production and music for games.
-                </p>
-                <p>
-                    I’ve worked in teams that lost the big picture and experienced the "crunch" of releases that left me struggling for months. These challenges taught me that the combination of great people and a healthy culture creates the best outcomes.
-                </p>
-                <p class="text-white font-medium italic border-l-4 border-blue-600 pl-6 py-4 my-10 bg-blue-500/5 rounded-r-xl">
-                    "I realized that deep self-discovery isn't just for a meditation cushion—it's in the work of raising money, managing a team, and launching a game."
-                </p>
-                <p>
-                    Today, I coach founders to ensure their ambition and inner work fuel each other. In fact, that's what <strong>Sondim</strong> means: that moment when sound dims and we pause to receive our true experience.
-                </p>
-            </div>
-        </div>
-    </section>
+    </main>
 
-    <section class="max-w-4xl mx-auto px-6 py-24 grid grid-cols-1 md:grid-cols-2 gap-16">
-        <div class="group p-8 rounded-2xl bg-zinc-900/20 border border-white/5 hover:border-blue-500/30 transition-colors">
-            <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400 mb-6 font-black">01</div>
-            <h3 class="text-white font-bold text-2xl mb-4 italic">Mastery</h3>
-            <p class="text-zinc-400 leading-relaxed font-medium">Moving beyond just "surviving" development to a state of flow where your studio runs with precision and emotional intelligence.</p>
-        </div>
-        <div class="group p-8 rounded-2xl bg-zinc-900/20 border border-white/5 hover:border-blue-500/30 transition-colors">
-            <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400 mb-6 font-black">02</div>
-            <h3 class="text-white font-bold text-2xl mb-4 italic">Aliveness</h3>
-            <p class="text-zinc-400 leading-relaxed font-medium">Ensuring your ambition doesn't come at the cost of your soul. We work on the "growth edge" where real change happens.</p>
-        </div>
-    </section>
+    <script>
+        // 1. The Data: Questions & Weighted Answers
+        const questions = [
+            {
+                text: "When a milestone gets pushed back, what is your immediate reaction?",
+                answers: [
+                    { text: "Cancel my weekend plans to catch up.", type: "grinder" },
+                    { text: "Redesign the feature so it's 'worth' the delay.", type: "visionary" },
+                    { text: "Tell the team it's fine, then privately panic.", type: "martyr" }
+                ]
+            },
+            {
+                text: "Your relationship with your game's scope right now is:",
+                answers: [
+                    { text: "Fluid. The game demands what it demands.", type: "visionary" },
+                    { text: "Mostly me handling the overflow so others don't burn out.", type: "martyr" },
+                    { text: "Locked in, but the mountain of tasks is physically crushing.", type: "grinder" }
+                ]
+            },
+            {
+                text: "If you launched tomorrow and it was a massive hit, how would you feel?",
+                answers: [
+                    { text: "Exhausted, but glad the team gets a win.", type: "martyr" },
+                    { text: "Relieved the pain of development is finally over.", type: "grinder" },
+                    { text: "Anxious about the post-launch updates and what's next.", type: "visionary" }
+                ]
+            }
+        ];
 
-    <section id="book" class="max-w-4xl mx-auto px-6 py-16 md:py-24 text-center">
-        <div class="inline-block px-4 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-bold mb-6 tracking-widest uppercase">Available Slots 2026</div>
-        <h2 class="text-3xl md:text-4xl font-black mb-12 text-white italic">Ready to work?</h2>
-        
-        <div class="bg-white rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(59,130,246,0.15)] min-h-[600px] md:min-h-[700px] border-4 border-white">
-            <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Eoq_4KUvBNMyPqUt0U2YPmV1BrPI7w8sx-0h1uALKplFu_uigELHtjWVFKe-8-oqYK1a9DCrM?gv=true" style="border: 0" width="100%" height="700" frameborder="0"></iframe>
-        </div>
-    </section>
+        // 2. The Data: Archetype Profiles
+        const resultsData = {
+            grinder: {
+                title: "The White-Knuckle Grinder",
+                desc: "You have an incredible work ethic, but you are relying on brute-force willpower to get across the finish line. You sacrifice your physical and mental health to move the Jira board. This works for game jams, but it destroys studios. To reach true mastery, we need to transition you from working harder to working clearer."
+            },
+            visionary: {
+                title: "The Over-Extended Visionary",
+                desc: "You are building something beautiful, but scope creep is your silent killer. You constantly shift the goalposts to achieve perfection, which leads to endless development cycles. The joy of creation is being buried under the anxiety of never finishing. We need to build boundaries to protect your game from yourself."
+            },
+            martyr: {
+                title: "The Studio Martyr",
+                desc: "You are the glue holding the team together, but you are absorbing all the impact. You shield your team from stress, financial worries, and crunch, leaving you entirely isolated. You are leading with empathy, but running on empty. We need to build a system where you are supported as much as you support others."
+            }
+        };
 
-    <footer class="py-12 text-center text-zinc-600 text-xs font-mono uppercase tracking-widest border-t border-white/5">
-        &copy; 2026 SONDIM // Built for the Indie Community
-    </footer>
+        // 3. The State Variables
+        let currentQuestionIndex = 0;
+        let scores = { grinder: 0, visionary: 0, martyr: 0 };
+
+        // 4. The Functions
+        function startAssessment() {
+            document.getElementById('state-hero').classList.add('hidden');
+            const quizState = document.getElementById('state-quiz');
+            quizState.classList.remove('hidden');
+            quizState.classList.add('fade-in');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQuestionIndex];
+            document.getElementById('question-counter').innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            document.getElementById('question-text').innerText = q.text;
+            
+            const answersBox = document.getElementById('answers-container');
+            answersBox.innerHTML = ''; // clear old buttons
+
+            q.answers.forEach(answer => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-6 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-blue-500 hover:bg-zinc-800 transition-all text-zinc-300 font-medium group relative overflow-hidden";
+                btn.innerHTML = `<span class="relative z-10 group-hover:text-white transition-colors">${answer.text}</span>`;
+                btn.onclick = () => handleAnswer(answer.type);
+                answersBox.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(type) {
+            // Add a point to the chosen archetype bucket
+            scores[type]++;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                // Fade out, update content, fade in
+                const quizState = document.getElementById('state-quiz');
+                quizState.classList.remove('fade-in');
+                quizState.classList.add('fade-out');
+                
+                setTimeout(() => {
+                    renderQuestion();
+                    quizState.classList.remove('fade-out');
+                    quizState.classList.add('fade-in');
+                }, 300);
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            // Hide Quiz
+            document.getElementById('state-quiz').classList.add('hidden');
+            
+            // Calculate highest score
+            const winningArchetype = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+            const resultData = resultsData[winningArchetype];
+
+            // Populate Result Data
+            document.getElementById('result-title').innerText = resultData.title;
+            document.getElementById('result-description').innerText = resultData.desc;
+
+            // Show Results
+            const resultsState = document.getElementById('state-results');
+            resultsState.classList.remove('hidden');
+            resultsState.classList.add('fade-in');
+        }
+    </script>
 
 </body>
 </html>
