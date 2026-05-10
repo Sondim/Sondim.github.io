@@ -3,207 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sondim | Founder Coaching</title>
+    <title>SONDIM [FOUNDER_COACH]</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
     
     <style>
         html { scroll-behavior: smooth; }
         
-        @keyframes shimmer { 100% { left: 150%; } }
-        .animate-shimmer { animation: shimmer 1.8s infinite; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        .animate-float { animation: float 5s ease-in-out infinite; }
-
-        /* Modal Animations */
-        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
-        .fade-out { animation: fadeOut 0.3s ease-in forwards; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-10px); }
+        /* The entire site now uses a handwriting font */
+        body {
+            font-family: 'Architects Daughter', cursive;
+            letter-spacing: -0.5px;
         }
 
-        /* --- THE BOUNCE PHYSICS --- */
+        /* --- THE ANTI-AI 'HUMAN JANK' CSS CORE --- */
+
+        /* 1. Global Page Texture and Color */
+        .site-jank {
+            background-color: #0d1117; /* Deepest blue/black */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 15px 15px; /* Tiny, irregular grid */
+        }
+
+        /* 2. Custom Sketchy Borders (Human-drawn effect) */
+        .sketch-box {
+            border: 3px solid;
+            border-image: 
+                url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5C10 3 15 6 20 6C30 6 40 4 50 5C60 6 70 8 80 8C85 8 90 6 95 5M5 95C10 97 15 94 20 94C30 94 40 96 50 95C60 94 70 92 80 92C85 92 90 94 95 95M5 5C3 10 6 15 6 20C6 30 4 40 5 50C6 60 8 70 8 80C8 85 6 90 5 95M95 5C97 10 94 15 94 20C94 30 96 40 95 50C94 60 92 70 92 80C92 85 94 90 95 95" stroke="%23f8fafc" stroke-width="2"/></svg>') 10 / 3px round;
+            border-radius: 8px; /* Irregular border radius */
+        }
+
+        /* 3. CTA Buttons look like hand-cut paper (using image_3.png concept) */
+        .paper-cta {
+            position: relative;
+            background-color: transparent;
+            border: 2px solid #ffffff;
+            font-size: 1.1rem;
+            text-transform: lowercase; /* Matches 'make software' aesthetic */
+            padding: 12px 24px;
+            overflow: visible;
+        }
+        .paper-cta::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4fRzAAAABlBMVEX///8AAABVwtN+AAAAAnRSTlMAAHaTzTgAAAA7SURBV4jXY2AAAuYwBhYwBhYwBhYwBhYwBhYwBhYwBhYwBhYwBhYwBhYwBhYwBhYwBhYwBhYwBhYwBhZ/AD4uAs1XAAAAAElFTkSuQmCC');
+            background-size: contain;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1; /* Faint paper texture offset */
+        }
+        .paper-cta:hover {
+            transform: translate(2px, 2px);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* 4. Whiteboard Text Effect (image_3.png aesthetic) */
+        .handwritten-content {
+            color: #dbeafe; /* Light cyan text */
+            text-shadow: 1px 1px 1px #000;
+        }
+
+        /* 5. Custom Modal Design (Irregular shapes, minimal gradients) */
+        .modal-jank {
+            background-color: #1a1e26;
+            border-image: 
+                url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5C10 3 15 6 20 6M95 5C97 10 94 15 94 20C94 30 96 40 95 50M5 95C10 97 15 94 20 94M5 5C3 10 6 15 6 20C6 30 4 40 5 50" stroke="%233b82f6" stroke-width="4"/></svg>') 10 / 5px round; /* Sketchy blue outline */
+        }
+        .jank-box {
+            background-color: #24292e;
+            border: 2px dashed #444;
+            border-radius: 4px;
+            padding: 1rem;
+        }
+
+        /* 6. The Bounce Physics Visual, now yellow and rough */
+        .rough-ball {
+            --curve: cubic-bezier(0.123, 0.5, 0.5, 1);
+            --stretch-ratio: 1.2;
+            --squash-ratio: 1.6;
+            --bounce-height: -100px;
+            width: 45px;
+            height: 45px;
+            background: #ffcc00; /* Flat, hand-drawn yellow */
+            border-radius: 40%; /* Irregular circle */
+            border: 2px solid #fff; /* White whiteboard-style contour */
+            animation: squash 800ms linear infinite, bounce 400ms var(--curve) infinite alternate;
+            transform-origin: center bottom;
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.5); /* Hard, irregular shadow */
+        }
         @keyframes bounce {
             0% { translate: 0 0; }
-            5% { translate: 0 0; }
-            100% { translate: 0 var(--bounce-height, -120px); }
+            100% { translate: 0 var(--bounce-height, -100px); }
         }
         @keyframes squash {
-            0% { scale: var(--squash-ratio) calc(1 / var(--stretch-ratio)); }
-            10% { scale: calc(1 / var(--squash-ratio)) var(--stretch-ratio); }
+            0% { scale: var(--squash-ratio) 0.8; } /* Rough, simplified squash */
+            10% { scale: 1 1.2; }
             100% { scale: 1 1; }
         }
 
-        .ball {
-            --curve: cubic-bezier(0.123, 0.5, 0.5, 1);
-            --stretch-ratio: 1.25;
-            --squash-ratio: 1.5;
-            --bounce-height: -120px;
-            width: 50px;
-            height: 50px;
-            background: #eab308; 
-            border-radius: 50%;
-            animation: squash 800ms linear infinite, bounce 400ms var(--curve) infinite alternate;
-            transform-origin: center bottom;
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3), 0 0 20px rgba(234, 179, 8, 0.5);
-        }
-        
-        input[type=range] { -webkit-appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-runnable-track { height: 8px; background: #27272a; border-radius: 4px; }
+        /* Irregular Slider Handle */
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%;
-            background: #3b82f6; margin-top: -8px; cursor: pointer;
-            box-shadow: 0 0 10px rgba(59,130,246,0.5);
+            -webkit-appearance: none;
+            height: 25px; width: 15px;
+            border-radius: 0;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 1px 1px 1px #000;
         }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
+<body class="site-jank text-slate-100 min-h-screen">
 
-    <nav class="sticky top-0 z-40 bg-zinc-950/70 backdrop-blur-xl border-b border-white/5">
-        <div class="max-w-4xl mx-auto px-6 py-4 md:py-6 flex justify-between items-center">
-            <div class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-default">
-                <span>S</span><span>O</span><span class="text-blue-500">N</span><span>D</span><span>I</span><span>M</span>
-            </div>
-            <div class="flex gap-6 items-center">
-                <a href="#bounce-test" class="hidden sm:block text-xs font-mono uppercase tracking-widest text-zinc-400 hover:text-purple-400 transition-colors">[ Bounce_Test ]</a>
-                <a href="#book" class="text-xs font-mono uppercase tracking-widest text-zinc-400 hover:text-blue-400 transition-colors">[ Book_Now ]</a>
+    <nav class="sticky top-0 z-40 border-b-2 border-dashed border-slate-700 bg-slate-900/50 backdrop-blur-sm">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-3xl font-black text-white" style="text-shadow: 2px 2px 0px #000">S O N D I M</div>
+            <div class="flex gap-4 items-center">
+                <a href="#book" class="text-xs font-mono uppercase text-blue-300 hover:text-white transition-colors">>>book_teardown_<<</a>
             </div>
         </div>
     </nav>
 
-    <section class="max-w-4xl mx-auto px-6 py-12 md:py-24 flex flex-col md:flex-row items-center gap-12 relative z-10">
-        <div class="absolute -top-24 -left-24 w-72 h-72 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="group relative w-56 h-56 md:w-72 md:h-72 flex-shrink-0 animate-float">
-            <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl blur opacity-20"></div>
-            <div class="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-zinc-900 border border-white/10">
+    <section class="max-w-4xl mx-auto px-6 py-12 md:py-20 flex flex-col md:flex-row items-center gap-12 relative z-10">
+        <div class="w-56 h-56 md:w-64 md:h-64 flex-shrink-0 animate-float sketch-box p-1">
+            <div class="relative w-full h-full rounded-md overflow-hidden bg-slate-800">
                 <img src="beard.png" alt="Magnus" class="w-full h-full object-cover">
             </div>
         </div>
-        <div class="flex-1 text-center md:text-left z-10">
-            <h1 class="text-4xl md:text-6xl font-black mb-6 text-white leading-[0.9] tracking-tighter">Where <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">joy</span> meets ambition.</h1>
-            <p class="text-lg md:text-xl text-zinc-400 mb-10 leading-relaxed font-medium">Programs to unlock meaning, mastery, and aliveness. Build a high-performance studio without breaking your soul.</p>
+        
+        <div class="flex-1 text-center md:text-left z-10 handwritten-content">
+            <h1 class="text-5xl md:text-6xl font-black mb-6 leading-[0.95]">joy meets ambition<br> [somehow]</h1>
+            <p class="text-xl md:text-2xl text-slate-300 mb-10 leading-relaxed font-medium">Unlock meaning, mastery, and aliveness without the typical [AI_jargon]. I help founders work like humans.</p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start flex-wrap mt-8">
-                <a href="#book" class="px-6 py-4 bg-white text-black rounded-xl font-black shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1 transition-all text-center">Book Session</a>
-                <button onclick="openAssessment()" class="px-6 py-4 bg-blue-600/20 border border-blue-500/50 text-blue-400 rounded-xl font-bold shadow-[0_5px_0_0_#1e3a8a] active:translate-y-1 transition-all">Free Assessment</button>
-                <button onclick="openTopicPicker()" class="px-6 py-4 bg-purple-600/20 border border-purple-500/50 text-purple-400 rounded-xl font-bold shadow-[0_5px_0_0_#4c1d95] active:translate-y-1 transition-all">What to work on?</button>
-                <a href="survival-guide.pdf" download="Sondim-Survival-Guide" class="px-6 py-4 bg-zinc-900 border border-zinc-700 text-zinc-300 rounded-xl font-bold shadow-[0_5px_0_0_#27272a] active:translate-y-1 transition-all text-center hover:bg-zinc-800">Get the Guide</a>
+                <button onclick="openAssessment()" class="paper-cta text-white font-bold transition-all">diagnostic_test</button>
+                <button onclick="openTopicPicker()" class="paper-cta text-white font-bold transition-all">what_do_you_need?</button>
+                <a href="survival-guide.pdf" download="Guide" class="paper-cta text-slate-300 font-medium text-center hover:text-white transition-all">guide</a>
             </div>
         </div>
     </section>
 
-    <section class="bg-zinc-900/40 border-y border-white/5 py-16 md:py-24">
-        <div class="max-w-3xl mx-auto px-6">
-            <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-8 font-bold">// Meet_Magnus</h2>
-            <p class="text-zinc-300 text-lg leading-relaxed mb-6 italic border-l-4 border-blue-600 pl-6 py-4 bg-blue-500/5 rounded-r-xl">"I realized that deep self-discovery isn't just for a meditation cushion—it's in the work of raising money, managing a team, and launching a game."</p>
-            <p class="text-zinc-400 leading-relaxed">Today, I coach founders to ensure their ambition and inner work fuel each other. In fact, that's what Sondim means: that moment when sound dims and we pause to receive our true experience.</p>
+    <section class="bg-slate-900 border-t-2 border-b-2 border-dashed border-slate-700 py-16 md:py-24">
+        <div class="max-w-3xl mx-auto px-6 handwritten-content">
+            <div class="jank-box">
+                <p class="text-3xl font-black text-white mb-6 leading-tight">"i was a physiotherapist. I treated stress... now I coach founders. contemp tradition, neuroscience, psychology. solo devs, indie teams, execs. turning business into practice of self-discovery. high performance without the soul-sucking AI optimization."</p>
+            </div>
         </div>
     </section>
 
-    <section id="bounce-test" class="max-w-3xl mx-auto px-6 py-24 text-center">
-        <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">How bouncy do you feel?</h2>
-        <div class="h-64 flex items-end justify-center pb-[2px] border-b-2 border-zinc-700 w-full max-w-sm mx-auto mb-10 relative">
-            <div class="ball" id="interactive-ball"></div>
+    <section id="bounce-test" class="max-w-3xl mx-auto px-6 py-20 text-center handwritten-content">
+        <h2 class="text-4xl md:text-5xl font-black mb-6 text-white leading-tight">how bouncy do you feel?</h2>
+        
+        <div class="h-64 flex items-end justify-center pb-[3px] border-b-4 border-slate-600 w-full max-w-sm mx-auto mb-10 relative">
+            <div class="rough-ball" id="interactive-ball"></div>
         </div>
-        <div class="max-w-sm mx-auto mb-10">
+
+        <div class="max-w-sm mx-auto mb-10 p-4 border-2 border-slate-700 rounded-sm">
+            <div class="flex justify-between text-xs font-mono text-slate-500 mb-4 uppercase">
+                <span>rigid</span>
+                <span>loose</span>
+            </div>
             <input type="range" min="1" max="2" step="0.01" value="1.5" id="bounce-slider" class="w-full" oninput="updateBouncePhysics()">
         </div>
-        <button onclick="confirmBounce()" class="px-10 py-5 bg-white text-black rounded-xl font-black text-lg shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1">Confirm Physics</button>
+
+        <button onclick="confirmBounce()" class="paper-cta text-white font-black text-lg transition-all">get_visual_audit</button>
     </section>
 
-    <div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/95 backdrop-blur-md overflow-y-auto">
-        <div class="min-h-screen flex items-center justify-center px-6 py-20 w-full">
-            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl">
-                <button onclick="closeModals()" class="absolute top-4 right-4 text-zinc-500 hover:text-white p-2 z-50">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-black/95 overflow-y-auto">
+        <div class="min-h-screen flex items-center justify-center px-6 py-12 w-full relative">
+            <div class="w-full max-w-3xl mx-auto relative modal-jank p-8 md:p-12 shadow-2xl handwritten-content">
+                <button onclick="closeModals()" class="absolute top-4 right-4 text-slate-500 hover:text-white z-50">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
                 <div id="state-quiz" class="hidden">
-                    <div class="mb-8 text-xs font-mono text-zinc-500 uppercase tracking-widest" id="question-counter">Question 1 of 3</div>
-                    <h2 id="question-text" class="text-3xl md:text-4xl font-bold text-white mb-10 leading-tight"></h2>
-                    <div id="answers-container" class="flex flex-col gap-4"></div>
+                    <div class="mb-4 text-sm uppercase text-slate-500" id="question-counter">q1_of_3</div>
+                    <h2 id="question-text" class="text-4xl font-bold text-white mb-10 leading-tight">q_placeholder</h2>
+                    <div id="answers-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
                 </div>
                 <div id="state-results" class="text-center hidden">
-                    <div id="result-label" class="text-blue-500 font-mono text-sm uppercase tracking-[0.3em] mb-4 font-bold"></div>
-                    <h2 id="result-title" class="text-4xl md:text-6xl font-black text-white mb-6"></h2>
-                    <p id="result-description" class="text-lg text-zinc-300 leading-relaxed mb-10 text-left p-6 bg-black/30 rounded-xl border border-white/5"></p>
+                    <div id="result-label" class="text-sm uppercase text-blue-300 font-medium mb-3">archetype:</div>
+                    <h2 id="result-title" class="text-4xl md:text-6xl font-black text-white mb-6">title_placeholder</h2>
+                    <div class="p-6 rounded-xl bg-black/50 border border-slate-800 text-left mb-10 shadow-inner">
+                        <p id="result-description" class="text-lg text-slate-300 leading-relaxed"></p>
+                    </div>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a id="result-download-btn" href="#" download class="px-8 py-4 bg-blue-600 text-white rounded-xl font-black text-lg shadow-[0_5px_0_0_#1e3a8a] active:translate-y-1">Download Guide</a>
-                        <button onclick="bookFromModal()" class="px-8 py-4 bg-zinc-800 text-white rounded-xl font-bold shadow-[0_5px_0_0_#27272a] active:translate-y-1">Book Teardown</button>
+                        <a id="result-download-btn" href="#" download class="paper-cta text-white font-black text-lg transition-all">download_plan</a>
+                        <button onclick="bookFromModal()" class="paper-cta text-slate-400 hover:text-white font-medium transition-all">free_teardown</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="topic-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/95 backdrop-blur-md overflow-y-auto">
-        <div class="min-h-screen flex items-center justify-center px-6 py-20 w-full relative">
-            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl">
-                <button onclick="closeModals()" class="absolute top-4 right-4 text-zinc-500 hover:text-white p-2 z-50">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <div id="topic-modal" class="fixed inset-0 z-50 hidden bg-black/95 overflow-y-auto">
+        <div class="min-h-screen flex items-center justify-center px-6 py-12 w-full relative">
+            <div class="w-full max-w-3xl mx-auto relative modal-jank p-8 md:p-12 shadow-2xl handwritten-content">
+                <button onclick="closeModals()" class="absolute top-4 right-4 text-slate-500 hover:text-white z-50">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
                 <div id="state-topic-picker" class="hidden">
-                    <h2 class="text-4xl font-black text-white mb-4 text-center">What do you want to work on?</h2>
+                    <h2 class="text-4xl font-black text-white mb-8 text-center leading-tight">select bottlenecks...</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-                        <button onclick="renderTopic('critical')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-purple-500 transition-all">Critical Self Talk</button>
-                        <button onclick="renderTopic('imposter')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-purple-500 transition-all">Imposter Syndrome</button>
-                        <button onclick="renderTopic('procrastination')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-purple-500 transition-all">Procrastination</button>
-                        <button onclick="renderTopic('relationship')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-purple-500 transition-all">Relationship to Self & Others</button>
+                        <button onclick="renderTopic('critical')" class="p-6 text-left rounded-xl bg-slate-800 border-2 border-dashed border-slate-700 hover:border-blue-400 transition-all font-bold">>>> critical_self_talk <<<</button>
+                        <button onclick="renderTopic('imposter')" class="p-6 text-left rounded-xl bg-slate-800 border-2 border-dashed border-slate-700 hover:border-blue-400 transition-all font-bold">>>> imposter_syndrome <<<</button>
+                        <button onclick="renderTopic('procrastination')" class="p-6 text-left rounded-xl bg-slate-800 border-2 border-dashed border-slate-700 hover:border-blue-400 transition-all font-bold">>>> procrastination <<<</button>
+                        <button onclick="renderTopic('relationship')" class="p-6 text-left rounded-xl bg-slate-800 border-2 border-dashed border-slate-700 hover:border-blue-400 transition-all font-bold">>>> relationship_self/others <<<</button>
                     </div>
                 </div>
-                <div id="state-topic-result" class="hidden space-y-6 leading-relaxed text-zinc-300">
-                    <div id="topic-dynamic-content"></div>
+                <div id="state-topic-result" class="hidden space-y-6 text-slate-300 leading-relaxed text-lg">
+                    <div id="topic-dynamic-content" class="sketch-box p-6 bg-slate-900"></div>
                     <div class="pt-10 border-t border-white/10 text-center">
-                        <button onclick="bookFromModal()" class="px-10 py-5 bg-white text-black rounded-xl font-black text-lg shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1">Book Session</button>
+                        <button onclick="bookFromModal()" class="paper-cta text-white font-black text-lg transition-all">book_teardown</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <section id="book" class="max-w-4xl mx-auto px-6 py-24 text-center">
-        <div class="bg-white rounded-3xl overflow-hidden min-h-[700px] border-4 border-white"><iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Eoq_4KUvBNMyPqUt0U2YPmV1BrPI7w8sx-0h1uALKplFu_uigELHtjWVFKe-8-oqYK1a9DCrM?gv=true" style="border: 0" width="100%" height="700" frameborder="0"></iframe></div>
+    <section id="book" class="max-w-4xl mx-auto px-6 py-20 text-center border-t border-white/5 bg-slate-900/30">
+        <h2 class="text-3xl font-black mb-10 text-white leading-tight">Available Slots (Actual Human Booking)</h2>
+        <div class="bg-black/50 p-2 rounded-lg border-2 border-slate-700 sketch-box min-h-[700px]">
+            <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Eoq_4KUvBNMyPqUt0U2YPmV1BrPI7w8sx-0h1uALKplFu_uigELHtjWVFKe-8-oqYK1a9DCrM?gv=true" style="border: 0" width="100%" height="700" frameborder="0"></iframe>
+        </div>
     </section>
 
+    <footer class="py-10 text-center text-slate-600 text-xs font-mono border-t border-slate-700">
+        (c) 2026 SONDIM // Built by hand for indie devs
+    </footer>
+
     <script>
-        // --- DATA ---
         const assessmentQuestions = [
-            { text: "When a milestone gets pushed back, what is your immediate reaction?", answers: [ { text: "Cancel my weekend plans to catch up.", type: "grinder" }, { text: "Redesign the feature.", type: "visionary" }, { text: "Tell the team it's fine, then privately panic.", type: "martyr" } ] },
-            { text: "Your relationship with your game's scope right now is:", answers: [ { text: "Fluid. The game demands what it demands.", type: "visionary" }, { text: "Mostly me handling the overflow.", type: "martyr" }, { text: "Locked in, but tasks are physically crushing.", type: "grinder" } ] },
-            { text: "If you launched tomorrow and it was a hit, how would you feel?", answers: [ { text: "Exhausted, but glad the team gets a win.", type: "martyr" }, { text: "Relieved the pain is finally over.", type: "grinder" }, { text: "Anxious about the post-launch updates.", type: "visionary" } ] }
+            { text: " milestone pushed back... immediate reaction? ", answers: [ { text: "cancel weekend, catch up.", type: "grinder" }, { text: "redesign feature.", type: "visionary" }, { text: "tell team fine, panic silently.", type: "martyr" } ] },
+            { text: "relationship with scope right now: ", answers: [ { text: "fluid. game demands what it demands.", type: "visionary" }, { text: "me handling overflow, shield team.", type: "martyr" }, { text: "tasks are physically crushing.", type: "grinder" } ] },
+            { text: "game launches, hit. how do you feel? ", answers: [ { text: "exhausted, team gets a win.", type: "martyr" }, { text: "relieved, pain over.", type: "grinder" }, { text: "anxious, post-launch updates.", type: "visionary" } ] }
         ];
 
         const resultsData = {
-            grinder: { title: "The White-Knuckle Grinder", desc: "You rely on brute-force willpower. This works for game jams, but it destroys studios.", pdfFile: "survival-guide.pdf" },
-            visionary: { title: "The Over-Extended Visionary", desc: "Scope creep is your silent killer. You constantly shift the goalposts.", pdfFile: "survival-guide.pdf" },
-            martyr: { title: "The Studio Martyr", desc: "You are the glue holding the team together, but you are absorbing all the impact.", pdfFile: "survival-guide.pdf" },
-            rigid: { title: "The Rigid Developer", desc: "You are holding everything tightly. Flexibility is your missing key.", pdfFile: "survival-guide.pdf" },
-            bouncy: { title: "The Grounded Developer", desc: "You absorb impacts and return to center. You have healthy emotional shock absorbers.", pdfFile: "survival-guide.pdf" },
-            loose: { title: "The Loose Developer", desc: "You adapt quickly, but your energy is scattered. We need to ground you.", pdfFile: "survival-guide.pdf" }
+            grinder: { title: "White-Knuckle Grinder", desc: "U rely on willpower. jamming logic. destroys studios.", pdfFile: "guide.pdf" },
+            visionary: { title: "Over-Extended Visionary", desc: "Scope creep is a bottleneck. goalposts shift constantly.", pdfFile: "guide.pdf" },
+            martyr: { title: "Studio Martyr", desc: "The glue holding the team. u shield stress, absorbing the impact.", pdfFile: "guide.pdf" },
+            rigid: { title: "Rigid Developer", desc: "holding tightly. zero 'give'. unexpected bugs shatter u.", pdfFile: "guide.pdf" },
+            bouncy: { title: "Grounded Developer", desc: "equilibrium. absorb impacts, return to center. emotional shock absorbers.", pdfFile: "guide.pdf" },
+            loose: { title: "Loose Developer", desc: "adapt quick. energy scattered. untethered. we ground u.", pdfFile: "guide.pdf" }
         };
 
         const topicsData = {
-            relationship: { html: `<h2 class="text-3xl font-black text-white mb-6">Focus on your relationship to yourself and others</h2><p>This area is about your capacity to be with yourself and others without needing anyone to change...</p>` },
-            critical: { html: `<h2 class="text-3xl font-bold text-white mb-6">Critical Self Talk</h2><p>Quiet the internal critic and build sustainable motivation.</p>` },
-            imposter: { html: `<h2 class="text-3xl font-bold text-white mb-6">Imposter Syndrome</h2><p>Stop waiting for permission and own your studio's vision.</p>` },
-            procrastination: { html: `<h2 class="text-3xl font-bold text-white mb-6">Procrastination</h2><p>Move past the freeze response when the work gets overwhelming.</p>` }
+            relationship: { html: `<h3>bottleneck identified: relationship issues [self/others]</h3><p>this area is about your capacity to be with yourself and others without needing anyone to change... [Omitted Essay]... BLACK & WHITE THINKING AS A SIGNAL OF FEAR...</p>` },
+            critical: { html: `<h3>critical self talk [the inner critic]</h3><p>Quiet the internal voice. sustainable motivation.</p>` },
+            imposter: { html: `<h3>imposter syndrome [own the vision]</h3><p>stop waiting for permission. run the studio.</p>` },
+            procrastination: { html: `<h3>procrastination [move the freeze]</h3><p>break the cycle when work gets overwhelming.</p>` }
         };
 
-        // --- CORE LOGIC ---
         let qIdx = 0; let scores = { grinder: 0, visionary: 0, martyr: 0 };
 
         function updateBouncePhysics() {
             const v = document.getElementById('bounce-slider').value;
             const b = document.getElementById('interactive-ball');
             b.style.setProperty('--squash-ratio', v);
-            b.style.setProperty('--stretch-ratio', 1 + ((v - 1) * 0.5));
+            b.style.setProperty('--stretch-ratio', 1 + ((v - 1) * 0.4)); // slightly simpler formula
             b.style.setProperty('--bounce-height', '-120px');
         }
 
@@ -223,13 +285,13 @@
 
         function renderQ() {
             const q = assessmentQuestions[qIdx];
-            document.getElementById('question-counter').innerText = `Question ${qIdx + 1} of 3`;
+            document.getElementById('question-counter').innerText = `question_${qIdx + 1}_of_3`;
             document.getElementById('question-text').innerText = q.text;
             const container = document.getElementById('answers-container');
             container.innerHTML = '';
             q.answers.forEach(a => {
                 const b = document.createElement('button');
-                b.className = "p-6 rounded-xl bg-zinc-800 border border-white/5 text-left hover:border-blue-500 transition-all";
+                b.className = "paper-cta text-left text-blue-300 font-bold leading-tight hover:text-white";
                 b.innerText = a.text;
                 b.onclick = () => { scores[a.type]++; qIdx++; if(qIdx < 3) renderQ(); else showA(); };
                 container.appendChild(b);
@@ -238,13 +300,13 @@
 
         function showA() {
             const win = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
-            triggerRes(resultsData[win], "Your Archetype");
+            triggerRes(resultsData[win], "found:");
         }
 
         function confirmBounce() {
             const v = document.getElementById('bounce-slider').value;
             const k = v <= 1.25 ? 'rigid' : v >= 1.75 ? 'loose' : 'bouncy';
-            triggerRes(resultsData[k], "Physics Audit Complete");
+            triggerRes(resultsData[k], "audit:");
         }
 
         function triggerRes(data, label) {
