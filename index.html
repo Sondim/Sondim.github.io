@@ -279,19 +279,23 @@
 
     <script>
         // --- BOUNCE PHYSICS ENGINE ---
-        function updateBouncePhysics() {
+        function updateBouncePhysics() 
+        {
             const val = parseFloat(document.getElementById('bounce-slider').value);
             const ball = document.getElementById('interactive-ball');
             
-            // Map the slider 1-2 to the visual CSS vars provided in the prompt
-            // When val is 1 (Rigid): stretch is 1, squash is 1, bounce height is very low
-            // When val is 2 (Loose): stretch is 1.5, squash is 2, bounce height is very high
+            // Map the slider 1-2 to elasticity
+            // 1 = Solid bowling ball (no stretch)
+            // 2 = Water balloon (high stretch)
             const stretch = 1 + ((val - 1) * 0.5); 
-            const height = -20 - ((val - 1) * 130); // goes from -20px to -150px
             
+            // Apply the material changes
             ball.style.setProperty('--squash-ratio', val);
             ball.style.setProperty('--stretch-ratio', stretch);
-            ball.style.setProperty('--bounce-height', `${height}px`);
+            
+            // Lock the gravity/mass! 
+            // It will always reach exactly -120px no matter how squishy it is.
+            ball.style.setProperty('--bounce-height', '-120px'); 
         }
 
         const bounceResultsData = {
