@@ -30,18 +30,20 @@
             to { opacity: 0; transform: translateY(-10px); }
         }
 
-        /* --- THE BOUNCE/SLIME PHYSICS --- */
+        /* --- THE ORIGINAL BOUNCE PHYSICS --- */
         @keyframes bounce {
             0% { translate: 0 0; }
+            5% { translate: 0 0; }
             100% { translate: 0 var(--bounce-height, -120px); }
         }
         @keyframes squash {
             0% { scale: var(--squash-ratio) calc(1 / var(--stretch-ratio)); }
-            15% { scale: calc(1 / var(--squash-ratio)) var(--stretch-ratio); }
+            10% { scale: calc(1 / var(--squash-ratio)) var(--stretch-ratio); }
             100% { scale: 1 1; }
         }
 
         .ball {
+            --curve: cubic-bezier(0.123, 0.5, 0.5, 1);
             --stretch-ratio: 1.25;
             --squash-ratio: 1.5;
             --bounce-height: -120px;
@@ -49,7 +51,7 @@
             height: 50px;
             background: #eab308; 
             border-radius: 50%;
-            /* Animation set dynamically via JS to handle "Stickiness" */
+            animation: squash 800ms linear infinite, bounce 400ms var(--curve) infinite alternate;
             transform-origin: center bottom;
             box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3), 0 0 20px rgba(234, 179, 8, 0.5);
         }
@@ -126,9 +128,7 @@
     <section id="sea-metafor" class="max-w-4xl mx-auto px-6 py-24 text-center">
         <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-4 font-bold">// Internal_Environment_Sync</h2>
         <h3 class="text-3xl md:text-5xl font-black text-white mb-10 leading-tight">Is your inner sea calm or <span class="text-red-500">turbulent</span>?</h3>
-        
         <div id="flag-container" class="flag w-full max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 mb-10" style="height: 250px;"></div>
-
         <div class="max-w-sm mx-auto space-y-6">
             <div class="flex justify-between text-xs font-mono text-zinc-500 uppercase tracking-widest">
                 <span>Staggered Delay:</span>
@@ -214,7 +214,6 @@
     </section>
 
     <script>
-        /* --- DATA SETS --- */
         const assessmentQuestions = [
             { text: "When a milestone gets pushed back, what is your immediate reaction?", answers: [ { text: "Cancel my weekend plans to catch up.", type: "grinder" }, { text: "Redesign the feature.", type: "visionary" }, { text: "Tell the team it's fine, then privately panic.", type: "martyr" } ] },
             { text: "Your relationship with your game's scope right now is:", answers: [ { text: "Fluid. The game demands what it demands.", type: "visionary" }, { text: "Mostly me handling the overflow.", type: "martyr" }, { text: "Locked in, but tasks are physically crushing.", type: "grinder" } ] },
@@ -239,37 +238,13 @@
 
         let qIdx = 0; let scores = { grinder: 0, visionary: 0, martyr: 0 };
 
-        /* --- PHYSICS ENGINES --- */
+        /* --- THE ORIGINAL PHYSICS (MOMENTUM PRESERVED) --- */
         function updateBouncePhysics() {
-            const v = parseFloat(document.getElementById('bounce-slider').value);
+            const v = document.getElementById('bounce-slider').value;
             const b = document.getElementById('interactive-ball');
-            
-            // 1. Squash and Stretch Logic
             b.style.setProperty('--squash-ratio', v);
-            b.style.setProperty('--stretch-ratio', 1 + ((v - 1) * 0.75));
-            
-            // 2. Bounce Height Logic (Stickiness)
-            // v=1 (rigid) height is -120px. v=2 (slime) height is -10px.
-            const height = -120 + ((v - 1) * 110); 
-            b.style.setProperty('--bounce-height', `${height}px`);
-            
-            // 3. Timing Logic (Sluggishness)
-            // Slower duration for slime.
-            const squashDuration = 800 + ((v - 1) * 700);
-            const bounceDuration = 400 + ((v - 1) * 350);
-            
-            // Easing Logic:
-            // Rigid = Fast snap. Slime = Heavy damping.
-            const stiffCurve = 'cubic-bezier(0.12, 0.5, 0.5, 1)';
-            const slimeCurve = 'cubic-bezier(0.6, 0.1, 0.9, 0.3)';
-            const currentCurve = v < 1.3 ? stiffCurve : slimeCurve;
-
-            b.style.animation = `squash ${squashDuration}ms linear infinite, bounce ${bounceDuration}ms ${currentCurve} infinite alternate`;
-            
-            // 4. Visual "Softness" (Shadow blur)
-            const blur = 20 + ((v - 1) * 40);
-            const shadowAlpha = 0.5 - ((v - 1) * 0.3);
-            b.style.boxShadow = `inset -10px -10px 20px rgba(0,0,0,0.3), 0 0 ${blur}px rgba(234, 179, 8, ${shadowAlpha})`;
+            b.style.setProperty('--stretch-ratio', 1 + ((v - 1) * 0.5));
+            b.style.setProperty('--bounce-height', '-120px');
         }
 
         function initSea() {
@@ -297,7 +272,6 @@
             }
         }
 
-        /* --- MODAL LOGIC --- */
         function closeModals() {
             document.body.style.overflow = 'auto';
             document.getElementById('assessment-modal').classList.add('hidden');
@@ -363,7 +337,6 @@
 
         function bookFromModal() { closeModals(); document.getElementById('book').scrollIntoView(); }
 
-        /* --- INITIALIZATION --- */
         window.addEventListener('DOMContentLoaded', () => {
             initSea();
             updateBouncePhysics();
