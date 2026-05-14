@@ -55,6 +55,31 @@
             transform-origin: center bottom;
             box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3), 0 0 20px rgba(234, 179, 8, 0.5);
         }
+
+        /* --- THE STORM PHYSICS --- */
+        @keyframes oscillate-storm {
+            from { transform: translateY(25px); }
+            to { transform: translateY(-25px); }
+        }
+
+        .flag {
+            display: flex;
+            background: #09090b;
+            perspective: 1000px;
+        }
+
+        .column {
+            flex: 1;
+            background: linear-gradient(
+                to bottom,
+                #0f172a 0%, #1e293b 20%,
+                #3b82f6 20%, #2563eb 40%,
+                #ffffff 40%, #f8fafc 60%,
+                #ef4444 60%, #b91c1c 80%,
+                #020617 80%, #000000 100%
+            );
+            animation: oscillate-storm 500ms infinite ease-in-out alternate;
+        }
         
         input[type=range] { -webkit-appearance: none; background: transparent; }
         input[type=range]::-webkit-slider-runnable-track { height: 8px; background: #27272a; border-radius: 4px; }
@@ -99,80 +124,26 @@
             </div>
         </div>
     </section>
-<section id="sea-metafor" class="max-w-4xl mx-auto px-6 py-24 text-center">
-    <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-4 font-bold">// Internal_Environment_Sync</h2>
-    <h3 class="text-3xl md:text-5xl font-black text-white mb-10 leading-tight">Is your inner sea calm or <span class="text-red-500">turbulent</span>?</h3>
-    
-    <div id="flag-container" class="flag w-full max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 mb-10" style="height: 250px;">
-        </div>
 
-    <div class="max-w-sm mx-auto space-y-8">
-        <div class="space-y-4">
+    <section id="sea-metafor" class="max-w-4xl mx-auto px-6 py-24 text-center">
+        <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-4 font-bold">// Internal_Environment_Sync</h2>
+        <h3 class="text-3xl md:text-5xl font-black text-white mb-10 leading-tight">Is your inner sea calm or <span class="text-red-500">turbulent</span>?</h3>
+        
+        <div id="flag-container" class="flag w-full max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 mb-10" style="height: 250px;"></div>
+
+        <div class="max-w-sm mx-auto space-y-6">
             <div class="flex justify-between text-xs font-mono text-zinc-500 uppercase tracking-widest">
-                <span>Resolution: <span id="seg-count">20</span></span>
-                <span>Turbulence: <span id="delay-val">150ms</span></span>
+                <span>Staggered Delay:</span>
+                <span id="delay-val" class="text-blue-400">150ms</span>
             </div>
-            <input type="range" min="5" max="80" step="1" value="20" id="sea-segments" class="w-full" oninput="renderSea()">
-            <input type="range" min="0" max="800" step="10" value="150" id="sea-turbulence" class="w-full" oninput="renderSea()">
+            <input type="range" min="0" max="600" step="10" value="150" id="sea-turbulence" class="w-full" oninput="updateSeaStorm()">
+            <p class="text-zinc-500 text-xs leading-relaxed">
+                <strong>0ms:</strong> Total Rigidity. High internal friction.<br>
+                <strong>600ms:</strong> Total Chaos. The "Storm" where parts no longer communicate.
+            </p>
         </div>
-        <p class="text-zinc-400 text-sm italic">High turbulence creates "Phase Chaos"—where the individual parts of your studio stop moving in sync.</p>
-    </div>
-</section>
+    </section>
 
-<style>
-    @keyframes oscillate {
-        from { transform: translateY(20px); }
-        to { transform: translateY(-20px); }
-    }
-
-    .flag {
-        display: flex;
-        background: #000;
-        /* Slight perspective makes the chaos feel more "3D" */
-        perspective: 1000px;
-    }
-
-    .column {
-        flex: 1;
-        /* Stormy, high-contrast palette */
-        background: linear-gradient(
-            to bottom,
-            #0f172a 0%, #1e293b 20%,
-            #3b82f6 20%, #2563eb 40%,
-            #ffffff 40%, #f8fafc 60%,
-            #ef4444 60%, #b91c1c 80%,
-            #020617 80%, #000000 100%
-        );
-        animation: oscillate 600ms infinite ease-in-out alternate;
-    }
-</style>
-
-<script>
-    function renderSea() {
-        const container = document.getElementById('flag-container');
-        const segInput = document.getElementById('sea-segments');
-        const turbInput = document.getElementById('sea-turbulence');
-        
-        const segments = segInput.value;
-        const stagger = turbInput.value;
-        
-        document.getElementById('seg-count').innerText = segments;
-        document.getElementById('delay-val').innerText = stagger + 'ms';
-
-        container.innerHTML = '';
-        
-        for (let i = 0; i < segments; i++) {
-            const col = document.createElement('div');
-            col.className = 'column';
-            // This stagger logic is what creates the "Chaos" vs "Rigid" feel
-            col.style.animationDelay = `${i * stagger}ms`;
-            container.appendChild(col);
-        }
-    }
-    
-    // Kickstart the sea engine once the page loads
-    window.addEventListener('DOMContentLoaded', renderSea);
-</script>
     <section class="bg-zinc-900/40 border-y border-white/5 py-16 md:py-24">
         <div class="max-w-3xl mx-auto px-6">
             <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-8 font-bold">// Meet_Magnus</h2>
@@ -245,6 +216,7 @@
     </section>
 
     <script>
+        /* --- DATA SETS --- */
         const assessmentQuestions = [
             { text: "When a milestone gets pushed back, what is your immediate reaction?", answers: [ { text: "Cancel my weekend plans to catch up.", type: "grinder" }, { text: "Redesign the feature.", type: "visionary" }, { text: "Tell the team it's fine, then privately panic.", type: "martyr" } ] },
             { text: "Your relationship with your game's scope right now is:", answers: [ { text: "Fluid. The game demands what it demands.", type: "visionary" }, { text: "Mostly me handling the overflow.", type: "martyr" }, { text: "Locked in, but tasks are physically crushing.", type: "grinder" } ] },
@@ -269,6 +241,7 @@
 
         let qIdx = 0; let scores = { grinder: 0, visionary: 0, martyr: 0 };
 
+        /* --- PHYSICS ENGINES --- */
         function updateBouncePhysics() {
             const v = document.getElementById('bounce-slider').value;
             const b = document.getElementById('interactive-ball');
@@ -277,6 +250,32 @@
             b.style.setProperty('--bounce-height', '-120px');
         }
 
+        function initSea() {
+            const container = document.getElementById('flag-container');
+            if(!container) return;
+            container.innerHTML = '';
+            for (let i = 0; i < 20; i++) {
+                const col = document.createElement('div');
+                col.className = 'column';
+                col.id = `col-${i}`;
+                container.appendChild(col);
+            }
+            updateSeaStorm();
+        }
+
+        function updateSeaStorm() {
+            const slider = document.getElementById('sea-turbulence');
+            const display = document.getElementById('delay-val');
+            if(!slider) return;
+            const stagger = slider.value;
+            display.innerText = stagger + 'ms';
+            for (let i = 0; i < 20; i++) {
+                const col = document.getElementById(`col-${i}`);
+                if (col) col.style.animationDelay = `${i * stagger}ms`;
+            }
+        }
+
+        /* --- MODAL LOGIC --- */
         function closeModals() {
             document.body.style.overflow = 'auto';
             document.getElementById('assessment-modal').classList.add('hidden');
@@ -340,7 +339,12 @@
         }
 
         function bookFromModal() { closeModals(); document.getElementById('book').scrollIntoView(); }
-        updateBouncePhysics();
+
+        /* --- INITIALIZATION --- */
+        window.addEventListener('DOMContentLoaded', () => {
+            initSea();
+            updateBouncePhysics();
+        });
     </script>
 </body>
 </html>
