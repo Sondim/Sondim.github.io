@@ -30,20 +30,18 @@
             to { opacity: 0; transform: translateY(-10px); }
         }
 
-        /* --- THE BOUNCE PHYSICS --- */
+        /* --- THE BOUNCE/SLIME PHYSICS --- */
         @keyframes bounce {
             0% { translate: 0 0; }
-            5% { translate: 0 0; }
             100% { translate: 0 var(--bounce-height, -120px); }
         }
         @keyframes squash {
             0% { scale: var(--squash-ratio) calc(1 / var(--stretch-ratio)); }
-            10% { scale: calc(1 / var(--squash-ratio)) var(--stretch-ratio); }
+            15% { scale: calc(1 / var(--squash-ratio)) var(--stretch-ratio); }
             100% { scale: 1 1; }
         }
 
         .ball {
-            --curve: cubic-bezier(0.123, 0.5, 0.5, 1);
             --stretch-ratio: 1.25;
             --squash-ratio: 1.5;
             --bounce-height: -120px;
@@ -51,7 +49,7 @@
             height: 50px;
             background: #eab308; 
             border-radius: 50%;
-            animation: squash 800ms linear infinite, bounce 400ms var(--curve) infinite alternate;
+            /* Animation set dynamically via JS to handle "Stickiness" */
             transform-origin: center bottom;
             box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3), 0 0 20px rgba(234, 179, 8, 0.5);
         }
@@ -243,11 +241,35 @@
 
         /* --- PHYSICS ENGINES --- */
         function updateBouncePhysics() {
-            const v = document.getElementById('bounce-slider').value;
+            const v = parseFloat(document.getElementById('bounce-slider').value);
             const b = document.getElementById('interactive-ball');
+            
+            // 1. Squash and Stretch Logic
             b.style.setProperty('--squash-ratio', v);
-            b.style.setProperty('--stretch-ratio', 1 + ((v - 1) * 0.5));
-            b.style.setProperty('--bounce-height', '-120px');
+            b.style.setProperty('--stretch-ratio', 1 + ((v - 1) * 0.75));
+            
+            // 2. Bounce Height Logic (Stickiness)
+            // v=1 (rigid) height is -120px. v=2 (slime) height is -10px.
+            const height = -120 + ((v - 1) * 110); 
+            b.style.setProperty('--bounce-height', `${height}px`);
+            
+            // 3. Timing Logic (Sluggishness)
+            // Slower duration for slime.
+            const squashDuration = 800 + ((v - 1) * 700);
+            const bounceDuration = 400 + ((v - 1) * 350);
+            
+            // Easing Logic:
+            // Rigid = Fast snap. Slime = Heavy damping.
+            const stiffCurve = 'cubic-bezier(0.12, 0.5, 0.5, 1)';
+            const slimeCurve = 'cubic-bezier(0.6, 0.1, 0.9, 0.3)';
+            const currentCurve = v < 1.3 ? stiffCurve : slimeCurve;
+
+            b.style.animation = `squash ${squashDuration}ms linear infinite, bounce ${bounceDuration}ms ${currentCurve} infinite alternate`;
+            
+            // 4. Visual "Softness" (Shadow blur)
+            const blur = 20 + ((v - 1) * 40);
+            const shadowAlpha = 0.5 - ((v - 1) * 0.3);
+            b.style.boxShadow = `inset -10px -10px 20px rgba(0,0,0,0.3), 0 0 ${blur}px rgba(234, 179, 8, ${shadowAlpha})`;
         }
 
         function initSea() {
@@ -333,6 +355,7 @@
         }
 
         function renderTopic(key) {
+            document.getElementById('topic-modal').classList.remove('hidden');
             document.getElementById('state-topic-picker').classList.add('hidden');
             document.getElementById('topic-dynamic-content').innerHTML = topicsData[key].html;
             document.getElementById('state-topic-result').classList.remove('hidden');
