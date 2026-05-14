@@ -7,30 +7,27 @@
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
+        /* INDIE GAME BACKGROUND */
+        body { 
+            background-color: #005544; 
+            color: #f1f5f9;
+            font-family: sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
         html { scroll-behavior: smooth; }
         
+        /* SHIMMER & FLOAT */
         @keyframes shimmer { 100% { left: 150%; } }
         .animate-shimmer { animation: shimmer 1.8s infinite; }
-
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); }
         }
         .animate-float { animation: float 5s ease-in-out infinite; }
 
-        /* Modal Animations */
-        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
-        .fade-out { animation: fadeOut 0.3s ease-in forwards; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-10px); }
-        }
-
-        /* --- THE ORIGINAL BOUNCE PHYSICS --- */
+        /* THE BOUNCE/SLIME PHYSICS */
         @keyframes bounce {
             0% { translate: 0 0; }
             5% { translate: 0 0; }
@@ -41,7 +38,6 @@
             10% { scale: calc(1 / var(--squash-ratio)) var(--stretch-ratio); }
             100% { scale: 1 1; }
         }
-
         .ball {
             --curve: cubic-bezier(0.123, 0.5, 0.5, 1);
             --stretch-ratio: 1.25;
@@ -56,287 +52,182 @@
             box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3), 0 0 20px rgba(234, 179, 8, 0.5);
         }
 
-        /* --- THE STORM PHYSICS --- */
+        /* THE STORM PHYSICS */
         @keyframes oscillate-storm {
             from { transform: translateY(25px); }
             to { transform: translateY(-25px); }
         }
-
-        .flag {
-            display: flex;
-            background: #09090b;
-            perspective: 1000px;
-        }
-
+        .flag { display: flex; background: #000; perspective: 1000px; }
         .column {
             flex: 1;
-            background: linear-gradient(
-                to bottom,
-                #0f172a 0%, #1e293b 20%,
-                #3b82f6 20%, #2563eb 40%,
-                #ffffff 40%, #f8fafc 60%,
-                #ef4444 60%, #b91c1c 80%,
-                #020617 80%, #000000 100%
-            );
+            background: linear-gradient(to bottom, #0f172a 0%, #3b82f6 20%, #ffffff 40%, #ef4444 60%, #000 100%);
             animation: oscillate-storm 500ms infinite ease-in-out alternate;
         }
-        
-        input[type=range] { -webkit-appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-runnable-track { height: 8px; background: #27272a; border-radius: 4px; }
+
+        /* PIXEL RENDERING */
+        #fire-canvas {
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        /* UI ELEMENTS */
+        input[type=range] { -webkit-appearance: none; background: transparent; width: 100%; }
+        input[type=range]::-webkit-slider-runnable-track { height: 8px; background: rgba(0,0,0,0.3); border-radius: 4px; }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%;
-            background: #3b82f6; margin-top: -8px; cursor: pointer;
-            box-shadow: 0 0 10px rgba(59,130,246,0.5);
+            background: #3b82f6; margin-top: -8px; cursor: pointer; border: 2px solid white;
         }
+        .card-blur { background: rgba(0, 0, 0, 0.2); backdrop-blur: md; border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
+<body class="selection:bg-blue-500/30">
 
-    <nav class="sticky top-0 z-40 bg-zinc-950/70 backdrop-blur-xl border-b border-white/5">
-        <div class="max-w-4xl mx-auto px-6 py-4 md:py-6 flex justify-between items-center">
-            <div class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-default">
-                <span>S</span><span>O</span><span class="text-blue-500">N</span><span>D</span><span>I</span><span>M</span>
+    <nav class="sticky top-0 z-40 bg-black/20 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-xl font-black tracking-[0.2em] text-white flex gap-1">
+                <span>S</span><span>O</span><span class="text-blue-400">N</span><span>D</span><span>I</span><span>M</span>
             </div>
             <div class="flex gap-6 items-center">
-                <a href="#bounce-test" class="hidden sm:block text-xs font-mono uppercase tracking-widest text-zinc-400 hover:text-purple-400 transition-colors">[ Bounce_Test ]</a>
-                <a href="#book" class="text-xs font-mono uppercase tracking-widest text-zinc-400 hover:text-blue-400 transition-colors">[ Book_Now ]</a>
+                <a href="#flame-metafor" class="hidden sm:block text-xs font-mono uppercase tracking-widest text-zinc-300 hover:text-orange-400">[ Heat_Sync ]</a>
+                <a href="#book" class="text-xs font-mono uppercase tracking-widest text-zinc-300 hover:text-blue-400">[ Book_Now ]</a>
             </div>
         </div>
     </nav>
 
-    <section class="max-w-4xl mx-auto px-6 py-12 md:py-24 flex flex-col md:flex-row items-center gap-12 relative z-10">
-        <div class="absolute -top-24 -left-24 w-72 h-72 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <section class="max-w-4xl mx-auto px-6 py-12 md:py-24 flex flex-col md:flex-row items-center gap-12 relative">
         <div class="group relative w-56 h-56 md:w-72 md:h-72 flex-shrink-0 animate-float">
-            <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl blur opacity-20"></div>
-            <div class="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-zinc-900 border border-white/10">
+            <div class="absolute -inset-1 bg-blue-500 rounded-2xl blur opacity-20"></div>
+            <div class="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                 <img src="beard.png" alt="Magnus" class="w-full h-full object-cover">
             </div>
         </div>
-        <div class="flex-1 text-center md:text-left z-10">
-            <h1 class="text-4xl md:text-6xl font-black mb-6 text-white leading-[0.9] tracking-tighter">Where <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">joy</span> meets ambition.</h1>
-            <p class="text-lg md:text-xl text-zinc-400 mb-10 leading-relaxed font-medium">Programs to unlock meaning, mastery, and aliveness. Build a high-performance studio without breaking your soul.</p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start flex-wrap mt-8">
-                <a href="#book" class="px-6 py-4 bg-white text-black rounded-xl font-black shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1 transition-all text-center">Book Session</a>
-                <button onclick="openAssessment()" class="px-6 py-4 bg-blue-600/20 border border-blue-500/50 text-blue-400 rounded-xl font-bold shadow-[0_5px_0_0_#1e3a8a] active:translate-y-1 transition-all">Free Assessment</button>
-                <button onclick="openTopicPicker()" class="px-6 py-4 bg-purple-600/20 border border-purple-500/50 text-purple-400 rounded-xl font-bold shadow-[0_5px_0_0_#4c1d95] active:translate-y-1 transition-all">What to work on?</button>
-                <a href="survival-guide.pdf" download="Sondim-Survival-Guide" class="px-6 py-4 bg-zinc-900 border border-zinc-700 text-zinc-300 rounded-xl font-bold shadow-[0_5px_0_0_#27272a] active:translate-y-1 transition-all text-center hover:bg-zinc-800">Get the Guide</a>
+        <div class="flex-1 text-center md:text-left">
+            <h1 class="text-4xl md:text-6xl font-black mb-6 text-white leading-[0.9] tracking-tighter">Where <span class="text-cyan-300">joy</span> meets ambition.</h1>
+            <p class="text-lg md:text-xl text-zinc-200 mb-10 leading-relaxed font-medium">Build a high-performance studio without breaking your soul.</p>
+            <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                <a href="#book" class="px-6 py-4 bg-white text-black rounded-xl font-black shadow-[0_5px_0_0_#ccc] active:translate-y-1 transition-all">Book Session</a>
+                <button onclick="openAssessment()" class="px-6 py-4 bg-blue-600/30 border border-blue-400 text-white rounded-xl font-bold shadow-[0_5px_0_0_#1e3a8a] active:translate-y-1">Free Assessment</button>
             </div>
+        </div>
+    </section>
+
+    <section id="flame-metafor" class="max-w-4xl mx-auto px-6 py-24 text-center card-blur rounded-3xl my-10">
+        <h2 class="text-orange-400 font-mono text-xs uppercase tracking-[0.3em] mb-4 font-bold">// Burnout_Threshold</h2>
+        <h3 class="text-3xl md:text-5xl font-black text-white mb-10 leading-tight">Monitor your <span class="text-orange-400">internal heat</span>.</h3>
+        <div class="flex justify-center mb-10">
+            <canvas id="fire-canvas" width="16" height="16" style="width: 180px; height: 180px; background: #000; border-radius: 24px; border: 4px solid rgba(255,255,255,0.1);"></canvas>
+        </div>
+        <div class="max-w-sm mx-auto space-y-6">
+            <div class="flex justify-between text-xs font-mono text-zinc-300 uppercase tracking-widest">
+                <span>Intensity:</span>
+                <span id="fire-label" class="text-orange-400 font-bold">Stable</span>
+            </div>
+            <input type="range" min="0.2" max="2.5" step="0.1" value="1" id="fire-slider">
+            <p class="text-zinc-300 text-xs italic">Low: Depletion / Freeze. High: Overdrive / Burnout.</p>
         </div>
     </section>
 
     <section id="sea-metafor" class="max-w-4xl mx-auto px-6 py-24 text-center">
-        <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-4 font-bold">// Internal_Environment_Sync</h2>
-        <h3 class="text-3xl md:text-5xl font-black text-white mb-10 leading-tight">Is your inner sea calm or <span class="text-red-500">turbulent</span>?</h3>
-        <div id="flag-container" class="flag w-full max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 mb-10" style="height: 250px;"></div>
+        <h2 class="text-blue-300 font-mono text-xs uppercase tracking-[0.3em] mb-4 font-bold">// Environment_Sync</h2>
+        <h3 class="text-3xl md:text-5xl font-black text-white mb-10 leading-tight">Is your inner sea <span class="text-blue-300">turbulent</span>?</h3>
+        <div id="flag-container" class="flag w-full max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 mb-10" style="height: 200px;"></div>
         <div class="max-w-sm mx-auto space-y-6">
-            <div class="flex justify-between text-xs font-mono text-zinc-500 uppercase tracking-widest">
-                <span>Staggered Delay:</span>
-                <span id="delay-val" class="text-blue-400">150ms</span>
+            <div class="flex justify-between text-xs font-mono text-zinc-300">
+                <span>Phase Shift:</span>
+                <span id="delay-val" class="text-blue-300">150ms</span>
             </div>
-            <input type="range" min="0" max="600" step="10" value="150" id="sea-turbulence" class="w-full" oninput="updateSeaStorm()">
-            <p class="text-zinc-500 text-xs leading-relaxed">
-                <strong>0ms:</strong> Total Rigidity. High internal friction.<br>
-                <strong>600ms:</strong> Total Chaos. The "Storm" where parts no longer communicate.
-            </p>
+            <input type="range" min="0" max="600" step="10" value="150" id="sea-turbulence" oninput="updateSeaStorm()">
         </div>
     </section>
 
-    <section class="bg-zinc-900/40 border-y border-white/5 py-16 md:py-24">
-        <div class="max-w-3xl mx-auto px-6">
-            <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-8 font-bold">// Meet_Magnus</h2>
-            <p class="text-zinc-300 text-lg leading-relaxed mb-6 italic border-l-4 border-blue-600 pl-6 py-4 bg-blue-500/5 rounded-r-xl">"I realized that deep self-discovery isn't just for a meditation cushion—it's in the work of raising money, managing a team, and launching a game."</p>
-        </div>
-    </section>
-
-    <section id="bounce-test" class="max-w-3xl mx-auto px-6 py-24 text-center">
-        <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">How bouncy do you feel?</h2>
-        <div class="h-64 flex items-end justify-center pb-[2px] border-b-2 border-zinc-700 w-full max-w-sm mx-auto mb-10 relative">
+    <section id="bounce-test" class="max-w-4xl mx-auto px-6 py-24 text-center card-blur rounded-3xl my-10">
+        <h2 class="text-yellow-400 font-mono text-xs uppercase tracking-[0.3em] mb-6 font-bold">// Resilience_Audit</h2>
+        <div class="h-48 flex items-end justify-center pb-2 border-b-2 border-white/20 w-full max-w-xs mx-auto mb-10">
             <div class="ball" id="interactive-ball"></div>
         </div>
-        <div class="max-w-sm mx-auto mb-10">
-            <input type="range" min="1" max="2" step="0.01" value="1.5" id="bounce-slider" class="w-full" oninput="updateBouncePhysics()">
+        <div class="max-w-xs mx-auto mb-10">
+            <input type="range" min="1" max="2" step="0.01" value="1.5" id="bounce-slider" oninput="updateBouncePhysics()">
         </div>
-        <button onclick="confirmBounce()" class="px-10 py-5 bg-white text-black rounded-xl font-black text-lg shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1">Confirm Physics</button>
+        <button onclick="confirmBounce()" class="px-10 py-5 bg-white text-black rounded-xl font-black shadow-[0_5px_0_0_#ccc] active:translate-y-1">Confirm Physics</button>
     </section>
 
-    <div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/95 backdrop-blur-md overflow-y-auto">
-        <div class="min-h-screen flex items-center justify-center px-6 py-20 w-full">
-            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl">
-                <button onclick="closeModals()" class="absolute top-4 right-4 text-zinc-500 hover:text-white p-2 z-50">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-                <div id="state-quiz" class="hidden">
-                    <div class="mb-8 text-xs font-mono text-zinc-500 uppercase tracking-widest" id="question-counter">Question 1 of 3</div>
-                    <h2 id="question-text" class="text-3xl md:text-4xl font-bold text-white mb-10 leading-tight"></h2>
-                    <div id="answers-container" class="flex flex-col gap-4"></div>
-                </div>
-                <div id="state-results" class="text-center hidden">
-                    <div id="result-label" class="text-blue-500 font-mono text-sm uppercase tracking-[0.3em] mb-4 font-bold"></div>
-                    <h2 id="result-title" class="text-4xl md:text-6xl font-black text-white mb-6 leading-none"></h2>
-                    <p id="result-description" class="text-lg text-zinc-300 leading-relaxed mb-10 text-left p-6 bg-black/30 rounded-xl border border-white/5"></p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a id="result-download-btn" href="#" download class="px-8 py-4 bg-blue-600 text-white rounded-xl font-black text-lg shadow-[0_5px_0_0_#1e3a8a] active:translate-y-1">Download Guide</a>
-                        <button onclick="bookFromModal()" class="px-8 py-4 bg-zinc-800 text-white rounded-xl font-bold shadow-[0_5px_0_0_#27272a] active:translate-y-1">Book Teardown</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="topic-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/95 backdrop-blur-md overflow-y-auto">
-        <div class="min-h-screen flex items-center justify-center px-6 py-20 w-full relative">
-            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl">
-                <button onclick="closeModals()" class="absolute top-4 right-4 text-zinc-500 hover:text-white p-2 z-50">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-                <div id="state-topic-picker" class="hidden">
-                    <h2 class="text-4xl font-black text-white mb-4 text-center">What do you want to work on?</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-                        <button onclick="renderTopic('critical')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Critical Self Talk</button>
-                        <button onclick="renderTopic('imposter')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Imposter Syndrome</button>
-                        <button onclick="renderTopic('procrastination')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Procrastination</button>
-                        <button onclick="renderTopic('relationship')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Relationship to Self & Others</button>
-                    </div>
-                </div>
-                <div id="state-topic-result" class="hidden space-y-6 leading-relaxed text-zinc-300">
-                    <div id="topic-dynamic-content"></div>
-                    <div class="pt-10 border-t border-white/10 text-center">
-                        <button onclick="bookFromModal()" class="px-10 py-5 bg-white text-black rounded-xl font-black text-lg shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1">Book Session</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <section id="book" class="max-w-4xl mx-auto px-6 py-24 text-center">
-        <div class="bg-white rounded-3xl overflow-hidden min-h-[700px] border-4 border-white"><iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Eoq_4KUvBNMyPqUt0U2YPmV1BrPI7w8sx-0h1uALKplFu_uigELHtjWVFKe-8-oqYK1a9DCrM?gv=true" style="border: 0" width="100%" height="700" frameborder="0"></iframe></div>
+        <div class="bg-white rounded-3xl overflow-hidden min-h-[600px] border-4 border-white">
+            <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Eoq_4KUvBNMyPqUt0U2YPmV1BrPI7w8sx-0h1uALKplFu_uigELHtjWVFKe-8-oqYK1a9DCrM?gv=true" style="border: 0" width="100%" height="600" frameborder="0"></iframe>
+        </div>
     </section>
 
     <script>
-        const assessmentQuestions = [
-            { text: "When a milestone gets pushed back, what is your immediate reaction?", answers: [ { text: "Cancel my weekend plans to catch up.", type: "grinder" }, { text: "Redesign the feature.", type: "visionary" }, { text: "Tell the team it's fine, then privately panic.", type: "martyr" } ] },
-            { text: "Your relationship with your game's scope right now is:", answers: [ { text: "Fluid. The game demands what it demands.", type: "visionary" }, { text: "Mostly me handling the overflow.", type: "martyr" }, { text: "Locked in, but tasks are physically crushing.", type: "grinder" } ] },
-            { text: "If you launched tomorrow and it was a hit, how would you feel?", answers: [ { text: "Exhausted, but glad the team gets a win.", type: "martyr" }, { text: "Relieved the pain is finally over.", type: "grinder" }, { text: "Anxious about the post-launch updates.", type: "visionary" } ] }
-        ];
+        /* --- PIXEL FLAME ENGINE --- */
+        (function() {
+            var canvas = document.getElementById("fire-canvas");
+            var ctx = canvas.getContext("2d");
+            var slider = document.getElementById("fire-slider");
+            ctx.translate(0, 16);
+            ctx.scale(1, -1);
+            var prev = Date.now();
+            var y = [2, 1, 0, 0, 0, 0, 1, 2];
+            var baseMax = [7, 9, 11, 13, 13, 11, 9, 7];
+            var baseMin = [4, 7, 8, 10, 10, 8, 7, 4];
 
-        const resultsData = {
-            grinder: { title: "The White-Knuckle Grinder", desc: "You rely on brute-force willpower. This works for game jams, but it destroys studios.", pdfFile: "survival-guide.pdf" },
-            visionary: { title: "The Over-Extended Visionary", desc: "Scope creep is your silent killer. You constantly shift the goalposts.", pdfFile: "survival-guide.pdf" },
-            martyr: { title: "The Studio Martyr", desc: "You are the glue holding the team together, but you are absorbing all the impact.", pdfFile: "survival-guide.pdf" },
-            rigid: { title: "The Rigid Developer", desc: "You are holding everything tightly. Flexibility is your missing key.", pdfFile: "survival-guide.pdf" },
-            bouncy: { title: "The Grounded Developer", desc: "You absorb impacts and return to center. You have healthy emotional shock absorbers.", pdfFile: "survival-guide.pdf" },
-            loose: { title: "The Loose Developer", desc: "You adapt quickly, but your energy is scattered. We need to ground you.", pdfFile: "survival-guide.pdf" }
-        };
+            function drawFlame() {
+                var intensity = parseFloat(slider.value);
+                var fps = 5 + (intensity * 10); 
+                var interval = 1000 / fps;
+                var now = Date.now();
+                if (now - prev > interval) {
+                    prev = now;
+                    ctx.clearRect(0, 0, 16, 16);
+                    document.getElementById("fire-label").innerText = intensity < 0.6 ? "Snuffed" : (intensity > 1.8 ? "CRITICAL" : "Stable");
 
-        const topicsData = {
-            relationship: { html: `<h2 class="text-3xl font-black text-white mb-6 leading-tight">Focus on your relationship to yourself and others</h2><p>This area is about your capacity to be with yourself and others without needing anyone to change. Thinking that you have to be fixed only slows this process down, because it kills the wonder and curiosity needed for understanding.</p>` },
-            critical: { html: `<h2 class="text-3xl font-bold text-white mb-6">Critical Self Talk</h2><p>Quiet the internal critic and build sustainable motivation.</p>` },
-            imposter: { html: `<h2 class="text-3xl font-bold text-white mb-6">Imposter Syndrome</h2><p>Stop waiting for permission and own your studio's vision.</p>` },
-            procrastination: { html: `<h2 class="text-3xl font-bold text-white mb-6">Procrastination</h2><p>Move past the freeze response when the work gets overwhelming.</p>` }
-        };
+                    // Red
+                    ctx.strokeStyle = "#d14234";
+                    for (var x = 0; x < 8; x++) {
+                        var a = Math.random() * ((baseMax[x]*intensity) - (baseMin[x]*intensity) + 1) + (baseMin[x]*intensity);
+                        ctx.beginPath(); ctx.moveTo(x + 4.5, y[x]); ctx.lineTo(x + 4.5, a); ctx.stroke();
+                    }
+                    // Orange
+                    ctx.strokeStyle = "#f2a55f";
+                    for (var x = 1; x < 7; x++) {
+                        var a = Math.random() * ((baseMax[x]-5)*intensity - (baseMin[x]-5)*intensity + 1) + (baseMin[x]-5)*intensity;
+                        ctx.beginPath(); ctx.moveTo(x + 4.5, y[x] + 1); ctx.lineTo(x + 4.5, Math.max(y[x]+1.5, a)); ctx.stroke();
+                    }
+                }
+                window.requestAnimationFrame(drawFlame);
+            }
+            drawFlame();
+        })();
 
-        let qIdx = 0; let scores = { grinder: 0, visionary: 0, martyr: 0 };
+        /* --- SEA ENGINE --- */
+        function initSea() {
+            const container = document.getElementById('flag-container');
+            container.innerHTML = '';
+            for (let i = 0; i < 20; i++) {
+                const col = document.createElement('div');
+                col.className = 'column'; col.id = `col-${i}`;
+                container.appendChild(col);
+            }
+            updateSeaStorm();
+        }
+        function updateSeaStorm() {
+            const val = document.getElementById('sea-turbulence').value;
+            document.getElementById('delay-val').innerText = val + 'ms';
+            for (let i = 0; i < 20; i++) {
+                const col = document.getElementById(`col-${i}`);
+                if (col) col.style.animationDelay = `${i * val}ms`;
+            }
+        }
 
-        /* --- THE ORIGINAL PHYSICS (MOMENTUM PRESERVED) --- */
+        /* --- BOUNCE ENGINE --- */
         function updateBouncePhysics() {
             const v = document.getElementById('bounce-slider').value;
             const b = document.getElementById('interactive-ball');
             b.style.setProperty('--squash-ratio', v);
             b.style.setProperty('--stretch-ratio', 1 + ((v - 1) * 0.5));
-            b.style.setProperty('--bounce-height', '-120px');
         }
 
-        function initSea() {
-            const container = document.getElementById('flag-container');
-            if(!container) return;
-            container.innerHTML = '';
-            for (let i = 0; i < 20; i++) {
-                const col = document.createElement('div');
-                col.className = 'column';
-                col.id = `col-${i}`;
-                container.appendChild(col);
-            }
-            updateSeaStorm();
-        }
-
-        function updateSeaStorm() {
-            const slider = document.getElementById('sea-turbulence');
-            const display = document.getElementById('delay-val');
-            if(!slider) return;
-            const stagger = slider.value;
-            display.innerText = stagger + 'ms';
-            for (let i = 0; i < 20; i++) {
-                const col = document.getElementById(`col-${i}`);
-                if (col) col.style.animationDelay = `${i * stagger}ms`;
-            }
-        }
-
-        function closeModals() {
-            document.body.style.overflow = 'auto';
-            document.getElementById('assessment-modal').classList.add('hidden');
-            document.getElementById('topic-modal').classList.add('hidden');
-        }
-
-        function openAssessment() {
-            qIdx = 0; scores = { grinder: 0, visionary: 0, martyr: 0 };
-            document.getElementById('assessment-modal').classList.remove('hidden');
-            document.getElementById('state-quiz').classList.remove('hidden');
-            document.getElementById('state-results').classList.add('hidden');
-            renderQ();
-        }
-
-        function renderQ() {
-            const q = assessmentQuestions[qIdx];
-            document.getElementById('question-counter').innerText = `Question ${qIdx + 1} of 3`;
-            document.getElementById('question-text').innerText = q.text;
-            const container = document.getElementById('answers-container');
-            container.innerHTML = '';
-            q.answers.forEach(a => {
-                const b = document.createElement('button');
-                b.className = "p-6 rounded-xl bg-zinc-800 border border-white/5 text-left hover:border-blue-500 transition-all";
-                b.innerText = a.text;
-                b.onclick = () => { scores[a.type]++; qIdx++; if(qIdx < 3) renderQ(); else showA(); };
-                container.appendChild(b);
-            });
-        }
-
-        function showA() {
-            const win = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
-            triggerRes(resultsData[win], "Your Archetype");
-        }
-
-        function confirmBounce() {
-            const v = document.getElementById('bounce-slider').value;
-            const k = v <= 1.25 ? 'rigid' : v >= 1.75 ? 'loose' : 'bouncy';
-            triggerRes(resultsData[k], "Physics Audit Complete");
-        }
-
-        function triggerRes(data, label) {
-            document.getElementById('result-label').innerText = label;
-            document.getElementById('result-title').innerText = data.title;
-            document.getElementById('result-description').innerText = data.desc;
-            document.getElementById('result-download-btn').href = data.pdfFile;
-            document.getElementById('state-quiz').classList.add('hidden');
-            document.getElementById('state-results').classList.remove('hidden');
-            document.getElementById('assessment-modal').classList.remove('hidden');
-        }
-
-        function openTopicPicker() {
-            document.getElementById('topic-modal').classList.remove('hidden');
-            document.getElementById('state-topic-picker').classList.remove('hidden');
-            document.getElementById('state-topic-result').classList.add('hidden');
-        }
-
-        function renderTopic(key) {
-            document.getElementById('topic-modal').classList.remove('hidden');
-            document.getElementById('state-topic-picker').classList.add('hidden');
-            document.getElementById('topic-dynamic-content').innerHTML = topicsData[key].html;
-            document.getElementById('state-topic-result').classList.remove('hidden');
-        }
-
-        function bookFromModal() { closeModals(); document.getElementById('book').scrollIntoView(); }
-
+        /* --- INIT ALL --- */
         window.addEventListener('DOMContentLoaded', () => {
             initSea();
             updateBouncePhysics();
