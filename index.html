@@ -99,7 +99,80 @@
             </div>
         </div>
     </section>
+<section id="sea-metafor" class="max-w-4xl mx-auto px-6 py-24 text-center">
+    <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-4 font-bold">// Internal_Environment_Sync</h2>
+    <h3 class="text-3xl md:text-5xl font-black text-white mb-10 leading-tight">Is your inner sea calm or <span class="text-red-500">turbulent</span>?</h3>
+    
+    <div id="flag-container" class="flag w-full max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 mb-10" style="height: 250px;">
+        </div>
 
+    <div class="max-w-sm mx-auto space-y-8">
+        <div class="space-y-4">
+            <div class="flex justify-between text-xs font-mono text-zinc-500 uppercase tracking-widest">
+                <span>Resolution: <span id="seg-count">20</span></span>
+                <span>Turbulence: <span id="delay-val">150ms</span></span>
+            </div>
+            <input type="range" min="5" max="80" step="1" value="20" id="sea-segments" class="w-full" oninput="renderSea()">
+            <input type="range" min="0" max="800" step="10" value="150" id="sea-turbulence" class="w-full" oninput="renderSea()">
+        </div>
+        <p class="text-zinc-400 text-sm italic">High turbulence creates "Phase Chaos"—where the individual parts of your studio stop moving in sync.</p>
+    </div>
+</section>
+
+<style>
+    @keyframes oscillate {
+        from { transform: translateY(20px); }
+        to { transform: translateY(-20px); }
+    }
+
+    .flag {
+        display: flex;
+        background: #000;
+        /* Slight perspective makes the chaos feel more "3D" */
+        perspective: 1000px;
+    }
+
+    .column {
+        flex: 1;
+        /* Stormy, high-contrast palette */
+        background: linear-gradient(
+            to bottom,
+            #0f172a 0%, #1e293b 20%,
+            #3b82f6 20%, #2563eb 40%,
+            #ffffff 40%, #f8fafc 60%,
+            #ef4444 60%, #b91c1c 80%,
+            #020617 80%, #000000 100%
+        );
+        animation: oscillate 600ms infinite ease-in-out alternate;
+    }
+</style>
+
+<script>
+    function renderSea() {
+        const container = document.getElementById('flag-container');
+        const segInput = document.getElementById('sea-segments');
+        const turbInput = document.getElementById('sea-turbulence');
+        
+        const segments = segInput.value;
+        const stagger = turbInput.value;
+        
+        document.getElementById('seg-count').innerText = segments;
+        document.getElementById('delay-val').innerText = stagger + 'ms';
+
+        container.innerHTML = '';
+        
+        for (let i = 0; i < segments; i++) {
+            const col = document.createElement('div');
+            col.className = 'column';
+            // This stagger logic is what creates the "Chaos" vs "Rigid" feel
+            col.style.animationDelay = `${i * stagger}ms`;
+            container.appendChild(col);
+        }
+    }
+    
+    // Kickstart the sea engine once the page loads
+    window.addEventListener('DOMContentLoaded', renderSea);
+</script>
     <section class="bg-zinc-900/40 border-y border-white/5 py-16 md:py-24">
         <div class="max-w-3xl mx-auto px-6">
             <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-8 font-bold">// Meet_Magnus</h2>
