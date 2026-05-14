@@ -116,14 +116,14 @@
         <h2 class="text-orange-400 font-mono text-xs uppercase tracking-[0.3em] mb-4 font-bold">// Burnout_Threshold</h2>
         <h3 class="text-3xl md:text-5xl font-black text-white mb-10 leading-tight">Monitor your <span class="text-orange-400">internal heat</span>.</h3>
         <div class="flex justify-center mb-10">
-            <canvas id="fire-canvas" width="16" height="16" style="width: 180px; height: 180px; background: #000; border-radius: 24px; border: 4px solid rgba(255,255,255,0.1);"></canvas>
+            <canvas id="fire-canvas" width="16" height="24" style="width: 240px; height: 360px; image-rendering: pixelated; background: transparent;"></canvas>
         </div>
         <div class="max-w-sm mx-auto space-y-6">
             <div class="flex justify-between text-xs font-mono text-zinc-300 uppercase tracking-widest">
-                <span>Intensity:</span>
+                <span>Internal Energy:</span>
                 <span id="fire-label" class="text-orange-400 font-bold">Stable</span>
             </div>
-            <input type="range" min="0.2" max="2.5" step="0.1" value="1" id="fire-slider">
+            <input type="range" min="0.1" max="2.5" step="0.1" value="1" id="fire-slider">
             <p class="text-zinc-300 text-xs italic">Low: Depletion / Freeze. High: Overdrive / Burnout.</p>
         </div>
     </section>
@@ -159,39 +159,72 @@
     </section>
 
     <script>
-        /* --- PIXEL FLAME ENGINE --- */
+        /* --- PIXEL FLAME ENGINE (TORCH + DYING EMBER) --- */
         (function() {
             var canvas = document.getElementById("fire-canvas");
             var ctx = canvas.getContext("2d");
             var slider = document.getElementById("fire-slider");
-            ctx.translate(0, 16);
+            
+            // Translate to the bottom of the 24px coordinate space
+            ctx.translate(0, 24);
             ctx.scale(1, -1);
+            
             var prev = Date.now();
-            var y = [2, 1, 0, 0, 0, 0, 1, 2];
+            var yCoords = [2, 1, 0, 0, 0, 0, 1, 2];
             var baseMax = [7, 9, 11, 13, 13, 11, 9, 7];
             var baseMin = [4, 7, 8, 10, 10, 8, 7, 4];
 
             function drawFlame() {
                 var intensity = parseFloat(slider.value);
-                var fps = 5 + (intensity * 10); 
+                var fps = 7; 
                 var interval = 1000 / fps;
                 var now = Date.now();
+                
                 if (now - prev > interval) {
                     prev = now;
-                    ctx.clearRect(0, 0, 16, 16);
-                    document.getElementById("fire-label").innerText = intensity < 0.6 ? "Snuffed" : (intensity > 1.8 ? "CRITICAL" : "Stable");
+                    ctx.clearRect(0, 0, 16, 24);
 
-                    // Red
+                    // DRAW TORCH STICK
+                    ctx.fillStyle = "#5d4037"; 
+                    ctx.fillRect(7, 0, 2, 4); 
+
+                    var label = document.getElementById("fire-label");
+                    if(intensity <= 0.2) label.innerText = "DEPLETED";
+                    else if(intensity > 1.8) label.innerText = "CRITICAL";
+                    else label.innerText = "Stable";
+
+                    var anchorY = 4;
+                    var colStart = (intensity <= 0.2) ? 3 : 0;
+                    var colEnd = (intensity <= 0.2) ? 5 : 8;
+
+                    // Red layer
                     ctx.strokeStyle = "#d14234";
-                    for (var x = 0; x < 8; x++) {
-                        var a = Math.random() * ((baseMax[x]*intensity) - (baseMin[x]*intensity) + 1) + (baseMin[x]*intensity);
-                        ctx.beginPath(); ctx.moveTo(x + 4.5, y[x]); ctx.lineTo(x + 4.5, a); ctx.stroke();
+                    for (var x = colStart; x < colEnd; x++) {
+                        var drawX = x + 4;
+                        var curMax = (intensity <= 0.2) ? anchorY + 2 : (baseMax[x]*intensity) + anchorY;
+                        var curMin = (intensity <= 0.2) ? anchorY + 1 : (baseMin[x]*intensity) + anchorY;
+                        var a = Math.random() * (curMax - curMin + 1) + curMin;
+                        ctx.beginPath(); ctx.moveTo(drawX + 0.5, yCoords[x] + anchorY); ctx.lineTo(drawX + 0.5, a); ctx.stroke();
                     }
-                    // Orange
-                    ctx.strokeStyle = "#f2a55f";
-                    for (var x = 1; x < 7; x++) {
-                        var a = Math.random() * ((baseMax[x]-5)*intensity - (baseMin[x]-5)*intensity + 1) + (baseMin[x]-5)*intensity;
-                        ctx.beginPath(); ctx.moveTo(x + 4.5, y[x] + 1); ctx.lineTo(x + 4.5, Math.max(y[x]+1.5, a)); ctx.stroke();
+                    
+                    // Orange layer
+                    if (intensity > 0.2) {
+                        ctx.strokeStyle = "#f2a55f";
+                        for (var j = 1; j < 7; j++) {
+                            var drawX = j + 4;
+                            var a = Math.random() * (((baseMax[j]-5)*intensity) - ((baseMin[j]-5)*intensity) + 1) + ((baseMin[j]-5)*intensity) + anchorY;
+                            ctx.beginPath(); ctx.moveTo(drawX + 0.5, yCoords[j] + 1 + anchorY); ctx.lineTo(drawX + 0.5, Math.max(yCoords[j]+1.5+anchorY, a)); ctx.stroke();
+                        }
+                    }
+
+                    // White core
+                    if (intensity > 0.5) {
+                        ctx.strokeStyle = "#e8dec5";
+                        for (var k = 3; k < 5; k++) {
+                            var drawX = k + 4;
+                            var a = Math.random() * (((baseMax[k]-9)*intensity) - ((baseMin[k]-9)*intensity) + 1) + ((baseMin[k]-9)*intensity) + anchorY;
+                            ctx.beginPath(); ctx.moveTo(drawX + 0.5, yCoords[k] + anchorY); ctx.lineTo(drawX + 0.5, Math.max(yCoords[k]+0.5+anchorY, a)); ctx.stroke();
+                        }
                     }
                 }
                 window.requestAnimationFrame(drawFlame);
