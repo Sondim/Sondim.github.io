@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (exSlider) exSlider.dispatchEvent(new Event("input"));
   initAppealPick();
   initSolidPillars();
+  initDrawBoard();
 
   const modal = document.getElementById("assessment-modal");
   if (modal) {

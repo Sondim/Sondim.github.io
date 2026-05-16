@@ -309,3 +309,86 @@ input[type="range"]::-webkit-slider-thumb {
   white-space: pre-wrap;
   min-height: 4rem;
 }
+
+/* Draw board (Gartic-style) */
+.draw-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.draw-tool-group {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+.draw-tool-btn,
+.draw-size-btn {
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0.5rem;
+  border-radius: 0.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s;
+}
+.draw-size-btn {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.draw-tool-btn:hover,
+.draw-size-btn:hover {
+  border-color: var(--cyan);
+}
+.draw-tool-active,
+.draw-size-active {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 2px rgba(103, 232, 249, 0.35);
+}
+.draw-colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  flex: 1;
+  justify-content: center;
+}
+.draw-color-swatch {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.draw-color-swatch:hover {
+  transform: scale(1.1);
+}
+.draw-color-active {
+  border-color: #fff !important;
+  box-shadow: 0 0 0 2px var(--cyan);
+}
+.draw-canvas-wrap {
+  background: #fff;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.15);
+  touch-action: none;
+}
+#draw-canvas {
+  display: block;
+  width: 100%;
+  cursor: crosshair;
+}
+.draw-send-form input,
+.draw-send-form textarea {
+  font-family: var(--font-display);
+}
