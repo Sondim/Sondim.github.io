@@ -264,17 +264,70 @@ function bindDrawSendForm() {
             }
           };
 
+          // Helper to convert blob to a smaller data URL (for embedding when attachments
+          // are not allowed by the account). Limits width to 480px to keep size reasonable.
+          const blobToDataUrl = async (blob, maxW = 480) => {
+            try {
+              const img = await createImageBitmap(blob);
+              const w = img.width;
+              const h = img.height;
+              const ratio = Math.min(1, maxW / w);
+              const cw = Math.max(1, Math.round(w * ratio));
+              const ch = Math.max(1, Math.round(h * ratio));
+              const c = document.createElement("canvas");
+              c.width = cw; c.height = ch;
+              const ctx2 = c.getContext("2d");
+              ctx2.drawImage(img, 0, 0, cw, ch);
+              return c.toDataURL("image/png", 0.8);
+            } catch (e) {
+              return null;
+            }
+          };
+
           try {
             await sendWithRetries(fd, 3);
             if (status) status.textContent = "Sent — thank you! I'll reply soon.";
             showToast("Drawing sent.");
             form.reset();
           } catch (err) {
-            // If the failure looks like an authorization problem, hint at config issue
             console.error("web3forms final error:", err);
             const msg = err?.message || String(err);
+            // If we got a 400-type error (bad request) it's often because attachments
+            // are not permitted on the account (file uploads are a PRO feature).
+            // In that case, retry without the attachment and embed a reduced data-URL
+            // of the PNG into the message so you still receive the drawing.
+            const looksLikeBadRequest = /400|bad request|attachment|file|pro/i.test(msg);
+            if (looksLikeBadRequest) {
+              try {
+                if (status) status.textContent = "Attachment rejected — retrying without attachment…";
+                const dataUrl = await blobToDataUrl(blob, 480);
+                const fd2 = new FormData();
+                fd2.append("access_key", key);
+                fd2.append("subject", "Sondim draw board — " + name);
+                fd2.append("name", name);
+                fd2.append("email", email);
+                const extra = (message ? message + "\n\n" : "") + (dataUrl ? `Image (data URL):\n${dataUrl}` : "(PNG available on download)");
+                fd2.append("message", extra);
+                const res2 = await fetch("https://api.web3forms.com/submit", { method: "POST", body: fd2 });
+                let json2;
+                try { json2 = await res2.json(); } catch (e) { const t = await res2.text().catch(() => "<no body>"); throw new Error(`Retry Non-JSON response: ${res2.status} ${res2.statusText} — ${t}`); }
+                console.log("web3forms retry response (no attachment)", res2.status, res2.statusText, json2);
+                if (!res2.ok || !json2.success) throw new Error(json2?.message || `${res2.status} ${res2.statusText}`);
+                if (status) status.textContent = "Sent (without attachment) — check your inbox.";
+                showToast("Drawing sent without attachment.");
+                form.reset();
+                return;
+              } catch (err2) {
+                console.error("retry without attachment failed:", err2);
+                downloadDrawing(blob, name);
+                if (status) status.textContent = `Send failed — ${err2?.message || err2}. PNG downloaded. Email ${notify}`;
+                showToast("Couldn't send — downloaded instead.");
+                return;
+              }
+            }
+            // Otherwise show helpful guided messages for common causes
             if (/401|403|access|invalid/i.test(msg)) {
-              if (status) status.textContent = `Send failed — invalid access key. Check ${'js/site-config.js'}.`;
+              if (status) status.textContent = `Send failed — invalid access key. Check js/site-config.js.`;
             } else if (/Failed to fetch|NetworkError|TypeError/i.test(msg)) {
               if (status) status.textContent = `Send failed — network or CORS issue. PNG downloaded. Email ${notify}`;
             } else {
