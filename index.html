@@ -182,11 +182,16 @@
         <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Render your bottleneck.</h2>
         <p class="text-lg text-zinc-400 mb-10">Draw the abstract shape of what's holding your studio back right now. Keep it raw.</p>
         
-        <div class="bg-white rounded-xl p-2 shadow-[0_0_30px_rgba(255,255,255,0.05)] border border-zinc-700 w-full max-w-lg mx-auto mb-8 cursor-crosshair">
+        <div class="bg-white rounded-xl p-2 shadow-[0_0_30px_rgba(255,255,255,0.05)] border border-zinc-700 w-full max-w-lg mx-auto mb-6 cursor-crosshair">
             <canvas id="drawingCanvas" width="500" height="400" class="w-full touch-none rounded-lg block"></canvas>
         </div>
 
-        <button id="sendBtn" class="px-10 py-5 bg-zinc-900 border border-blue-500/50 text-blue-400 rounded-xl font-bold shadow-[0_5px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-600/20">Transmit to Magnus</button>
+        <div class="max-w-lg mx-auto mb-8 flex flex-col sm:flex-row gap-4">
+            <input type="text" id="senderName" placeholder="Your Name" class="flex-1 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+            <input type="email" id="senderEmail" placeholder="Your Email" class="flex-1 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+        </div>
+
+        <button id="sendBtn" class="px-10 py-5 w-full max-w-lg mx-auto block bg-zinc-900 border border-blue-500/50 text-blue-400 rounded-xl font-bold shadow-[0_5px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-600/20">Transmit to Magnus</button>
         <p id="statusMsg" class="mt-6 text-sm font-mono tracking-widest h-6 text-zinc-500"></p>
     </section>
 
@@ -347,8 +352,13 @@
 
         const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxLLC8Ph1O-zphixuFRMzogpbFDK-gEWWshqQqpgf2mzT4twYN5pRj92nOPwMVutyOO/exec';
 
-        sendBtn.addEventListener('click', async () => {
+sendBtn.addEventListener('click', async () => {
             const dataURL = canvas.toDataURL('image/png');
+            
+            // NEW: Grab the text from the input fields
+            const nameVal = document.getElementById('senderName').value;
+            const emailVal = document.getElementById('senderEmail').value;
+
             sendBtn.innerText = 'TRANSMITTING...';
             sendBtn.disabled = true;
             statusMsg.innerText = '';
@@ -357,7 +367,12 @@
             try {
                 await fetch(WEBHOOK_URL, {
                     method: 'POST',
-                    body: JSON.stringify({ image: dataURL }),
+                    // NEW: Add name and email to the payload alongside the image
+                    body: JSON.stringify({ 
+                        image: dataURL,
+                        name: nameVal,
+                        email: emailVal
+                    }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
                 sendBtn.innerText = 'SENT.';
