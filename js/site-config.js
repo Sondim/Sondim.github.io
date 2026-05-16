@@ -4,5 +4,5 @@ const SITE_CONFIG = {
   notifyEmail: "magnus@sondim.com",
   // Optional: deploy a Google Apps Script web app that saves drawings to Drive and emails a link.
   // Set this to the Apps Script URL to use Drive instead of web3forms.
-  googleAppsScriptUrl: "",
+  googleAppsScriptUrl: "https://script.google.com/macros/s/AKfycbwNL2idqlix-t_So_AHjFMsTDuhjkkDXLr8itswcpaMnoj05lUAoUfCGdkB4UXlVCQg/exec",
 };
