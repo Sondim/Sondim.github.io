@@ -236,7 +236,72 @@ function bindDrawSendForm() {
     if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
     const blob = await canvasToBlob();
     const key = typeof SITE_CONFIG !== "undefined" ? SITE_CONFIG.web3formsAccessKey : "";
+
+    const blobToDataUrl = async (blob, maxW = 480) => {
       try {
+        const img = await createImageBitmap(blob);
+        const w = img.width;
+        const h = img.height;
+        const ratio = Math.min(1, maxW / w);
+        const cw = Math.max(1, Math.round(w * ratio));
+        const ch = Math.max(1, Math.round(h * ratio));
+        const c = document.createElement("canvas");
+        c.width = cw; c.height = ch;
+        const ctx2 = c.getContext("2d");
+        ctx2.drawImage(img, 0, 0, cw, ch);
+        return c.toDataURL("image/png", 0.8);
+      } catch (e) {
+        return null;
+      }
+    };
+
+    const blobToBase64 = async (blob) => {
+      const arrayBuffer = await blob.arrayBuffer();
+      let binary = "";
+      const bytes = new Uint8Array(arrayBuffer);
+      const chunkSize = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunkSize) {
+        binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+      }
+      return btoa(binary);
+    };
+
+    const sendToGoogleAppsScript = async (url, payload) => {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || json.message || `${res.status} ${res.statusText}`);
+      }
+      return json;
+    };
+
+    try {
+      const appsScriptUrl = SITE_CONFIG?.googleAppsScriptUrl?.trim();
+      if (appsScriptUrl) {
+        if (status) status.textContent = "Uploading drawing to Google Drive…";
+        const payload = {
+          name,
+          email,
+          message,
+          filename: "sondim-drawing.png",
+          fileBase64: await blobToBase64(blob),
+        };
+          try {
+            const result = await sendToGoogleAppsScript(appsScriptUrl, payload);
+            if (status) status.textContent = "Sent — drawing saved to Drive and link emailed.";
+            showToast("Drawing sent via Google Drive.");
+            form.reset();
+            return;
+          } catch (driveError) {
+            console.error("Google Apps Script send failed:", driveError);
+            if (status) status.textContent = "Drive upload failed — falling back to email.";
+          }
+        }
+
         if (key) {
           const fd = new FormData();
           fd.append("access_key", key);
@@ -261,26 +326,6 @@ function bindDrawSendForm() {
                 if (i < attempts) await new Promise((r) => setTimeout(r, 500 * i));
                 else throw err;
               }
-            }
-          };
-
-          // Helper to convert blob to a smaller data URL (for embedding when attachments
-          // are not allowed by the account). Limits width to 480px to keep size reasonable.
-          const blobToDataUrl = async (blob, maxW = 480) => {
-            try {
-              const img = await createImageBitmap(blob);
-              const w = img.width;
-              const h = img.height;
-              const ratio = Math.min(1, maxW / w);
-              const cw = Math.max(1, Math.round(w * ratio));
-              const ch = Math.max(1, Math.round(h * ratio));
-              const c = document.createElement("canvas");
-              c.width = cw; c.height = ch;
-              const ctx2 = c.getContext("2d");
-              ctx2.drawImage(img, 0, 0, cw, ch);
-              return c.toDataURL("image/png", 0.8);
-            } catch (e) {
-              return null;
             }
           };
 
