@@ -107,6 +107,17 @@
         </div>
     </section>
 
+<section id="fire" class="max-w-3xl mx-auto px-6 py-12 text-center">
+        <h2 class="text-2xl font-black text-white mb-4">Fire</h2>
+        <div class="inline-block bg-zinc-900 border border-white/10 rounded-2xl p-4">
+            <canvas id="fire-canvas" width="16" height="24" class="block mx-auto" style="width:96px;height:144px;"></canvas>
+            <div class="mt-4 flex items-center justify-center gap-4">
+                <label id="fire-label" class="text-sm text-zinc-400">Stable</label>
+                <input id="fire-slider" type="range" min="0" max="2" step="0.01" value="1" class="w-40">
+            </div>
+        </div>
+    </section>
+
     <section id="bounce-test" class="max-w-3xl mx-auto px-6 py-24 text-center">
         <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">How bouncy do you feel?</h2>
         <div class="h-64 flex items-end justify-center pb-[2px] border-b-2 border-zinc-700 w-full max-w-sm mx-auto mb-10 relative">
@@ -166,6 +177,18 @@
             </div>
         </div>
     </div>
+
+<section id="render-state" class="max-w-3xl mx-auto px-6 py-24 text-center border-t border-white/5">
+        <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Render your bottleneck.</h2>
+        <p class="text-lg text-zinc-400 mb-10">Draw the abstract shape of what's holding your studio back right now. Keep it raw.</p>
+        
+        <div class="bg-white rounded-xl p-2 shadow-[0_0_30px_rgba(255,255,255,0.05)] border border-zinc-700 w-full max-w-lg mx-auto mb-8 cursor-crosshair">
+            <canvas id="drawingCanvas" width="500" height="400" class="w-full touch-none rounded-lg block"></canvas>
+        </div>
+
+        <button id="sendBtn" class="px-10 py-5 bg-zinc-900 border border-blue-500/50 text-blue-400 rounded-xl font-bold shadow-[0_5px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-600/20">Transmit to Magnus</button>
+        <p id="statusMsg" class="mt-6 text-sm font-mono tracking-widest h-6 text-zinc-500"></p>
+    </section>
 
     <section id="book" class="max-w-4xl mx-auto px-6 py-24 text-center">
         <div class="bg-white rounded-3xl overflow-hidden min-h-[700px] border-4 border-white"><iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Eoq_4KUvBNMyPqUt0U2YPmV1BrPI7w8sx-0h1uALKplFu_uigELHtjWVFKe-8-oqYK1a9DCrM?gv=true" style="border: 0" width="100%" height="700" frameborder="0"></iframe></div>
@@ -267,6 +290,87 @@
         }
 
         function bookFromModal() { closeModals(); document.getElementById('book').scrollIntoView(); }
+        
+        // --- CANVAS ENGINE ---
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        const sendBtn = document.getElementById('sendBtn');
+        const statusMsg = document.getElementById('statusMsg');
+
+        // Fill canvas with solid white 
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        let isDrawing = false;
+        ctx.lineWidth = 5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = '#09090b'; // Tailwind zinc-950 equivalent
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            draw(e); 
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            e.preventDefault(); 
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function stopDraw() {
+            isDrawing = false;
+            ctx.beginPath();
+        }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('mouseout', stopDraw);
+        canvas.addEventListener('touchstart', startDraw, { passive: false });
+        canvas.addEventListener('touchmove', draw, { passive: false });
+        canvas.addEventListener('touchend', stopDraw);
+
+        const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxLLC8Ph1O-zphixuFRMzogpbFDK-gEWWshqQqpgf2mzT4twYN5pRj92nOPwMVutyOO/exec';
+
+        sendBtn.addEventListener('click', async () => {
+            const dataURL = canvas.toDataURL('image/png');
+            sendBtn.innerText = 'TRANSMITTING...';
+            sendBtn.disabled = true;
+            statusMsg.innerText = '';
+            statusMsg.className = "mt-6 text-sm font-mono tracking-widest h-6 text-zinc-500";
+
+            try {
+                await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({ image: dataURL }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+                sendBtn.innerText = 'SENT.';
+                statusMsg.innerText = '[ SIGNAL RECEIVED ]';
+                statusMsg.classList.replace('text-zinc-500', 'text-blue-400');
+            } catch (err) {
+                sendBtn.innerText = 'Transmit to Magnus';
+                sendBtn.disabled = false;
+                statusMsg.innerText = '[ SIGNAL LOST. RETRY. ]';
+                statusMsg.classList.replace('text-zinc-500', 'text-red-400');
+            }
+        });
+
         updateBouncePhysics();
     </script>
 
