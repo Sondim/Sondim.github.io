@@ -232,35 +232,68 @@ function bindDrawSendForm() {
     if (!email.includes("@")) { showToast("Please add your email so I can reply."); return; }
     const btn = document.getElementById("draw-send-btn");
     const status = document.getElementById("draw-send-status");
+    const notify = SITE_CONFIG?.notifyEmail || "magnus@sondim.com";
     if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
     const blob = await canvasToBlob();
     const key = typeof SITE_CONFIG !== "undefined" ? SITE_CONFIG.web3formsAccessKey : "";
-    try {
-      if (key) {
-        const fd = new FormData();
-        fd.append("access_key", key);
-        fd.append("subject", "Sondim draw board — " + name);
-        fd.append("from_name", name);
-        fd.append("email", email);
-        fd.append("message", message || "(Drawing attached)");
-        fd.append("attachment", blob, "sondim-drawing.png");
-        const res = await fetch("https://api.web3forms.com/submit", { method: "POST", body: fd });
-        const json = await res.json();
-        if (!json.success) throw new Error(json.message);
-        if (status) status.textContent = "Sent — thank you! I'll reply soon.";
-        showToast("Drawing sent.");
-        form.reset();
-      } else {
+      try {
+        if (key) {
+          const fd = new FormData();
+          fd.append("access_key", key);
+          fd.append("subject", "Sondim draw board — " + name);
+          fd.append("from_name", name);
+          fd.append("email", email);
+          fd.append("message", message || "(Drawing attached)");
+          fd.append("attachment", blob, "sondim-drawing.png");
+
+          const sendWithRetries = async (formData, attempts = 3) => {
+            for (let i = 1; i <= attempts; i++) {
+              if (status) status.textContent = `Sending… (attempt ${i} of ${attempts})`;
+              try {
+                const res = await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
+                let json;
+                try { json = await res.json(); } catch (e) { const txt = await res.text().catch(() => "<no body>"); throw new Error(`Non-JSON response: ${res.status} ${res.statusText} — ${txt}`); }
+                console.log("web3forms response", res.status, res.statusText, json);
+                if (!res.ok || !json.success) throw new Error(json?.message || `${res.status} ${res.statusText}`);
+                return json;
+              } catch (err) {
+                console.warn(`web3forms attempt ${i} failed:`, err);
+                if (i < attempts) await new Promise((r) => setTimeout(r, 500 * i));
+                else throw err;
+              }
+            }
+          };
+
+          try {
+            await sendWithRetries(fd, 3);
+            if (status) status.textContent = "Sent — thank you! I'll reply soon.";
+            showToast("Drawing sent.");
+            form.reset();
+          } catch (err) {
+            // If the failure looks like an authorization problem, hint at config issue
+            console.error("web3forms final error:", err);
+            const msg = err?.message || String(err);
+            if (/401|403|access|invalid/i.test(msg)) {
+              if (status) status.textContent = `Send failed — invalid access key. Check ${'js/site-config.js'}.`;
+            } else if (/Failed to fetch|NetworkError|TypeError/i.test(msg)) {
+              if (status) status.textContent = `Send failed — network or CORS issue. PNG downloaded. Email ${notify}`;
+            } else {
+              if (status) status.textContent = `Send failed — ${msg}. PNG downloaded. Email ${notify}`;
+            }
+            downloadDrawing(blob, name);
+            showToast("Couldn't send — downloaded instead.");
+          }
+        } else {
+          downloadDrawing(blob, name);
+          location.href = "mailto:" + notify + "?subject=" + encodeURIComponent("Coaching sketch from " + name) + "&body=" + encodeURIComponent("From: " + name + "\nEmail: " + email + "\n\n" + message + "\n\n(PNG downloaded — attach it to this email)");
+          if (status) status.textContent = "PNG downloaded — attach it in your email app.";
+        }
+      } catch (err) {
+        console.error("unexpected send error:", err);
         downloadDrawing(blob, name);
-        const to = SITE_CONFIG?.notifyEmail || "magnus@sondim.com";
-        location.href = "mailto:" + to + "?subject=" + encodeURIComponent("Coaching sketch from " + name) + "&body=" + encodeURIComponent("From: " + name + "\nEmail: " + email + "\n\n" + message + "\n\n(PNG downloaded — attach it to this email)");
-        if (status) status.textContent = "PNG downloaded — attach it in your email app.";
+        if (status) status.textContent = `Send failed — ${err?.message || err}. PNG downloaded. Email ${notify}`;
+        showToast("Couldn't send — downloaded instead.");
       }
-    } catch (err) {
-      downloadDrawing(blob, name);
-      if (status) status.textContent = "Send failed — PNG downloaded. Email magnus@sondim.com";
-      showToast("Couldn't send — downloaded instead.");
-    }
     if (btn) { btn.disabled = false; btn.textContent = "Send drawing to Magnus"; }
   });
   document.getElementById("draw-download")?.addEventListener("click", async () => {
