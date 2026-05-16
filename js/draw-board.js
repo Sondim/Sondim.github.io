@@ -284,6 +284,24 @@ function bindDrawSendForm() {
             }
           };
 
+          // Try uploading the blob to a free anonymous file host (file.io).
+          // Returns { success, link } or null on failure.
+          const uploadToFileIo = async (blob) => {
+            try {
+              const fdUpload = new FormData();
+              fdUpload.append("file", blob, "sondim-drawing.png");
+              // file.io supports optional expires param; default is temporary.
+              const upRes = await fetch("https://file.io/?expires=1w", { method: "POST", body: fdUpload });
+              const upJson = await upRes.json();
+              console.log("file.io upload", upRes.status, upJson);
+              if (upRes.ok && upJson && upJson.link) return { success: true, link: upJson.link };
+              return null;
+            } catch (e) {
+              console.warn("file.io upload failed", e);
+              return null;
+            }
+          };
+
           try {
             await sendWithRetries(fd, 3);
             if (status) status.textContent = "Sent — thank you! I'll reply soon.";
@@ -298,29 +316,57 @@ function bindDrawSendForm() {
             // of the PNG into the message so you still receive the drawing.
             const looksLikeBadRequest = /400|bad request|attachment|file|pro/i.test(msg);
             if (looksLikeBadRequest) {
+              // First try uploading to file.io and include the link in the message.
               try {
-                if (status) status.textContent = "Attachment rejected — retrying without attachment…";
+                if (status) status.textContent = "Attachment rejected — uploading to file.io…";
+                const up = await uploadToFileIo(blob);
+                if (up && up.link) {
+                  if (status) status.textContent = "Uploaded — sending link in message…";
+                  const fd2 = new FormData();
+                  fd2.append("access_key", key);
+                  fd2.append("subject", "Sondim draw board — " + name);
+                  fd2.append("name", name);
+                  fd2.append("email", email);
+                  const extra = (message ? message + "\n\n" : "") + `Image: ${up.link}`;
+                  fd2.append("message", extra);
+                  const res2 = await fetch("https://api.web3forms.com/submit", { method: "POST", body: fd2 });
+                  let json2;
+                  try { json2 = await res2.json(); } catch (e) { const t = await res2.text().catch(() => "<no body>"); throw new Error(`Retry Non-JSON response: ${res2.status} ${res2.statusText} — ${t}`); }
+                  console.log("web3forms retry response (file.io link)", res2.status, res2.statusText, json2);
+                  if (!res2.ok || !json2.success) throw new Error(json2?.message || `${res2.status} ${res2.statusText}`);
+                  if (status) status.textContent = "Sent (link included) — check your inbox.";
+                  showToast("Drawing sent (link included).");
+                  form.reset();
+                  return;
+                }
+              } catch (err2) {
+                console.error("upload to file.io or retry failed:", err2);
+                // fall through to data-URL fallback
+              }
+              // If file.io didn't work, fall back to embedding a reduced data URL
+              try {
+                if (status) status.textContent = "Uploading failed — embedding image in message…";
                 const dataUrl = await blobToDataUrl(blob, 480);
-                const fd2 = new FormData();
-                fd2.append("access_key", key);
-                fd2.append("subject", "Sondim draw board — " + name);
-                fd2.append("name", name);
-                fd2.append("email", email);
-                const extra = (message ? message + "\n\n" : "") + (dataUrl ? `Image (data URL):\n${dataUrl}` : "(PNG available on download)");
-                fd2.append("message", extra);
-                const res2 = await fetch("https://api.web3forms.com/submit", { method: "POST", body: fd2 });
-                let json2;
-                try { json2 = await res2.json(); } catch (e) { const t = await res2.text().catch(() => "<no body>"); throw new Error(`Retry Non-JSON response: ${res2.status} ${res2.statusText} — ${t}`); }
-                console.log("web3forms retry response (no attachment)", res2.status, res2.statusText, json2);
-                if (!res2.ok || !json2.success) throw new Error(json2?.message || `${res2.status} ${res2.statusText}`);
-                if (status) status.textContent = "Sent (without attachment) — check your inbox.";
-                showToast("Drawing sent without attachment.");
+                const fd3 = new FormData();
+                fd3.append("access_key", key);
+                fd3.append("subject", "Sondim draw board — " + name);
+                fd3.append("name", name);
+                fd3.append("email", email);
+                const extra2 = (message ? message + "\n\n" : "") + (dataUrl ? `Image (data URL):\n${dataUrl}` : "(PNG available on download)");
+                fd3.append("message", extra2);
+                const res3 = await fetch("https://api.web3forms.com/submit", { method: "POST", body: fd3 });
+                let json3;
+                try { json3 = await res3.json(); } catch (e) { const t = await res3.text().catch(() => "<no body>"); throw new Error(`Retry Non-JSON response: ${res3.status} ${res3.statusText} — ${t}`); }
+                console.log("web3forms retry response (data-url)", res3.status, res3.statusText, json3);
+                if (!res3.ok || !json3.success) throw new Error(json3?.message || `${res3.status} ${res3.statusText}`);
+                if (status) status.textContent = "Sent (image embedded) — check your inbox.";
+                showToast("Drawing sent (embedded).");
                 form.reset();
                 return;
-              } catch (err2) {
-                console.error("retry without attachment failed:", err2);
+              } catch (err3) {
+                console.error("retry embedding failed:", err3);
                 downloadDrawing(blob, name);
-                if (status) status.textContent = `Send failed — ${err2?.message || err2}. PNG downloaded. Email ${notify}`;
+                if (status) status.textContent = `Send failed — ${err3?.message || err3}. PNG downloaded. Email ${notify}`;
                 showToast("Couldn't send — downloaded instead.");
                 return;
               }
