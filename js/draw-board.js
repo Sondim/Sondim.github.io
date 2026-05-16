@@ -6,6 +6,7 @@ function initDrawBoard() {
   if (!canvas) return;
   drawState.canvas = canvas;
   drawState.ctx = canvas.getContext("2d", { willReadFrequently: true });
+  drawState.canvas.style.backgroundColor = drawState.bgColor;
   resizeDrawCanvas();
   window.addEventListener("resize", debounceDraw(resizeDrawCanvas, 200));
   bindDrawToolbar();
@@ -28,6 +29,7 @@ function resizeDrawCanvas() {
   const dpr = window.devicePixelRatio || 1;
   canvas.style.width = w + "px";
   canvas.style.height = h + "px";
+  canvas.style.backgroundColor = drawState.bgColor;
   canvas.width = Math.floor(w * dpr);
   canvas.height = Math.floor(h * dpr);
   drawState.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -213,6 +215,8 @@ function hexRgba(hex) {
 function isCanvasBlank() { return drawState.strokes.length === 0; }
 
 function canvasToBlob() {
+  // Ensure background is rendered into pixel data before exporting
+  redrawCanvas();
   return new Promise((r) => drawState.canvas.toBlob((b) => r(b), "image/png", 0.92));
 }
 
@@ -270,5 +274,6 @@ function downloadDrawing(blob, prefix) {
   a.href = URL.createObjectURL(blob);
   a.download = (prefix || "drawing") + "-" + Date.now() + ".png";
   a.click();
-  URL.revokeObjectURL(a.href);
+  // Revoke after a short delay to ensure the download starts in all browsers
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
