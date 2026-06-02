@@ -207,19 +207,28 @@
                 </div>
 
                 <div class="flex-1 flex flex-col gap-6">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-inner cursor-crosshair">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-inner cursor-crosshair relative z-10">
                         <canvas id="drawingCanvas" width="600" height="450" class="w-full touch-none block"></canvas>
                     </div>
                     
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
-                        <div class="flex items-center gap-5 bg-zinc-950 p-4 rounded-full border border-white/5 shadow-inner">
+                    <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
+                        
+                        <div class="flex items-center gap-5 bg-zinc-950 p-4 rounded-full border border-white/5 shadow-inner w-full lg:w-auto justify-center flex-shrink-0">
                             <button class="brush-btn w-2 h-2 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="2"></button>
                             <button class="brush-btn w-4 h-4 rounded-full bg-zinc-600 hover:bg-white transition-colors ring-2 ring-blue-500 ring-offset-4 ring-offset-zinc-950" data-size="5"></button>
                             <button class="brush-btn w-6 h-6 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="12"></button>
                             <button class="brush-btn w-8 h-8 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="24"></button>
                         </div>
-                        <button id="sendBtn" class="px-8 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-[0_6px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 flex-1 sm:flex-none">Transmit to Magnus</button>
+                        
+                        <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto bg-zinc-950 p-3 rounded-2xl border border-white/5 shadow-inner items-center flex-1 lg:flex-none">
+                            <input type="text" id="senderName" placeholder="Your Name" class="w-full sm:w-32 lg:w-40 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+                            <input type="email" id="senderEmail" placeholder="Your Email" class="w-full sm:w-48 lg:w-48 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+                            <button id="sendBtn" class="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-xl font-black shadow-[0_4px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 uppercase tracking-wide text-sm whitespace-nowrap">Transmit</button>
+                        </div>
+
                     </div>
+                    
+                    <p id="statusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center -mt-2"></p>
                 </div>
 
                 <div class="w-full md:w-20 bg-zinc-950 p-4 rounded-2xl border border-white/5 flex md:flex-col gap-4 items-center justify-center">
@@ -241,14 +250,6 @@
                     </button>
                 </div>
             </div>
-        </div>
-
-        <div class="max-w-xl mx-auto">
-            <div class="flex flex-col sm:flex-row gap-4 mb-6">
-                <input type="text" id="senderName" placeholder="Your Name" class="flex-1 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
-                <input type="email" id="senderEmail" placeholder="Your Email" class="flex-1 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
-            </div>
-            <p id="statusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500"></p>
         </div>
     </section>
 
@@ -615,16 +616,49 @@
 
         const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxLLC8Ph1O-zphixuFRMzogpbFDK-gEWWshqQqpgf2mzT4twYN5pRj92nOPwMVutyOO/exec';
 
+        // --- VALIDATION AND SENDING LOGIC ---
+        const nameInput = document.getElementById('senderName');
+        const emailInput = document.getElementById('senderEmail');
+
+        // Clear error states automatically as the user types
+        [nameInput, emailInput].forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('border-red-500');
+                this.classList.add('border-zinc-700', 'focus:border-blue-500');
+                
+                if (statusMsg.innerText.includes('REQUIRED')) {
+                    statusMsg.innerText = '';
+                }
+            });
+        });
+
         sendBtn.addEventListener('click', async () => {
+            const nameVal = nameInput.value.trim();
+            const emailVal = emailInput.value.trim();
+
+            // Validate Inputs before trying to send anything
+            if (!nameVal || !emailVal) {
+                statusMsg.innerText = '[ ERROR: IDENTITY AND COORDINATES REQUIRED ]';
+                statusMsg.className = "text-sm font-mono tracking-widest h-6 text-red-500 text-center -mt-2";
+                
+                if (!nameVal) {
+                    nameInput.classList.remove('border-zinc-700', 'focus:border-blue-500');
+                    nameInput.classList.add('border-red-500');
+                }
+                if (!emailVal) {
+                    emailInput.classList.remove('border-zinc-700', 'focus:border-blue-500');
+                    emailInput.classList.add('border-red-500');
+                }
+                return; // Stop the function here
+            }
+
+            // If we pass validation, proceed with transmission
             const dataURL = canvas.toDataURL('image/png');
-            
-            const nameVal = document.getElementById('senderName').value;
-            const emailVal = document.getElementById('senderEmail').value;
 
             sendBtn.innerText = 'TRANSMITTING...';
             sendBtn.disabled = true;
             statusMsg.innerText = '';
-            statusMsg.className = "mt-6 text-sm font-mono tracking-widest h-6 text-zinc-500";
+            statusMsg.className = "text-sm font-mono tracking-widest h-6 text-zinc-500 text-center -mt-2";
 
             try {
                 await fetch(WEBHOOK_URL, {
@@ -640,7 +674,7 @@
                 statusMsg.innerText = '[ SIGNAL RECEIVED ]';
                 statusMsg.classList.replace('text-zinc-500', 'text-blue-400');
             } catch (err) {
-                sendBtn.innerText = 'Transmit to Magnus';
+                sendBtn.innerText = 'Transmit';
                 sendBtn.disabled = false;
                 statusMsg.innerText = '[ SIGNAL LOST. RETRY. ]';
                 statusMsg.classList.replace('text-zinc-500', 'text-red-400');
