@@ -744,11 +744,12 @@
             if (isCarouselAnimating) return;
             isCarouselAnimating = true;
             
-            const itemsPerView = window.innerWidth < 768 ? 2 : 4;
-            const shift = 100 / itemsPerView;
+            // Calculate the exact pixel width of a single item based on current screen size
+            const itemWidth = galleryTrack.firstElementChild.offsetWidth;
             
-            // 1. Animate the track left
-            galleryTrack.style.transform = `translateX(-${shift}%)`;
+            // 1. Animate the track left by exactly one item
+            galleryTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
+            galleryTrack.style.transform = `translateX(-${itemWidth}px)`;
             
             // 2. Wait for the physics to finish, then snap the DOM
             galleryTrack.addEventListener('transitionend', function handleNext() {
@@ -758,11 +759,34 @@
                 galleryTrack.appendChild(galleryTrack.firstElementChild); // Move first painting to the back
                 galleryTrack.style.transform = 'translateX(0)'; // Reset position instantly
                 
-                // Restore physics for the next interaction
-                requestAnimationFrame(() => {
-                    galleryTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
-                    isCarouselAnimating = false;
-                });
+                // Force a browser reflow to register the instant snap before the next click
+                void galleryTrack.offsetWidth; 
+                
+                isCarouselAnimating = false;
+            });
+        });
+
+        btnPrev.addEventListener('click', () => {
+            if (isCarouselAnimating) return;
+            isCarouselAnimating = true;
+
+            const itemWidth = galleryTrack.lastElementChild.offsetWidth;
+            
+            // 1. Instantly move the last painting to the front, hidden to the left
+            galleryTrack.style.transition = 'none'; 
+            galleryTrack.prepend(galleryTrack.lastElementChild); 
+            galleryTrack.style.transform = `translateX(-${itemWidth}px)`; 
+            
+            // 2. FORCE REFLOW: Command the browser to paint this hidden state immediately
+            void galleryTrack.offsetWidth;
+            
+            // 3. Turn physics back on and slide it to 0
+            galleryTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)'; 
+            galleryTrack.style.transform = 'translateX(0)'; 
+            
+            galleryTrack.addEventListener('transitionend', function handlePrev() {
+                galleryTrack.removeEventListener('transitionend', handlePrev);
+                isCarouselAnimating = false;
             });
         });
 
