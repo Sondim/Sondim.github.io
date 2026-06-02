@@ -755,9 +755,6 @@
             const percentage = -(currentCarouselIndex * (100 / itemsPerView));
             galleryTrack.style.transform = `translateX(${percentage}%)`;
 
-            // Update arrow disabled states visually
-            btnPrev.disabled = currentCarouselIndex === 0;
-            btnNext.disabled = currentCarouselIndex >= maxIndex;
         }
 
         btnPrev.addEventListener('click', () => {
