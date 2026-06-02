@@ -178,21 +178,84 @@
         </div>
     </div>
 
-<section id="render-state" class="max-w-3xl mx-auto px-6 py-24 text-center border-t border-white/5">
+<section id="render-state" class="max-w-5xl mx-auto px-6 py-24 text-center border-t border-white/5">
         <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Render your bottleneck.</h2>
-        <p class="text-lg text-zinc-400 mb-10">Draw the abstract shape of what's holding your studio back right now. Keep it raw.</p>
+        <p class="text-lg text-zinc-400 mb-12">Draw the abstract shape of what's holding your studio back right now. Keep it raw.</p>
         
-        <div class="bg-white rounded-xl p-2 shadow-[0_0_30px_rgba(255,255,255,0.05)] border border-zinc-700 w-full max-w-lg mx-auto mb-6 cursor-crosshair">
-            <canvas id="drawingCanvas" width="500" height="400" class="w-full touch-none rounded-lg block"></canvas>
+        <!-- Game Interface Container -->
+        <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12">
+            <div class="flex flex-col md:flex-row gap-6">
+                
+                <!-- Left Column: Color Palette -->
+                <div class="w-full md:w-24 bg-zinc-950 p-4 rounded-2xl border border-white/5 flex md:flex-col gap-4 items-center justify-between">
+                    <div class="grid grid-cols-8 md:grid-cols-2 gap-2">
+                        <div class="w-6 h-6 rounded-sm bg-black border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-white border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-red-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-orange-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-yellow-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-green-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-teal-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-blue-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-indigo-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-purple-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-pink-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-rose-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-amber-600 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-emerald-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                        <div class="w-6 h-6 rounded-sm bg-sky-500 border border-white/10 cursor-pointer hover:scale-110 transition-transform"></div>
+                    </div>
+                    <div class="w-12 h-12 md:w-full md:h-12 rounded-lg bg-black border-2 border-zinc-800 shadow-inner" id="current-color-indicator"></div>
+                </div>
+
+                <!-- Center Column: Canvas Area -->
+                <div class="flex-1 flex flex-col gap-6">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-inner cursor-crosshair">
+                        <canvas id="drawingCanvas" width="600" height="450" class="w-full touch-none block"></canvas>
+                    </div>
+                    
+                    <!-- Brush Controls & Send -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+                        <div class="flex items-center gap-5 bg-zinc-950 p-4 rounded-full border border-white/5 shadow-inner">
+                            <button class="w-2 h-2 rounded-full bg-zinc-600 hover:bg-white transition-colors"></button>
+                            <button class="w-4 h-4 rounded-full bg-zinc-600 hover:bg-white transition-colors"></button>
+                            <button class="w-6 h-6 rounded-full bg-zinc-600 hover:bg-white transition-colors"></button>
+                            <button class="w-8 h-8 rounded-full bg-zinc-600 hover:bg-white transition-colors ring-2 ring-blue-500 ring-offset-4 ring-offset-zinc-950"></button>
+                        </div>
+                        <button id="sendBtn" class="px-8 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-[0_6px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 flex-1 sm:flex-none">Transmit to Magnus</button>
+                    </div>
+                </div>
+
+                <!-- Right Column: Tools -->
+                <div class="w-full md:w-20 bg-zinc-950 p-4 rounded-2xl border border-white/5 flex md:flex-col gap-4 items-center justify-center">
+                    <button title="Pencil" class="p-3 rounded-xl bg-zinc-800 text-white border border-white/10">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                    </button>
+                                        <button title="Eraser" class="p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a2 2 0 00-.586-1.414l-7-7A2 2 0 0010 1H5a2 2 0 00-2 2v16a2 2 0 002 2h2zm0 0v-3a2 2 0 012-2h3"></path></svg>
+                    </button>
+                    <button title="Fill Bucket" class="p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 10l5 5 5-5M12 15V3"></path></svg>
+                    </button>
+                    <div class="h-px w-full md:w-8 bg-zinc-800 my-2"></div>
+                    <button title="Undo" class="p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
+                    </button>
+                    <button title="Redo" class="p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10h-10a8 8 0 00-8 8v2m18-10l-6 6m6-6l-6-6"></path></svg>
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <div class="max-w-lg mx-auto mb-8 flex flex-col sm:flex-row gap-4">
-            <input type="text" id="senderName" placeholder="Your Name" class="flex-1 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
-            <input type="email" id="senderEmail" placeholder="Your Email" class="flex-1 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
-        </div>
-
-        <button id="sendBtn" class="px-10 py-5 w-full max-w-lg mx-auto block bg-zinc-900 border border-blue-500/50 text-blue-400 rounded-xl font-bold shadow-[0_5px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-600/20">Transmit to Magnus</button>
-        <p id="statusMsg" class="mt-6 text-sm font-mono tracking-widest h-6 text-zinc-500"></p>
+        <!-- Meta Inputs -->
+        <div class="max-w-xl mx-auto">
+            <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                <input type="text" id="senderName" placeholder="Your Name" class="flex-1 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+                <input type="email" id="senderEmail" placeholder="Your Email" class="flex-1 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+            </div>
+            <p id="statusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500"></p>
+        </div >
     </section>
 
     <section id="book" class="max-w-4xl mx-auto px-6 py-24 text-center">
