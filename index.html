@@ -234,7 +234,6 @@
                 </div>
 
                 <div class="md:col-start-2 flex flex-col items-center justify-center gap-6 mt-0 w-full">
-                    
                     <div class="flex items-center gap-6 bg-zinc-950 px-6 py-4 rounded-full border border-white/5 shadow-inner justify-center">
                         <button class="brush-btn w-2 h-2 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="2"></button>
                         <button class="brush-btn w-4 h-4 rounded-full bg-zinc-600 hover:bg-white transition-colors ring-2 ring-blue-500 ring-offset-4 ring-offset-zinc-950" data-size="5"></button>
@@ -257,11 +256,24 @@
         </div>
     </section>
 
-    <section id="gallery" class="max-w-5xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
+    <section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
         <h2 class="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">Studio Archive.</h2>
         <p class="text-lg text-zinc-400 mb-12">Bottlenecks rendered by other founders.</p>
         
-        <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6 mx-auto w-full"></div>
+        <div class="flex items-center justify-center gap-2 md:gap-6 w-full relative">
+            <button id="carousel-prev" class="p-4 rounded-xl bg-zinc-900 border border-white/10 text-zinc-500 hover:text-white hover:border-blue-500 transition-all hover:scale-105 active:scale-95 disabled:opacity-30 disabled:pointer-events-none z-10 flex-shrink-0">
+                <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+
+            <div class="overflow-hidden w-full max-w-5xl rounded-2xl relative">
+                <div id="gallery-track" class="flex transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
+                    </div>
+            </div>
+
+            <button id="carousel-next" class="p-4 rounded-xl bg-zinc-900 border border-white/10 text-zinc-500 hover:text-white hover:border-blue-500 transition-all hover:scale-105 active:scale-95 disabled:opacity-30 disabled:pointer-events-none z-10 flex-shrink-0">
+                <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+        </div>
     </section>
 
     <section id="book" class="max-w-4xl mx-auto px-6 py-24 text-center border-t border-white/5">
@@ -371,15 +383,12 @@
         const sendBtn = document.getElementById('sendBtn');
         const statusMsg = document.getElementById('statusMsg');
 
-        // NEW GLOBAL STATE FOR DRAWING TOOLS
         let currentColor = '#000000';
         let currentTool = 'pencil';
         
-        // TIME MACHINE ARRAYS
         let undoStack = [];
         let redoStack = [];
 
-        // Fill canvas with solid white 
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -389,7 +398,6 @@
         ctx.lineJoin = 'round';
         ctx.strokeStyle = currentColor;
 
-        // --- TOOL STATE WIRING ---
         const colorSwatches = document.querySelectorAll('.color-swatch');
         const colorIndicator = document.getElementById('current-color-indicator');
         const brushBtns = document.querySelectorAll('.brush-btn');
@@ -680,19 +688,28 @@
 
         updateBouncePhysics();
 
-        // --- GALLERY ENGINE ---
-        const galleryGrid = document.getElementById('gallery-grid');
+        // --- GALLERY ENGINE (CAROUSEL) ---
+        const galleryTrack = document.getElementById('gallery-track');
+        const btnPrev = document.getElementById('carousel-prev');
+        const btnNext = document.getElementById('carousel-next');
         const lightboxModal = document.getElementById('lightbox-modal');
         const lightboxImg = document.getElementById('lightbox-img');
+        
         const totalSlots = 16;
+        let currentCarouselIndex = 0;
 
+        // Build the slots
         for (let i = 1; i <= totalSlots; i++) {
             const num = String(i).padStart(2, '0');
-            // Look for files exactly matching your requested naming convention inside a "gallery" folder
             const fileName = `gallery/painting_${num}.jpg`; 
 
+            // Wrapper to control sizing for the flex track
+            const slideWrapper = document.createElement('div');
+            // Show 2 on mobile screens, 4 on desktop screens
+            slideWrapper.className = "w-1/2 md:w-1/4 flex-shrink-0 px-2 md:px-3"; 
+
             const slot = document.createElement('div');
-            slot.className = "aspect-square bg-zinc-950 border border-white/5 rounded-2xl overflow-hidden relative group shadow-inner flex items-center justify-center transition-all duration-300";
+            slot.className = "aspect-square w-full bg-zinc-950 border border-white/5 rounded-2xl overflow-hidden relative group shadow-inner flex items-center justify-center transition-all duration-300";
 
             const img = document.createElement('img');
             img.src = fileName;
@@ -706,19 +723,55 @@
 
             img.onerror = () => {
                 img.remove();
-                slot.innerHTML = `<span class="text-zinc-700 font-mono text-[10px] sm:text-xs uppercase tracking-widest pointer-events-none select-none">[ SLOT_${num} ]</span>`;
+                slot.innerHTML = `<span class="text-zinc-700 font-mono text-[10px] sm:text-xs uppercase tracking-widest pointer-events-none select-none text-center">[ SLOT_${num} ]</span>`;
                 slot.classList.add('border-dashed');
             };
 
             img.onclick = () => {
                 lightboxImg.src = fileName;
                 lightboxModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling behind modal
+                document.body.style.overflow = 'hidden'; 
             };
 
             slot.appendChild(img);
-            galleryGrid.appendChild(slot);
+            slideWrapper.appendChild(slot);
+            galleryTrack.appendChild(slideWrapper);
         }
+
+        // Carousel Sliding Logic
+        function updateCarousel() {
+            // Determine how many items we are looking at based on screen width
+            const itemsPerView = window.innerWidth < 768 ? 2 : 4;
+            const maxIndex = totalSlots - itemsPerView;
+
+            // Clamp the index so we don't slide into empty space
+            if (currentCarouselIndex > maxIndex) currentCarouselIndex = maxIndex;
+            if (currentCarouselIndex < 0) currentCarouselIndex = 0;
+
+            // Move the track
+            const percentage = -(currentCarouselIndex * (100 / itemsPerView));
+            galleryTrack.style.transform = `translateX(${percentage}%)`;
+
+            // Update arrow disabled states visually
+            btnPrev.disabled = currentCarouselIndex === 0;
+            btnNext.disabled = currentCarouselIndex >= maxIndex;
+        }
+
+        btnPrev.addEventListener('click', () => {
+            currentCarouselIndex--;
+            updateCarousel();
+        });
+
+        btnNext.addEventListener('click', () => {
+            currentCarouselIndex++;
+            updateCarousel();
+        });
+
+        // Recalculate if the user rotates their phone or resizes the browser
+        window.addEventListener('resize', updateCarousel);
+        
+        // Initialize position on load
+        updateCarousel();
 
         function closeLightbox() {
             lightboxModal.classList.add('hidden');
