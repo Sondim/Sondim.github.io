@@ -30,13 +30,65 @@
             to { opacity: 0; transform: translateY(-10px); }
         }
 
-        input[type=range] { -webkit-appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-runnable-track { height: 8px; background: #27272a; border-radius: 4px; }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%;
-            background: #3b82f6; margin-top: -8px; cursor: pointer;
-            box-shadow: 0 0 10px rgba(59,130,246,0.5);
+        /* --- SPARKLE BUTTON PHYSICS --- */
+        #sendBtn {
+            --glare: rgba(255, 255, 255, 0.9);
+            --hover: 0;
+            --pos: 0;
+            position: relative;
+            overflow: hidden;
         }
+        #sendBtn:hover { --hover: 1; --pos: 1; }
+        #sendBtn:active { --hover: 0; }
+        
+        #sendBtn .btn-text-back {
+            display: inline-block;
+            transition: transform 0.2s;
+            transform: translate(calc(var(--hover) * 2px), calc(var(--hover) * -2px));
+        }
+        #sendBtn .btn-text-front {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(
+                108deg,
+                transparent 0 55%,
+                var(--glare) 55% 60%,
+                transparent 60% 70%,
+                var(--glare) 70% 85%,
+                transparent 85%
+            ) calc(var(--pos) * -200%) 0% / 200% 100%, #ffffff;
+            -webkit-background-clip: text;
+            color: transparent;
+            z-index: 2;
+            transform: translate(calc(var(--hover) * 2px), calc(var(--hover) * -2px));
+            transition: transform 0.2s, background-position 0s;
+        }
+        #sendBtn:hover .btn-text-front {
+            transition: transform 0.2s, background-position calc(var(--hover) * 1.5s) calc(var(--hover) * 0.25s);
+        }
+        
+        #sendBtn svg {
+            position: absolute;
+            z-index: 3;
+            width: 16px;
+            pointer-events: none;
+            --delay-step: 0.15;
+            top: calc(var(--y, 50) * 1%);
+            left: calc(var(--x, 0) * 1%);
+            transform: translate(-50%, -50%) scale(0);
+        }
+        #sendBtn svg path { fill: var(--glare); }
+        #sendBtn:hover svg { animation: sparkle 0.75s calc((var(--delay-step) * var(--d)) * 1s) both; }
+        @keyframes sparkle { 50% { transform: translate(-50%, -50%) scale(var(--s, 1)); } }
+        
+        #sendBtn svg:nth-of-type(1) { --x: 15; --y: 20; --s: 1.1; --d: 1; }
+        #sendBtn svg:nth-of-type(2) { --x: 25; --y: 70; --s: 1.25; --d: 2; }
+        #sendBtn svg:nth-of-type(3) { --x: 50; --y: 30; --s: 1.1; --d: 3; }
+        #sendBtn svg:nth-of-type(4) { --x: 75; --y: 60; --s: 0.9; --d: 2; }
+        #sendBtn svg:nth-of-type(5) { --x: 85; --y: 20; --s: 0.8; --d: 4; }
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
@@ -209,7 +261,16 @@
                     <div class="flex flex-col sm:flex-row gap-3 w-full max-w-2xl bg-zinc-950 p-3 rounded-2xl border border-white/5 shadow-inner items-center">
                         <input type="text" id="senderName" placeholder="Your Name" class="w-full sm:w-1/3 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
                         <input type="email" id="senderEmail" placeholder="Your Email" class="w-full sm:flex-1 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
-                        <button id="sendBtn" class="w-full sm:w-auto px-8 py-4 bg-blue-600 text-white rounded-xl font-black shadow-[0_4px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 uppercase tracking-wide text-sm whitespace-nowrap">Transmit</button>
+                        
+                        <button id="sendBtn" class="w-full sm:w-auto px-8 py-4 bg-blue-600 text-white rounded-xl font-black shadow-[0_4px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 uppercase tracking-wide text-sm whitespace-nowrap">
+                            <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <svg viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <span class="btn-text-back" aria-hidden="true">Transmit</span>
+                            <span class="btn-text-front">Transmit</span>
+                        </button>
                     </div>
                 </div>
 
@@ -608,7 +669,9 @@
 
             const dataURL = canvas.toDataURL('image/jpeg', 1.0);
 
-            sendBtn.innerText = 'TRANSMITTING...';
+            // Access the nested spans to avoid overwriting the SVG sparkles
+            sendBtn.querySelector('.btn-text-front').innerText = 'TRANSMITTING...';
+            sendBtn.querySelector('.btn-text-back').innerText = 'TRANSMITTING...';
             sendBtn.disabled = true;
             statusMsg.innerText = '';
             statusMsg.className = "text-sm font-mono tracking-widest h-6 text-zinc-500 text-center -mt-2";
@@ -625,7 +688,8 @@
                 });
                 
                 // --- SUCCESS STATE VISUALS ---
-                sendBtn.innerText = 'SENT.';
+                sendBtn.querySelector('.btn-text-front').innerText = 'SENT.';
+                sendBtn.querySelector('.btn-text-back').innerText = 'SENT.';
                 sendBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'shadow-[0_4px_0_0_#1e3a8a]');
                 sendBtn.classList.add('bg-green-500', 'shadow-[0_4px_0_0_#15803d]');
                 
@@ -634,7 +698,8 @@
                 
             } catch (err) {
                 // --- ERROR STATE VISUALS ---
-                sendBtn.innerText = 'Transmit';
+                sendBtn.querySelector('.btn-text-front').innerText = 'Transmit';
+                sendBtn.querySelector('.btn-text-back').innerText = 'Transmit';
                 sendBtn.disabled = false;
                 statusMsg.innerText = '[ SIGNAL LOST. RETRY. ]';
                 statusMsg.classList.replace('text-zinc-500', 'text-red-400');
