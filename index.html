@@ -19,15 +19,15 @@
         .animate-float { animation: float 5s ease-in-out infinite; }
 
         /* Modal Animations */
-        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
         .fade-out { animation: fadeOut 0.3s ease-in forwards; }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeOut {
             from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 0; transform: translateY(-20px); }
         }
 
         /* --- GENERALIZED SPARKLE BUTTON PHYSICS --- */
@@ -44,9 +44,9 @@
         
         #sendBtn .btn-text-back, .sparkle-btn .btn-text-back {
             display: inline-block;
-            transition: transform 0.2s;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
             transform: translate(calc(var(--hover) * 2px), calc(var(--hover) * -2px));
-            color: transparent; /* Acts as an invisible structural pillar */
+            color: transparent;
         }
         #sendBtn .btn-text-front, .sparkle-btn .btn-text-front {
             position: absolute;
@@ -56,8 +56,8 @@
             justify-content: center;
             z-index: 2;
             transform: translate(calc(var(--hover) * 2px), calc(var(--hover) * -2px));
-            transition: transform 0.2s;
-            color: inherit; /* Inherit the Tailwind text colors for hero buttons */
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            color: inherit;
         }
         
         #sendBtn svg, .sparkle-btn svg {
@@ -82,7 +82,7 @@
         #sendBtn svg:nth-of-type(5), .sparkle-btn svg:nth-of-type(5) { --x: 85; --y: 20; --s: 0.8; --d: 4; }
 
         /* --- TRANSMIT BUTTON SPECIFIC STATES --- */
-        #sendBtn .btn-text-front { color: #ffffff; } /* Force pure white on send */
+        #sendBtn .btn-text-front { color: #ffffff; }
         #sendBtn.is-success .btn-text-front { animation: none; }
         #sendBtn.is-success .btn-text-back { opacity: 0; }
         #sendBtn.is-success::after {
@@ -112,6 +112,7 @@
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
 
+    <!-- GLOBAL NAVIGATION HEADER -->
     <nav class="sticky top-0 z-40 bg-zinc-950/70 backdrop-blur-xl border-b border-white/5">
         <div class="max-w-4xl mx-auto px-6 py-4 md:py-6 flex justify-between items-center">
             <div class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-default">
@@ -123,6 +124,7 @@
         </div>
     </nav>
 
+    <!-- HERO PROFILE DISPLAY SECTION -->
     <section class="max-w-4xl mx-auto px-6 py-12 md:py-24 flex flex-col md:flex-row items-center gap-12 relative z-10">
         <div class="absolute -top-24 -left-24 w-72 h-72 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="group relative w-56 h-56 md:w-72 md:h-72 flex-shrink-0 animate-float">
@@ -136,7 +138,6 @@
             <p class="text-lg md:text-xl text-zinc-400 mb-10 leading-relaxed font-medium">Programs to unlock meaning, mastery, and aliveness. Build a high-performance studio without breaking your soul.</p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start flex-wrap mt-8">
-                
                 <a href="#book" style="--sparkle-color: rgba(0, 0, 0, 0.4);" class="sparkle-btn px-6 py-4 bg-white text-black rounded-xl font-black shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1 transition-all text-center block sm:inline-block">
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
@@ -176,11 +177,11 @@
                     <span class="btn-text-back" aria-hidden="true">Get the Guide</span>
                     <span class="btn-text-front">Get the Guide</span>
                 </a>
-                
             </div>
         </div>
     </section>
 
+    <!-- MANIFESTO BLURB OVERVIEW SECTION -->
     <section class="bg-zinc-900/40 border-y border-white/5 py-16 md:py-24">
         <div class="max-w-3xl mx-auto px-6">
             <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-8 font-bold">// Meet_Magnus</h2>
@@ -188,34 +189,45 @@
         </div>
     </section>
 
-    <div id="lightbox-modal" class="fixed inset-0 z-[60] hidden bg-zinc-950/95 backdrop-blur-xl flex items-center justify-center p-4 cursor-zoom-out" onclick="closeLightbox()">
-        <img id="lightbox-img" src="" alt="Full size painting" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl border border-white/10 object-contain">
-    </div>
-
+    <!-- ASSESSMENT MODAL ENGINE CONTAINER -->
     <div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/95 backdrop-blur-md overflow-y-auto">
-        <div class="min-h-screen flex items-center justify-center px-6 py-20 w-full">
-            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl">
-                <button onclick="closeModals()" class="absolute top-4 right-4 text-zinc-500 hover:text-white p-2 z-50">
+        <div class="min-h-screen flex items-center justify-center px-4 py-12 md:py-20 w-full">
+            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-12 rounded-3xl shadow-2xl my-auto">
+                <button onclick="closeModals()" class="absolute top-6 right-6 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
-                <div id="state-quiz" class="hidden">
-                    <div class="mb-8 text-xs font-mono text-zinc-500 uppercase tracking-widest" id="question-counter">Question 1 of 3</div>
-                    <h2 id="question-text" class="text-3xl md:text-4xl font-bold text-white mb-10 leading-tight"></h2>
-                    <div id="answers-container" class="flex flex-col gap-4"></div>
+
+                <!-- QUIZ QUESTIONS SLATE -->
+                <div id="state-quiz" class="hidden text-left">
+                    <div class="mb-4 text-xs font-mono text-blue-500 uppercase tracking-[0.2em] font-bold" id="question-counter">Question 1 of 23</div>
+                    <h2 id="question-text" class="text-2xl md:text-4xl font-black text-white mb-8 md:mb-10 leading-tight tracking-tight min-h-[4rem]"></h2>
+                    <div id="answers-container" class="flex flex-col gap-3 md:gap-4"></div>
                 </div>
-                <div id="state-results" class="text-center hidden">
-                    <div id="result-label" class="text-blue-500 font-mono text-sm uppercase tracking-[0.3em] mb-4 font-bold"></div>
-                    <h2 id="result-title" class="text-4xl md:text-6xl font-black text-white mb-6 leading-none"></h2>
-                    <p id="result-description" class="text-lg text-zinc-300 leading-relaxed mb-10 text-left p-6 bg-black/30 rounded-xl border border-white/5"></p>
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a id="result-download-btn" href="#" download class="px-8 py-4 bg-blue-600 text-white rounded-xl font-black text-lg shadow-[0_5px_0_0_#1e3a8a] active:translate-y-1">Download Guide</a>
-                        <button onclick="bookFromModal()" class="px-8 py-4 bg-zinc-800 text-white rounded-xl font-bold shadow-[0_5px_0_0_#27272a] active:translate-y-1">Book Teardown</button>
+
+                <!-- DIAGNOSTIC EVALUATION RESULTS DISPLAY -->
+                <div id="state-results" class="hidden fade-in text-center max-w-2xl mx-auto">
+                    <div id="result-label" class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-3 font-bold">// NEXT_STEP_DIAGNOSTIC</div>
+                    <h2 class="text-lg md:text-xl font-mono text-zinc-400 mb-1">Focus on:</h2>
+                    <h1 id="result-title" class="text-3xl md:text-5xl font-black text-white mb-8 leading-tight tracking-tight"></h1>
+                    
+                    <div class="p-6 md:p-8 bg-zinc-950/60 rounded-2xl border border-white/5 shadow-inner mb-10 text-left">
+                        <p id="result-description" class="text-zinc-300 text-sm md:text-base leading-relaxed whitespace-pre-line font-normal"></p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
+                        <a id="result-download-btn" href="#" download class="w-full sm:w-auto px-8 py-4 bg-white text-black rounded-xl font-black text-center shadow-[0_4px_0_0_#d4d4d8] active:translate-y-1 transition-all uppercase tracking-wide text-xs md:text-sm whitespace-nowrap">
+                            Download Guide
+                        </a>
+                        <button onclick="bookFromModal()" class="w-full sm:w-auto px-8 py-4 bg-zinc-800 text-zinc-300 border border-zinc-700 rounded-xl font-bold text-center shadow-[0_4px_0_0_#27272a] active:translate-y-1 hover:bg-zinc-700 hover:text-white transition-all uppercase tracking-wide text-xs md:text-sm whitespace-nowrap">
+                            Book Teardown
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- REUSABLE TOPIC CONTENT PICKER MODAL -->
     <div id="topic-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/95 backdrop-blur-md overflow-y-auto">
         <div class="min-h-screen flex items-center justify-center px-6 py-20 w-full relative">
             <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl">
@@ -241,6 +253,7 @@
         </div>
     </div>
 
+    <!-- CANVAS GRAPHICS INTERACTION ZONE -->
     <section id="render-state" class="max-w-5xl mx-auto px-6 py-24 text-center border-t border-white/5">
         <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Render your bottleneck.</h2>
         <p class="text-lg text-zinc-400 mb-12">Draw the abstract shape of what's holding your studio back right now. Keep it raw.</p>
@@ -252,31 +265,22 @@
                     <div class="grid grid-cols-2 gap-2">
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#000000] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#000000"></div>
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffffff] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffffff"></div>
-                        
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#7b7b7b] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#7b7b7b"></div>
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#c3c3c3] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#c3c3c3"></div>
-                        
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#8b181a] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#8b181a"></div>
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#b97a57] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#b97a57"></div>
-                        
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#ee2424] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ee2424"></div>
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffaec9] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffaec9"></div>
-                        
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#f47b20] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#f47b20"></div>
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffc90e] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffc90e"></div>
-                        
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffea00] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffea00"></div>
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#efe4b0] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#efe4b0"></div>
-                        
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#22b14c] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#22b14c"></div>
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#b5e61d] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#b5e61d"></div>
-                        
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#00a2e8] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#00a2e8"></div>
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#99d9ea] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#99d9ea"></div>
-                        
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#3f48cc] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#3f48cc"></div>
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#7092be] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#7092be"></div>
-                        
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#a349a4] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#a349a4"></div>
                         <div class="color-swatch w-6 h-6 rounded-sm bg-[#c8bfe7] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#c8bfe7"></div>
                     </div>
@@ -333,11 +337,11 @@
                 <div class="md:col-start-2">
                     <p id="statusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center -mt-2"></p>
                 </div>
-
             </div>
         </div>
     </section>
 
+    <!-- ARCHIVE CAROUSEL SLIDER ENGINE CONTAINER -->
     <section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
         <h2 class="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">Studio Archive.</h2>
         <p class="text-lg text-zinc-400 mb-12">Bottlenecks rendered by other founders.</p>
@@ -348,8 +352,7 @@
             </button>
 
             <div class="overflow-hidden w-full max-w-5xl rounded-2xl relative">
-                <div id="gallery-track" class="flex transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
-                    </div>
+                <div id="gallery-track" class="flex transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
             </div>
 
             <button id="carousel-next" class="p-4 rounded-xl bg-zinc-900 border border-white/10 text-zinc-500 hover:text-white hover:border-blue-500 transition-all hover:scale-105 active:scale-95 z-10 flex-shrink-0">
@@ -358,31 +361,88 @@
         </div>
     </section>
 
+    <!-- SCHEDULING CALENDAR SECTOR -->
     <section id="book" class="max-w-4xl mx-auto px-6 py-24 text-center border-t border-white/5">
-        <div class="bg-white rounded-3xl overflow-hidden min-h-[700px] border-4 border-white"><iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Eoq_4KUvBNMyPqUt0U2YPmV1BrPI7w8sx-0h1uALKplFu_uigELHtjWVFKe-8-oqYK1a9DCrM?gv=true" style="border: 0" width="100%" height="700" frameborder="0"></iframe></div>
+        <div class="bg-white rounded-3xl overflow-hidden min-h-[700px] border-4 border-white">
+            <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Eoq_4KUvBNMyPqUt0U2YPmV1BrPI7w8sx-0h1uALKplFu_uigELHtjWVFKe-8-oqYK1a9DCrM?gv=true" style="border: 0" width="100%" height="700" frameborder="0"></iframe>
+        </div>
     </section>
 
+    <!-- MAIN DATA CONTROL SCRIPT -->
     <script>
+        // MASTER DIAGNOSTIC QUESTION GAUNTLET ARRAY[cite: 1]
         const assessmentQuestions = [
-            { text: "When a milestone gets pushed back, what is your immediate reaction?", answers: [ { text: "Cancel my weekend plans to catch up.", type: "grinder" }, { text: "Redesign the feature.", type: "visionary" }, { text: "Tell the team it's fine, then privately panic.", type: "martyr" } ] },
-            { text: "Your relationship with your game's scope right now is:", answers: [ { text: "Fluid. The game demands what it demands.", type: "visionary" }, { text: "Mostly me handling the overflow.", type: "martyr" }, { text: "Locked in, but tasks are physically crushing.", type: "grinder" } ] },
-            { text: "If you launched tomorrow and it was a hit, how would you feel?", answers: [ { text: "Exhausted, but glad the team gets a win.", type: "martyr" }, { text: "Relieved the pain is finally over.", type: "grinder" }, { text: "Anxious about the post-launch updates.", type: "visionary" } ] }
+            // --- BUCKET: SELF-TALK ---[cite: 1]
+            { text: "My inner voice toward myself is as kind as the way I speak to my close friends.", category: "selftalk", invert: true },[cite: 1]
+            { text: "Most days, I feel a steady pressure of “shoulds” throughout the day (\"I should work more, I should exercise later, I should do that errand\").", category: "selftalk", invert: false },[cite: 1]
+            { text: "I generally feel that I’m “enough” in life (e.g. accomplishing enough, attractive enough, good enough partner).", category: "selftalk", invert: true },[cite: 1]
+            { text: "I tend to feel okay about myself only when I’m productive or successful, or when others approve of me.", category: "selftalk", invert: false },[cite: 1]
+            { text: "I believe that I can do my best work in life without being hard on myself.", category: "selftalk", invert: true },[cite: 1]
+            { text: "I tend to replay failures or awkward moments over and over in my head.", category: "selftalk", invert: false },[cite: 1]
+            { text: "When I'm being hard on myself about something, I believe the self-criticism is true.", category: "selftalk", invert: false },[cite: 1]
+            { text: "I'm able to see what's going well in my life as easily as I identify what's not going well.", category: "selftalk", invert: true },[cite: 1]
+
+            // --- BUCKET: EMOTIONAL FLUIDITY ---[cite: 1]
+            { text: "When I’m stressed or upset, I can notice where I feel it in my body (e.g., tight chest, knot in stomach).", category: "emotional", invert: true },[cite: 1]
+            { text: "I would feel very comfortable receiving public compliments in a group setting.", category: "emotional", invert: true },[cite: 1]
+            { text: "When uncomfortable feelings arise, I tend to avoid them or push them away.", category: "emotional", invert: false },[cite: 1]
+            { text: "I feel excitement often in my life.", category: "emotional", invert: true },[cite: 1]
+            { text: "During stressful periods, it’s difficult for me to get rest in a way that makes me feel refreshed.", category: "emotional", invert: false },[cite: 1]
+            { text: "I regularly have thoughts related to whether or not I'm better, worse, or equal to other people (e.g. physical traits, personality, career).", category: "emotional", invert: false },[cite: 1]
+            { text: "It’s easy for me to fully savor small pleasures (e.g. good meal, sunlight, music).", category: "emotional", invert: true },[cite: 1]
+            { text: "I can feel what’s true for me, even in high-pressure situations.", category: "emotional", invert: true },[cite: 1]
+
+            // --- BUCKET: RELATIONSHIPS ---[cite: 1]
+            { text: "In conflict, I'm able to say what I’m feeling directly without blaming the other person.", category: "relationship", invert: true },[cite: 1]
+            { text: "I find it easy to accept friends and loved ones as they are, rather than wanting or hoping they change.", category: "relationship", invert: true },[cite: 1]
+            { text: "When in conversation, I'm often thinking about what I'm going to say next while others are speaking.", category: "relationship", invert: false },[cite: 1]
+            { text: "I’m able to express myself even when it might not be well-received.", category: "relationship", invert: true },[cite: 1]
+            { text: "I tend to get uncomfortable when emotional intensity or vulnerability shows up in conversation with others.", category: "relationship", invert: false },[cite: 1]
+            { text: "I have at least a few close relationships where I feel fully seen and accepted.", category: "relationship", invert: true },[cite: 1]
+            { text: "I regularly feel lonely or disconnected even when I’m around people.", category: "relationship", invert: false }[cite: 1]
         ];
 
+        // PSYCHOLOGICAL MASTER PAYLOAD OBJECT[cite: 1]
         const resultsData = {
-            grinder: { title: "The White-Knuckle Grinder", desc: "You rely on brute-force willpower. This works for game jams, but it destroys studios.", pdfFile: "survival-guide.pdf" },
-            visionary: { title: "The Over-Extended Visionary", desc: "Scope creep is your silent killer. You constantly shift the goalposts.", pdfFile: "survival-guide.pdf" },
-            martyr: { title: "The Studio Martyr", desc: "You are the glue holding the team together, but you are absorbing all the impact.", pdfFile: "survival-guide.pdf" }
+            selftalk: {
+                title: "Self-Talk",
+                desc: `Your negative self-talk is the voice in your head that’s constantly speaking to you. Sometimes it's subtle, showing up as a steady anxiety or pressure: Replaying conversations, comparing yourself to others, or never quite feeling good enough. One of the clearest signs of heavy negative self-talk is ending the day stressed or depleted (no matter how many hours you put in). Your exhaustion actually comes from *pushing against that voice all day long*. Counterintuitively, it’s not usually the workload that wears you down – it’s the voice in your head driving you through it. If you end the day tense, anxious, or wiped out, your motivation is coming from threat and self-criticism. When the pressure of the inner critic eases, your energy and clarity return naturally. Work feels lighter, decisions come faster, and you find yourself judging both yourself and others around you far less.`,[cite: 1]
+                pdfFile: "survival-guide.pdf"
+            },
+            emotional: {
+                title: "Emotional Fluidity",
+                desc: `Emotional fluidity is your ability to feel and welcome the full range of your emotions without resisting them. Learning to identify and actually feel your emotions in your body, rather than just talking or thinking about them, is life-changing. Many of us avoid feeling our emotions because they seem painful, but it’s not the emotion itself that hurts, it’s our resistance to it that does. When you resist fear, it becomes chronic anxiety. You spin in worst-case scenarios and overthink every move. When you resist sadness, it becomes angst and numbness. You get lost in doubt, stop trusting yourself, and lose touch with what matters. When you resist anger, it becomes a feeling of stuckness. Notice when you're looping on a choice – weighing pros and cons, procrastinating, feeling analysis paralysis. The real issue may not be logic or more data. Often, there’s an emotion under the surface that hasn’t been felt yet. Giving space to that emotion can make the next step surprisingly clear.`,[cite: 1]
+                pdfFile: "survival-guide.pdf"
+            },
+            relationship: {
+                title: "Your Relationship to Yourself & Others",
+                desc: `This area is about your capacity to be with yourself and others without needing anyone to change. Thinking that you have to be fixed only slows this process down, because it kills the wonder and curiosity needed for understanding. In relation to others, you might find yourself contorting to keep the peace, finding yourself alone even when you’re with people, or subtly steering conversations toward a specific outcome to feel safe. In relation to yourself, you might have a hard time being alone and unoccupied—constantly in motion optimizing, improving, planning—where stillness feels dangerous. Both of these patterns stem from the same unconscious root: The belief that you are not good enough to be accepted as you are. Not feeling good enough was an old survival strategy, but now it’s keeping you from experiencing deep connection. The way to work with this isn’t through more fixing or self-improvement; it's about learning to release the hidden agenda and getting to know yourself and others with genuine curiosity.`,[cite: 1]
+                pdfFile: "survival-guide.pdf"
+            }
         };
 
         const topicsData = {
-            relationship: { html: `<h2 class="text-3xl font-black text-white mb-6 leading-tight">Focus on your relationship to yourself and others</h2><p>This area is about your capacity to be with yourself and others without needing anyone to change. Thinking that you have to be fixed only slows this process down, because it kills the wonder and curiosity needed for understanding.</p>` },
-            critical: { html: `<h2 class="text-3xl font-bold text-white mb-6">Critical Self Talk</h2><p>Quiet the internal critic and build sustainable motivation.</p>` },
-            imposter: { html: `<h2 class="text-3xl font-bold text-white mb-6">Imposter Syndrome</h2><p>Stop waiting for permission and own your studio's vision.</p>` },
-            procrastination: { html: `<h2 class="text-3xl font-bold text-white mb-6">Procrastination</h2><p>Move past the freeze response when the work gets overwhelming.</p>` }
+            relationship: { html: `<h2 class="text-3xl font-black text-white mb-6 leading-tight">Focus on your relationship to yourself and others</h2><p>This area is about your capacity to be with yourself and others without needing anyone to change. Thinking that you have to be fixed only slows this process down, because it kills the wonder and curiosity needed for understanding.</p>` },[cite: 1]
+            critical: { html: `<h2 class="text-3xl font-bold text-white mb-6">Critical Self Talk</h2><p>Quiet the internal critic and build sustainable motivation.</p>` },[cite: 1]
+            imposter: { html: `<h2 class="text-3xl font-bold text-white mb-6">Imposter Syndrome</h2><p>Stop waiting for permission and own your studio's vision.</p>` },[cite: 1]
+            procrastination: { html: `<h2 class="text-3xl font-bold text-white mb-6">Procrastination</h2><p>Move past the freeze response when the work gets overwhelming.</p>` }[cite: 1]
         };
 
-        let qIdx = 0; let scores = { grinder: 0, visionary: 0, martyr: 0 };
+        // GLOBAL CONFIG REGISTRY
+        let qIdx = 0;
+        let scores = { selftalk: 0, emotional: 0, relationship: 0 };
+        const priorityHierarchy = ['selftalk', 'emotional', 'relationship'];
+
+        // CORE UI TELEMETRY CONTROL PIPELINE
+        function openAssessment() {
+            qIdx = 0; 
+            scores = { selftalk: 0, emotional: 0, relationship: 0 };
+            document.body.style.overflow = 'hidden';
+            document.getElementById('assessment-modal').classList.remove('hidden');
+            document.getElementById('state-quiz').classList.remove('hidden');
+            document.getElementById('state-results').classList.add('hidden');
+            renderQ();
+        }
 
         function closeModals() {
             document.body.style.overflow = 'auto';
@@ -390,42 +450,66 @@
             document.getElementById('topic-modal').classList.add('hidden');
         }
 
-        function openAssessment() {
-            qIdx = 0; scores = { grinder: 0, visionary: 0, martyr: 0 };
-            document.getElementById('assessment-modal').classList.remove('hidden');
-            document.getElementById('state-quiz').classList.remove('hidden');
-            document.getElementById('state-results').classList.add('hidden');
-            renderQ();
-        }
-
         function renderQ() {
             const q = assessmentQuestions[qIdx];
-            document.getElementById('question-counter').innerText = `Question ${qIdx + 1} of 3`;
+            document.getElementById('question-counter').innerText = `Question ${qIdx + 1} of ${assessmentQuestions.length}`;
             document.getElementById('question-text').innerText = q.text;
+            
             const container = document.getElementById('answers-container');
             container.innerHTML = '';
-            q.answers.forEach(a => {
+            
+            const options = [
+                { text: "Strongly Disagree", value: 1 },
+                { text: "Disagree", value: 2 },
+                { text: "Agree", value: 3 },
+                { text: "Strongly Agree", value: 4 }
+            ];
+
+            options.forEach(opt => {
                 const b = document.createElement('button');
-                b.className = "p-6 rounded-xl bg-zinc-800 border border-white/5 text-left hover:border-blue-500 transition-all";
-                b.innerText = a.text;
-                b.onclick = () => { scores[a.type]++; qIdx++; if(qIdx < 3) renderQ(); else showA(); };
+                b.className = "p-6 rounded-xl bg-zinc-800 border border-white/5 text-left hover:border-blue-500 transition-all font-medium text-zinc-200 active:scale-[0.98]";
+                b.innerText = opt.text;
+                
+                b.onclick = () => {
+                    let points = opt.value;
+                    if (q.invert) {
+                        points = 5 - opt.value; 
+                    }
+                    
+                    scores[q.category] += points;
+                    qIdx++;
+                    
+                    if (qIdx < assessmentQuestions.length) {
+                        renderQ();
+                    } else {
+                        showA();
+                    }
+                };
                 container.appendChild(b);
             });
         }
 
         function showA() {
-            const win = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
-            triggerRes(resultsData[win], "Your Archetype");
+            let maxScore = -1;
+            let winningCategory = '';
+
+            priorityHierarchy.forEach(cat => {
+                if (scores[cat] > maxScore) { maxScore = scores[cat]; winningCategory = cat; }
+            });
+
+            triggerRes(resultsData[winningCategory], "Your Core Studio Bottleneck");
         }
 
         function triggerRes(data, label) {
             document.getElementById('result-label').innerText = label;
             document.getElementById('result-title').innerText = data.title;
             document.getElementById('result-description').innerText = data.desc;
-            document.getElementById('result-download-btn').href = data.pdfFile;
+            
+            const downloadBtn = document.getElementById('result-download-btn');
+            if (downloadBtn) { downloadBtn.href = data.pdfFile; }
+            
             document.getElementById('state-quiz').classList.add('hidden');
             document.getElementById('state-results').classList.remove('hidden');
-            document.getElementById('assessment-modal').classList.remove('hidden');
         }
 
         function openTopicPicker() {
@@ -442,7 +526,7 @@
 
         function bookFromModal() { closeModals(); document.getElementById('book').scrollIntoView(); }
         
-        // --- CANVAS ENGINE ---
+        // --- HARDWARE-ACCELERATED GRAPHICS CANVAS MOTOR ---
         const canvas = document.getElementById('drawingCanvas');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         const sendBtn = document.getElementById('sendBtn');
@@ -450,7 +534,6 @@
 
         let currentColor = '#000000';
         let currentTool = 'pencil';
-        
         let undoStack = [];
         let redoStack = [];
 
@@ -476,9 +559,7 @@
             swatch.addEventListener('click', () => {
                 currentColor = swatch.getAttribute('data-color');
                 colorIndicator.style.backgroundColor = currentColor;
-                if (currentTool === 'pencil') {
-                    ctx.strokeStyle = currentColor;
-                }
+                if (currentTool === 'pencil') { ctx.strokeStyle = currentColor; }
             });
         });
 
@@ -498,32 +579,24 @@
         }
 
         btnPencil.addEventListener('click', () => {
-            currentTool = 'pencil';
-            ctx.strokeStyle = currentColor;
-            clearToolStates();
+            currentTool = 'pencil'; ctx.strokeStyle = currentColor; clearToolStates();
             btnPencil.classList.add('bg-zinc-800', 'text-white', 'border-white/10', 'ring-2', 'ring-blue-500');
             btnPencil.classList.remove('text-zinc-500');
         });
 
         btnEraser.addEventListener('click', () => {
-            currentTool = 'eraser';
-            ctx.strokeStyle = '#ffffff'; 
-            clearToolStates();
+            currentTool = 'eraser'; ctx.strokeStyle = '#ffffff'; clearToolStates();
             btnEraser.classList.add('bg-zinc-800', 'text-white', 'border-white/10', 'ring-2', 'ring-blue-500');
             btnEraser.classList.remove('text-zinc-500');
         });
 
         btnBucket.addEventListener('click', () => {
-            currentTool = 'bucket';
-            clearToolStates();
+            currentTool = 'bucket'; clearToolStates();
             btnBucket.classList.add('bg-zinc-800', 'text-white', 'border-white/10', 'ring-2', 'ring-blue-500');
             btnBucket.classList.remove('text-zinc-500');
         });
 
-        function saveState() {
-            undoStack.push(canvas.toDataURL('image/png'));
-            redoStack = []; 
-        }
+        function saveState() { undoStack.push(canvas.toDataURL('image/png')); redoStack = []; }
 
         function hexToRgba(hex) {
             const r = parseInt(hex.slice(1, 3), 16);
@@ -533,80 +606,48 @@
         }
 
         function floodFill(startX, startY, fillColorHex) {
-            startX = Math.floor(startX);
-            startY = Math.floor(startY);
-            
+            startX = Math.floor(startX); startY = Math.floor(startY);
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             const data = imageData.data;
-            const width = canvas.width;
-            const height = canvas.height;
+            const width = canvas.width; const height = canvas.height;
 
             const startPos = (startY * width + startX) * 4;
-            const startR = data[startPos];
-            const startG = data[startPos + 1];
-            const startB = data[startPos + 2];
-            const startA = data[startPos + 3];
-
-            const targetColor = [startR, startG, startB, startA];
+            const targetColor = [data[startPos], data[startPos + 1], data[startPos + 2], data[startPos + 3]];
             const fillColor = hexToRgba(fillColorHex);
 
             if (targetColor[0] === fillColor[0] && targetColor[1] === fillColor[1] &&
-                targetColor[2] === fillColor[2] && targetColor[3] === fillColor[3]) {
-                return;
-            }
+                targetColor[2] === fillColor[2] && targetColor[3] === fillColor[3]) { return; }
 
             const matchColor = (pos) => {
-                return data[pos] === startR && data[pos + 1] === startG &&
-                       data[pos + 2] === startB && data[pos + 3] === startA;
+                return data[pos] === targetColor[0] && data[pos + 1] === targetColor[1] &&
+                       data[pos + 2] === targetColor[2] && data[pos + 3] === targetColor[3];
             };
 
             const colorPixel = (pos) => {
-                data[pos] = fillColor[0];
-                data[pos + 1] = fillColor[1];
-                data[pos + 2] = fillColor[2];
-                data[pos + 3] = fillColor[3];
+                data[pos] = fillColor[0]; data[pos + 1] = fillColor[1];
+                data[pos + 2] = fillColor[2]; data[pos + 3] = fillColor[3];
             };
 
             const pixelStack = [[startX, startY]];
-
             while (pixelStack.length) {
                 const newPos = pixelStack.pop();
-                const x = newPos[0];
-                let y = newPos[1];
-
+                const x = newPos[0]; let y = newPos[1];
                 let pixelPos = (y * width + x) * 4;
-                while (y-- >= 0 && matchColor(pixelPos)) {
-                    pixelPos -= width * 4;
-                }
-                pixelPos += width * 4;
-                ++y;
+                while (y-- >= 0 && matchColor(pixelPos)) { pixelPos -= width * 4; }
+                pixelPos += width * 4; ++y;
 
-                let reachLeft = false;
-                let reachRight = false;
-
+                let reachLeft = false; let reachRight = false;
                 while (y++ < height - 1 && matchColor(pixelPos)) {
                     colorPixel(pixelPos);
-
                     if (x > 0) {
                         if (matchColor(pixelPos - 4)) {
-                            if (!reachLeft) {
-                                pixelStack.push([x - 1, y]);
-                                reachLeft = true;
-                            }
-                        } else if (reachLeft) {
-                            reachLeft = false;
-                        }
+                            if (!reachLeft) { pixelStack.push([x - 1, y]); reachLeft = true; }
+                        } else if (reachLeft) { reachLeft = false; }
                     }
-
                     if (x < width - 1) {
                         if (matchColor(pixelPos + 4)) {
-                            if (!reachRight) {
-                                pixelStack.push([x + 1, y]);
-                                reachRight = true;
-                            }
-                        } else if (reachRight) {
-                            reachRight = false;
-                        }
+                            if (!reachRight) { pixelStack.push([x + 1, y]); reachRight = true; }
+                        } else if (reachRight) { reachRight = false; }
                     }
                     pixelPos += width * 4;
                 }
@@ -616,274 +657,143 @@
 
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
             const clientX = e.clientX || (e.touches && e.touches[0].clientX);
             const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-            return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+            return { x: (clientX - rect.left) * (canvas.width / rect.width), y: (clientY - rect.top) * (canvas.height / rect.height) };
         }
 
         function startDraw(e) {
-            saveState(); 
-
-            const pos = getPos(e);
-
-            if (currentTool === 'bucket') {
-                floodFill(pos.x, pos.y, currentColor);
-                return; 
-            }
-
-            isDrawing = true;
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y);
-            draw(e); 
+            saveState(); const pos = getPos(e);
+            if (currentTool === 'bucket') { floodFill(pos.x, pos.y, currentColor); return; }
+            isDrawing = true; ctx.beginPath(); ctx.moveTo(pos.x, pos.y); draw(e);
         }
 
         function draw(e) {
-            if (!isDrawing) return;
-            e.preventDefault(); 
-            const pos = getPos(e);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
+            if (!isDrawing) return; e.preventDefault(); const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y); ctx.stroke();
         }
 
-        function stopDraw() {
-            if (isDrawing) {
-                isDrawing = false;
-                ctx.beginPath();
-            }
-        }
+        function stopDraw() { if (isDrawing) { isDrawing = false; ctx.beginPath(); } }
 
         btnUndo.addEventListener('click', () => {
             if (undoStack.length > 0) {
                 redoStack.push(canvas.toDataURL('image/png'));
-                const previousState = undoStack.pop();
-                const img = new Image();
-                img.src = previousState;
-                img.onload = () => {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.drawImage(img, 0, 0);
-                };
+                const img = new Image(); img.src = undoStack.pop();
+                img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
             }
         });
 
         btnRedo.addEventListener('click', () => {
             if (redoStack.length > 0) {
                 undoStack.push(canvas.toDataURL('image/png'));
-                const nextState = redoStack.pop();
-                const img = new Image();
-                img.src = nextState;
-                img.onload = () => {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.drawImage(img, 0, 0);
-                };
+                const img = new Image(); img.src = redoStack.pop();
+                img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
             }
         });
 
-        canvas.addEventListener('mousedown', startDraw);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('mouseup', stopDraw);
-        canvas.addEventListener('mouseout', stopDraw);
+        canvas.addEventListener('mousedown', startDraw); canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw); canvas.addEventListener('mouseout', stopDraw);
         canvas.addEventListener('touchstart', startDraw, { passive: false });
-        canvas.addEventListener('touchmove', draw, { passive: false });
-        canvas.addEventListener('touchend', stopDraw);
+        canvas.addEventListener('touchmove', draw, { passive: false }); canvas.addEventListener('touchend', stopDraw);
 
+        // --- IDENTITY NET COMMUNICATIONS DATA PIPELINE ---
         const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxLLC8Ph1O-zphixuFRMzogpbFDK-gEWWshqQqpgf2mzT4twYN5pRj92nOPwMVutyOO/exec';
-
         const nameInput = document.getElementById('senderName');
         const emailInput = document.getElementById('senderEmail');
 
         [nameInput, emailInput].forEach(input => {
             input.addEventListener('input', function() {
-                this.classList.remove('border-red-500');
-                this.classList.add('border-zinc-700', 'focus:border-blue-500');
-                
-                if (statusMsg.innerText.includes('REQUIRED')) {
-                    statusMsg.innerText = '';
-                }
+                this.classList.remove('border-red-500'); this.classList.add('border-zinc-700', 'focus:border-blue-500');
+                if (statusMsg.innerText.includes('REQUIRED')) { statusMsg.innerText = ''; }
             });
         });
 
         sendBtn.addEventListener('click', async () => {
-            const nameVal = nameInput.value.trim();
-            const emailVal = emailInput.value.trim();
-
+            const nameVal = nameInput.value.trim(); const emailVal = emailInput.value.trim();
             if (!nameVal || !emailVal) {
                 statusMsg.innerText = '[ ERROR: IDENTITY AND COORDINATES REQUIRED ]';
                 statusMsg.className = "text-sm font-mono tracking-widest h-6 text-red-500 text-center -mt-2";
-                
-                if (!nameVal) {
-                    nameInput.classList.remove('border-zinc-700', 'focus:border-blue-500');
-                    nameInput.classList.add('border-red-500');
-                }
-                if (!emailVal) {
-                    emailInput.classList.remove('border-zinc-700', 'focus:border-blue-500');
-                    emailInput.classList.add('border-red-500');
-                }
-                return; 
+                if (!nameVal) { nameInput.classList.add('border-red-500'); }
+                if (!emailVal) { emailInput.classList.add('border-red-500'); }
+                return;
             }
 
             const dataURL = canvas.toDataURL('image/jpeg', 1.0);
+            sendBtn.disabled = true; statusMsg.innerText = '';
 
-            sendBtn.disabled = true;
-            statusMsg.innerText = '';
-            statusMsg.className = "text-sm font-mono tracking-widest h-6 text-zinc-500 text-center -mt-2";
-
-            // --- ANIMATED ELLIPSIS LOGIC ---
             let dotCount = 1;
             const updateText = () => {
-                const dots = '.'.repeat(dotCount);
-                // Creating a rigid 1.5em box for the dots locks the text in place
-                const textHTML = `TRANSMITTING<span style="display: inline-block; width: 1.5em; text-align: left;">${dots}</span>`;
+                const textHTML = `TRANSMITTING<span style="display: inline-block; width: 1.5em; text-align: left;">${'.'.repeat(dotCount)}</span>`;
                 sendBtn.querySelector('.btn-text-front').innerHTML = textHTML;
                 sendBtn.querySelector('.btn-text-back').innerHTML = textHTML;
                 dotCount = dotCount >= 3 ? 1 : dotCount + 1;
             };
-            
-            updateText(); // Call immediately so it doesn't wait for the first interval tick
-            const dotInterval = setInterval(updateText, 400); // 400ms pace
+            updateText(); const dotInterval = setInterval(updateText, 400);
 
             try {
                 await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ 
-                        image: dataURL,
-                        name: nameVal,
-                        email: emailVal
-                    }),
+                    method: 'POST', body: JSON.stringify({ image: dataURL, name: nameVal, email: emailVal }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
-                
-                clearInterval(dotInterval); // Stop the dots
-                
-                // --- SUCCESS STATE VISUALS ---
+                clearInterval(dotInterval);
                 sendBtn.querySelector('.btn-text-front').innerText = 'SENT.';
                 sendBtn.querySelector('.btn-text-back').innerText = 'SENT.';
-                sendBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'shadow-[0_4px_0_0_#1e3a8a]');
-                sendBtn.classList.add('bg-green-500', 'shadow-[0_4px_0_0_#15803d]', 'is-success');
-                
-                statusMsg.innerText = '[ SIGNAL RECEIVED ]';
-                statusMsg.classList.replace('text-zinc-500', 'text-green-400');
-                
+                sendBtn.classList.remove('bg-blue-600'); sendBtn.classList.add('bg-green-500', 'is-success');
+                statusMsg.innerText = '[ SIGNAL RECEIVED ]'; statusMsg.classList.replace('text-zinc-500', 'text-green-400');
             } catch (err) {
-                clearInterval(dotInterval); // Stop the dots
-                
-                // --- ERROR STATE VISUALS ---
+                clearInterval(dotInterval); sendBtn.disabled = false;
                 sendBtn.querySelector('.btn-text-front').innerText = 'Transmit';
-                sendBtn.querySelector('.btn-text-back').innerText = 'Transmit';
-                sendBtn.disabled = false;
-                statusMsg.innerText = '[ SIGNAL LOST. RETRY. ]';
-                statusMsg.classList.replace('text-zinc-500', 'text-red-400');
+                statusMsg.innerText = '[ SIGNAL LOST. RETRY. ]'; statusMsg.classList.replace('text-zinc-500', 'text-red-400');
             }
         });
 
-        // --- GALLERY ENGINE (CAROUSEL) ---
+        // --- CONVEYOR TRACK CAROUSEL ENGINE ---
         const galleryTrack = document.getElementById('gallery-track');
         const btnPrev = document.getElementById('carousel-prev');
         const btnNext = document.getElementById('carousel-next');
         const lightboxModal = document.getElementById('lightbox-modal');
         const lightboxImg = document.getElementById('lightbox-img');
-        
         const totalSlots = 16;
 
-        // Build the slots
         for (let i = 1; i <= totalSlots; i++) {
-            const num = String(i).padStart(2, '0');
-            const fileName = `gallery/painting_${num}.jpg`; 
-
-            // Wrapper to control sizing for the flex track
-            const slideWrapper = document.createElement('div');
-            // Show 2 on mobile screens, 4 on desktop screens
-            slideWrapper.className = "w-1/2 md:w-1/4 flex-shrink-0 px-2 md:px-3"; 
-
-            const slot = document.createElement('div');
-            slot.className = "aspect-square w-full bg-zinc-950 border border-white/5 rounded-2xl overflow-hidden relative group shadow-inner flex items-center justify-center transition-all duration-300";
-
-            const img = document.createElement('img');
-            img.src = fileName;
-            img.className = "w-full h-full object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-105 opacity-0";
+            const num = String(i).padStart(2, '0'); const fileName = `gallery/painting_${num}.jpg`;
+            const slideWrapper = document.createElement('div'); slideWrapper.className = "w-1/2 md:w-1/4 flex-shrink-0 px-2 md:px-3";
+            const slot = document.createElement('div'); slot.className = "aspect-square w-full bg-zinc-950 border border-white/5 rounded-2xl overflow-hidden relative group shadow-inner flex items-center justify-center transition-all duration-300";
+            const img = document.createElement('img'); img.src = fileName; img.className = "w-full h-full object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-105 opacity-0";
             
-            img.onload = () => {
-                img.classList.remove('opacity-0');
-                slot.classList.replace('bg-zinc-950', 'bg-zinc-900');
-                slot.classList.replace('border-white/5', 'border-zinc-700');
-            };
+            img.onload = () => { img.classList.remove('opacity-0'); slot.classList.replace('bg-zinc-950', 'bg-zinc-900'); slot.classList.replace('border-white/5', 'border-zinc-700'); };
+            img.onerror = () => { img.remove(); slot.innerHTML = `<span class="text-zinc-700 font-mono text-xs uppercase tracking-widest pointer-events-none select-none text-center">[ SLOT_${num} ]</span>`; slot.classList.add('border-dashed'); };
+            img.onclick = () => { lightboxImg.src = fileName; lightboxModal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; };
 
-            img.onerror = () => {
-                img.remove();
-                slot.innerHTML = `<span class="text-zinc-700 font-mono text-[10px] sm:text-xs uppercase tracking-widest pointer-events-none select-none text-center">[ SLOT_${num} ]</span>`;
-                slot.classList.add('border-dashed');
-            };
-
-            img.onclick = () => {
-                lightboxImg.src = fileName;
-                lightboxModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden'; 
-            };
-
-            slot.appendChild(img);
-            slideWrapper.appendChild(slot);
-            galleryTrack.appendChild(slideWrapper);
+            slot.appendChild(img); slideWrapper.appendChild(slot); galleryTrack.appendChild(slideWrapper);
         }
 
-        // --- INFINITE CONVEYOR BELT LOGIC ---
         let isCarouselAnimating = false;
-
         btnNext.addEventListener('click', () => {
-            if (isCarouselAnimating) return;
-            isCarouselAnimating = true;
-            
-            // Calculate the exact pixel width of a single item based on current screen size
+            if (isCarouselAnimating) return; isCarouselAnimating = true;
             const itemWidth = galleryTrack.firstElementChild.offsetWidth;
-            
-            // 1. Animate the track left by exactly one item
             galleryTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
             galleryTrack.style.transform = `translateX(-${itemWidth}px)`;
-            
-            // 2. Wait for the physics to finish, then snap the DOM
             galleryTrack.addEventListener('transitionend', function handleNext() {
                 galleryTrack.removeEventListener('transitionend', handleNext);
-                
-                galleryTrack.style.transition = 'none'; // Disable physics momentarily
-                galleryTrack.appendChild(galleryTrack.firstElementChild); // Move first painting to the back
-                galleryTrack.style.transform = 'translateX(0)'; // Reset position instantly
-                
-                // Force a browser reflow to register the instant snap before the next click
-                void galleryTrack.offsetWidth; 
-                
-                isCarouselAnimating = false;
+                galleryTrack.style.transition = 'none'; galleryTrack.appendChild(galleryTrack.firstElementChild);
+                galleryTrack.style.transform = 'translateX(0)'; void galleryTrack.offsetWidth; isCarouselAnimating = false;
             });
         });
 
         btnPrev.addEventListener('click', () => {
-            if (isCarouselAnimating) return;
-            isCarouselAnimating = true;
-
+            if (isCarouselAnimating) return; isCarouselAnimating = true;
             const itemWidth = galleryTrack.lastElementChild.offsetWidth;
-            
-            // 1. Instantly move the last painting to the front, hidden to the left
-            galleryTrack.style.transition = 'none'; 
-            galleryTrack.prepend(galleryTrack.lastElementChild); 
-            galleryTrack.style.transform = `translateX(-${itemWidth}px)`; 
-            
-            // 2. FORCE REFLOW: Command the browser to paint this hidden state immediately
-            void galleryTrack.offsetWidth;
-            
-            // 3. Turn physics back on and slide it to 0
-            galleryTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)'; 
-            galleryTrack.style.transform = 'translateX(0)'; 
-            
+            galleryTrack.style.transition = 'none'; galleryTrack.prepend(galleryTrack.lastElementChild);
+            galleryTrack.style.transform = `translateX(-${itemWidth}px)`; void galleryTrack.offsetWidth;
+            galleryTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
+            galleryTrack.style.transform = 'translateX(0)';
             galleryTrack.addEventListener('transitionend', function handlePrev() {
-                galleryTrack.removeEventListener('transitionend', handlePrev);
-                isCarouselAnimating = false;
+                galleryTrack.removeEventListener('transitionend', handlePrev); isCarouselAnimating = false;
             });
         });
 
-        function closeLightbox() {
-            lightboxModal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
+        function closeLightbox() { lightboxModal.classList.add('hidden'); document.body.style.overflow = 'auto'; }
     </script>
 </body>
 </html>
