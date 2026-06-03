@@ -696,12 +696,21 @@
 
             const dataURL = canvas.toDataURL('image/jpeg', 1.0);
 
-            // Access the nested spans to avoid overwriting the SVG sparkles
-            sendBtn.querySelector('.btn-text-front').innerText = 'TRANSMITTING...';
-            sendBtn.querySelector('.btn-text-back').innerText = 'TRANSMITTING...';
             sendBtn.disabled = true;
             statusMsg.innerText = '';
             statusMsg.className = "text-sm font-mono tracking-widest h-6 text-zinc-500 text-center -mt-2";
+
+            // --- ANIMATED ELLIPSIS LOGIC ---
+            let dotCount = 1;
+            const updateText = () => {
+                const dots = '.'.repeat(dotCount);
+                sendBtn.querySelector('.btn-text-front').innerText = `TRANSMITTING${dots}`;
+                sendBtn.querySelector('.btn-text-back').innerText = `TRANSMITTING${dots}`;
+                dotCount = dotCount >= 3 ? 1 : dotCount + 1;
+            };
+            
+            updateText(); // Call immediately so it doesn't wait for the first interval tick
+            const dotInterval = setInterval(updateText, 400); // 400ms pace
 
             try {
                 await fetch(WEBHOOK_URL, {
@@ -714,6 +723,8 @@
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
                 
+                clearInterval(dotInterval); // Stop the dots
+                
                 // --- SUCCESS STATE VISUALS ---
                 sendBtn.querySelector('.btn-text-front').innerText = 'SENT.';
                 sendBtn.querySelector('.btn-text-back').innerText = 'SENT.';
@@ -724,6 +735,8 @@
                 statusMsg.classList.replace('text-zinc-500', 'text-green-400');
                 
             } catch (err) {
+                clearInterval(dotInterval); // Stop the dots
+                
                 // --- ERROR STATE VISUALS ---
                 sendBtn.querySelector('.btn-text-front').innerText = 'Transmit';
                 sendBtn.querySelector('.btn-text-back').innerText = 'Transmit';
