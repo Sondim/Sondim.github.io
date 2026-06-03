@@ -53,22 +53,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #ffffff; /* Solid white by default */
+            z-index: 2;
+            transform: translate(calc(var(--hover) * 2px), calc(var(--hover) * -2px));
+            transition: transform 0.2s;
+        }
+        
+        #sendBtn.is-success .btn-text-front {
             background: linear-gradient(
                 108deg,
                 transparent 0 55%,
-                var(--glare) 55% 60%,
+                rgba(255, 255, 255, 1) 55% 60%,
                 transparent 60% 70%,
-                var(--glare) 70% 85%,
+                rgba(255, 255, 255, 1) 70% 85%,
                 transparent 85%
-            ) calc(var(--pos) * -200%) 0% / 200% 100%, #ffffff;
+            ) 200% 0% / 200% 100%, rgba(255, 255, 255, 0.65);
             -webkit-background-clip: text;
             color: transparent;
-            z-index: 2;
-            transform: translate(calc(var(--hover) * 2px), calc(var(--hover) * -2px));
-            transition: transform 0.2s, background-position 0s;
+            animation: sweep 2.5s infinite linear;
         }
-        #sendBtn:hover .btn-text-front {
-            transition: transform 0.2s, background-position calc(var(--hover) * 1.5s) calc(var(--hover) * 0.25s);
+
+        @keyframes sweep {
+            0% { background-position: 200% 0%; }
+            100% { background-position: -200% 0%; }
         }
         
         #sendBtn svg {
