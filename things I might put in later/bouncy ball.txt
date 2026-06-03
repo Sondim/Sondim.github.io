@@ -1,0 +1,61 @@
+<a href="#bounce-test" class="hidden sm:block text-xs font-mono uppercase tracking-widest text-zinc-400 hover:text-purple-400 transition-colors">[ Bounce_Test ]</a>
+
+<style>
+    /* --- THE BOUNCE PHYSICS --- */
+    @keyframes bounce {
+        0% { translate: 0 0; }
+        5% { translate: 0 0; }
+        100% { translate: 0 var(--bounce-height, -120px); }
+    }
+    @keyframes squash {
+        0% { scale: var(--squash-ratio) calc(1 / var(--stretch-ratio)); }
+        10% { scale: calc(1 / var(--squash-ratio)) var(--stretch-ratio); }
+        100% { scale: 1 1; }
+    }
+
+    .ball {
+        --curve: cubic-bezier(0.123, 0.5, 0.5, 1);
+        --stretch-ratio: 1.25;
+        --squash-ratio: 1.5;
+        --bounce-height: -120px;
+        width: 50px;
+        height: 50px;
+        background: #eab308; 
+        border-radius: 50%;
+        animation: squash 800ms linear infinite, bounce 400ms var(--curve) infinite alternate;
+        transform-origin: center bottom;
+        box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3), 0 0 20px rgba(234, 179, 8, 0.5);
+    }
+</style>
+
+<section id="bounce-test" class="max-w-3xl mx-auto px-6 py-24 text-center">
+    <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">How bouncy do you feel?</h2>
+    <div class="h-64 flex items-end justify-center pb-[2px] border-b-2 border-zinc-700 w-full max-w-sm mx-auto mb-10 relative">
+        <div class="ball" id="interactive-ball"></div>
+    </div>
+    <div class="max-w-sm mx-auto mb-10">
+        <input type="range" min="1" max="2" step="0.01" value="1.5" id="bounce-slider" class="w-full" oninput="updateBouncePhysics()">
+    </div>
+    <button onclick="confirmBounce()" class="px-10 py-5 bg-white text-black rounded-xl font-black text-lg shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1">Confirm Physics</button>
+</section>
+
+<script>
+    function updateBouncePhysics() {
+        const v = document.getElementById('bounce-slider').value;
+        const b = document.getElementById('interactive-ball');
+        b.style.setProperty('--squash-ratio', v);
+        b.style.setProperty('--stretch-ratio', 1 + ((v - 1) * 0.5));
+        b.style.setProperty('--bounce-height', '-120px');
+    }
+
+    function confirmBounce() {
+        const v = document.getElementById('bounce-slider').value;
+        const k = v <= 1.25 ? 'rigid' : v >= 1.75 ? 'loose' : 'bouncy';
+        triggerRes(resultsData[k], "Physics Audit Complete");
+    }
+
+    // Initializer that was at the bottom of your script
+    updateBouncePhysics();
+</script>
+
+<script src="js/bounce-engine.js"></script>
