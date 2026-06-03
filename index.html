@@ -704,8 +704,10 @@
             let dotCount = 1;
             const updateText = () => {
                 const dots = '.'.repeat(dotCount);
-                sendBtn.querySelector('.btn-text-front').innerText = `TRANSMITTING${dots}`;
-                sendBtn.querySelector('.btn-text-back').innerText = `TRANSMITTING${dots}`;
+                // Creating a rigid 1.5em box for the dots locks the text in place
+                const textHTML = `TRANSMITTING<span style="display: inline-block; width: 1.5em; text-align: left;">${dots}</span>`;
+                sendBtn.querySelector('.btn-text-front').innerHTML = textHTML;
+                sendBtn.querySelector('.btn-text-back').innerHTML = textHTML;
                 dotCount = dotCount >= 3 ? 1 : dotCount + 1;
             };
             
