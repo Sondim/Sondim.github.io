@@ -478,8 +478,18 @@
             let maxScore = -1;
             let winningCategory = '';
 
+            // 1. Dynamically count how many questions exist in each category
+            const counts = { selftalk: 0, emotional: 0, relationship: 0 };
+            assessmentQuestions.forEach(q => counts[q.category]++);
+
+            // 2. Compare AVERAGES (1.0 to 4.0) instead of raw sums to ensure perfect mathematical fairness
             priorityHierarchy.forEach(cat => {
-                if (scores[cat] > maxScore) { maxScore = scores[cat]; winningCategory = cat; }
+                const averageScore = scores[cat] / counts[cat];
+                
+                if (averageScore > maxScore) { 
+                    maxScore = averageScore; 
+                    winningCategory = cat; 
+                }
             });
 
             triggerRes(resultsData[winningCategory], "Your Core Studio Bottleneck");
