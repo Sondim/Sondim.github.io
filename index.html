@@ -754,6 +754,7 @@
             }
 
             const dataURL = canvas.toDataURL('image/jpeg', 1.0);
+            const tensionOverlay = document.getElementById('transmit-overlay');
 
             // Access the nested spans to avoid overwriting the SVG sparkles
             sendBtn.querySelector('.btn-text-front').innerText = 'TRANSMITTING...';
@@ -762,16 +763,26 @@
             statusMsg.innerText = '';
             statusMsg.className = "text-sm font-mono tracking-widest h-6 text-zinc-500 text-center -mt-2";
 
+            // Trigger the blackout tension screen
+            tensionOverlay.classList.add('is-active');
+
             try {
-                await fetch(WEBHOOK_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ 
-                        image: dataURL,
-                        name: nameVal,
-                        email: emailVal
+                // Promise.all ensures we wait for the webhook AND a minimum of 2 seconds for dramatic effect
+                await Promise.all([
+                    fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({ 
+                            image: dataURL,
+                            name: nameVal,
+                            email: emailVal
+                        }),
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                     }),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-                });
+                    new Promise(resolve => setTimeout(resolve, 2000))
+                ]);
+                
+                // Drop the tension screen
+                tensionOverlay.classList.remove('is-active');
                 
                 // --- SUCCESS STATE VISUALS ---
                 sendBtn.querySelector('.btn-text-front').innerText = 'SENT.';
@@ -783,6 +794,9 @@
                 statusMsg.classList.replace('text-zinc-500', 'text-green-400');
                 
             } catch (err) {
+                // Drop the tension screen on error too
+                tensionOverlay.classList.remove('is-active');
+                
                 // --- ERROR STATE VISUALS ---
                 sendBtn.querySelector('.btn-text-front').innerText = 'Transmit';
                 sendBtn.querySelector('.btn-text-back').innerText = 'Transmit';
