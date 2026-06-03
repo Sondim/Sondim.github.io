@@ -112,7 +112,6 @@
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
 
-    <!-- GLOBAL NAVIGATION HEADER -->
     <nav class="sticky top-0 z-40 bg-zinc-950/70 backdrop-blur-xl border-b border-white/5">
         <div class="max-w-4xl mx-auto px-6 py-4 md:py-6 flex justify-between items-center">
             <div class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-default">
@@ -124,7 +123,6 @@
         </div>
     </nav>
 
-    <!-- HERO PROFILE DISPLAY SECTION -->
     <section class="max-w-4xl mx-auto px-6 py-12 md:py-24 flex flex-col md:flex-row items-center gap-12 relative z-10">
         <div class="absolute -top-24 -left-24 w-72 h-72 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div class="group relative w-56 h-56 md:w-72 md:h-72 flex-shrink-0 animate-float">
@@ -161,7 +159,6 @@
         </div>
     </section>
 
-    <!-- MANIFESTO BLURB OVERVIEW SECTION -->
     <section class="bg-zinc-900/40 border-y border-white/5 py-16 md:py-24">
         <div class="max-w-3xl mx-auto px-6">
             <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-8 font-bold">// Meet_Magnus</h2>
@@ -169,27 +166,29 @@
         </div>
     </section>
 
-    <!-- LIGHTBOX OVERLAY ENGINE -->
     <div id="lightbox-modal" class="fixed inset-0 z-[60] hidden bg-zinc-950/95 backdrop-blur-xl flex items-center justify-center p-4 cursor-zoom-out" onclick="closeLightbox()">
         <img id="lightbox-img" src="" alt="Full size painting" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl border border-white/10 object-contain">
     </div>
 
-    <!-- ASSESSMENT MODAL ENGINE CONTAINER -->
-    <div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/95 backdrop-blur-md overflow-y-auto">
+    <div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/98 overflow-y-auto">
         <div class="min-h-screen flex items-center justify-center px-4 py-12 md:py-20 w-full">
-            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-12 rounded-3xl shadow-2xl my-auto">
+            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-12 rounded-3xl shadow-2xl my-auto transform-gpu">
                 <button onclick="closeModals()" class="absolute top-6 right-6 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
 
-                <!-- QUIZ QUESTIONS SLATE -->
-                <div id="state-quiz" class="hidden text-left">
+                <div id="state-quiz" class="hidden text-left flex flex-col h-full">
                     <div class="mb-4 text-xs font-mono text-blue-500 uppercase tracking-[0.2em] font-bold" id="question-counter">Question 1 of 23</div>
-                    <h2 id="question-text" class="text-2xl md:text-4xl font-black text-white mb-8 md:mb-10 leading-tight tracking-tight min-h-[4rem]"></h2>
-                    <div id="answers-container" class="flex flex-col gap-3 md:gap-4"></div>
+                    <h2 id="question-text" class="text-2xl md:text-3xl font-black text-white mb-8 md:mb-10 leading-tight tracking-tight min-h-[140px] md:min-h-[120px]"></h2>
+                    
+                    <div id="answers-container" class="flex flex-col gap-3 md:gap-4 mt-auto">
+                        <button class="quiz-btn p-6 rounded-xl bg-zinc-800 border border-white/5 text-left hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-0.5 hover:shadow-lg transition-all duration-75 font-bold text-zinc-300 active:scale-[0.98] active:translate-y-0" data-val="1">Strongly Disagree</button>
+                        <button class="quiz-btn p-6 rounded-xl bg-zinc-800 border border-white/5 text-left hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-0.5 hover:shadow-lg transition-all duration-75 font-bold text-zinc-300 active:scale-[0.98] active:translate-y-0" data-val="2">Disagree</button>
+                        <button class="quiz-btn p-6 rounded-xl bg-zinc-800 border border-white/5 text-left hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-0.5 hover:shadow-lg transition-all duration-75 font-bold text-zinc-300 active:scale-[0.98] active:translate-y-0" data-val="3">Agree</button>
+                        <button class="quiz-btn p-6 rounded-xl bg-zinc-800 border border-white/5 text-left hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-0.5 hover:shadow-lg transition-all duration-75 font-bold text-zinc-300 active:scale-[0.98] active:translate-y-0" data-val="4">Strongly Agree</button>
+                    </div>
                 </div>
 
-                <!-- DIAGNOSTIC EVALUATION RESULTS DISPLAY -->
                 <div id="state-results" class="hidden fade-in text-center max-w-2xl mx-auto">
                     <div id="result-label" class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-3 font-bold">// NEXT_STEP_DIAGNOSTIC</div>
                     <h2 class="text-lg md:text-xl font-mono text-zinc-400 mb-1">Focus on:</h2>
@@ -212,10 +211,9 @@
         </div>
     </div>
 
-    <!-- REUSABLE TOPIC CONTENT PICKER MODAL -->
-    <div id="topic-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/95 backdrop-blur-md overflow-y-auto">
+    <div id="topic-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/98 overflow-y-auto">
         <div class="min-h-screen flex items-center justify-center px-6 py-20 w-full relative">
-            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl">
+            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl transform-gpu">
                 <button onclick="closeModals()" class="absolute top-4 right-4 text-zinc-500 hover:text-white p-2 z-50">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
@@ -238,7 +236,6 @@
         </div>
     </div>
 
-    <!-- CANVAS GRAPHICS INTERACTION ZONE -->
     <section id="render-state" class="max-w-5xl mx-auto px-6 py-24 text-center border-t border-white/5">
         <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Render your bottleneck.</h2>
         <p class="text-lg text-zinc-400 mb-12">Draw the abstract shape of what's holding your studio back right now. Keep it raw.</p>
@@ -326,7 +323,6 @@
         </div>
     </section>
 
-    <!-- ARCHIVE CAROUSEL SLIDER ENGINE CONTAINER -->
     <section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
         <h2 class="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">Studio Archive.</h2>
         <p class="text-lg text-zinc-400 mb-12">Bottlenecks rendered by other founders.</p>
@@ -346,16 +342,13 @@
         </div>
     </section>
 
-    <!-- SCHEDULING CALENDAR SECTOR -->
     <section id="book" class="max-w-4xl mx-auto px-6 py-24 text-center border-t border-white/5">
         <div class="bg-white rounded-3xl overflow-hidden min-h-[700px] border-4 border-white">
             <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Eoq_4KUvBNMyPqUt0U2YPmV1BrPI7w8sx-0h1uALKplFu_uigELHtjWVFKe-8-oqYK1a9DCrM?gv=true" style="border: 0" width="100%" height="700" frameborder="0"></iframe>
         </div>
     </section>
 
-    <!-- MAIN DATA CONTROL SCRIPT -->
     <script>
-        // MASTER DIAGNOSTIC QUESTION GAUNTLET ARRAY
         const assessmentQuestions = [
             // --- BUCKET: SELF-TALK ---
             { text: "My inner voice toward myself is as kind as the way I speak to my close friends.", category: "selftalk", invert: true },
@@ -387,7 +380,6 @@
             { text: "I regularly feel lonely or disconnected even when I’m around people.", category: "relationship", invert: false }
         ];
 
-        // PSYCHOLOGICAL MASTER PAYLOAD OBJECT
         const resultsData = {
             selftalk: {
                 title: "Self-Talk",
@@ -418,7 +410,6 @@
         let scores = { selftalk: 0, emotional: 0, relationship: 0 };
         const priorityHierarchy = ['selftalk', 'emotional', 'relationship'];
 
-        // CORE UI TELEMETRY CONTROL PIPELINE
         function openAssessment() {
             qIdx = 0; 
             scores = { selftalk: 0, emotional: 0, relationship: 0 };
@@ -439,62 +430,41 @@
             const q = assessmentQuestions[qIdx];
             document.getElementById('question-counter').innerText = `Question ${qIdx + 1} of ${assessmentQuestions.length}`;
             document.getElementById('question-text').innerText = q.text;
-            
-            const container = document.getElementById('answers-container');
-            container.innerHTML = '';
-            
-            const options = [
-                { text: "Strongly Disagree", value: 1 },
-                { text: "Disagree", value: 2 },
-                { text: "Agree", value: 3 },
-                { text: "Strongly Agree", value: 4 }
-            ];
-
-            options.forEach(opt => {
-                const b = document.createElement('button');
-                
-                // PHYSICS UPGRADE: 75ms snap, tactile lift, and accelerated rendering
-                b.className = "p-6 rounded-xl bg-zinc-800/80 border border-white/5 text-left hover:border-blue-500 hover:bg-zinc-800 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-75 font-medium text-zinc-200 active:scale-[0.98] active:translate-y-0";
-                b.innerText = opt.text;
-                
-                b.onclick = () => {
-                    let points = opt.value;
-                    if (q.invert) {
-                        points = 5 - opt.value; 
-                    }
-                    
-                    scores[q.category] += points;
-                    qIdx++;
-                    
-                    // KINEMATIC DELAY: Let the button physically bounce before destroying the DOM
-                    setTimeout(() => {
-                        if (qIdx < assessmentQuestions.length) {
-                            renderQ();
-                        } else {
-                            showA();
-                        }
-                    }, 150);
-                };
-                container.appendChild(b);
-            });
         }
+
+        // --- HARDWARE-OPTIMIZED DOM EVENT BINDING ---
+        // We bind the click listeners exactly once to prevent memory leaks and Garbage Collection stutters
+        document.querySelectorAll('.quiz-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const q = assessmentQuestions[qIdx];
+                const val = parseInt(this.getAttribute('data-val'));
+                
+                let points = val;
+                if (q.invert) { points = 5 - val; }
+                
+                scores[q.category] += points;
+                qIdx++;
+                
+                // 100ms kinetic delay allows the physical CSS button 'squash' animation to fire
+                setTimeout(() => {
+                    if (qIdx < assessmentQuestions.length) {
+                        renderQ();
+                    } else {
+                        showA();
+                    }
+                }, 100); 
+            });
+        });
 
         function showA() {
             let maxScore = -1;
             let winningCategory = '';
-
-            // 1. Dynamically count how many questions exist in each category
             const counts = { selftalk: 0, emotional: 0, relationship: 0 };
             assessmentQuestions.forEach(q => counts[q.category]++);
 
-            // 2. Compare AVERAGES (1.0 to 4.0) instead of raw sums to ensure perfect mathematical fairness
             priorityHierarchy.forEach(cat => {
                 const averageScore = scores[cat] / counts[cat];
-                
-                if (averageScore > maxScore) { 
-                    maxScore = averageScore; 
-                    winningCategory = cat; 
-                }
+                if (averageScore > maxScore) { maxScore = averageScore; winningCategory = cat; }
             });
 
             triggerRes(resultsData[winningCategory], "Your Core Studio Bottleneck");
@@ -526,7 +496,7 @@
 
         function bookFromModal() { closeModals(); document.getElementById('book').scrollIntoView(); }
         
-        // --- HARDWARE-ACCELERATED GRAPHICS CANVAS MOTOR ---
+        // --- CANVAS ENGINE (Unchanged) ---
         const canvas = document.getElementById('drawingCanvas');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         const sendBtn = document.getElementById('sendBtn');
@@ -696,7 +666,7 @@
         canvas.addEventListener('touchstart', startDraw, { passive: false });
         canvas.addEventListener('touchmove', draw, { passive: false }); canvas.addEventListener('touchend', stopDraw);
 
-        // --- IDENTITY NET COMMUNICATIONS DATA PIPELINE ---
+        // --- WEBHOOK DATA TRANSMISSION ---
         const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxLLC8Ph1O-zphixuFRMzogpbFDK-gEWWshqQqpgf2mzT4twYN5pRj92nOPwMVutyOO/exec';
         const nameInput = document.getElementById('senderName');
         const emailInput = document.getElementById('senderEmail');
@@ -747,7 +717,7 @@
             }
         });
 
-        // --- CONVEYOR TRACK CAROUSEL ENGINE ---
+        // --- CAROUSEL ENGINE ---
         const galleryTrack = document.getElementById('gallery-track');
         const btnPrev = document.getElementById('carousel-prev');
         const btnNext = document.getElementById('carousel-next');
