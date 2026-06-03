@@ -116,6 +116,62 @@
         #sendBtn svg:nth-of-type(3) { --x: 50; --y: 30; --s: 1.1; --d: 3; }
         #sendBtn svg:nth-of-type(4) { --x: 75; --y: 60; --s: 0.9; --d: 2; }
         #sendBtn svg:nth-of-type(5) { --x: 85; --y: 20; --s: 0.8; --d: 4; }
+        /* --- TRANSMISSION TENSION OVERLAY --- */
+        #transmit-overlay {
+            position: fixed; inset: 0; z-index: 100;
+            background: rgba(9, 9, 11, 0.95);
+            backdrop-filter: blur(8px);
+            display: none; 
+            place-items: center;
+        }
+        #transmit-overlay.is-active { display: grid; }
+
+        .tension-ring {
+            position: relative;
+            width: 150px; height: 150px;
+            background: transparent;
+            border: 3px solid #27272a;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 150px;
+            font-family: monospace;
+            font-size: 14px;
+            color: #3b82f6; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .tension-ring:before {
+            content: '';
+            position: absolute; top: -3px; left: -3px;
+            width: 100%; height: 100%;
+            border: 3px solid transparent;
+            border-top: 3px solid #3b82f6;
+            border-right: 3px solid #3b82f6;
+            border-radius: 50%;
+            animation: animateC 2s linear infinite;
+        }
+        .tension-ring span {
+            display: block;
+            position: absolute;
+            top: calc(50% - 2px); left: 50%;
+            width: 50%; height: 4px;
+            background: transparent;
+            transform-origin: left;
+            animation: animate 2s linear infinite;
+        }
+        .tension-ring span:before {
+            content: '';
+            position: absolute;
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            background: #3b82f6;
+            top: -6px; right: -8px;
+            box-shadow: 0 0 20px #3b82f6;
+        }
+        @keyframes animateC { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes animate { 0% { transform: rotate(45deg); } 100% { transform: rotate(405deg); } }
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
@@ -210,6 +266,9 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id="transmit-overlay">
+        <div class="tension-ring">Sending<span></span></div>
     </div>
 
     <section id="render-state" class="max-w-5xl mx-auto px-6 py-24 text-center border-t border-white/5">
