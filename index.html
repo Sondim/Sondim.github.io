@@ -452,7 +452,9 @@
 
             options.forEach(opt => {
                 const b = document.createElement('button');
-                b.className = "p-6 rounded-xl bg-zinc-800 border border-white/5 text-left hover:border-blue-500 transition-all font-medium text-zinc-200 active:scale-[0.98]";
+                
+                // PHYSICS UPGRADE: 75ms snap, tactile lift, and accelerated rendering
+                b.className = "p-6 rounded-xl bg-zinc-800/80 border border-white/5 text-left hover:border-blue-500 hover:bg-zinc-800 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-75 font-medium text-zinc-200 active:scale-[0.98] active:translate-y-0";
                 b.innerText = opt.text;
                 
                 b.onclick = () => {
@@ -464,11 +466,14 @@
                     scores[q.category] += points;
                     qIdx++;
                     
-                    if (qIdx < assessmentQuestions.length) {
-                        renderQ();
-                    } else {
-                        showA();
-                    }
+                    // KINEMATIC DELAY: Let the button physically bounce before destroying the DOM
+                    setTimeout(() => {
+                        if (qIdx < assessmentQuestions.length) {
+                            renderQ();
+                        } else {
+                            showA();
+                        }
+                    }, 150);
                 };
                 container.appendChild(b);
             });
