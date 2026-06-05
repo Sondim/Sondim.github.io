@@ -168,13 +168,21 @@
 
     <div id="lightbox-modal" class="fixed inset-0 z-[60] hidden bg-zinc-950/60 backdrop-blur-md flex items-center justify-center p-2 md:p-8 cursor-zoom-out" onclick="closeLightbox()">
         
-        <div class="relative flex-shrink-0 max-w-full">
-            <button class="absolute top-3 right-3 md:-top-5 md:-right-5 bg-zinc-900 border border-white/10 rounded-full p-2 md:p-3 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all hover:scale-110 active:scale-95 z-[70] cursor-pointer shadow-2xl">
+        <button onclick="prevLightboxImage(event)" class="absolute left-6 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center bg-zinc-900 border border-white/10 rounded-full p-4 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all hover:scale-110 active:scale-95 z-[70] cursor-pointer shadow-2xl">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+
+        <div class="relative flex-shrink-0 max-w-full cursor-default" onclick="event.stopPropagation()">
+            <button onclick="closeLightbox()" class="absolute top-3 right-3 md:-top-5 md:-right-5 bg-zinc-900 border border-white/10 rounded-full p-2 md:p-3 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all hover:scale-110 active:scale-95 z-[70] cursor-pointer shadow-2xl">
                 <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
             </button>
 
             <img id="lightbox-img" src="" alt="Full size painting" class="max-w-full max-h-[85vh] md:max-h-[95vh] rounded-2xl shadow-2xl border border-white/10 object-contain relative z-[65]">
         </div>
+
+        <button onclick="nextLightboxImage(event)" class="absolute right-6 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center bg-zinc-900 border border-white/10 rounded-full p-4 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all hover:scale-110 active:scale-95 z-[70] cursor-pointer shadow-2xl">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
 
     </div>
 
@@ -764,13 +772,15 @@
             }
         });
 
-        // --- CAROUSEL ENGINE ---
+        // --- CAROUSEL ENGINE & LIGHTBOX PHYSICS ---
         const galleryTrack = document.getElementById('gallery-track');
         const btnPrev = document.getElementById('carousel-prev');
         const btnNext = document.getElementById('carousel-next');
         const lightboxModal = document.getElementById('lightbox-modal');
         const lightboxImg = document.getElementById('lightbox-img');
         const totalSlots = 16;
+        
+        let currentLightboxSrc = '';
 
         for (let i = 1; i <= totalSlots; i++) {
             const num = String(i).padStart(2, '0'); const fileName = `gallery/painting_${num}.jpg`;
@@ -778,13 +788,14 @@
             const slot = document.createElement('div'); slot.className = "aspect-square w-full bg-zinc-950 border border-white/5 rounded-2xl overflow-hidden relative group shadow-inner flex items-center justify-center transition-all duration-300";
             const img = document.createElement('img'); img.src = fileName; img.className = "w-full h-full object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-105 opacity-0";
             
-            img.onload = () => { img.classList.remove('opacity-0'); slot.classList.replace('bg-zinc-950', 'bg-zinc-900'); slot.classList.replace('border-white/5', 'border-zinc-700'); };
+            img.onload = () => { img.classList.remove('opacity-0'); img.classList.add('is-valid-gallery-img'); slot.classList.replace('bg-zinc-950', 'bg-zinc-900'); slot.classList.replace('border-white/5', 'border-zinc-700'); };
             img.onerror = () => { img.remove(); slot.innerHTML = `<span class="text-zinc-700 font-mono text-xs uppercase tracking-widest pointer-events-none select-none text-center">[ SLOT_${num} ]</span>`; slot.classList.add('border-dashed'); };
-            img.onclick = () => { lightboxImg.src = fileName; lightboxModal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; };
+            img.onclick = () => { currentLightboxSrc = img.src; lightboxImg.src = currentLightboxSrc; lightboxModal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; };
 
             slot.appendChild(img); slideWrapper.appendChild(slot); galleryTrack.appendChild(slideWrapper);
         }
 
+        // Carousel Scroll Logic
         let isCarouselAnimating = false;
         btnNext.addEventListener('click', () => {
             if (isCarouselAnimating) return; isCarouselAnimating = true;
@@ -810,7 +821,48 @@
             });
         });
 
+        // Lightbox Navigation Logic
+        function getValidImages() { return Array.from(document.querySelectorAll('.is-valid-gallery-img')).map(img => img.src); }
+
+        function nextLightboxImage(e) {
+            if(e) e.stopPropagation();
+            let imgs = getValidImages();
+            if(imgs.length === 0) return;
+            let idx = imgs.indexOf(currentLightboxSrc);
+            let nextIdx = (idx + 1) % imgs.length;
+            currentLightboxSrc = imgs[nextIdx];
+            lightboxImg.src = currentLightboxSrc;
+        }
+
+        function prevLightboxImage(e) {
+            if(e) e.stopPropagation();
+            let imgs = getValidImages();
+            if(imgs.length === 0) return;
+            let idx = imgs.indexOf(currentLightboxSrc);
+            let prevIdx = (idx - 1 + imgs.length) % imgs.length;
+            currentLightboxSrc = imgs[prevIdx];
+            lightboxImg.src = currentLightboxSrc;
+        }
+
         function closeLightbox() { lightboxModal.classList.add('hidden'); document.body.style.overflow = 'auto'; }
+
+        // Keyboard & Swipe Bindings
+        document.addEventListener('keydown', (e) => {
+            if (lightboxModal.classList.contains('hidden')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextLightboxImage();
+            if (e.key === 'ArrowLeft') prevLightboxImage();
+        });
+
+        let touchStartX = 0; let touchEndX = 0;
+        lightboxModal.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+        lightboxModal.addEventListener('touchend', e => { 
+            touchEndX = e.changedTouches[0].screenX; 
+            const swipeDist = touchEndX - touchStartX;
+            if (swipeDist < -50) nextLightboxImage(); // Swipe left -> Next
+            if (swipeDist > 50) prevLightboxImage();  // Swipe right -> Prev
+        }, {passive: true});
+
     </script>
 </body>
 </html>
