@@ -848,10 +848,16 @@
 
         // Keyboard & Swipe Bindings
         document.addEventListener('keydown', (e) => {
-            if (lightboxModal.classList.contains('hidden')) return;
-            if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowRight') nextLightboxImage();
-            if (e.key === 'ArrowLeft') prevLightboxImage();
+            if (e.key === 'Escape') {
+                closeLightbox();
+                closeModals();
+            }
+            
+            // Only trigger arrow keys if the Lightbox is actively open
+            if (!lightboxModal.classList.contains('hidden')) {
+                if (e.key === 'ArrowRight') nextLightboxImage();
+                if (e.key === 'ArrowLeft') prevLightboxImage();
+            }
         });
 
         let touchStartX = 0; let touchEndX = 0;
