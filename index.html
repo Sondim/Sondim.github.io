@@ -167,7 +167,12 @@
     </section>
 
     <div id="lightbox-modal" class="fixed inset-0 z-[60] hidden bg-zinc-950/95 backdrop-blur-xl flex items-center justify-center p-4 cursor-zoom-out" onclick="closeLightbox()">
-        <img id="lightbox-img" src="" alt="Full size painting" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl border border-white/10 object-contain">
+        
+        <button class="absolute top-6 right-6 md:top-10 md:right-10 bg-zinc-900/80 border border-white/10 rounded-full p-3 text-zinc-400 hover:text-white hover:bg-zinc-800 backdrop-blur-md transition-all hover:scale-110 active:scale-95 z-[70] cursor-pointer shadow-xl">
+            <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+        </button>
+
+        <img id="lightbox-img" src="" alt="Full size painting" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl border border-white/10 object-contain relative z-[65]">
     </div>
 
     <div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-zinc-950/98 overflow-y-auto">
