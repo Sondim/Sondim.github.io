@@ -85,7 +85,7 @@
         #sendBtn .btn-text-front { color: #ffffff; }
         #sendBtn.is-success .btn-text-front { animation: none; }
         #sendBtn.is-success .btn-text-back { opacity: 0; }
-        #sendBtn.is-success::after {
+        #sendBtn.is-transmitting::after {
             content: '';
             position: absolute;
             inset: 0;
@@ -706,6 +706,7 @@
 
             const dataURL = canvas.toDataURL('image/jpeg', 1.0);
             sendBtn.disabled = true; statusMsg.innerText = '';
+            sendBtn.classList.add('is-transmitting');
 
             let dotCount = 1;
             const updateText = () => {
@@ -726,12 +727,13 @@
                 sendBtn.querySelector('.btn-text-back').innerText = 'SENT.';
                 
                 // Strip the blue hover/shadows so mobile doesn't get stuck, inject the green ones
-                sendBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'shadow-[0_4px_0_0_#1e3a8a]'); 
+                sendBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'shadow-[0_4px_0_0_#1e3a8a]', 'is-transmitting'); 
                 sendBtn.classList.add('bg-green-500', 'hover:bg-green-400', 'shadow-[0_4px_0_0_#166534]', 'is-success');
                 
                 statusMsg.innerText = '[ SIGNAL RECEIVED ]'; statusMsg.classList.replace('text-zinc-500', 'text-green-400');
             } catch (err) {
                 clearInterval(dotInterval); sendBtn.disabled = false;
+                sendBtn.classList.remove('is-transmitting');
                 sendBtn.querySelector('.btn-text-front').innerText = 'Transmit';
                 statusMsg.innerText = '[ SIGNAL LOST. RETRY. ]'; statusMsg.classList.replace('text-zinc-500', 'text-red-400');
             }
