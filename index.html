@@ -724,7 +724,11 @@
                 clearInterval(dotInterval);
                 sendBtn.querySelector('.btn-text-front').innerText = 'SENT.';
                 sendBtn.querySelector('.btn-text-back').innerText = 'SENT.';
-                sendBtn.classList.remove('bg-blue-600'); sendBtn.classList.add('bg-green-500', 'is-success');
+                
+                // Strip the blue hover/shadows so mobile doesn't get stuck, inject the green ones
+                sendBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'shadow-[0_4px_0_0_#1e3a8a]'); 
+                sendBtn.classList.add('bg-green-500', 'hover:bg-green-400', 'shadow-[0_4px_0_0_#166534]', 'is-success');
+                
                 statusMsg.innerText = '[ SIGNAL RECEIVED ]'; statusMsg.classList.replace('text-zinc-500', 'text-green-400');
             } catch (err) {
                 clearInterval(dotInterval); sendBtn.disabled = false;
