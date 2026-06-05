@@ -370,10 +370,41 @@
                     <div class="pt-10 border-t border-white/10 text-center">
                         <button onclick="bookFromModal()" class="px-10 py-5 bg-white text-black rounded-xl font-black text-lg shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1">Book Session</button>
                     </div>
+                    <div id="contact-modal" class="fixed inset-0 z-[60] hidden bg-zinc-950/60 backdrop-blur-md overflow-y-auto">
+        <div class="min-h-screen flex items-center justify-center px-4 py-12 md:py-20 w-full">
+            <div class="w-full max-w-2xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-12 rounded-3xl shadow-2xl my-auto transform-gpu">
+                <button onclick="closeModals()" class="absolute top-4 right-4 md:top-6 md:right-6 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-black text-white mb-3 tracking-tight">Direct Transmission</h2>
+                    <p class="text-zinc-400">Skip the drawing and send me a direct message.</p>
                 </div>
+
+                <div class="flex flex-col gap-3 w-full bg-zinc-950 p-4 md:p-5 rounded-2xl border border-white/5 shadow-inner">
+                    <div class="flex flex-col sm:flex-row gap-3 w-full">
+                        <input type="text" id="contactName" placeholder="Your Name" class="w-full sm:w-1/2 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+                        <input type="email" id="contactEmail" placeholder="Your Email" class="w-full sm:w-1/2 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+                    </div>
+                    
+                    <textarea id="contactMessage" placeholder="Your Message" rows="4" class="w-full bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner resize-none"></textarea>
+                    
+                    <button id="contactSendBtn" class="w-full px-8 py-4 bg-blue-600 text-white rounded-xl font-black shadow-[0_4px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 uppercase tracking-wide text-sm">
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                        <span class="btn-text-back" aria-hidden="true">SEND MESSAGE</span>
+                        <span class="btn-text-front">SEND MESSAGE</span>
+                    </button>
+                </div>
+                <p id="contactStatusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center mt-4"></p>
             </div>
         </div>
     </div>
+
 
     <section id="render-state" class="max-w-5xl mx-auto px-6 py-24 text-center border-t border-white/5">
         <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Render your bottleneck.</h2>
@@ -514,8 +545,10 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-end justify-items-center mt-12">
             
-            <a href="mailto:magnus@sondim.com" class="group flex flex-col items-center no-underline relative w-full">
-                <div class="contact-mail-wrapper scale-75 md:scale-100 mb-8 origin-bottom">
+            <button onclick="openContactModal()" class="group flex flex-col items-center justify-center relative w-full h-full cursor-pointer py-4 bg-transparent border-none appearance-none outline-none">
+                <div class="absolute inset-0 z-50 w-full h-full"></div>
+                
+                <div class="contact-mail-wrapper scale-75 md:scale-100 origin-center pointer-events-none mb-8">
                     <div class="animated-mail">
                         <div class="back-fold"></div>
                         <div class="letter">
@@ -532,8 +565,8 @@
                     </div>
                     <div class="shadow"></div>
                 </div>
-                <span class="text-zinc-500 font-mono text-xs uppercase tracking-widest group-hover:text-white transition-colors duration-300">magnus@sondim.com</span>
-            </a>
+                <span class="text-zinc-500 font-mono text-xs uppercase tracking-widest group-hover:text-white transition-colors duration-300">Contact Me</span>
+            </button>
 
             <a href="https://discord.gg/3jd52Vgkjh" target="_blank" class="group flex flex-col items-center no-underline relative w-full">
                 <div class="relative mb-8 hover:-translate-y-2 transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]">
@@ -630,10 +663,16 @@
             renderQ();
         }
 
+        function openContactModal() {
+            document.body.style.overflow = 'hidden';
+            document.getElementById('contact-modal').classList.remove('hidden');
+        }
+
         function closeModals() {
             document.body.style.overflow = 'auto';
             document.getElementById('assessment-modal').classList.add('hidden');
             document.getElementById('topic-modal').classList.add('hidden');
+            document.getElementById('contact-modal')?.classList.add('hidden');
         }
 
         function renderQ() {
@@ -939,7 +978,75 @@
                 statusMsg.innerText = '[ SIGNAL LOST. RETRY. ]'; statusMsg.classList.replace('text-zinc-500', 'text-red-400');
             }
         });
+// --- CONTACT MODAL TRANSMISSION ---
+        const contactSendBtn = document.getElementById('contactSendBtn');
+        const contactStatusMsg = document.getElementById('contactStatusMsg');
+        
+        ['contactName', 'contactEmail', 'contactMessage'].forEach(id => {
+            document.getElementById(id).addEventListener('input', function() {
+                this.classList.remove('border-red-500'); this.classList.add('border-zinc-700', 'focus:border-blue-500');
+                if (contactStatusMsg.innerText.includes('REQUIRED') || contactStatusMsg.innerText.includes('INVALID')) { contactStatusMsg.innerText = ''; }
+            });
+        });
 
+        contactSendBtn.addEventListener('click', async () => {
+            const nameInput = document.getElementById('contactName');
+            const emailInput = document.getElementById('contactEmail');
+            const messageInput = document.getElementById('contactMessage');
+            const nameVal = nameInput.value.trim(); 
+            const emailVal = emailInput.value.trim();
+            const messageVal = messageInput.value.trim();
+
+            if (!nameVal || !emailVal) {
+                contactStatusMsg.innerText = '[ ERROR: IDENTITY AND COORDINATES REQUIRED ]';
+                contactStatusMsg.className = "text-sm font-mono tracking-widest h-6 text-red-500 text-center mt-4";
+                if (!nameVal) nameInput.classList.add('border-red-500');
+                if (!emailVal) emailInput.classList.add('border-red-500');
+                return;
+            }
+
+            if (!emailVal.includes('@') || !emailVal.includes('.')) {
+                contactStatusMsg.innerText = '[ ERROR: INVALID EMAIL FORMAT ]';
+                contactStatusMsg.className = "text-sm font-mono tracking-widest h-6 text-red-500 text-center mt-4";
+                emailInput.classList.add('border-red-500');
+                return;
+            }
+
+            // Dummy 1x1 invisible pixel to trick the backend into accepting text-only forms
+            const dummyDataURL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+            
+            contactSendBtn.disabled = true; contactStatusMsg.innerText = '';
+            contactSendBtn.classList.add('is-transmitting');
+
+            let dotCount = 1;
+            const updateText = () => {
+                const textHTML = `TRANSMITTING<span style="display: inline-block; width: 1.5em; text-align: left;">${'.'.repeat(dotCount)}</span>`;
+                contactSendBtn.querySelector('.btn-text-front').innerHTML = textHTML;
+                contactSendBtn.querySelector('.btn-text-back').innerHTML = textHTML;
+                dotCount = dotCount >= 3 ? 1 : dotCount + 1;
+            };
+            const dotInterval = setInterval(updateText, 400); updateText();
+
+            try {
+                await fetch(WEBHOOK_URL, {
+                    method: 'POST', body: JSON.stringify({ image: dummyDataURL, name: nameVal, email: emailVal, message: messageVal }),
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                });
+                clearInterval(dotInterval);
+                contactSendBtn.querySelector('.btn-text-front').innerText = 'SENT!';
+                contactSendBtn.querySelector('.btn-text-back').innerText = 'SENT!';
+                
+                contactSendBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'shadow-[0_4px_0_0_#1e3a8a]', 'is-transmitting'); 
+                contactSendBtn.classList.add('bg-green-500', 'hover:bg-green-400', 'shadow-[0_4px_0_0_#166534]', 'is-success');
+                
+                contactStatusMsg.innerText = '[ SIGNAL RECEIVED ]'; contactStatusMsg.classList.replace('text-zinc-500', 'text-green-400');
+            } catch (err) {
+                clearInterval(dotInterval); contactSendBtn.disabled = false;
+                contactSendBtn.classList.remove('is-transmitting');
+                contactSendBtn.querySelector('.btn-text-front').innerText = 'SEND MESSAGE';
+                contactStatusMsg.innerText = '[ SIGNAL LOST. RETRY. ]'; contactStatusMsg.classList.replace('text-zinc-500', 'text-red-400');
+            }
+        });
         // --- CAROUSEL ENGINE & LIGHTBOX PHYSICS ---
         const galleryTrack = document.getElementById('gallery-track');
         const btnPrev = document.getElementById('carousel-prev');
