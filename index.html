@@ -240,100 +240,111 @@
         <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Render your bottleneck.</h2>
         <p class="text-lg text-zinc-400 mb-12">Draw the abstract shape of what's holding your studio back right now. Keep it raw.</p>
         
-        <div class="grid grid-cols-1 md:grid-cols-[6rem_1fr_5rem] gap-6">
-    
-            <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 md:pb-0 md:contents [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] w-full">
-        
-        <div class="snap-start flex-shrink-0 w-[85%] md:w-full bg-zinc-950 p-3 md:p-4 rounded-2xl border border-white/5 flex flex-col gap-3 items-center justify-center md:col-start-3 md:row-start-1">
-            
-            <div class="flex flex-row md:flex-col gap-2 md:gap-4 items-center justify-center md:flex-wrap w-full">
-                <button id="btn-pencil" title="Pencil" class="p-2 md:p-3 rounded-xl bg-zinc-800 text-white border border-white/10 ring-2 ring-blue-500 transition-all hover:scale-105 active:scale-95">
-                    <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                </button>
-                <button id="btn-eraser" title="Eraser" class="p-2 md:p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-all hover:scale-105 active:scale-95">
-                    <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21Z"/><path d="m5 11 9 9"/></svg>
-                </button>
-                <button id="btn-bucket" title="Fill Bucket" class="p-2 md:p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-all hover:scale-105 active:scale-95">
-                    <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 5 5"/><path d="M2 13h15"/><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"/></svg>
-                </button>
+        <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-[6rem_1fr_5rem] gap-6">
                 
-                <div class="w-px h-6 bg-zinc-800 block md:hidden mx-1"></div>
-                <div class="h-px w-full md:w-8 bg-zinc-800 my-1 hidden md:block"></div>
-                
-                <button id="btn-undo" title="Undo" class="p-2 md:p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-all hover:scale-105 active:scale-95">
-                    <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
-                </button>
-                <button id="btn-redo" title="Redo" class="p-2 md:p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-all hover:scale-105 active:scale-95">
-                    <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
-                </button>
-            </div>
-
-            <div class="flex md:hidden items-center justify-center gap-5 bg-black/50 px-5 py-2.5 rounded-xl border border-white/5 shadow-inner w-full">
-                <button class="brush-btn w-2 h-2 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="2"></button>
-                <button class="brush-btn w-4 h-4 rounded-full bg-zinc-600 hover:bg-white transition-colors ring-2 ring-blue-500 ring-offset-4 ring-offset-zinc-950" data-size="5"></button>
-                <button class="brush-btn w-6 h-6 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="12"></button>
-                <button class="brush-btn w-8 h-8 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="24"></button>
-            </div>
-        </div>
-
-        <div class="snap-start flex-shrink-0 w-[85%] md:w-full bg-zinc-950 p-4 rounded-2xl border border-white/5 flex flex-col gap-4 items-center justify-center md:col-start-1 md:row-start-1">
-            <div class="grid grid-cols-5 md:grid-cols-2 gap-3 md:gap-2 w-full justify-items-center">
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#000000] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#000000"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffffff] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffffff"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#7b7b7b] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#7b7b7b"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#c3c3c3] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#c3c3c3"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#8b181a] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#8b181a"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#b97a57] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#b97a57"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#ee2424] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ee2424"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffaec9] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffaec9"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#f47b20] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#f47b20"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffc90e] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffc90e"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffea00] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffea00"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#efe4b0] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#efe4b0"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#22b14c] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#22b14c"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#b5e61d] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#b5e61d"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#00a2e8] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#00a2e8"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#99d9ea] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#99d9ea"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#3f48cc] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#3f48cc"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#7092be] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#7092be"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#a349a4] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#a349a4"></div>
-                <div class="color-swatch w-6 h-6 rounded-sm bg-[#c8bfe7] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#c8bfe7"></div>
-            </div>
-            <div class="w-full h-8 md:h-12 rounded-lg bg-black border-2 border-zinc-800 shadow-inner transition-colors duration-200" id="current-color-indicator"></div>
-        </div>
-
-    </div>
-
-            <div class="bg-white rounded-2xl overflow-hidden shadow-inner cursor-crosshair relative z-10 w-full h-full min-h-[450px] md:col-start-2 md:row-start-1">
-                <canvas id="drawingCanvas" width="600" height="450" class="w-full h-full touch-none block"></canvas>
-            </div>
-
-            <div class="md:col-start-2 flex flex-col items-center justify-center gap-6 mt-0 w-full">
-                <div class="hidden md:flex items-center gap-6 bg-zinc-950 px-6 py-4 rounded-full border border-white/5 shadow-inner justify-center">
-                    <button class="brush-btn w-2 h-2 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="2"></button>
-                    <button class="brush-btn w-4 h-4 rounded-full bg-zinc-600 hover:bg-white transition-colors ring-2 ring-blue-500 ring-offset-4 ring-offset-zinc-950" data-size="5"></button>
-                    <button class="brush-btn w-6 h-6 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="12"></button>
-                    <button class="brush-btn w-8 h-8 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="24"></button>
-                </div>
-                
-                <div class="flex flex-col sm:flex-row gap-3 w-full max-w-2xl bg-zinc-950 p-3 rounded-2xl border border-white/5 shadow-inner items-center">
-                    <input type="text" id="senderName" placeholder="Your Name" class="w-full sm:w-1/3 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
-                    <input type="email" id="senderEmail" placeholder="Your Email" class="w-full sm:flex-1 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+                <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 md:pb-0 md:contents [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] w-full">
                     
-                    <button id="sendBtn" class="w-full sm:w-auto px-8 py-4 bg-blue-600 text-white rounded-xl font-black shadow-[0_4px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 uppercase tracking-wide text-sm whitespace-nowrap">
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <span class="btn-text-back" aria-hidden="true">Transmit</span>
-                        <span class="btn-text-front">Transmit</span>
-                    </button>
-                </div>
-            </div>
+                    <div class="snap-start flex-shrink-0 w-[85%] md:w-full bg-zinc-950 p-3 md:p-4 rounded-2xl border border-white/5 flex flex-col gap-3 items-center justify-center md:col-start-3 md:row-start-1">
+                        
+                        <div class="flex flex-row md:flex-col gap-2 md:gap-4 items-center justify-center md:flex-wrap w-full">
+                            <button id="btn-pencil" title="Pencil" class="p-2 md:p-3 rounded-xl bg-zinc-800 text-white border border-white/10 ring-2 ring-blue-500 transition-all hover:scale-105 active:scale-95">
+                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                            </button>
+                            <button id="btn-eraser" title="Eraser" class="p-2 md:p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-all hover:scale-105 active:scale-95">
+                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21Z"/><path d="m5 11 9 9"/></svg>
+                            </button>
+                            <button id="btn-bucket" title="Fill Bucket" class="p-2 md:p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-all hover:scale-105 active:scale-95">
+                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 5 5"/><path d="M2 13h15"/><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"/></svg>
+                            </button>
+                            
+                            <div class="w-px h-6 bg-zinc-800 block md:hidden mx-1"></div>
+                            <div class="h-px w-full md:w-8 bg-zinc-800 my-1 hidden md:block"></div>
+                            
+                            <button id="btn-undo" title="Undo" class="p-2 md:p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-all hover:scale-105 active:scale-95">
+                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+                            </button>
+                            <button id="btn-redo" title="Redo" class="p-2 md:p-3 rounded-xl hover:bg-zinc-800 text-zinc-500 hover:text-white transition-all hover:scale-105 active:scale-95">
+                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
+                            </button>
+                        </div>
 
-            <div class="md:col-start-2">
-                <p id="statusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center -mt-2"></p>
+                        <div class="flex md:hidden items-center justify-center gap-5 bg-black/50 px-5 py-2.5 rounded-xl border border-white/5 shadow-inner w-full">
+                            <button class="brush-btn w-2 h-2 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="2"></button>
+                            <button class="brush-btn w-4 h-4 rounded-full bg-zinc-600 hover:bg-white transition-colors ring-2 ring-blue-500 ring-offset-4 ring-offset-zinc-950" data-size="5"></button>
+                            <button class="brush-btn w-6 h-6 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="12"></button>
+                            <button class="brush-btn w-8 h-8 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="24"></button>
+                        </div>
+                    </div>
+
+                    <div class="snap-start flex-shrink-0 w-[85%] md:w-full bg-zinc-950 p-4 rounded-2xl border border-white/5 flex flex-col gap-4 items-center justify-center md:col-start-1 md:row-start-1">
+                        <div class="grid grid-cols-5 md:grid-cols-2 gap-3 md:gap-2 w-full justify-items-center">
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#000000] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#000000"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffffff] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffffff"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#7b7b7b] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#7b7b7b"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#c3c3c3] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#c3c3c3"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#8b181a] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#8b181a"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#b97a57] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#b97a57"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#ee2424] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ee2424"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffaec9] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffaec9"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#f47b20] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#f47b20"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffc90e] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffc90e"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffea00] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffea00"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#efe4b0] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#efe4b0"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#22b14c] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#22b14c"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#b5e61d] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#b5e61d"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#00a2e8] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#00a2e8"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#99d9ea] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#99d9ea"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#3f48cc] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#3f48cc"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#7092be] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#7092be"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#a349a4] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#a349a4"></div>
+                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#c8bfe7] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#c8bfe7"></div>
+                        </div>
+                        <div class="w-full h-8 md:h-12 rounded-lg bg-black border-2 border-zinc-800 shadow-inner transition-colors duration-200" id="current-color-indicator"></div>
+                    </div>
+
+                </div>
+
+                <div class="bg-white rounded-2xl overflow-hidden shadow-inner cursor-crosshair relative z-10 w-full h-full min-h-[450px] md:col-start-2 md:row-start-1">
+                    <canvas id="drawingCanvas" width="600" height="450" class="w-full h-full touch-none block"></canvas>
+                </div>
+
+                <div class="md:col-start-2 flex flex-col items-center justify-center gap-8 mt-0 w-full">
+                    
+                    <div class="hidden md:flex items-center gap-6 bg-zinc-950 px-6 py-4 rounded-full border border-white/5 shadow-inner justify-center">
+                        <button class="brush-btn w-2 h-2 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="2"></button>
+                        <button class="brush-btn w-4 h-4 rounded-full bg-zinc-600 hover:bg-white transition-colors ring-2 ring-blue-500 ring-offset-4 ring-offset-zinc-950" data-size="5"></button>
+                        <button class="brush-btn w-6 h-6 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="12"></button>
+                        <button class="brush-btn w-8 h-8 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="24"></button>
+                    </div>
+                    
+                    <div class="w-full max-w-2xl flex flex-col items-center">
+                        <p class="text-zinc-400 text-sm md:text-base mb-4 font-medium">Send me your drawing and I'll get back to you!</p>
+                        
+                        <div class="flex flex-col gap-3 w-full bg-zinc-950 p-4 md:p-5 rounded-2xl border border-white/5 shadow-inner">
+                            <div class="flex flex-col sm:flex-row gap-3 w-full">
+                                <input type="text" id="senderName" placeholder="Your Name" class="w-full sm:w-1/2 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+                                <input type="email" id="senderEmail" placeholder="Your Email" class="w-full sm:w-1/2 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+                            </div>
+                            
+                            <textarea id="senderMessage" placeholder="Your Message (Optional)" rows="3" class="w-full bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner resize-none"></textarea>
+                            
+                            <button id="sendBtn" class="w-full px-8 py-4 bg-blue-600 text-white rounded-xl font-black shadow-[0_4px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 uppercase tracking-wide text-sm">
+                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                <span class="btn-text-back" aria-hidden="true">SEND</span>
+                                <span class="btn-text-front">SEND</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-start-2">
+                    <p id="statusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center -mt-2"></p>
+                </div>
             </div>
         </div>
     </section>
@@ -686,8 +697,9 @@
         const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxLLC8Ph1O-zphixuFRMzogpbFDK-gEWWshqQqpgf2mzT4twYN5pRj92nOPwMVutyOO/exec';
         const nameInput = document.getElementById('senderName');
         const emailInput = document.getElementById('senderEmail');
+        const messageInput = document.getElementById('senderMessage');
 
-        [nameInput, emailInput].forEach(input => {
+        [nameInput, emailInput, messageInput].forEach(input => {
             input.addEventListener('input', function() {
                 this.classList.remove('border-red-500'); this.classList.add('border-zinc-700', 'focus:border-blue-500');
                 if (statusMsg.innerText.includes('REQUIRED')) { statusMsg.innerText = ''; }
@@ -695,7 +707,10 @@
         });
 
         sendBtn.addEventListener('click', async () => {
-            const nameVal = nameInput.value.trim(); const emailVal = emailInput.value.trim();
+            const nameVal = nameInput.value.trim(); 
+            const emailVal = emailInput.value.trim();
+            const messageVal = messageInput.value.trim();
+
             if (!nameVal || !emailVal) {
                 statusMsg.innerText = '[ ERROR: IDENTITY AND COORDINATES REQUIRED ]';
                 statusMsg.className = "text-sm font-mono tracking-widest h-6 text-red-500 text-center -mt-2";
@@ -719,14 +734,14 @@
 
             try {
                 await fetch(WEBHOOK_URL, {
-                    method: 'POST', body: JSON.stringify({ image: dataURL, name: nameVal, email: emailVal }),
+                    method: 'POST', body: JSON.stringify({ image: dataURL, name: nameVal, email: emailVal, message: messageVal }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
                 clearInterval(dotInterval);
-                sendBtn.querySelector('.btn-text-front').innerText = 'SENT.';
-                sendBtn.querySelector('.btn-text-back').innerText = 'SENT.';
+                sendBtn.querySelector('.btn-text-front').innerText = 'SENT!';
+                sendBtn.querySelector('.btn-text-back').innerText = 'SENT!';
                 
-                // Strip the blue hover/shadows so mobile doesn't get stuck, inject the green ones
+                // Strip the blue hover/shadows so mobile doesn't get stuck, inject the green ones, remove glare
                 sendBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'shadow-[0_4px_0_0_#1e3a8a]', 'is-transmitting'); 
                 sendBtn.classList.add('bg-green-500', 'hover:bg-green-400', 'shadow-[0_4px_0_0_#166534]', 'is-success');
                 
@@ -734,7 +749,7 @@
             } catch (err) {
                 clearInterval(dotInterval); sendBtn.disabled = false;
                 sendBtn.classList.remove('is-transmitting');
-                sendBtn.querySelector('.btn-text-front').innerText = 'Transmit';
+                sendBtn.querySelector('.btn-text-front').innerText = 'SEND';
                 statusMsg.innerText = '[ SIGNAL LOST. RETRY. ]'; statusMsg.classList.replace('text-zinc-500', 'text-red-400');
             }
         });
