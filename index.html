@@ -72,7 +72,7 @@
         }
         #sendBtn svg path, .sparkle-btn svg path { fill: var(--sparkle-color); }
         #sendBtn:hover svg, .sparkle-btn:hover svg { animation: sparkle 0.75s calc((var(--delay-step) * var(--d)) * 1s) both; }
-        #sendBtn.is-success svg { animation: sparkle 1.5s calc((var(--delay-step) * var(--d)) * 1s) infinite; }
+        #sendBtn.is-success svg, #contactSendBtn.is-success svg { animation: sparkle 1.5s calc((var(--delay-step) * var(--d)) * 1s) infinite; }
         @keyframes sparkle { 50% { transform: translate(-50%, -50%) scale(var(--s, 1)); } }
         
         #sendBtn svg:nth-of-type(1), .sparkle-btn svg:nth-of-type(1) { --x: 15; --y: 20; --s: 1.1; --d: 1; }
