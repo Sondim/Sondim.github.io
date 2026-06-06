@@ -1044,8 +1044,8 @@
                 contactSendBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'shadow-[0_4px_0_0_#1e3a8a]', 'is-transmitting'); 
                 contactSendBtn.classList.add('bg-green-500', 'hover:bg-green-400', 'shadow-[0_4px_0_0_#166534]', 'is-success');
                 
-                // Shift physics: Swap sharp stars for smooth hearts and warm up the color
-                contactSendBtn.style.setProperty('--sparkle-color', '#f87171');
+                // Shift physics: Swap sharp stars for smooth hearts and lock into a crisp success glow
+                contactSendBtn.style.setProperty('--sparkle-color', '#ffffff');
                 const heartPath = 'M48 84.45c-2.4 0-4.8-1.05-6.6-2.7C15.3 58.2 0 44.25 0 26.25 0 11.7 11.55 0 26.25 0c8.4 0 16.5 4.05 21.75 10.65C53.25 4.05 61.35 0 69.75 0 84.45 0 96 11.7 96 26.25c0 18-15.3 31.95-41.4 55.5-1.8 1.65-4.2 2.7-6.6 2.7z';
                 contactSendBtn.querySelectorAll('svg path').forEach(path => path.setAttribute('d', heartPath));
 
