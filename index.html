@@ -965,7 +965,7 @@
 
             try {
                 await fetch(WEBHOOK_URL, {
-                    method: 'POST', body: JSON.stringify({ image: dataURL, name: nameVal, email: emailVal, message: messageVal }),
+                    method: 'POST', body: JSON.stringify({ type: 'canvas', image: dataURL, name: nameVal, email: emailVal, message: messageVal }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
                 clearInterval(dotInterval);
@@ -1019,9 +1019,7 @@
                 return;
             }
 
-            // Dummy 1x1 invisible pixel to trick the backend into accepting text-only forms
-            const dummyDataURL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
-            
+            // Explicitly tell the backend this is a direct message, no drawing attached
             contactSendBtn.disabled = true; contactStatusMsg.innerText = '';
             contactSendBtn.classList.add('is-transmitting');
 
@@ -1036,7 +1034,7 @@
 
             try {
                 await fetch(WEBHOOK_URL, {
-                    method: 'POST', body: JSON.stringify({ image: dummyDataURL, name: nameVal, email: emailVal, message: messageVal }),
+                    method: 'POST', body: JSON.stringify({ type: 'contact', name: nameVal, email: emailVal, message: messageVal }),
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
                 clearInterval(dotInterval);
