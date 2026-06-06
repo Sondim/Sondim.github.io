@@ -112,109 +112,124 @@
         /* --- CONTACT SECTION PHYSICS --- */
         .contact-mail-wrapper {
             position: relative;
-            width: 200px;
-            height: 200px;
-            cursor: pointer;
-            margin: 0 auto;
+            width: 80px;
+            height: 56px;
+            perspective: 800px;
         }
         .animated-mail {
             position: absolute;
-            height: 150px;
-            width: 200px;
-            transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            top: 0;
-            left: 0;
+            inset: 0;
+            transition: transform 0.5s cubic-bezier(0.34, 2.5, 0.4, 1);
         }
-        .animated-mail .body {
-            position: absolute;
-            bottom: 0;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 0 0 100px 200px;
-            border-color: transparent transparent #e95f55 transparent;
-            z-index: 2;
-        }
-        .animated-mail .top-fold {
-            position: absolute;
-            top: 50px;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 50px 100px 0 100px;
-            transform-origin: 50% 0%;
-            transition: transform .4s .4s, z-index .2s .4s;
-            border-color: #cf4a43 transparent transparent transparent;
-            z-index: 2;
-        }
+        
+        /* Base Layers */
         .animated-mail .back-fold {
             position: absolute;
-            bottom: 0;
-            width: 200px;
-            height: 100px;
-            background: #cf4a43;
+            inset: 0;
+            background: #3f3f46; /* zinc-700 */
+            border-radius: 8px;
             z-index: 0;
-        }
-        .animated-mail .left-fold {
-            position: absolute;
-            bottom: 0;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 50px 0 50px 100px;
-            border-color: transparent transparent transparent #e15349;
-            z-index: 2;
+            transition: background 0.4s ease;
         }
         .animated-mail .letter {
-            left: 20px;
-            bottom: 0px;
             position: absolute;
-            width: 160px;
-            height: 60px;
-            background: white;
+            bottom: 4px;
+            left: 6px;
+            right: 6px;
+            height: 44px;
+            background: #e4e4e7; /* zinc-200 */
+            border-radius: 6px;
             z-index: 1;
+            transition: height 0.4s 0.2s cubic-bezier(0.34, 2.5, 0.4, 1), background 0.4s ease;
+            padding: 8px 6px;
+            box-sizing: border-box;
+        }
+        .animated-mail .letter-line {
+            height: 4px;
+            border-radius: 2px;
+            background: #a1a1aa; /* zinc-400 */
+            margin-bottom: 5px;
+            transition: background 0.4s ease;
+        }
+        .animated-mail .letter-line.short { width: 50%; }
+
+        /* Front Cover (clips the overlapping rotated diamonds) */
+        .animated-mail .front-cover {
+            position: absolute;
+            inset: 0;
+            border-radius: 8px;
             overflow: hidden;
-            transition: .4s .2s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 2;
+            transform: translateZ(0); /* Hardware acceleration & fixes Safari clip bugs */
         }
-        .animated-mail .letter .letter-border {
-            height: 10px;
+        
+        /* The rotated rectangles forming the front folds */
+        .animated-mail .front-left,
+        .animated-mail .front-right,
+        .animated-mail .front-bottom {
+            position: absolute;
+            width: 58px;
+            height: 58px;
+            border-radius: 6px;
+            transform: rotate(45deg);
+            transition: background 0.4s ease;
+        }
+        .animated-mail .front-left { left: -29px; top: -1px; background: #52525b; }
+        .animated-mail .front-right { right: -29px; top: -1px; background: #52525b; }
+        /* Bottom comes last in DOM, so it layers perfectly over the sides */
+        .animated-mail .front-bottom { left: 11px; bottom: -29px; background: #71717a; }
+
+        /* Top Flap Hinge */
+        .animated-mail .top-fold-hinge {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            background: repeating-linear-gradient(-45deg, #cb5a5e, #cb5a5e 8px, transparent 8px, transparent 18px);
+            height: 50%;
+            transform-origin: top center;
+            z-index: 3;
+            transition: transform 0.4s cubic-bezier(0.34, 2.5, 0.4, 1), z-index 0.2s;
         }
-        .animated-mail .letter .letter-title {
-            margin-top: 10px;
-            margin-left: 5px;
-            height: 10px;
-            width: 40%;
-            background: #cb5a5e;
+        .animated-mail .top-flap {
+            position: absolute;
+            width: 58px;
+            height: 58px;
+            left: 11px;
+            top: -29px;
+            background: #71717a;
+            border-radius: 6px;
+            transform: rotate(45deg);
+            transition: background 0.4s ease;
         }
-        .animated-mail .letter .letter-context {
-            margin-top: 10px;
-            margin-left: 5px;
-            height: 10px;
-            width: 20%;
-            background: #cb5a5e;
-        }
-        .animated-mail .letter .letter-stamp {
-            margin-top: 30px;
-            margin-left: 120px;
-            border-radius: 100%;
-            height: 30px;
-            width: 30px;
-            background: #cb5a5e;
-            opacity: 0.3;
-        }
+        
         .contact-mail-wrapper .shadow {
             position: absolute;
-            top: 180px;
+            bottom: -16px;
             left: 50%;
-            width: 400px;
-            height: 30px;
-            transition: .4s cubic-bezier(0.25, 1, 0.5, 1);
             transform: translateX(-50%);
+            width: 60px;
+            height: 8px;
             border-radius: 100%;
-            background: radial-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.0), rgba(0,0,0,0.0));
+            background: radial-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0));
+            transition: width 0.4s ease, opacity 0.4s ease;
         }
+
+        /* --- CONTACT HOVER PHYSICS --- */
+        .group:hover .animated-mail { transform: translateY(-8px); }
+        .group:hover .shadow { width: 40px; opacity: 0.2; }
+        .group:hover .top-fold-hinge {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+        
+        /* Letter slides up inside the 144px box bounds */
+        .group:hover .letter { height: 75px; background: #ffffff; }
+
+        /* Discord-style Color Bloom */
+        .group:hover .back-fold { background: #b91c1c; } /* deep red */
+        .group:hover .front-left, .group:hover .front-right { background: #dc2626; } /* mid red */
+        .group:hover .front-bottom, .group:hover .top-flap { background: #ef4444; } /* bright red */
+        .group:hover .letter-line { background: #fca5a5; }
 
         
         /* --- ARROW SPRING PHYSICS --- */
@@ -596,20 +611,21 @@
                     <div class="relative flex items-center justify-center w-36 h-36 bg-zinc-900 border border-white/5 rounded-[2rem] shadow-2xl group-hover:border-[#EF4444]/40 group-hover:shadow-[0_0_40px_rgba(239,68,68,0.2)] transition-all duration-300 overflow-hidden">
                         
                         <!-- Restored Envelope Physics Engine, centered and scaled to match Discord -->
-                        <div class="contact-mail-wrapper absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] scale-[0.35] pointer-events-none">
+                        <div class="contact-mail-wrapper absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
                             <div class="animated-mail">
                                 <div class="back-fold"></div>
                                 <div class="letter">
-                                    <div class="letter-border"></div>
-                                    <div class="letter-title"></div>
-                                    <div class="letter-context"></div>
-                                    <div class="letter-stamp">
-                                        <div class="letter-stamp-inner"></div>
-                                    </div>
+                                    <div class="letter-line"></div>
+                                    <div class="letter-line short"></div>
                                 </div>
-                                <div class="top-fold"></div>
-                                <div class="body"></div>
-                                <div class="left-fold"></div>
+                                <div class="front-cover">
+                                    <div class="front-left"></div>
+                                    <div class="front-right"></div>
+                                    <div class="front-bottom"></div>
+                                </div>
+                                <div class="top-fold-hinge">
+                                    <div class="top-flap"></div>
+                                </div>
                             </div>
                             <div class="shadow"></div>
                         </div>
