@@ -590,22 +590,16 @@
             <button onclick="openContactModal()" class="group flex flex-col items-center justify-center relative w-full h-full cursor-pointer py-4 bg-transparent border-none appearance-none outline-none">
                 <div class="absolute inset-0 z-50 w-full h-full"></div>
                 
-                <div class="contact-mail-wrapper scale-75 md:scale-100 origin-center pointer-events-none mb-8">
-                    <div class="animated-mail">
-                        <div class="back-fold"></div>
-                        <div class="letter">
-                            <div class="letter-border"></div>
-                            <div class="letter-title"></div>
-                            <div class="letter-context"></div>
-                            <div class="letter-stamp">
-                                <div class="letter-stamp-inner"></div>
-                            </div>
-                        </div>
-                        <div class="top-fold"></div>
-                        <div class="body"></div>
-                        <div class="left-fold"></div>
+                <div class="relative mb-8 group-hover:-translate-y-2 transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]">
+                    <!-- The Latent Energy Glow -->
+                    <div class="absolute inset-0 bg-[#EF4444]/20 blur-3xl rounded-full scale-50 group-hover:scale-110 transition-transform duration-500 pointer-events-none"></div>
+                    
+                    <!-- The Physical Keycap Base -->
+                    <div class="relative flex items-center justify-center w-36 h-36 bg-zinc-900 border border-white/5 rounded-[2rem] shadow-2xl group-hover:border-[#EF4444]/40 group-hover:shadow-[0_0_40px_rgba(239,68,68,0.2)] transition-all duration-300">
+                        <svg class="w-16 h-16 fill-zinc-500 group-hover:fill-[#EF4444] transition-colors duration-300" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
                     </div>
-                    <div class="shadow"></div>
                 </div>
                 <span class="text-zinc-500 font-mono text-xs uppercase tracking-widest group-hover:text-white transition-colors duration-300">Contact Me</span>
             </button>
