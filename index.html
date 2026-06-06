@@ -216,20 +216,24 @@
             background: radial-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.0), rgba(0,0,0,0.0));
         }
 
-        /* Envelope Hover States */
-        .contact-mail-wrapper:hover .animated-mail {
+        /* --- ENVELOPE HOVER STATES (PHYSICS) --- */
+        /* Triggered by the parent .group hover state */
+        .group:hover .animated-mail {
             transform: translateY(40px);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .contact-mail-wrapper:hover .animated-mail .top-fold {
-            transition: transform .4s, z-index .2s;
+        .group:hover .animated-mail .top-fold {
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.2s;
             transform: rotateX(180deg);
             z-index: 0;
         }
-        .contact-mail-wrapper:hover .animated-mail .letter {
+        .group:hover .animated-mail .letter {
             height: 180px;
+            transition: height 0.4s 0.2s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .contact-mail-wrapper:hover .shadow {
+        .group:hover .shadow {
             width: 250px;
+            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
     </style>
 </head>
