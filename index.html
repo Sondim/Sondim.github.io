@@ -82,10 +82,10 @@
         #sendBtn svg:nth-of-type(5), .sparkle-btn svg:nth-of-type(5) { --x: 85; --y: 20; --s: 0.8; --d: 4; }
 
         /* --- TRANSMIT BUTTON SPECIFIC STATES --- */
-        #sendBtn .btn-text-front { color: #ffffff; }
-        #sendBtn.is-success .btn-text-front { animation: none; }
-        #sendBtn.is-success .btn-text-back { opacity: 0; }
-        #sendBtn.is-transmitting::after {
+        #sendBtn .btn-text-front, #contactSendBtn .btn-text-front { color: #ffffff; }
+        #sendBtn.is-success .btn-text-front, #contactSendBtn.is-success .btn-text-front { animation: none; }
+        #sendBtn.is-success .btn-text-back, #contactSendBtn.is-success .btn-text-back { opacity: 0; }
+        #sendBtn.is-transmitting::after, #contactSendBtn.is-transmitting::after {
             content: '';
             position: absolute;
             inset: 0;
