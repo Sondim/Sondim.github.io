@@ -32,10 +32,10 @@
 
         /* --- X-RAY SCANNER PHYSICS --- */
         #xray-stage {
-            --mouse-x: 50%;
-            --mouse-y: 50%;
-            --scan-radius: 0%; 
-            cursor: crosshair;
+            --hair : #303030;
+            --mouth: #f0a282;
+            --skin : #ffc49c;
+            --fit: transparent; 
         }
 
         #xray-reveal {
@@ -152,7 +152,7 @@
             --hair : #303030;
             --mouth: #f0a282;
             --skin : #ffc49c;
-            --fit: #fff;
+            --fit: transparent; /* FIX 1: Removes the white shirt lines */
         }
 
         .human-body, .skeleton {  
@@ -170,10 +170,7 @@
         .human-body div, .skeleton div { position: absolute; }
 
         /* --- HUMAN BODY --- */
-        .hair {
-            width: 14.25vmin; height: 14vmin; top: 1vmin; background: var(--hair); border-radius: 4vmin; z-index: 1;
-            clip-path: polygon(3% 100%, 4% 94%, 2% 88%, 1% 80%, 1% 74%, 1% 60%, 3% 46%, 5% 39%, 8% 32%, 12% 27%, 17% 21%, 23% 15%, 31% 11%, 39% 9%, 45% 6%, 48% 5%, 51% 4%, 49% 13%, 52% 12%, 57% 11%, 64% 9%, 71% 8%, 76% 8%, 81% 10%, 86% 10%, 91% 12%, 90% 16%, 88% 21%, 86% 23%, 90% 23%, 93% 23%, 97% 22%, 98% 22%, 98% 28%, 98% 33%, 97% 36%, 97% 38%, 97% 43%, 97% 47%, 98% 49%, 98% 53%, 98% 60%, 99% 65%, 99% 70%, 99% 75%, 98% 80%, 96% 86%, 93% 91%, 92% 95%, 92% 100%, 89% 91%, 90% 85%, 89% 79%, 89% 74%, 89% 68%, 88% 62%, 85% 55%, 80% 57%, 76% 58%, 69% 59%, 63% 59%, 58% 59%, 51% 57%, 45% 53%, 40% 52%, 42% 60%, 42% 63%, 42% 62%, 42% 62%, 39% 62%, 35% 61%, 31% 60%, 27% 58%, 23% 56%, 19% 53%, 16% 50%, 14% 56%, 13% 59%, 12% 62%, 11% 65%, 10% 72%, 10% 82%, 11% 93%);
-        }
+        .hair { width: 14.25vmin; height: 14vmin; top: 1vmin; background: var(--hair); border-radius: 4vmin; z-index: 1; clip-path: polygon(3% 100%, 4% 94%, 2% 88%, 1% 80%, 1% 74%, 1% 60%, 3% 46%, 5% 39%, 8% 32%, 12% 27%, 17% 21%, 23% 15%, 31% 11%, 39% 9%, 45% 6%, 48% 5%, 51% 4%, 49% 13%, 52% 12%, 57% 11%, 64% 9%, 71% 8%, 76% 8%, 81% 10%, 86% 10%, 91% 12%, 90% 16%, 88% 21%, 86% 23%, 90% 23%, 93% 23%, 97% 22%, 98% 22%, 98% 28%, 98% 33%, 97% 36%, 97% 38%, 97% 43%, 97% 47%, 98% 49%, 98% 53%, 98% 60%, 99% 65%, 99% 70%, 99% 75%, 98% 80%, 96% 86%, 93% 91%, 92% 95%, 92% 100%, 89% 91%, 90% 85%, 89% 79%, 89% 74%, 89% 68%, 88% 62%, 85% 55%, 80% 57%, 76% 58%, 69% 59%, 63% 59%, 58% 59%, 51% 57%, 45% 53%, 40% 52%, 42% 60%, 42% 63%, 42% 62%, 42% 62%, 39% 62%, 35% 61%, 31% 60%, 27% 58%, 23% 56%, 19% 53%, 16% 50%, 14% 56%, 13% 59%, 12% 62%, 11% 65%, 10% 72%, 10% 82%, 11% 93%); }
         .ears {width: 12.5vmin; height: 5vmin; top: 12.5vmin; left: 8.5vmin; z-index: -1;}
         .ears:before, .ears:after { content: ""; position: absolute; background: radial-gradient(var(--mouth) 0 1.5vmin, var(--skin) calc(1.5vmin + 1px) 100%); width: 4.5vmin; height: 3.5vmin; top: 0.15vmin; left: 0; border-radius: 100%; transform: rotate(40deg); }
         .ears:after { transform: rotateY(180deg) rotate(40deg); right: 0; left: 100%; }
@@ -212,7 +209,7 @@
             --skin: #09090b; 
             --mouth: #09090b; 
             --bone: #fff;
-            --fit: #09090b; 
+            --fit: transparent; 
         }
 
         .cranium { background: linear-gradient(180deg, var(--bone) 0 55%, #fff0 0 90%, #fff 0 100%), radial-gradient(circle at 75% 73%, #fff0 0 1.75vmin, var(--bone) calc(1.75vmin + 1px) 4vmin, #fff0 0 100%), radial-gradient(circle at 25% 73%, #fff0 0 1.75vmin, var(--bone) calc(1.75vmin + 1px) 4vmin, #fff0 0 100%); width: 12vmin; height: 13vmin; left: 0.5vmin; top: 0.25vmin; border-radius: 6vmin 6vmin 4.5vmin 4.5vmin; }
@@ -228,18 +225,21 @@
         .skeleton .torso:before { background: radial-gradient(circle at 101% 23%, var(--bone) 0 0.45vmin, #fff0 calc(0.45vmin + 1px) 100%), radial-gradient(circle at -1% 23%, var(--bone) 0 0.45vmin, #fff0 calc(0.45vmin + 1px) 100%); content: ""; position: absolute; width: 100%; height: 100%; }
         
         .pelvis { background: radial-gradient(circle at 82% 36%, #fff0 0.5vmin, var(--bone) calc(0.5vmin + 1px) 4vmin, #fff0 0 100%), radial-gradient(circle at 19% 36%, #fff0 0.5vmin, var(--bone) calc(0.5vmin + 1px) 4vmin, #fff0 0 100%); width: 8.5vmin; height: 4.5vmin; bottom: -1.5vmin; left: 0.9vmin; clip-path: polygon(9% 14%, 13% 10%, 19% 8%, 25% 10%, 29% 12%, 32% 15%, 34% 17%, 38% 18%, 46% 20%, 51% 20%, 58% 20%, 64% 20%, 71% 16%, 75% 11%, 81% 7%, 86% 8%, 91% 12%, 95% 19%, 97% 29%, 97% 42%, 95% 50%, 93% 56%, 92% 61%, 92% 69%, 92% 76%, 89% 86%, 86% 91%, 81% 94%, 78% 94%, 72% 90%, 67% 85%, 62% 79%, 57% 73%, 53% 67%, 49% 66%, 45% 68%, 41% 74%, 36% 84%, 31% 90%, 26% 94%, 20% 96%, 15% 93%, 12% 89%, 11% 84%, 10% 78%, 10% 72%, 10% 66%, 9% 59%, 7% 54%, 5% 45%, 4.5% 36%, 5% 30%, 6% 23%); }
-        .column { width: 1.5vmin; height: 8.75vmin; background: var(--bone) ; border-radius: 0.25vmin; left: 4.45vmin; top: 2.5vmin; }
-        .column:before, .column:after { content: ""; position: absolute; background: var(--bone) ; border-radius: 0.25vmin; width: 100%; height: 1vmin; top: -1.25vmin; box-shadow: 0 -1.125vmin 0 0 var(--bone) , 0 -2.25vmin 0 0 var(--bone) ; }
+        
+        /* FIX 2: Anatomically center the spine, ribs, and collarbones */
+        .column { width: 1.5vmin; height: 10vmin; background: var(--bone); border-radius: 0.25vmin; left: 4.25vmin; top: 1.5vmin; }
+        .column:before, .column:after { content: ""; position: absolute; background: var(--bone); border-radius: 0.25vmin; width: 100%; height: 1vmin; top: -1.25vmin; box-shadow: 0 -1.125vmin 0 0 var(--bone) , 0 -2.25vmin 0 0 var(--bone); }
         .column:after { top: 10vmin; }
-        .rib { width: 8.5vmin; height: 2.75vmin; left: 1vmin; top: 9vmin; }
-        .rib:before, .rib:after { content: ""; position: absolute; width: 2.5vmin; height: 0.5vmin; background: #f0f0; border-radius: 100%; left: 0.3vmin; top: 0vmin; border: 0.85vmin solid var(--bone) ; border-top-color: #fff0; filter: drop-shadow(0px -1.5vmin 0 var(--bone) ) drop-shadow(0px -1.5vmin 0 var(--bone) ) drop-shadow(0px -1.5vmin 0 var(--bone) ); }
+        .rib { width: 8.5vmin; height: 2.75vmin; left: 0.75vmin; top: 9vmin; }
+        .rib:before, .rib:after { content: ""; position: absolute; width: 2.5vmin; height: 0.5vmin; background: #f0f0; border-radius: 100%; left: 0.3vmin; top: 0vmin; border: 0.85vmin solid var(--bone); border-top-color: #fff0; filter: drop-shadow(0px -1.5vmin 0 var(--bone)) drop-shadow(0px -1.5vmin 0 var(--bone)) drop-shadow(0px -1.5vmin 0 var(--bone)); }
         .rib:after { left: 4vmin; }
-        .rib + .rib { top: 2.5vmin; }
+        .rib + .rib { top: 3.5vmin; left: 0.75vmin; }
         .rib + .rib:before, .rib + .rib:after { filter: none; width: 1.85vmin; left: 1vmin; }
         .rib + .rib:after { left: 4vmin; }
-        .clavicle { width: 11vmin; height: 2.75vmin; left: -0.25vmin; top: 0vmin; }
-        .clavicle:before, .clavicle:after { content: ""; position: absolute; width: 2.75vmin; height: 0.1vmin; border-radius: 100%; left: -0.15vmin; top: 1.25vmin; border: 0.95vmin solid var(--bone) ; border-bottom-color: #fff0; transform: rotate(-12deg); }
+        .clavicle { width: 10.5vmin; height: 2.75vmin; left: -0.25vmin; top: 0.5vmin; }
+        .clavicle:before, .clavicle:after { content: ""; position: absolute; width: 2.75vmin; height: 0.1vmin; border-radius: 100%; left: -0.15vmin; top: 1.25vmin; border: 0.95vmin solid var(--bone); border-bottom-color: #fff0; transform: rotate(-12deg); }
         .clavicle:after { left: 6.35vmin; transform: rotate(12deg); }
+        
         .skeleton .legs:before { content: ""; position: absolute; width: 1vmin; height: 1.5vmin; left: 7vmin; top: 1.5vmin; background: radial-gradient(circle at 50% 100%, #fff0 0.5vmin, var(--skin) calc(0.5vmin + 1px) 100%); transform: scaleY(2); }
 
         /* BONES */
