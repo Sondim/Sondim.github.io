@@ -109,114 +109,6 @@
             100% { background-position: -200% 0%; }
         }
 
-        /* --- CONTACT SECTION PHYSICS --- */
-        .contact-mail-wrapper {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            cursor: pointer;
-            margin: 0 auto;
-        }
-        .animated-mail {
-            position: absolute;
-            height: 150px;
-            width: 200px;
-            transition: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            top: 0;
-            left: 0;
-        }
-        .animated-mail .body {
-            position: absolute;
-            bottom: 0;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 0 0 100px 200px;
-            border-color: transparent transparent #e95f55 transparent;
-            z-index: 2;
-        }
-        .animated-mail .top-fold {
-            position: absolute;
-            top: 50px;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 50px 100px 0 100px;
-            transform-origin: 50% 0%;
-            transition: transform .4s .4s, z-index .2s .4s;
-            border-color: #cf4a43 transparent transparent transparent;
-            z-index: 2;
-        }
-        .animated-mail .back-fold {
-            position: absolute;
-            bottom: 0;
-            width: 200px;
-            height: 100px;
-            background: #cf4a43;
-            z-index: 0;
-        }
-        .animated-mail .left-fold {
-            position: absolute;
-            bottom: 0;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 50px 0 50px 100px;
-            border-color: transparent transparent transparent #e15349;
-            z-index: 2;
-        }
-        .animated-mail .letter {
-            left: 20px;
-            bottom: 0px;
-            position: absolute;
-            width: 160px;
-            height: 60px;
-            background: white;
-            z-index: 1;
-            overflow: hidden;
-            transition: .4s .2s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .animated-mail .letter .letter-border {
-            height: 10px;
-            width: 100%;
-            background: repeating-linear-gradient(-45deg, #cb5a5e, #cb5a5e 8px, transparent 8px, transparent 18px);
-        }
-        .animated-mail .letter .letter-title {
-            margin-top: 10px;
-            margin-left: 5px;
-            height: 10px;
-            width: 40%;
-            background: #cb5a5e;
-        }
-        .animated-mail .letter .letter-context {
-            margin-top: 10px;
-            margin-left: 5px;
-            height: 10px;
-            width: 20%;
-            background: #cb5a5e;
-        }
-        .animated-mail .letter .letter-stamp {
-            margin-top: 30px;
-            margin-left: 120px;
-            border-radius: 100%;
-            height: 30px;
-            width: 30px;
-            background: #cb5a5e;
-            opacity: 0.3;
-        }
-        .contact-mail-wrapper .shadow {
-            position: absolute;
-            top: 180px;
-            left: 50%;
-            width: 400px;
-            height: 30px;
-            transition: .4s cubic-bezier(0.25, 1, 0.5, 1);
-            transform: translateX(-50%);
-            border-radius: 100%;
-            background: radial-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.0), rgba(0,0,0,0.0));
-        }
-
-        
         /* --- ARROW SPRING PHYSICS --- */
         .spring-arrow-btn .arrow-shaft,
         .spring-arrow-btn .arrow-tip {
@@ -225,7 +117,7 @@
             transform-box: fill-box;
         }
 
-/* Prev Arrow (Left) */
+        /* Prev Arrow (Left) */
         #carousel-prev .arrow-shaft { transform-origin: right center; }
         #carousel-prev:active .arrow-shaft { transform: scaleX(1.25); transition: transform 0.05s ease-out; }
         #carousel-prev:active .arrow-tip { transform: translateX(-3px); transition: transform 0.05s ease-out; }
@@ -234,24 +126,6 @@
         #carousel-next .arrow-shaft { transform-origin: left center; }
         #carousel-next:active .arrow-shaft { transform: scaleX(1.25); transition: transform 0.05s ease-out; }
         #carousel-next:active .arrow-tip { transform: translateX(3px); transition: transform 0.05s ease-out; }
-        /* Triggered by the parent .group hover state */
-        .group:hover .animated-mail {
-            transform: translateY(40px);
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .group:hover .animated-mail .top-fold {
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.2s;
-            transform: rotateX(180deg);
-            z-index: 0;
-        }
-        .group:hover .animated-mail .letter {
-            height: 180px;
-            transition: height 0.4s 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .group:hover .shadow {
-            width: 250px;
-            transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        }
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
@@ -435,10 +309,10 @@
                         <span class="btn-text-back" aria-hidden="true">SEND MESSAGE</span>
                         <span class="btn-text-front">SEND MESSAGE</span>
                     </button>
-            </div>
+                </div>
                 <p id="contactStatusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center mt-4"></p>
+            </div>
         </div>
-    </div>
     </div>
 
 
@@ -587,33 +461,14 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center justify-items-center mt-12">
             
-            <button onclick="openContactModal()" class="group flex flex-col items-center justify-center relative w-full h-full cursor-pointer py-4 bg-transparent border-none appearance-none outline-none">
-                <div class="absolute inset-0 z-50 w-full h-full"></div>
-                
-                <div class="relative mb-8 group-hover:-translate-y-2 transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]">
+            <button onclick="openContactModal()" class="group flex flex-col items-center no-underline relative w-full bg-transparent border-none appearance-none outline-none cursor-pointer">
+                <div class="relative mb-8 hover:-translate-y-2 transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]">
                     <div class="absolute inset-0 bg-[#EF4444]/20 blur-3xl rounded-full scale-50 group-hover:scale-110 transition-transform duration-500 pointer-events-none"></div>
                     
-                    <div class="relative flex items-center justify-center w-36 h-36 bg-zinc-900 border border-white/5 rounded-[2rem] shadow-2xl group-hover:border-[#EF4444]/40 group-hover:shadow-[0_0_40px_rgba(239,68,68,0.2)] transition-all duration-300 overflow-hidden">
-                        
-                        <!-- Restored Envelope Physics Engine, centered and scaled to match Discord -->
-                        <div class="contact-mail-wrapper absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] scale-[0.35] pointer-events-none">
-                            <div class="animated-mail">
-                                <div class="back-fold"></div>
-                                <div class="letter">
-                                    <div class="letter-border"></div>
-                                    <div class="letter-title"></div>
-                                    <div class="letter-context"></div>
-                                    <div class="letter-stamp">
-                                        <div class="letter-stamp-inner"></div>
-                                    </div>
-                                </div>
-                                <div class="top-fold"></div>
-                                <div class="body"></div>
-                                <div class="left-fold"></div>
-                            </div>
-                            <div class="shadow"></div>
-                        </div>
-
+                    <div class="relative flex items-center justify-center w-36 h-36 bg-zinc-900 border border-white/5 rounded-[2rem] shadow-2xl group-hover:border-[#EF4444]/40 group-hover:shadow-[0_0_40px_rgba(239,68,68,0.2)] transition-all duration-300">
+                        <svg class="w-16 h-16 fill-zinc-500 group-hover:fill-[#EF4444] transition-colors duration-300" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
                     </div>
                 </div>
                 <span class="text-zinc-500 font-mono text-xs uppercase tracking-widest group-hover:text-white transition-colors duration-300">Contact Me</span>
@@ -733,7 +588,6 @@
         }
 
         // --- HARDWARE-OPTIMIZED DOM EVENT BINDING ---
-        // We bind the click listeners exactly once to prevent memory leaks and Garbage Collection stutters
         document.querySelectorAll('.quiz-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const q = assessmentQuestions[qIdx];
@@ -796,7 +650,7 @@
 
         function bookFromModal() { closeModals(); document.getElementById('book').scrollIntoView(); }
         
-        // --- CANVAS ENGINE (Unchanged) ---
+        // --- CANVAS ENGINE ---
         const canvas = document.getElementById('drawingCanvas');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         const sendBtn = document.getElementById('sendBtn');
@@ -1017,11 +871,9 @@
                 sendBtn.querySelector('.btn-text-front').innerText = 'SENT!';
                 sendBtn.querySelector('.btn-text-back').innerText = 'SENT!';
                 
-                // Strip the blue hover/shadows so mobile doesn't get stuck, inject the green ones, remove glare
                 sendBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'shadow-[0_4px_0_0_#1e3a8a]', 'is-transmitting'); 
                 sendBtn.classList.add('bg-green-500', 'hover:bg-green-400', 'shadow-[0_4px_0_0_#166534]', 'is-success');
                 
-                // Shift physics: Swap sharp stars for smooth hearts and lock into a crisp success glow
                 sendBtn.style.setProperty('--sparkle-color', '#ffffff');
                 const heartPath = 'M48 84.45c-2.4 0-4.8-1.05-6.6-2.7C15.3 58.2 0 44.25 0 26.25 0 11.7 11.55 0 26.25 0c8.4 0 16.5 4.05 21.75 10.65C53.25 4.05 61.35 0 69.75 0 84.45 0 96 11.7 96 26.25c0 18-15.3 31.95-41.4 55.5-1.8 1.65-4.2 2.7-6.6 2.7z';
                 sendBtn.querySelectorAll('svg path').forEach(path => path.setAttribute('d', heartPath));
@@ -1069,7 +921,6 @@
                 return;
             }
 
-            // Explicitly tell the backend this is a direct message, no drawing attached
             contactSendBtn.disabled = true; contactStatusMsg.innerText = '';
             contactSendBtn.classList.add('is-transmitting');
 
@@ -1094,7 +945,6 @@
                 contactSendBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'shadow-[0_4px_0_0_#1e3a8a]', 'is-transmitting'); 
                 contactSendBtn.classList.add('bg-green-500', 'hover:bg-green-400', 'shadow-[0_4px_0_0_#166534]', 'is-success');
                 
-                // Shift physics: Swap sharp stars for smooth hearts and lock into a crisp success glow
                 contactSendBtn.style.setProperty('--sparkle-color', '#ffffff');
                 const heartPath = 'M48 84.45c-2.4 0-4.8-1.05-6.6-2.7C15.3 58.2 0 44.25 0 26.25 0 11.7 11.55 0 26.25 0c8.4 0 16.5 4.05 21.75 10.65C53.25 4.05 61.35 0 69.75 0 84.45 0 96 11.7 96 26.25c0 18-15.3 31.95-41.4 55.5-1.8 1.65-4.2 2.7-6.6 2.7z';
                 contactSendBtn.querySelectorAll('svg path').forEach(path => path.setAttribute('d', heartPath));
@@ -1188,8 +1038,6 @@
                 closeLightbox();
                 closeModals();
             }
-            
-            // Only trigger arrow keys if the Lightbox is actively open
             if (!lightboxModal.classList.contains('hidden')) {
                 if (e.key === 'ArrowRight') nextLightboxImage();
                 if (e.key === 'ArrowLeft') prevLightboxImage();
@@ -1201,10 +1049,9 @@
         lightboxModal.addEventListener('touchend', e => { 
             touchEndX = e.changedTouches[0].screenX; 
             const swipeDist = touchEndX - touchStartX;
-            if (swipeDist < -50) nextLightboxImage(); // Swipe left -> Next
-            if (swipeDist > 50) prevLightboxImage();  // Swipe right -> Prev
+            if (swipeDist < -50) nextLightboxImage();
+            if (swipeDist > 50) prevLightboxImage();
         }, {passive: true});
-
     </script>
 </body>
 </html>
