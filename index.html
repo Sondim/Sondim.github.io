@@ -30,6 +30,30 @@
             to { opacity: 0; transform: translateY(-20px); }
         }
 
+        /* --- X-RAY SCANNER PHYSICS --- */
+        #xray-stage {
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+            --scan-radius: 0%; 
+            cursor: crosshair;
+        }
+
+        #xray-reveal {
+            /* GPU accelerated masking */
+            -webkit-clip-path: circle(var(--scan-radius) at var(--mouse-x) var(--mouse-y));
+            clip-path: circle(var(--scan-radius) at var(--mouse-x) var(--mouse-y));
+            /* The cubic bezier gives the scanner a slight 'magnetic' physics drag */
+            -webkit-transition: -webkit-clip-path 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            transition: clip-path 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        .mind-grid {
+            background-image: 
+                linear-gradient(to right, rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
         /* --- GENERALIZED SPARKLE BUTTON PHYSICS --- */
         #sendBtn, .sparkle-btn {
             --sparkle-color: rgba(255, 255, 255, 0.9);
@@ -112,17 +136,14 @@
         /* --- ARROW SPRING PHYSICS --- */
         .spring-arrow-btn .arrow-shaft,
         .spring-arrow-btn .arrow-tip {
-            /* The wobbly spring release when you let go of the click */
             transition: transform 0.6s cubic-bezier(0.34, 2.5, 0.4, 1);
             transform-box: fill-box;
         }
 
-        /* Prev Arrow (Left) */
         #carousel-prev .arrow-shaft { transform-origin: right center; }
         #carousel-prev:active .arrow-shaft { transform: scaleX(1.25); transition: transform 0.05s ease-out; }
         #carousel-prev:active .arrow-tip { transform: translateX(-3px); transition: transform 0.05s ease-out; }
 
-        /* Next Arrow (Right) */
         #carousel-next .arrow-shaft { transform-origin: left center; }
         #carousel-next:active .arrow-shaft { transform: scaleX(1.25); transition: transform 0.05s ease-out; }
         #carousel-next:active .arrow-tip { transform: translateX(3px); transition: transform 0.05s ease-out; }
@@ -177,10 +198,34 @@
         </div>
     </section>
 
-    <section class="bg-zinc-900/40 border-y border-white/5 py-16 md:py-24">
+    <section class="bg-zinc-900/40 border-y border-white/5 py-16 md:py-24 relative z-10">
         <div class="max-w-3xl mx-auto px-6">
             <h2 class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-8 font-bold">// Meet_Magnus</h2>
             <p class="text-zinc-300 text-lg leading-relaxed mb-6 italic border-l-4 border-blue-600 pl-6 py-4 bg-blue-500/5 rounded-r-xl">"I realized that deep self-discovery isn't just for a meditation cushion—it's in the work of raising money, managing a team, and launching a game."</p>
+        </div>
+    </section>
+
+    <section class="max-w-4xl mx-auto px-6 py-24 text-center border-t border-white/5 relative z-10">
+        <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Scan the Mind.</h2>
+        <p class="text-lg text-zinc-400 mb-12">Move your cursor to look beneath the surface.</p>
+    
+        <div id="xray-stage" class="relative w-full max-w-md mx-auto aspect-square bg-zinc-900 rounded-[3rem] border border-white/5 shadow-2xl overflow-hidden">
+            
+            <div class="absolute inset-0 flex items-center justify-center bg-zinc-900 z-10">
+                <svg class="w-3/4 h-3/4 text-zinc-800 drop-shadow-2xl pointer-events-none" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7zm0 13h-2v-2h2v2zm0-4c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                </svg>
+            </div>
+    
+            <div id="xray-reveal" class="absolute inset-0 bg-zinc-950 z-20 flex items-center justify-center mind-grid pointer-events-none">
+                <button id="critical-thought-target" onclick="triggerAnomaly()" class="absolute top-[35%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-red-500/10 border border-red-500/50 rounded-2xl flex items-center justify-center animate-pulse hover:bg-red-500/20 hover:scale-110 transition-all duration-300 pointer-events-auto cursor-pointer">
+                    <svg class="w-12 h-12 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                </button>
+                <p class="absolute bottom-8 text-blue-500 font-mono text-xs uppercase tracking-widest bg-zinc-950/80 px-4 py-2 rounded-full border border-blue-500/30 backdrop-blur-sm pointer-events-none">Click Anomaly</p>
+            </div>
+    
         </div>
     </section>
 
@@ -232,19 +277,11 @@
                     <div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
                         <a id="result-download-btn" href="#" download style="--sparkle-color: rgba(0, 0, 0, 0.4);" class="sparkle-btn w-full sm:w-auto px-8 py-4 bg-white text-black rounded-xl font-black text-center shadow-[0_4px_0_0_#d4d4d8] active:translate-y-1 transition-all uppercase tracking-wide text-xs md:text-sm whitespace-nowrap">
                             <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                             <span class="btn-text-back" aria-hidden="true">Download Guide</span>
                             <span class="btn-text-front text-black">Download Guide</span>
                         </a>
                         
                         <button id="result-book-btn" onclick="bookFromModal()" style="--sparkle-color: rgba(255, 255, 255, 0.6);" class="sparkle-btn w-full sm:w-auto px-8 py-4 bg-zinc-800 border border-zinc-700 rounded-xl font-bold text-center shadow-[0_4px_0_0_#27272a] active:translate-y-1 hover:bg-zinc-700 transition-all uppercase tracking-wide text-xs md:text-sm whitespace-nowrap">
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                             <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                             <span class="btn-text-back text-zinc-300" aria-hidden="true">Book Teardown</span>
                             <span class="btn-text-front text-zinc-300 group-hover:text-white">Book Teardown</span>
@@ -302,10 +339,6 @@
                     
                     <button id="contactSendBtn" class="sparkle-btn w-full mt-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-black shadow-[0_4px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 uppercase tracking-wide text-sm">
                         <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                         <span class="btn-text-back" aria-hidden="true">SEND MESSAGE</span>
                         <span class="btn-text-front">SEND MESSAGE</span>
                     </button>
@@ -316,11 +349,11 @@
     </div>
 
 
-    <section id="render-state" class="max-w-5xl mx-auto px-6 py-24 text-center border-t border-white/5">
+    <section id="render-state" class="max-w-5xl mx-auto px-6 py-24 text-center border-t border-white/5 relative z-10">
         <h2 class="text-4xl md:text-5xl font-black text-white mb-6 leading-tight">Render your bottleneck.</h2>
         <p class="text-lg text-zinc-400 mb-12">Draw the abstract shape of what's holding your studio back right now. Keep it raw.</p>
         
-        <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12">
+        <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12 relative z-20">
             <div class="grid grid-cols-1 md:grid-cols-[6rem_1fr_5rem] gap-6">
                 
                 <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 md:pb-0 md:contents [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-zinc-950/50 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-600 [&::-webkit-scrollbar-thumb]:rounded-full w-full">
@@ -388,7 +421,7 @@
                     <canvas id="drawingCanvas" width="600" height="450" class="w-full h-full touch-none block"></canvas>
                 </div>
 
-                <div class="md:col-start-2 flex flex-col items-center justify-center gap-8 mt-0 w-full">
+                <div class="md:col-start-2 flex flex-col items-center justify-center gap-8 mt-0 w-full relative z-30">
                     
                     <div class="hidden md:flex items-center gap-6 bg-zinc-950 px-6 py-4 rounded-full border border-white/5 shadow-inner justify-center">
                         <button class="brush-btn w-2 h-2 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="2"></button>
@@ -410,10 +443,6 @@
                             
                             <button id="sendBtn" class="w-full px-8 py-4 bg-blue-600 text-white rounded-xl font-black shadow-[0_4px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 uppercase tracking-wide text-sm">
                                 <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                                 <span class="btn-text-back" aria-hidden="true">SEND</span>
                                 <span class="btn-text-front">SEND</span>
                             </button>
@@ -428,7 +457,7 @@
         </div>
     </section>
 
-    <section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
+    <section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5 relative z-10">
         <h2 class="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">Studio Archive.</h2>
         <p class="text-lg text-zinc-400 mb-12">Bottlenecks rendered by other founders.</p>
         
@@ -453,7 +482,7 @@
         </div>
     </section>
 
-    <section id="contact" class="max-w-4xl mx-auto px-6 py-24 border-t border-white/5">
+    <section id="contact" class="max-w-4xl mx-auto px-6 py-24 border-t border-white/5 relative z-10">
         <div class="text-center mb-16">
             <h2 class="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">Transmit.</h2>
             <p class="text-lg text-zinc-400">Reach out directly or join the studio server.</p>
@@ -490,7 +519,7 @@
         </div>
     </section>
 
-    <section id="book" class="max-w-4xl mx-auto px-6 py-24 text-center border-t border-white/5">
+    <section id="book" class="max-w-4xl mx-auto px-6 py-24 text-center border-t border-white/5 relative z-10">
         <div class="bg-white rounded-3xl overflow-hidden min-h-[700px] border-4 border-white">
             <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Eoq_4KUvBNMyPqUt0U2YPmV1BrPI7w8sx-0h1uALKplFu_uigELHtjWVFKe-8-oqYK1a9DCrM?gv=true" style="border: 0" width="100%" height="700" frameborder="0"></iframe>
         </div>
@@ -649,6 +678,32 @@
         }
 
         function bookFromModal() { closeModals(); document.getElementById('book').scrollIntoView(); }
+
+        // --- X-RAY ENGINE ---
+        const xrayStage = document.getElementById('xray-stage');
+        
+        xrayStage.addEventListener('mousemove', (e) => {
+            const rect = xrayStage.getBoundingClientRect();
+            // Percentage based calculation for perfect responsiveness
+            const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
+            const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+            
+            xrayStage.style.setProperty('--mouse-x', `${xPercent}%`);
+            xrayStage.style.setProperty('--mouse-y', `${yPercent}%`);
+            xrayStage.style.setProperty('--scan-radius', '25%');
+        });
+        
+        xrayStage.addEventListener('mouseleave', () => {
+            xrayStage.style.setProperty('--scan-radius', '0%');
+        });
+
+        // Trigger PDF specific modal when anomaly is clicked
+        function triggerAnomaly() {
+            xrayStage.style.setProperty('--scan-radius', '0%');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('assessment-modal').classList.remove('hidden');
+            triggerRes(resultsData['selftalk'], "Anomaly Detected: Critical Self-Talk");
+        }
         
         // --- CANVAS ENGINE ---
         const canvas = document.getElementById('drawingCanvas');
