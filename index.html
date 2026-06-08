@@ -266,6 +266,38 @@
             }
         }
 
+                /* --- PHASE 3: PHYSICS EMITTER PARTICLES --- */
+        .treat {
+            --scale-x: 0;
+            --scale-y: 0;
+            pointer-events: none;
+            position: fixed; /* Fixed to viewport */
+            top: 50%;
+            left: 50%;
+            width: 1em;
+            height: 1em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 5vmin;
+            transform: translate(calc(var(--x) * 1px), calc(var(--y) * 1px)) translate(-50%, -50%);
+            z-index: 9999; /* Ensure it stays above the modal */
+            animation: 
+                treat-enter 0.1s ease-in backwards, 
+                treat-exit 300ms linear calc((var(--lifetime, 3000) * 1ms) - 300ms) forwards;
+        }
+
+        @keyframes treat-enter { from { opacity: 0; } }
+        @keyframes treat-exit { to { opacity: 0; } }
+
+        .treat .inner {
+            animation: inner-rotate 0.6s linear infinite;
+            transform: rotate(calc(-1turn * var(--direction)));
+        }
+
+        @keyframes inner-rotate { to { transform: none; } 
+    }
+
     </style>
 
 </head>
@@ -1220,25 +1252,18 @@
 
 
         function triggerRes(data, label) {
-
             document.getElementById('result-label').innerText = label;
-
             document.getElementById('result-title').innerText = data.title;
-
             document.getElementById('result-description').innerText = data.desc;
-
             
-
             const downloadBtn = document.getElementById('result-download-btn');
-
             if (downloadBtn) { downloadBtn.href = data.pdfFile; }
-
             
-
             document.getElementById('state-quiz').classList.add('hidden');
-
             document.getElementById('state-results').classList.remove('hidden');
-
+            
+            // Detonate the physics reward engine
+            triggerPhysicsReward();
         }
 
 
@@ -1838,7 +1863,124 @@
 
         });
 
-
+        // --- PHASE 3: PHYSICS REWARD ENGINE ---
+        function triggerPhysicsReward() {
+            const elWrapper = document.getElementById('assessment-modal');
+            const treatmojis = ["🎮", "👾", "🚀", "💎", "⭐", "🕹️"]; // Game dev themed emojis
+            const treats = [];
+            const radius = 15;
+            
+            // Physics Constants
+            const Cd = 0.47; 
+            const rho = 1.22; 
+            const A = Math.PI * radius * radius / 10000; 
+            const ag = 9.81; 
+            const frameRate = 1 / 60;
+            
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            
+            function getRandomArbitrary(min, max) { return Math.random() * (max - min) + min; }
+            function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+            
+            function createTreat() {
+                const vx = getRandomArbitrary(-15, 15); // x velocity (explosion spread)
+                const vy = getRandomArbitrary(-15, -5); // y velocity (initial upward burst)
+                
+                const el = document.createElement("div");
+                el.className = "treat";
+                const inner = document.createElement("span");
+                inner.className = "inner";
+                inner.innerText = treatmojis[getRandomInt(0, treatmojis.length - 1)];
+                el.appendChild(inner);
+                elWrapper.appendChild(el);
+                
+                const lifetime = getRandomArbitrary(2000, 3000);
+                el.style.setProperty("--lifetime", lifetime);
+                
+                const treat = {
+                    el,
+                    absolutePosition: { x: width / 2, y: height / 2 }, // Spawn from center of screen
+                    position: { x: width / 2, y: height / 2 },
+                    velocity: { x: vx, y: vy },
+                    mass: 0.1, 
+                    radius: el.offsetWidth, 
+                    restitution: -.7,
+                    direction: vx > 0 ? 1 : -1,
+                    animating: true,
+                    
+                    remove() {
+                        this.animating = false;
+                        if (this.el.parentNode) this.el.parentNode.removeChild(this.el);
+                    },
+                    
+                    animate() {
+                        if (!this.animating) return;
+                        
+                        let Fx = -0.5 * Cd * A * rho * this.velocity.x * this.velocity.x * this.velocity.x / Math.abs(this.velocity.x);
+                        let Fy = -0.5 * Cd * A * rho * this.velocity.y * this.velocity.y * this.velocity.y / Math.abs(this.velocity.y);
+                        
+                        Fx = isNaN(Fx) ? 0 : Fx;
+                        Fy = isNaN(Fy) ? 0 : Fy;
+                        
+                        const ax = Fx / this.mass;
+                        const ay = ag + Fy / this.mass;
+                        
+                        this.velocity.x += ax * frameRate;
+                        this.velocity.y += ay * frameRate;
+                        
+                        this.position.x += this.velocity.x * frameRate * 100;
+                        this.position.y += this.velocity.y * frameRate * 100;
+                        
+                        // Bounds checking (Bounce off floor and walls)
+                        if (this.position.y > height - this.radius) {
+                            this.velocity.y *= this.restitution;
+                            this.position.y = height - this.radius;
+                        }
+                        if (this.position.x > width - this.radius) {
+                            this.velocity.x *= this.restitution;
+                            this.position.x = width - this.radius;
+                            this.direction = -1;
+                        }
+                        if (this.position.x < this.radius) {
+                            this.velocity.x *= this.restitution;
+                            this.position.x = this.radius;
+                            this.direction = 1;
+                        }
+                        
+                        const relX = this.position.x - this.absolutePosition.x;
+                        const relY = this.position.y - this.absolutePosition.y;
+                        
+                        this.el.style.setProperty("--x", relX);
+                        this.el.style.setProperty("--y", relY);
+                        this.el.style.setProperty("--direction", this.direction);
+                    }
+                };
+                
+                setTimeout(() => { treat.remove(); }, lifetime);
+                return treat;
+            }
+            
+            // Fire the burst!
+            for (let i = 0; i < 25; i++) { treats.push(createTreat()); }
+            
+            function animationLoop() {
+                let i = treats.length;
+                let activeTreats = false;
+                while (i--) {
+                    if (treats[i].animating) {
+                        treats[i].animate();
+                        activeTreats = true;
+                    } else {
+                        treats.splice(i, 1);
+                    }
+                }
+                // Stop the loop entirely when all particles are dead
+                if (activeTreats) requestAnimationFrame(animationLoop);
+            }
+            
+            requestAnimationFrame(animationLoop);
+        }
         // --- CAROUSEL ENGINE & LIGHTBOX PHYSICS ---
 
         const galleryTrack = document.getElementById('gallery-track');
