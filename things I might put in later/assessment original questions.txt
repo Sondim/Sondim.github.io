@@ -1,0 +1,53 @@
+// --- BUCKET: SELF-TALK ---
+
+            { text: "My inner voice toward myself is as kind as the way I speak to my close friends.", category: "selftalk", invert: true },
+
+            { text: "Most days, I feel a steady pressure of “shoulds” throughout the day (\"I should work more, I should exercise later, I should do that errand\").", category: "selftalk", invert: false },
+
+            { text: "I generally feel that I’m “enough” in life (e.g. accomplishing enough, attractive enough, good enough partner).", category: "selftalk", invert: true },
+
+            { text: "I tend to feel okay about myself only when I’m productive or successful, or when others approve of me.", category: "selftalk", invert: false },
+
+            { text: "I believe that I can do my best work in life without being hard on myself.", category: "selftalk", invert: true },
+
+            { text: "I tend to replay failures or awkward moments over and over in my head.", category: "selftalk", invert: false },
+
+            { text: "When I'm being hard on myself about something, I believe the self-criticism is true.", category: "selftalk", invert: false },
+
+            { text: "I'm able to see what's going well in my life as easily as I identify what's not going well.", category: "selftalk", invert: true },
+
+
+            // --- BUCKET: EMOTIONAL FLUIDITY ---
+
+            { text: "When I’m stressed or upset, I can notice where I feel it in my body (e.g., tight chest, knot in stomach).", category: "emotional", invert: true },
+
+            { text: "I would feel very comfortable receiving public compliments in a group setting.", category: "emotional", invert: true },
+
+            { text: "When uncomfortable feelings arise, I tend to avoid them or push them away.", category: "emotional", invert: false },
+
+            { text: "I feel excitement often in my life.", category: "emotional", invert: true },
+
+            { text: "During stressful periods, it’s difficult for me to get rest in a way that makes me feel refreshed.", category: "emotional", invert: false },
+
+            { text: "I regularly have thoughts related to whether or not I'm better, worse, or equal to other people (e.g. physical traits, personality, career).", category: "emotional", invert: false },
+
+            { text: "It’s easy for me to fully savor small pleasures (e.g. good meal, sunlight, music).", category: "emotional", invert: true },
+
+            { text: "I can feel what’s true for me, even in high-pressure situations.", category: "emotional", invert: true },
+
+
+            // --- BUCKET: RELATIONSHIPS ---
+
+            { text: "In conflict, I'm able to say what I’m feeling directly without blaming the other person.", category: "relationship", invert: true },
+
+            { text: "I find it easy to accept friends and loved ones as they are, rather than wanting or hoping they change.", category: "relationship", invert: true },
+
+            { text: "When in conversation, I'm often thinking about what I'm going to say next while others are speaking.", category: "relationship", invert: false },
+
+            { text: "I’m able to express myself even when it might not be well-received.", category: "relationship", invert: true },
+
+            { text: "I tend to get uncomfortable when emotional intensity or vulnerability shows up in conversation with others.", category: "relationship", invert: false },
+
+            { text: "I have at least a few close relationships where I feel fully seen and accepted.", category: "relationship", invert: true },
+
+            { text: "I regularly feel lonely or disconnected even when I’m around people.", category: "relationship", invert: false }
