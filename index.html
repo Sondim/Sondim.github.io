@@ -266,38 +266,6 @@
             }
         }
 
-                /* --- PHASE 3: PHYSICS EMITTER PARTICLES --- */
-        .treat {
-            --scale-x: 0;
-            --scale-y: 0;
-            pointer-events: none;
-            position: fixed; /* Fixed to viewport */
-            top: 50%;
-            left: 50%;
-            width: 1em;
-            height: 1em;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 5vmin;
-            transform: translate(calc(var(--x) * 1px), calc(var(--y) * 1px)) translate(-50%, -50%);
-            z-index: 9999; /* Ensure it stays above the modal */
-            animation: 
-                treat-enter 0.1s ease-in backwards, 
-                treat-exit 300ms linear calc((var(--lifetime, 3000) * 1ms) - 300ms) forwards;
-        }
-
-        @keyframes treat-enter { from { opacity: 0; } }
-        @keyframes treat-exit { to { opacity: 0; } }
-
-        .treat .inner {
-            animation: inner-rotate 0.6s linear infinite;
-            transform: rotate(calc(-1turn * var(--direction)));
-        }
-
-        @keyframes inner-rotate { to { transform: none; } 
-    }
-
     </style>
 
 </head>
@@ -1883,104 +1851,74 @@
             function getRandomArbitrary(min, max) { return Math.random() * (max - min) + min; }
             function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
             
-            function createTreat() {
-                const vx = getRandomArbitrary(-15, 15); // x velocity (explosion spread)
-                const vy = getRandomArbitrary(-15, -5); // y velocity (initial upward burst)
-                
-                const el = document.createElement("div");
-                el.className = "treat";
-                const inner = document.createElement("span");
-                inner.className = "inner";
-                inner.innerText = treatmojis[getRandomInt(0, treatmojis.length - 1)];
-                el.appendChild(inner);
-                elWrapper.appendChild(el);
-                
-                const lifetime = getRandomArbitrary(2000, 3000);
-                el.style.setProperty("--lifetime", lifetime);
-                
-                const treat = {
-                    el,
-                    absolutePosition: { x: width / 2, y: height / 2 }, // Spawn from center of screen
-                    position: { x: width / 2, y: height / 2 },
-                    velocity: { x: vx, y: vy },
-                    mass: 0.1, 
-                    radius: el.offsetWidth, 
-                    restitution: -.7,
-                    direction: vx > 0 ? 1 : -1,
-                    animating: true,
-                    
-                    remove() {
-                        this.animating = false;
-                        if (this.el.parentNode) this.el.parentNode.removeChild(this.el);
-                    },
-                    
-                    animate() {
-                        if (!this.animating) return;
-                        
-                        let Fx = -0.5 * Cd * A * rho * this.velocity.x * this.velocity.x * this.velocity.x / Math.abs(this.velocity.x);
-                        let Fy = -0.5 * Cd * A * rho * this.velocity.y * this.velocity.y * this.velocity.y / Math.abs(this.velocity.y);
-                        
-                        Fx = isNaN(Fx) ? 0 : Fx;
-                        Fy = isNaN(Fy) ? 0 : Fy;
-                        
-                        const ax = Fx / this.mass;
-                        const ay = ag + Fy / this.mass;
-                        
-                        this.velocity.x += ax * frameRate;
-                        this.velocity.y += ay * frameRate;
-                        
-                        this.position.x += this.velocity.x * frameRate * 100;
-                        this.position.y += this.velocity.y * frameRate * 100;
-                        
-                        // Bounds checking (Bounce off floor and walls)
-                        if (this.position.y > height - this.radius) {
-                            this.velocity.y *= this.restitution;
-                            this.position.y = height - this.radius;
-                        }
-                        if (this.position.x > width - this.radius) {
-                            this.velocity.x *= this.restitution;
-                            this.position.x = width - this.radius;
-                            this.direction = -1;
-                        }
-                        if (this.position.x < this.radius) {
-                            this.velocity.x *= this.restitution;
-                            this.position.x = this.radius;
-                            this.direction = 1;
-                        }
-                        
-                        const relX = this.position.x - this.absolutePosition.x;
-                        const relY = this.position.y - this.absolutePosition.y;
-                        
-                        this.el.style.setProperty("--x", relX);
-                        this.el.style.setProperty("--y", relY);
-                        this.el.style.setProperty("--direction", this.direction);
-                    }
-                };
-                
-                setTimeout(() => { treat.remove(); }, lifetime);
-                return treat;
+            // --- PHASE 3: PURE CANVAS PHYSICS REWARD ENGINE ---
+        function triggerPhysicsReward() {
+            // 1. Create a zero-DOM-weight canvas overlay
+            const burstCanvas = document.createElement('canvas');
+            burstCanvas.style.position = 'fixed';
+            burstCanvas.style.inset = '0';
+            burstCanvas.style.width = '100vw';
+            burstCanvas.style.height = '100vh';
+            burstCanvas.style.pointerEvents = 'none';
+            burstCanvas.style.zIndex = '9999';
+            document.body.appendChild(burstCanvas);
+
+            const ctx = burstCanvas.getContext('2d');
+            burstCanvas.width = window.innerWidth;
+            burstCanvas.height = window.innerHeight;
+
+            const emojis = ["🎮", "👾", "🚀", "💎", "⭐", "🕹️"];
+            const particles = [];
+
+            // 2. Spawn 40 particles at the center of the viewport
+            for (let i = 0; i < 40; i++) {
+                particles.push({
+                    x: burstCanvas.width / 2,
+                    y: burstCanvas.height / 2,
+                    vx: (Math.random() - 0.5) * 35, // Explosive horizontal spread
+                    vy: (Math.random() - 1) * 25,   // Violent upward burst
+                    size: Math.random() * 25 + 20,  // Variable sizing
+                    emoji: emojis[Math.floor(Math.random() * emojis.length)],
+                    rot: Math.random() * Math.PI * 2,
+                    rotSpeed: (Math.random() - 0.5) * 0.4
+                });
             }
-            
-            // Fire the burst!
-            for (let i = 0; i < 25; i++) { treats.push(createTreat()); }
-            
-            function animationLoop() {
-                let i = treats.length;
-                let activeTreats = false;
-                while (i--) {
-                    if (treats[i].animating) {
-                        treats[i].animate();
-                        activeTreats = true;
-                    } else {
-                        treats.splice(i, 1);
+
+            // 3. The 60fps Pixel Render Loop
+            function render() {
+                ctx.clearRect(0, 0, burstCanvas.width, burstCanvas.height);
+                let active = false;
+
+                for (let p of particles) {
+                    p.vy += 0.8; // Gravity drag
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.rot += p.rotSpeed;
+
+                    // If the particle is still visible above the bottom fold
+                    if (p.y < burstCanvas.height + 100) {
+                        active = true;
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.rotate(p.rot);
+                        ctx.font = `${p.size}px Arial`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(p.emoji, 0, 0);
+                        ctx.restore();
                     }
                 }
-                // Stop the loop entirely when all particles are dead
-                if (activeTreats) requestAnimationFrame(animationLoop);
+
+                if (active) {
+                    requestAnimationFrame(render);
+                } else {
+                    // Garbage collection: scrub the canvas when the screen is empty
+                    burstCanvas.remove();
+                }
             }
-            
-            requestAnimationFrame(animationLoop);
+            requestAnimationFrame(render);
         }
+        
         // --- CAROUSEL ENGINE & LIGHTBOX PHYSICS ---
 
         const galleryTrack = document.getElementById('gallery-track');
