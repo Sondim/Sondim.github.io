@@ -1094,21 +1094,32 @@
 
 
         function openAssessment() {
-
             qIdx = 0; 
-
             scores = { selftalk: 0, emotional: 0, relationship: 0 };
+            
+            // --- SCENE RESET: Clean up the Finale Vacuum Effect ---
+            document.getElementById('answers-container').style.display = ''; // Restore buttons
+            document.getElementById('question-counter').style.opacity = '1'; // Restore counter
+            
+            // Restore original question text styling
+            const qText = document.getElementById('question-text');
+            qText.className = "text-2xl md:text-3xl font-black text-white mb-8 md:mb-10 leading-tight tracking-tight min-h-[140px] md:min-h-[120px]";
+            
+            // Clear any straggling particles
+            const masterEmitter = document.getElementById('master-emitter-container');
+            if (masterEmitter) masterEmitter.innerHTML = '';
+            
+            // Instantly snap the bar back to 0% before the transition kicks in
+            const progressBar = document.getElementById('quiz-progress');
+            if (progressBar) progressBar.style.width = '0%';
+            // ------------------------------------------------------
 
             document.body.style.overflow = 'hidden';
-
             document.getElementById('assessment-modal').classList.remove('hidden');
-
             document.getElementById('state-quiz').classList.remove('hidden');
-
             document.getElementById('state-results').classList.add('hidden');
-
+            
             renderQ();
-
         }
 
 
