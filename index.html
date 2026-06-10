@@ -1159,11 +1159,12 @@
         const xpBarContainer = document.getElementById('xp-bar-container');
         const particleColors = ['#ffffff', '#ffdf00', '#a4ff45', '#76cd2d'];
 
-        function spawnParticle(type, ratio) {
+        function spawnParticle(type, ratio, customAngle = null) {
             const particle = document.createElement('div');
             particle.className = 'pixel-particle';
             
-            const size = Math.random() > 0.6 ? '2px' : '3px';
+            // Finale particles get slightly larger variants
+            const size = type === 'finale' ? (Math.random() > 0.4 ? '3px' : '4px') : (Math.random() > 0.6 ? '2px' : '3px');
             particle.style.width = size;
             particle.style.height = size;
             particle.style.backgroundColor = particleColors[Math.floor(Math.random() * particleColors.length)];
@@ -1186,12 +1187,68 @@
                 targetX = Math.cos(angle) * velocity;
                 targetY = Math.sin(angle) * velocity;
             }
+            else if (type === 'finale') {
+                const velocity = 35 + (Math.random() * 45);
+                targetX = Math.cos(customAngle) * velocity;
+                targetY = Math.sin(customAngle) * velocity;
+            }
 
             particle.style.setProperty('--tw-x', `${targetX}px`);
             particle.style.setProperty('--tw-y', `${targetY}px`);
-            particle.style.animationDelay = `${Math.random() * 0.03}s`;
+            particle.style.animationDelay = `${Math.random() * 0.05}s`;
 
             masterEmitter.appendChild(particle);
+        }
+
+        function triggerFinaleEffects() {
+            // Snap to center for the final explosion
+            masterEmitter.style.left = '50%';
+
+            // 1. FINALE CELEBRATORY CEILING JUMP
+            xpBarContainer.style.animation = 'none';
+            void xpBarContainer.offsetWidth;
+            xpBarContainer.style.transformOrigin = 'center center';
+
+            xpBarContainer.animate([
+                { transform: 'scale(1, 1) translateY(0)' },
+                { transform: 'scale(1.08, 0.82) translateY(2px)' },  
+                { transform: 'scale(0.88, 1.22) translateY(-14px)' }, 
+                { transform: 'scale(1.05, 0.93) translateY(2px)' },   
+                { transform: 'scale(0.98, 1.02) translateY(-2px)' },  
+                { transform: 'scale(1, 1) translateY(0)' }
+            ], {
+                duration: 450, 
+                easing: 'steps(6)', 
+                fill: 'forwards'
+            });
+
+            // 2. 160 BPM TRIPLE STROBE ENGINE
+            if(flashOverlay) {
+                flashOverlay.style.animation = 'none';
+                void flashOverlay.offsetWidth;
+                
+                flashOverlay.animate([
+                    { opacity: 1, offset: 0.0 },   // Tap 1
+                    { opacity: 0, offset: 0.166 }, // Gap 1
+                    { opacity: 1, offset: 0.333 }, // Tap 2
+                    { opacity: 0, offset: 0.5 },   // Gap 2
+                    { opacity: 1, offset: 0.666 }, // Tap 3
+                    { opacity: 0, offset: 0.833 }, // Done
+                    { opacity: 0, offset: 1.0 }    // Hold
+                ], {
+                    duration: 1125,      
+                    easing: 'steps(6)', 
+                    fill: 'forwards'
+                });
+            }
+
+            // 3. GENERATE 360-DEGREE ORBITAL SHOWER
+            masterEmitter.innerHTML = '';
+            const finaleCount = 40;
+            for (let i = 0; i < finaleCount; i++) {
+                const angle = (i / finaleCount) * (Math.PI * 2);
+                spawnParticle('finale', 1, angle);
+            }
         }
 
         function triggerEffects(currentIdx, total) {
@@ -1203,6 +1260,7 @@
             // 1. EXPONENTIAL WOBBLE PROGRESSION
             xpBarContainer.style.animation = 'none';
             void xpBarContainer.offsetWidth; 
+            xpBarContainer.style.transformOrigin = 'bottom center';
             
             const progressiveCurve = Math.pow(ratio, 2);
             const squishFactor = 1 - (progressiveCurve * 0.12);
@@ -1259,8 +1317,12 @@
             }
         }
 
+        // DOM EVENT BINDING
         document.querySelectorAll('.quiz-btn').forEach(btn => {
             btn.addEventListener('click', function() {
+                // Prevent double clicking on the final question
+                if (qIdx >= assessmentQuestions.length) return;
+
                 const q = assessmentQuestions[qIdx];
                 const val = parseInt(this.getAttribute('data-val'));
                 
@@ -1270,17 +1332,26 @@
                 scores[q.category] += points;
                 qIdx++;
                 
-                // Fire the physics payload immediately on click
-                triggerEffects(qIdx, assessmentQuestions.length);
-                
-                // Keep the delay so the physical button animation has time to show
-                setTimeout(() => {
-                    if (qIdx < assessmentQuestions.length) {
-                        renderQ();
-                    } else {
+                if (qIdx === assessmentQuestions.length) {
+                    // Update visual bar to 100%
+                    renderQ(); 
+                    
+                    // Fire finale blast
+                    triggerFinaleEffects();
+                    
+                    // Wait exactly 3 seconds from the start of the blast to show results
+                    setTimeout(() => {
                         showA();
-                    }
-                }, 100); 
+                    }, 3000);
+
+                } else {
+                    // Standard progressing behavior
+                    triggerEffects(qIdx, assessmentQuestions.length);
+                    
+                    setTimeout(() => {
+                        renderQ();
+                    }, 100); 
+                }
             });
         });
 
