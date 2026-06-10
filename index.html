@@ -425,12 +425,10 @@
     </div>
 
 
-    <div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-black/90 overflow-y-auto">
+    <div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-black/90 flex items-center justify-center p-4">
+        <div class="w-full flex items-center justify-center">
 
-        <div class="min-h-screen flex items-center justify-center px-4 py-12 md:py-20 w-full">
-
-            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-12 rounded-3xl shadow-2xl my-auto transform-gpu">
-
+            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-12 rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto transform-gpu">
                 <button onclick="closeModals()" class="absolute top-3 right-3 md:top-8 md:right-8 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50">
 
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
