@@ -1149,7 +1149,8 @@
 
         function renderQ() {
             const q = assessmentQuestions[qIdx];
-            document.getElementById('question-counter').innerText = `Question ${qIdx + 1} of ${assessmentQuestions.length}`;
+            
+            // We no longer overwrite the counter text here
             document.getElementById('question-text').innerText = q.text;
             
             // Strict fraction math (1/23rd steps)
