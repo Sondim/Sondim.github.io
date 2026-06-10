@@ -1333,8 +1333,12 @@
                 qIdx++;
                 
                 if (qIdx === assessmentQuestions.length) {
-                    // Update visual bar to 100%
-                    renderQ(); 
+                    // Bypass renderQ() to prevent an array out-of-bounds error. 
+                    // Manually force the bar to 100% instead.
+                    const progressBar = document.getElementById('quiz-progress');
+                    if (progressBar) {
+                        progressBar.style.width = '100%';
+                    }
                     
                     // Fire finale blast
                     triggerFinaleEffects();
