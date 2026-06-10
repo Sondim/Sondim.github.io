@@ -3,253 +3,131 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Sondim | Founder Coaching</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
-
     
-
     <style>
-
         html { scroll-behavior: smooth; }
-
         
-
         @keyframes shimmer { 100% { left: 150%; } }
-
         .animate-shimmer { animation: shimmer 1.8s infinite; }
 
-
         @keyframes float {
-
             0%, 100% { transform: translateY(0px); }
-
             50% { transform: translateY(-10px); }
-
         }
-
         .animate-float { animation: float 5s ease-in-out infinite; }
 
-
         /* Modal Animations */
-
         .fade-in { animation: fadeIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-
         .fade-out { animation: fadeOut 0.3s ease-in forwards; }
-
         @keyframes fadeIn {
-
             from { opacity: 0; transform: translateY(20px); }
-
             to { opacity: 1; transform: translateY(0); }
-
         }
-
         @keyframes fadeOut {
-
             from { opacity: 1; transform: translateY(0); }
-
             to { opacity: 0; transform: translateY(-20px); }
-
         }
-
 
         /* --- GENERALIZED SPARKLE BUTTON PHYSICS --- */
-
         #sendBtn, .sparkle-btn {
-
             --sparkle-color: rgba(255, 255, 255, 0.9);
-
             --hover: 0;
-
             --pos: 0;
-
             position: relative;
-
             overflow: hidden;
-
         }
-
         #sendBtn:hover, .sparkle-btn:hover { --hover: 1; --pos: 1; }
-
         #sendBtn:active, .sparkle-btn:active { --hover: 0; }
-
         #sendBtn:disabled, .sparkle-btn:disabled { pointer-events: none; }
-
         
-
         #sendBtn .btn-text-back, .sparkle-btn .btn-text-back {
-
             display: inline-block;
-
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-
             transform: translate(calc(var(--hover) * 2px), calc(var(--hover) * -2px));
-
             color: transparent;
-
         }
-
         #sendBtn .btn-text-front, .sparkle-btn .btn-text-front {
-
             position: absolute;
-
             inset: 0;
-
             display: flex;
-
             align-items: center;
-
             justify-content: center;
-
             z-index: 2;
-
             transform: translate(calc(var(--hover) * 2px), calc(var(--hover) * -2px));
-
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-
             color: inherit;
-
         }
-
         
-
         #sendBtn svg, .sparkle-btn svg {
-
             position: absolute;
-
             z-index: 3;
-
             width: 16px;
-
             pointer-events: none;
-
             --delay-step: 0.15;
-
             top: calc(var(--y, 50) * 1%);
-
             left: calc(var(--x, 0) * 1%);
-
             transform: translate(-50%, -50%) scale(0);
-
         }
-
         #sendBtn svg path, .sparkle-btn svg path { fill: var(--sparkle-color); }
-
         #sendBtn:hover svg, .sparkle-btn:hover svg { animation: sparkle 0.75s calc((var(--delay-step) * var(--d)) * 1s) both; }
-
         #sendBtn.is-success svg, #contactSendBtn.is-success svg { animation: sparkle 1.5s calc((var(--delay-step) * var(--d)) * 1s) infinite; }
-
         @keyframes sparkle { 50% { transform: translate(-50%, -50%) scale(var(--s, 1)); } }
-
         
-
         #sendBtn svg:nth-of-type(1), .sparkle-btn svg:nth-of-type(1) { --x: 15; --y: 20; --s: 1.1; --d: 1; }
-
         #sendBtn svg:nth-of-type(2), .sparkle-btn svg:nth-of-type(2) { --x: 25; --y: 70; --s: 1.25; --d: 2; }
-
         #sendBtn svg:nth-of-type(3), .sparkle-btn svg:nth-of-type(3) { --x: 50; --y: 30; --s: 1.1; --d: 3; }
-
         #sendBtn svg:nth-of-type(4), .sparkle-btn svg:nth-of-type(4) { --x: 75; --y: 60; --s: 0.9; --d: 2; }
-
         #sendBtn svg:nth-of-type(5), .sparkle-btn svg:nth-of-type(5) { --x: 85; --y: 20; --s: 0.8; --d: 4; }
 
-
         /* --- TRANSMIT BUTTON SPECIFIC STATES --- */
-
         #sendBtn .btn-text-front, #contactSendBtn .btn-text-front { color: #ffffff; }
-
         #sendBtn.is-success .btn-text-front, #contactSendBtn.is-success .btn-text-front { animation: none; }
-
         #sendBtn.is-success .btn-text-back, #contactSendBtn.is-success .btn-text-back { opacity: 0; }
-
         #sendBtn.is-transmitting::after, #contactSendBtn.is-transmitting::after {
-
             content: '';
-
             position: absolute;
-
             inset: 0;
-
             background: linear-gradient(
-
                 108deg,
-
                 transparent 0%,
-
                 transparent 35%,
-
                 rgba(255, 255, 255, 0.3) 45%,
-
                 rgba(255, 255, 255, 0.6) 50%,
-
                 rgba(255, 255, 255, 0.3) 55%,
-
                 transparent 65%,
-
                 transparent 100%
-
             );
-
             background-size: 200% 100%;
-
             animation: buttonSweep 2.5s infinite linear;
-
             z-index: 1;
-
             pointer-events: none;
-
         }
-
         @keyframes buttonSweep {
-
             0% { background-position: 200% 0%; }
-
             100% { background-position: -200% 0%; }
-
         }
-
 
         /* --- ARROW SPRING PHYSICS --- */
-
         .spring-arrow-btn .arrow-shaft,
-
         .spring-arrow-btn .arrow-tip {
-
-            /* The wobbly spring release when you let go of the click */
-
             transition: transform 0.6s cubic-bezier(0.34, 2.5, 0.4, 1);
-
             transform-box: fill-box;
-
         }
 
-
-        /* Prev Arrow (Left) */
-
         #carousel-prev .arrow-shaft { transform-origin: right center; }
-
         #carousel-prev:active .arrow-shaft { transform: scaleX(1.25); transition: transform 0.05s ease-out; }
-
         #carousel-prev:active .arrow-tip { transform: translateX(-3px); transition: transform 0.05s ease-out; }
 
-
-        /* Next Arrow (Right) */
-
         #carousel-next .arrow-shaft { transform-origin: left center; }
-
         #carousel-next:active .arrow-shaft { transform: scaleX(1.25); transition: transform 0.05s ease-out; }
-
         #carousel-next:active .arrow-tip { transform: translateX(3px); transition: transform 0.05s ease-out; }
+        
         /* --- MILESTONE IMPACT PHYSICS --- */
-        /* --- 8-BIT MILESTONE STROBE --- */
         .milestone-zap {
-            /* step-end forces instantaneous frame snapping, no smooth tweening */
             animation: pixelStrobe 0.4s step-end forwards;
         }
 
@@ -263,27 +141,25 @@
             100% { filter: brightness(1); transform: translateY(0); box-shadow: 0 5px 0 rgba(0,0,0,0.8); }
         }
 
-    /* --- MASTER RETRO PARTICLE CLASS --- */
-            .pixel-particle {
-                position: absolute;
-                transform: translate(-50%, -50%);
-                image-rendering: pixelated;
-                animation: particleTravel 0.45s steps(4) forwards;
-            }
+        /* --- MASTER RETRO PARTICLE CLASS --- */
+        .pixel-particle {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            image-rendering: pixelated;
+            animation: particleTravel 0.45s steps(4) forwards;
+        }
 
-            @keyframes particleTravel {
-                0% {
-                    transform: translate(-50%, -50%) translate(0, 0);
-                    opacity: 1;
-                }
-                100% {
-                    transform: translate(-50%, -50%) translate(var(--tw-x, 0px), var(--tw-y, 0px));
-                    opacity: 0;
-                }
+        @keyframes particleTravel {
+            0% {
+                transform: translate(-50%, -50%) translate(0, 0);
+                opacity: 1;
             }
-
+            100% {
+                transform: translate(-50%, -50%) translate(var(--tw-x, 0px), var(--tw-y, 0px));
+                opacity: 0;
+            }
+        }
     </style>
-
 </head>
 
 <body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
