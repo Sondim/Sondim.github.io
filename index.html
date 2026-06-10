@@ -263,6 +263,25 @@
             100% { filter: brightness(1); transform: translateY(0); box-shadow: 0 5px 0 rgba(0,0,0,0.8); }
         }
 
+    /* --- MASTER RETRO PARTICLE CLASS --- */
+            .pixel-particle {
+                position: absolute;
+                transform: translate(-50%, -50%);
+                image-rendering: pixelated;
+                animation: particleTravel 0.45s steps(4) forwards;
+            }
+
+            @keyframes particleTravel {
+                0% {
+                    transform: translate(-50%, -50%) translate(0, 0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(-50%, -50%) translate(var(--tw-x, 0px), var(--tw-y, 0px));
+                    opacity: 0;
+                }
+            }
+
     </style>
 
 </head>
@@ -421,17 +440,21 @@
 
                 <div id="state-quiz" class="hidden text-left flex flex-col h-full">
 
-                    <div class="mb-4 text-xs font-mono text-blue-500 uppercase tracking-[0.2em] font-bold" id="question-counter">Question 1 of 23</div>
-                    
-                    <div class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative overflow-hidden drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated;">
-                    <div id="quiz-progress" class="h-full w-0 transition-[width] duration-150 ease-out" 
-                        style="background: linear-gradient(to bottom, 
-                            #315c10 0%, #315c10 16.6%, 
-                            #5ca826 16.6%, #5ca826 33.3%, 
-                            #a4ff45 33.3%, #a4ff45 66.6%, 
-                            #76cd2d 66.6%, #76cd2d 83.3%, 
-                            #467b22 83.3%, #467b22 100%
-                        );">
+                    <div id="xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
+    
+                        <div id="quiz-progress" class="h-full w-0 transition-[width] duration-150 ease-out relative" 
+                            style="background: linear-gradient(to bottom, 
+                                #315c10 0%, #315c10 16.6%, 
+                                #5ca826 16.6%, #5ca826 33.3%, 
+                                #a4ff45 33.3%, #a4ff45 66.6%, 
+                                #76cd2d 66.6%, #76cd2d 83.3%, 
+                                #467b22 83.3%, #467b22 100%
+                            );">
+                            
+                            <div id="flash-overlay" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-10"></div>
+                        </div>
+                        
+                        <div id="master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-20"></div>
                     </div>
                 </div>
 
@@ -1131,48 +1154,136 @@
         }
 
 
-        // --- HARDWARE-OPTIMIZED DOM EVENT BINDING ---
+        // --- HARDWARE-OPTIMIZED DOM EVENT BINDING & PHYSICS ENGINE ---
+        
+        const masterEmitter = document.getElementById('master-emitter-container');
+        const flashOverlay = document.getElementById('flash-overlay');
+        const xpBarContainer = document.getElementById('xp-bar-container');
+        const particleColors = ['#ffffff', '#ffdf00', '#a4ff45', '#76cd2d'];
 
-        document.querySelectorAll('.quiz-btn').forEach(btn => {
+        function spawnParticle(type, ratio) {
+            const particle = document.createElement('div');
+            particle.className = 'pixel-particle';
+            
+            const size = Math.random() > 0.6 ? '2px' : '3px';
+            particle.style.width = size;
+            particle.style.height = size;
+            particle.style.backgroundColor = particleColors[Math.floor(Math.random() * particleColors.length)];
+            
+            let targetX = 0;
+            let targetY = 0;
+            const baseVerticalSpread = 12 + (Math.random() * 12) + (ratio * 20);
 
-            btn.addEventListener('click', function() {
+            if (type === 'top') {
+                targetX = (Math.random() - 0.5) * (ratio * 30);
+                targetY = -baseVerticalSpread;
+            } 
+            else if (type === 'bottom') {
+                targetX = (Math.random() - 0.5) * (ratio * 30);
+                targetY = baseVerticalSpread;
+            } 
+            else if (type === 'front') {
+                const angle = (Math.random() - 0.5) * Math.PI; 
+                const velocity = 15 + (Math.random() * 12) + (ratio * 25);
+                targetX = Math.cos(angle) * velocity;
+                targetY = Math.sin(angle) * velocity;
+            }
 
-                const q = assessmentQuestions[qIdx];
+            particle.style.setProperty('--tw-x', `${targetX}px`);
+            particle.style.setProperty('--tw-y', `${targetY}px`);
+            particle.style.animationDelay = `${Math.random() * 0.03}s`;
 
-                const val = parseInt(this.getAttribute('data-val'));
+            masterEmitter.appendChild(particle);
+        }
 
-                
+        function triggerEffects(currentIdx, total) {
+            const ratio = currentIdx / total;
 
-                let points = val;
+            // Update Emitter Position to follow the bar
+            masterEmitter.style.left = `${ratio * 100}%`;
 
-                if (q.invert) { points = 5 - val; }
-
-                
-
-                scores[q.category] += points;
-
-                qIdx++;
-
-                
-
-                // 100ms kinetic delay allows the physical CSS button 'squash' animation to fire
-
-                setTimeout(() => {
-
-                    if (qIdx < assessmentQuestions.length) {
-
-                        renderQ();
-
-                    } else {
-
-                        showA();
-
-                    }
-
-                }, 100); 
-
+            // 1. EXPONENTIAL WOBBLE PROGRESSION
+            xpBarContainer.style.animation = 'none';
+            void xpBarContainer.offsetWidth; 
+            
+            const progressiveCurve = Math.pow(ratio, 2);
+            const squishFactor = 1 - (progressiveCurve * 0.12);
+            const stretchFactor = 1 + (progressiveCurve * 0.16);
+            
+            xpBarContainer.animate([
+                { transform: 'scale(1, 1)' },
+                { transform: `scale(1.03, ${squishFactor})` }, 
+                { transform: `scale(0.97, ${stretchFactor})` }, 
+                { transform: 'scale(1, 1)' }
+            ], {
+                duration: 110 + (ratio * 40), 
+                easing: 'steps(4)', 
+                fill: 'forwards'
             });
 
+            // 2. SCALED RETRO WHITE FLASH INTENSITY
+            if(flashOverlay) {
+                flashOverlay.style.animation = 'none';
+                void flashOverlay.offsetWidth;
+                
+                const flashDuration = 120 + (ratio * 180);
+                
+                flashOverlay.animate([
+                    { opacity: 0.9, offset: 0 },
+                    { opacity: 0.9, offset: 0.35 },
+                    { opacity: 0.4, offset: 0.7 },
+                    { opacity: 0, offset: 1 }
+                ], {
+                    duration: flashDuration,
+                    easing: 'steps(3)',
+                    fill: 'forwards'
+                });
+            }
+
+            // 3. GENERATE BURST
+            masterEmitter.innerHTML = ''; 
+
+            const verticalSideCount = Math.max(2, Math.floor(ratio * 6));
+            for (let i = 0; i < verticalSideCount; i++) {
+                spawnParticle('top', ratio);
+                spawnParticle('bottom', ratio);
+            }
+
+            const halfwayStep = Math.floor(total / 2);
+            if (currentIdx > halfwayStep) {
+                const stepsPastHalfway = currentIdx - halfwayStep;
+                const totalRemainingSteps = total - halfwayStep;
+                const frontCount = Math.floor((stepsPastHalfway / totalRemainingSteps) * 8);
+                
+                for (let i = 0; i < frontCount; i++) {
+                    spawnParticle('front', ratio);
+                }
+            }
+        }
+
+        document.querySelectorAll('.quiz-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const q = assessmentQuestions[qIdx];
+                const val = parseInt(this.getAttribute('data-val'));
+                
+                let points = val;
+                if (q.invert) { points = 5 - val; }
+                
+                scores[q.category] += points;
+                qIdx++;
+                
+                // Fire the physics payload immediately on click
+                triggerEffects(qIdx, assessmentQuestions.length);
+                
+                // Keep the delay so the physical button animation has time to show
+                setTimeout(() => {
+                    if (qIdx < assessmentQuestions.length) {
+                        renderQ();
+                    } else {
+                        showA();
+                    }
+                }, 100); 
+            });
         });
 
 
