@@ -1097,13 +1097,16 @@
             qIdx = 0; 
             scores = { selftalk: 0, emotional: 0, relationship: 0 };
             
-            // --- SCENE RESET: Clean up the Finale Vacuum Effect ---
-            document.getElementById('answers-container').style.display = ''; // Restore buttons
-            document.getElementById('question-counter').style.opacity = '1'; // Restore counter
+            // --- SCENE RESET: Clean up the Finale Vacuum Effect safely ---
+            const answersContainer = document.getElementById('answers-container');
+            answersContainer.style.opacity = '1';
+            answersContainer.style.pointerEvents = 'auto'; // Re-enable clicks
+            document.getElementById('question-counter').style.opacity = '1'; 
             
-            // Restore original question text styling
+            // Restore original question text styling by swapping only the color/pulse classes
             const qText = document.getElementById('question-text');
-            qText.className = "text-2xl md:text-3xl font-black text-white mb-8 md:mb-10 leading-tight tracking-tight min-h-[140px] md:min-h-[120px]";
+            qText.classList.remove('text-transparent', 'bg-clip-text', 'bg-gradient-to-r', 'from-lime-400', 'to-green-500', 'animate-pulse');
+            qText.classList.add('text-white');
             
             // Clear any straggling particles
             const masterEmitter = document.getElementById('master-emitter-container');
@@ -1348,15 +1351,17 @@
                     const progressBar = document.getElementById('quiz-progress');
                     if (progressBar) progressBar.style.width = '100%';
                     
-                    // 2. THE CUT: Isolate the tension by removing the UI
-                    document.getElementById('answers-container').style.display = 'none';
+                    // 2. THE CUT: Ghost the UI so it holds the layout structure perfectly still
+                    const answersContainer = document.getElementById('answers-container');
+                    answersContainer.style.opacity = '0';
+                    answersContainer.style.pointerEvents = 'none'; // Disable clicking
                     document.getElementById('question-counter').style.opacity = '0';
                     
-                    // 3. Inject the glowing success message
+                    // 3. Inject the glowing success message without changing font sizes or margins
                     const qText = document.getElementById('question-text');
                     qText.innerText = "ASSESSMENT COMPLETE.";
-                    // Morph the text styling to a pulsing, glowing green gradient
-                    qText.className = "text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-green-500 mb-8 md:mb-10 text-center animate-pulse tracking-widest mt-12";
+                    qText.classList.remove('text-white');
+                    qText.classList.add('text-transparent', 'bg-clip-text', 'bg-gradient-to-r', 'from-lime-400', 'to-green-500', 'animate-pulse');
                     
                     // 4. Fire finale blast
                     triggerFinaleEffects();
