@@ -425,12 +425,10 @@
     </div>
 
 
-    <div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-black/90 overflow-y-auto">
+    <div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-black/90 flex items-center justify-center p-4">
+        <div class="w-full flex items-center justify-center">
 
-        <div class="min-h-screen flex items-center justify-center px-4 py-12 md:py-20 w-full">
-
-            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-12 rounded-3xl shadow-2xl my-auto transform-gpu">
-
+            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-8 rounded-3xl shadow-2xl my-auto transform-gpu">
                 <button onclick="closeModals()" class="absolute top-3 right-3 md:top-8 md:right-8 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50">
 
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -442,7 +440,7 @@
     
                     <div class="mb-4 text-xs font-mono text-blue-500 uppercase tracking-[0.2em] font-bold" id="question-counter">Free assessment</div>
 
-                    <div id="xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
+                    <div id="xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-5 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
                         <div id="quiz-progress" class="h-full w-0 transition-[width] duration-150 ease-out relative" 
                             style="background: linear-gradient(to bottom, 
                                 #315c10 0%, #315c10 16.6%, 
@@ -458,13 +456,13 @@
                         <div id="master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-20"></div>
                     </div>
 
-                    <h2 id="question-text" class="text-2xl md:text-3xl font-black text-white mb-8 md:mb-10 leading-tight tracking-tight min-h-[140px] md:min-h-[120px]"></h2>
+                    <h2 id="question-text" class="text-2xl md:text-3xl font-black text-white mb-6 md:mb-8 leading-tight tracking-tight min-h-[100px] md:min-h-[90px]"></h2>
                     
-                    <div id="answers-container" class="flex flex-col gap-3 md:gap-4 mt-auto">
-                        <button class="quiz-btn p-6 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="1">Strongly Disagree</button>
-                        <button class="quiz-btn p-6 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="2">Disagree</button>
-                        <button class="quiz-btn p-6 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="3">Agree</button>
-                        <button class="quiz-btn p-6 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="4">Strongly Agree</button>
+                    <div id="answers-container" class="flex flex-col gap-2 md:gap-3 mt-auto">
+                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="1">Strongly Disagree</button>
+                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="2">Disagree</button>
+                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="3">Agree</button>
+                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="4">Strongly Agree</button>
                     </div>
                 </div>
 
