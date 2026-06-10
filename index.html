@@ -1333,20 +1333,27 @@
                 qIdx++;
                 
                 if (qIdx === assessmentQuestions.length) {
-                    // Bypass renderQ() to prevent an array out-of-bounds error. 
-                    // Manually force the bar to 100% instead.
+                    // 1. Force the bar to 100%
                     const progressBar = document.getElementById('quiz-progress');
-                    if (progressBar) {
-                        progressBar.style.width = '100%';
-                    }
+                    if (progressBar) progressBar.style.width = '100%';
                     
-                    // Fire finale blast
+                    // 2. THE CUT: Isolate the tension by removing the UI
+                    document.getElementById('answers-container').style.display = 'none';
+                    document.getElementById('question-counter').style.opacity = '0';
+                    
+                    // 3. Inject the glowing success message
+                    const qText = document.getElementById('question-text');
+                    qText.innerText = "ASSESSMENT COMPLETE.";
+                    // Morph the text styling to a pulsing, glowing green gradient
+                    qText.className = "text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-green-500 mb-8 md:mb-10 text-center animate-pulse tracking-widest mt-12";
+                    
+                    // 4. Fire finale blast
                     triggerFinaleEffects();
                     
-                    // Wait exactly 3 seconds from the start of the blast to show results
+                    // 5. Tension Hold: Wait exactly 3 seconds before showing results
                     setTimeout(() => {
                         showA();
-                    }, 2000);
+                    }, 3000);
 
                 } else {
                     // Standard progressing behavior
