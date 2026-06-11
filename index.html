@@ -1453,7 +1453,24 @@
 
         function bookFromModal() { closeModals(); document.getElementById('book').scrollIntoView(); }
 
-        
+        // --- PARALLAX ENGINE ---
+        const parallaxHero = document.getElementById('parallax-hero');
+        let isTicking = false;
+
+        window.addEventListener('scroll', () => {
+            if (!parallaxHero) return;
+            
+            if (!isTicking) {
+                window.requestAnimationFrame(() => {
+                    // Only calculate parallax if the hero section is actually in the viewport
+                    if (window.scrollY <= parallaxHero.offsetHeight + 100) {
+                        parallaxHero.style.setProperty('--scroll', `${window.scrollY}px`);
+                    }
+                    isTicking = false;
+                });
+                isTicking = true;
+            }
+        }, { passive: true });
 
         // --- CANVAS ENGINE ---
 
