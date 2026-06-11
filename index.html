@@ -678,120 +678,44 @@
 
                 
 
-                <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 md:pb-0 md:contents [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-zinc-950/50 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-600 [&::-webkit-scrollbar-thumb]:rounded-full w-full">
-
+                <div class="flex gap-4 mb-4 md:mb-0 md:contents w-full">
                     
-
-                    <div class="snap-start flex-shrink-0 w-[85%] md:w-full bg-zinc-950 p-3 md:p-4 rounded-2xl border border-white/5 flex flex-col gap-3 items-center justify-center md:col-start-3 md:row-start-1">
-
-                        
-
-                        <div class="flex flex-row md:flex-col justify-between md:justify-center items-center w-full px-1 md:px-0 gap-0 md:gap-4">
-
-                            <button id="btn-pencil" title="Pencil" class="p-2 md:p-3 rounded-xl transition-all hover:scale-105 active:scale-95 hover:bg-zinc-800 hover:text-white bg-zinc-800 text-white border border-white/10 ring-2 ring-blue-500">
-
-                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-
-                            </button>
-
-                            <button id="btn-bucket" title="Fill Bucket" class="p-2 md:p-3 rounded-xl transition-all hover:scale-105 active:scale-95 hover:bg-zinc-800 hover:text-white text-zinc-500 border border-transparent">
-
-                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 5 5"/><path d="M2 13h15"/><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"/></svg>
-
-                            </button>
-
-                            <button id="btn-eraser" title="Eraser" class="p-2 md:p-3 rounded-xl transition-all hover:scale-105 active:scale-95 hover:bg-zinc-800 hover:text-white text-zinc-500 border border-transparent">
-
-                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21Z"/><path d="m5 11 9 9"/></svg>
-
-                            </button>
-
-                            
-
-                            <div class="h-px w-full md:w-8 bg-zinc-800 hidden md:block"></div>
-
-                            
-
-                            <button id="btn-undo" title="Undo" class="p-2 md:p-3 rounded-xl transition-all hover:scale-105 active:scale-95 hover:bg-zinc-800 hover:text-white text-zinc-500 border border-transparent">
-
-                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
-
-                            </button>
-
-                            <button id="btn-redo" title="Redo" class="p-2 md:p-3 rounded-xl transition-all hover:scale-105 active:scale-95 hover:bg-zinc-800 hover:text-white text-zinc-500 border border-transparent">
-
-                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
-
-                            </button>
-
+                    <button onclick="openColorModal()" class="w-20 h-full md:w-full md:h-32 bg-[#000000] border-4 border-zinc-800 rounded-2xl shadow-inner transition-transform hover:scale-105 active:scale-95 flex-shrink-0 md:col-start-1 md:row-start-1 flex flex-col items-center justify-center group relative overflow-hidden" id="current-color-indicator" title="Pick Color">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
                         </div>
+                    </button>
 
+                    <div class="bg-zinc-950 p-3 md:p-4 rounded-2xl border border-white/5 flex flex-col gap-3 items-center justify-center md:col-start-3 md:row-start-1 flex-1">
+                        
+                        <div class="flex flex-row md:flex-col justify-between md:justify-center items-center w-full px-1 md:px-0 gap-0 md:gap-4">
+                            <button id="btn-pencil" title="Pencil" class="p-2 md:p-3 rounded-xl transition-all hover:scale-105 active:scale-95 hover:bg-zinc-800 hover:text-white bg-zinc-800 text-white border border-white/10 ring-2 ring-blue-500">
+                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                            </button>
+                            <button id="btn-bucket" title="Fill Bucket" class="p-2 md:p-3 rounded-xl transition-all hover:scale-105 active:scale-95 hover:bg-zinc-800 hover:text-white text-zinc-500 border border-transparent">
+                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 5 5"/><path d="M2 13h15"/><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"/></svg>
+                            </button>
+                            <button id="btn-eraser" title="Eraser" class="p-2 md:p-3 rounded-xl transition-all hover:scale-105 active:scale-95 hover:bg-zinc-800 hover:text-white text-zinc-500 border border-transparent">
+                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21Z"/><path d="m5 11 9 9"/></svg>
+                            </button>
+                            
+                            <div class="h-px w-full md:w-8 bg-zinc-800 hidden md:block"></div>
+                            
+                            <button id="btn-undo" title="Undo" class="p-2 md:p-3 rounded-xl transition-all hover:scale-105 active:scale-95 hover:bg-zinc-800 hover:text-white text-zinc-500 border border-transparent">
+                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+                            </button>
+                            <button id="btn-redo" title="Redo" class="p-2 md:p-3 rounded-xl transition-all hover:scale-105 active:scale-95 hover:bg-zinc-800 hover:text-white text-zinc-500 border border-transparent">
+                                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
+                            </button>
+                        </div>
 
                         <div class="flex md:hidden items-center justify-center gap-5 bg-black/50 px-5 py-2.5 rounded-xl border border-white/5 shadow-inner w-full">
-
                             <button class="brush-btn w-2 h-2 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="2"></button>
-
                             <button class="brush-btn w-4 h-4 rounded-full bg-zinc-600 hover:bg-white transition-colors ring-2 ring-blue-500 ring-offset-4 ring-offset-zinc-950" data-size="5"></button>
-
                             <button class="brush-btn w-6 h-6 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="12"></button>
-
                             <button class="brush-btn w-8 h-8 rounded-full bg-zinc-600 hover:bg-white transition-colors" data-size="24"></button>
-
                         </div>
-
                     </div>
-
-
-                    <div class="snap-start flex-shrink-0 w-[85%] md:w-full bg-zinc-950 p-4 rounded-2xl border border-white/5 flex flex-col gap-4 items-center justify-center md:col-start-1 md:row-start-1">
-
-                        <div class="grid grid-cols-5 md:grid-cols-2 gap-3 md:gap-2 w-full justify-items-center">
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#000000] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#000000"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffffff] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffffff"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#7b7b7b] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#7b7b7b"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#c3c3c3] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#c3c3c3"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#8b181a] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#8b181a"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#b97a57] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#b97a57"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#ee2424] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ee2424"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffaec9] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffaec9"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#f47b20] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#f47b20"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffc90e] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffc90e"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#ffea00] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#ffea00"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#efe4b0] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#efe4b0"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#22b14c] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#22b14c"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#b5e61d] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#b5e61d"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#00a2e8] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#00a2e8"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#99d9ea] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#99d9ea"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#3f48cc] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#3f48cc"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#7092be] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#7092be"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#a349a4] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#a349a4"></div>
-
-                            <div class="color-swatch w-6 h-6 rounded-sm bg-[#c8bfe7] border border-white/10 cursor-pointer hover:scale-110 transition-transform" data-color="#c8bfe7"></div>
-
-                        </div>
-
-                        <div class="w-full h-8 md:h-12 rounded-lg bg-black border-2 border-zinc-800 shadow-inner transition-colors duration-200" id="current-color-indicator"></div>
-
-                    </div>
-
 
                 </div>
 
@@ -1009,6 +933,39 @@
 
     </section>
 
+<div id="color-modal" class="fixed inset-0 z-[70] hidden bg-black/90 flex items-center justify-center p-4 transform-gpu fade-in" onclick="closeColorModal()">
+        <div class="w-full max-w-sm bg-zinc-900 border border-white/10 p-8 rounded-3xl shadow-2xl relative" onclick="event.stopPropagation()">
+            <button onclick="closeColorModal()" class="absolute top-5 right-5 text-zinc-500 hover:text-white transition-transform hover:scale-110 active:scale-95">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-white font-black text-2xl mb-8 text-center tracking-tight">Pick a Color</h3>
+            <div class="grid grid-cols-5 gap-4 justify-items-center">
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#000000] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#000000"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#ffffff] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#ffffff"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#7b7b7b] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#7b7b7b"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#c3c3c3] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#c3c3c3"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#8b181a] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#8b181a"></div>
+                
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#b97a57] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#b97a57"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#ee2424] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#ee2424"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#ffaec9] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#ffaec9"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#f47b20] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#f47b20"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#ffc90e] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#ffc90e"></div>
+                
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#ffea00] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#ffea00"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#efe4b0] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#efe4b0"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#22b14c] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#22b14c"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#b5e61d] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#b5e61d"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#00a2e8] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#00a2e8"></div>
+                
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#99d9ea] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#99d9ea"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#3f48cc] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#3f48cc"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#7092be] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#7092be"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#a349a4] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#a349a4"></div>
+                <div class="color-swatch w-10 h-10 rounded-full bg-[#c8bfe7] border-2 border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-lg" data-color="#c8bfe7"></div>
+            </div>
+        </div>
+    </div>
 
     <script>
 
@@ -1531,18 +1488,27 @@
 
 
         colorSwatches.forEach(swatch => {
-
             swatch.addEventListener('click', () => {
-
                 currentColor = swatch.getAttribute('data-color');
-
                 colorIndicator.style.backgroundColor = currentColor;
-
-                if (currentTool === 'pencil') { ctx.strokeStyle = currentColor; }
-
+                
+                if (currentTool === 'pencil' || currentTool === 'bucket') { 
+                    ctx.strokeStyle = currentColor; 
+                }
+                
+                closeColorModal();
             });
-
         });
+
+        function openColorModal() {
+            document.body.style.overflow = 'hidden';
+            document.getElementById('color-modal').classList.remove('hidden');
+        }
+
+        function closeColorModal() {
+            document.body.style.overflow = 'auto';
+            document.getElementById('color-modal').classList.add('hidden');
+        }
 
 
         brushBtns.forEach(btn => {
