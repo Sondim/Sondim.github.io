@@ -1512,82 +1512,58 @@
 
 
         colorSwatches.forEach(swatch => {
-
             swatch.addEventListener('click', () => {
-
                 currentColor = swatch.getAttribute('data-color');
-
                 colorIndicator.style.backgroundColor = currentColor;
-
                 if (currentTool === 'pencil') { ctx.strokeStyle = currentColor; }
-
+                
+                // SNAP CLOSE ON MOBILE: Get back to drawing immediately
+                document.getElementById('mobile-color-modal').classList.add('hidden');
             });
-
         });
-
 
         brushBtns.forEach(btn => {
-
             btn.addEventListener('click', () => {
-
                 ctx.lineWidth = parseInt(btn.getAttribute('data-size'));
-
                 brushBtns.forEach(b => b.classList.remove('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-zinc-950'));
-
                 btn.classList.add('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-zinc-950');
-
             });
-
         });
-
 
         const activeClasses = ['bg-zinc-800', 'text-white', 'border-white/10', 'ring-2', 'ring-blue-500'];
-
         const inactiveClasses = ['text-zinc-500', 'border-transparent'];
 
-
         function clearToolStates() {
-
             [btnPencil, btnEraser, btnBucket].forEach(btn => {
-
                 btn.classList.remove(...activeClasses);
-
                 btn.classList.add(...inactiveClasses);
-
             });
-
         }
-
 
         function setActiveTool(btn) {
-
             clearToolStates();
-
             btn.classList.remove(...inactiveClasses);
-
             btn.classList.add(...activeClasses);
-
         }
 
-
         btnPencil.addEventListener('click', () => {
-
             currentTool = 'pencil'; ctx.strokeStyle = currentColor; setActiveTool(btnPencil);
-
+            // OPEN MODAL ONLY ON MOBILE (Under 768px)
+            if (window.innerWidth < 768) {
+                document.getElementById('mobile-color-modal').classList.remove('hidden');
+            }
         });
-
 
         btnEraser.addEventListener('click', () => {
-
             currentTool = 'eraser'; ctx.strokeStyle = '#ffffff'; setActiveTool(btnEraser);
-
         });
 
-
         btnBucket.addEventListener('click', () => {
-
             currentTool = 'bucket'; setActiveTool(btnBucket);
-
+            // OPEN MODAL ONLY ON MOBILE (Under 768px)
+            if (window.innerWidth < 768) {
+                document.getElementById('mobile-color-modal').classList.remove('hidden');
+            }
         });
 
 
