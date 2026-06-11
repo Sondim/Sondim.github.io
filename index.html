@@ -1467,28 +1467,39 @@
 
 
         let currentColor = '#000000';
-
         let currentTool = 'pencil';
-
         let undoStack = [];
-
         let redoStack = [];
-
-
-        ctx.fillStyle = '#ffffff';
-
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-
         let isDrawing = false;
 
-        ctx.lineWidth = 5;
+        function syncCanvasResolution() {
+            // Save existing drawing data if the screen rotates or resizes
+            const savedImage = canvas.toDataURL(); 
+            
+            // Update internal resolution to match actual display pixels
+            canvas.width = canvas.offsetWidth || 600;
+            canvas.height = canvas.offsetHeight || 450;
+            
+            // Re-initialize canvas background and styles
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Keep current brush size and color active
+            const activeBrush = document.querySelector('.brush-btn.ring-blue-500');
+            ctx.lineWidth = activeBrush ? parseInt(activeBrush.getAttribute('data-size')) : 5;
+            ctx.strokeStyle = currentTool === 'eraser' ? '#ffffff' : currentColor;
+            
+            // Redraw the saved image so the canvas doesn't clear out
+            const img = new Image();
+            img.onload = () => ctx.drawImage(img, 0, 0);
+            img.src = savedImage;
+        }
 
-        ctx.lineCap = 'round';
-
-        ctx.lineJoin = 'round';
-
-        ctx.strokeStyle = currentColor;
+        // Apply immediately on load, and adjust if mobile device rotates
+        syncCanvasResolution();
+        window.addEventListener('resize', syncCanvasResolution);
 
 
         const colorSwatches = document.querySelectorAll('.color-swatch');
