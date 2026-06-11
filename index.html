@@ -291,11 +291,11 @@
 
     <nav class="sticky top-0 z-40 bg-zinc-950/70 backdrop-blur-xl border-b border-white/5">
         <div class="max-w-4xl mx-auto px-6 py-4 md:py-6 flex justify-between items-center relative">
+            
             <a href="#" class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-pointer z-50">
                 <span>S</span><span>O</span><span class="text-blue-500">N</span><span>D</span><span>I</span><span>M</span>
             </a>
 
-            <!-- Hamburger Button (Mobile Only) -->
             <button id="mobile-menu-btn" class="md:hidden text-zinc-400 hover:text-white z-50 p-2 -mr-2 transition-transform active:scale-95">
                 <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -305,18 +305,16 @@
                 </svg>
             </button>
 
-            <!-- Desktop navigation container -->
             <div class="hidden md:flex gap-6 items-center">
-                <a href="#render-state" class="text-xs font-mono uppercase tracking-widest text-zinc-500 hover:text-blue-400 transition-colors">[ Draw your problem ]</a>
-                <a href="#contact" class="text-xs font-mono uppercase tracking-widest text-zinc-500 hover:text-blue-400 transition-colors">[ Contact ]</a>
-                <a href="#book" class="text-xs font-mono uppercase tracking-widest text-zinc-400 hover:text-blue-400 transition-colors font-bold">[ Book a session ]</a>
+                <a href="#render-state" class="text-[15px] font-mono uppercase tracking-widest text-zinc-500 hover:text-blue-400 transition-colors">[ Draw your problem ]</a>
+                <a href="#contact" class="text-[15px] font-mono uppercase tracking-widest text-zinc-500 hover:text-blue-400 transition-colors">[ Contact ]</a>
+                <a href="#book" class="text-[15px] font-mono uppercase tracking-widest text-zinc-400 hover:text-blue-400 transition-colors font-bold">[ Book a session ]</a>
             </div>
             
-            <!-- Mobile Dropdown Menu -->
             <div id="mobile-menu" class="absolute top-full left-0 w-full bg-zinc-950/95 backdrop-blur-xl border-b border-white/5 hidden flex-col items-center py-8 gap-8 shadow-2xl transition-all md:hidden">
-                <a href="#render-state" class="mobile-link text-xs font-mono uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">[ Draw your problem ]</a>
-                <a href="#contact" class="mobile-link text-xs font-mono uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">[ Contact ]</a>
-                <a href="#book" class="mobile-link text-xs font-mono uppercase tracking-widest text-blue-400 hover:text-white transition-colors font-bold">[ Book a session ]</a>
+                <a href="#render-state" class="mobile-link text-[15px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">[ Draw your problem ]</a>
+                <a href="#contact" class="mobile-link text-[15px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">[ Contact ]</a>
+                <a href="#book" class="mobile-link text-[15px] font-mono uppercase tracking-widest text-blue-400 hover:text-white transition-colors font-bold">[ Book a session ]</a>
             </div>
         </div>
     </nav>
