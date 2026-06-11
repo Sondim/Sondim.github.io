@@ -335,14 +335,15 @@
 <body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
 
 
-    <nav class="sticky top-0 z-40 bg-zinc-950/70 backdrop-blur-xl border-b border-white/5">
-        <div class="max-w-4xl mx-auto px-6 py-4 md:py-6 flex justify-between items-center relative">
+    <!-- FLOATING RETRO NAV HUD -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-[#0b0f12]/80 backdrop-blur-md border-b-2 border-rpg-border shadow-lg">
+        <div class="max-w-4xl mx-auto px-6 py-4 md:py-5 flex justify-between items-center relative">
             
             <a href="#" class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-pointer z-50">
-                <span>S</span><span>O</span><span class="text-blue-500">N</span><span>D</span><span>I</span><span>M</span>
+                <span>S</span><span>O</span><span class="text-rpg-armor">N</span><span>D</span><span>I</span><span>M</span>
             </a>
 
-            <button id="mobile-menu-btn" class="md:hidden text-zinc-400 hover:text-white z-50 p-2 -mr-2 transition-transform active:scale-95">
+            <button id="mobile-menu-btn" class="md:hidden text-rpg-muted hover:text-white z-50 p-2 -mr-2 transition-transform active:scale-95">
                 <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
@@ -352,15 +353,15 @@
             </button>
 
             <div class="hidden md:flex gap-6 items-center">
-                <a href="#render-state" class="text-[15px] font-mono uppercase tracking-widest text-zinc-500 hover:text-blue-400 transition-colors">[ Draw your problem ]</a>
-                <a href="#contact" class="text-[15px] font-mono uppercase tracking-widest text-zinc-500 hover:text-blue-400 transition-colors">[ Contact ]</a>
-                <a href="#book" class="text-[15px] font-mono uppercase tracking-widest text-zinc-400 hover:text-blue-400 transition-colors font-bold">[ Book a session ]</a>
+                <a href="#render-state" class="text-[15px] uppercase tracking-widest text-rpg-muted hover:text-white transition-colors">[ Draw your problem ]</a>
+                <a href="#contact" class="text-[15px] uppercase tracking-widest text-rpg-muted hover:text-white transition-colors">[ Contact ]</a>
+                <a href="#book" class="text-[15px] uppercase tracking-widest text-rpg-armor hover:text-rpg-armor-hover transition-colors font-bold">[ Book a session ]</a>
             </div>
             
-            <div id="mobile-menu" class="absolute top-full left-0 w-full bg-zinc-950/95 backdrop-blur-xl border-b border-white/5 hidden flex-col items-center py-8 gap-8 shadow-2xl transition-all md:hidden">
-                <a href="#render-state" class="mobile-link text-[15px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">[ Draw your problem ]</a>
-                <a href="#contact" class="mobile-link text-[15px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">[ Contact ]</a>
-                <a href="#book" class="mobile-link text-[15px] font-mono uppercase tracking-widest text-blue-400 hover:text-white transition-colors font-bold">[ Book a session ]</a>
+            <div id="mobile-menu" class="absolute top-full left-0 w-full bg-[#0b0f12]/95 backdrop-blur-md border-b-2 border-rpg-border hidden flex-col items-center py-8 gap-8 shadow-2xl transition-all md:hidden z-40">
+                <a href="#render-state" class="mobile-link text-[15px] uppercase tracking-widest text-rpg-muted hover:text-white transition-colors">[ Draw your problem ]</a>
+                <a href="#contact" class="mobile-link text-[15px] uppercase tracking-widest text-rpg-muted hover:text-white transition-colors">[ Contact ]</a>
+                <a href="#book" class="mobile-link text-[15px] uppercase tracking-widest text-rpg-armor hover:text-rpg-armor-hover transition-colors font-bold">[ Book a session ]</a>
             </div>
         </div>
     </nav>
