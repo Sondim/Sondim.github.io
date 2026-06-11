@@ -11,10 +11,56 @@
     <title>Sondim | Founder Coaching</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=VT323&display=swap" rel="stylesheet">
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        retro: ['VT323', 'monospace'],
+                        engine: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        'rpg-card': '#11161B', 
+                        'rpg-border': '#070A0C', 
+                        'rpg-text': '#E6EAD8', 
+                        'rpg-armor': '#89A354', 
+                        'rpg-armor-hover': '#9FBD62',
+                        'rpg-crimson': '#B83C3C', 
+                        'rpg-muted': '#8BA2AD', 
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
+        /* --- RPG ENGINE PHYSICS & PARALLAX --- */
+        #parallax-hero {
+            --scroll: 0px;
+        }
+        .pixel-bg {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            will-change: transform;
+        }
+        .rpg-btn {
+            box-shadow: inset -2px -2px 0px rgba(0,0,0,0.4), 
+                        inset 2px 2px 0px rgba(255,255,255,0.1),
+                        4px 4px 0px var(--tw-colors-rpg-border);
+        }
+        .rpg-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: inset -2px -2px 0px rgba(0,0,0,0.6), 
+                        inset 2px 2px 0px rgba(0,0,0,0.2),
+                        0px 0px 0px var(--tw-colors-rpg-border);
+        }
+        .rpg-card {
+            box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.5);
+        }
 
         html { scroll-behavior: smooth; }
 
@@ -320,74 +366,52 @@
     </nav>
 
 
-    <section class="max-w-4xl mx-auto px-6 py-12 md:py-24 flex flex-col md:flex-row items-center gap-12 relative z-10">
+    <!-- MULTI-LAYER PARALLAX HERO STAGE -->
+    <section id="parallax-hero" class="relative w-full min-h-[100vh] flex items-center justify-center overflow-hidden bg-rpg-border select-none border-b border-white/5">
+        
+        <!-- PARALLAX LAYERS (Driven by JS Scroll Engine) -->
+        <img src="hero_1.png" alt="Sky" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-0" style="transform: translateY(calc(var(--scroll) * 0.05));">
+        <img src="hero_2.png" alt="Distant Clouds" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-0" style="transform: translateY(calc(var(--scroll) * 0.15));">
+        <img src="hero_3.png" alt="Castle and Path" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-0" style="transform: translateY(calc(var(--scroll) * 0.30));">
+        <img src="hero_4.png" alt="Mist Mountains" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-10" style="transform: translateY(calc(var(--scroll) * 0.50));">
+        <img src="hero_5.png" alt="Knight" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-10" style="transform: translateY(calc(var(--scroll) * 0.75));">
+        <img src="hero_6.png" alt="Foreground Trees" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-20" style="transform: translateY(calc(var(--scroll) * 1.00));">
 
-        <div class="absolute -top-24 -left-24 w-72 h-72 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <!-- Screen Grid Overlay (Ties the layers together visually) -->
+        <div class="absolute inset-0 pixel-grid z-20 mix-blend-overlay"></div>
 
-        <div class="group relative w-56 h-56 md:w-72 md:h-72 flex-shrink-0 animate-float">
-
-            <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl blur opacity-20"></div>
-
-            <div class="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl bg-zinc-900 border border-white/10">
-
-                <img src="IMG_4416.jpg" alt="Magnus" class="w-full h-full object-cover">
-
-            </div>
-
-        </div>
-
-        <div class="flex-1 text-center md:text-left z-10">
-
-            <h1 class="text-4xl md:text-6xl font-black mb-6 text-white leading-[0.9] tracking-tighter">Make <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">great</span> games</h1>
-
-            <p class="text-lg md:text-xl text-zinc-400 mb-10 leading-relaxed font-medium">without burning out</p>
-
+        <!-- THE ADVENTURE HEADS-UP DISPLAY CARD -->
+        <div class="rpg-card bg-rpg-card/90 backdrop-blur-sm border-4 border-rpg-border p-8 md:p-12 max-w-2xl w-full relative z-30 mx-6 mt-16">
             
-
-            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start flex-wrap mt-8">
-
-                <a href="#book" style="--sparkle-color: rgba(0, 0, 0, 0.4);" class="sparkle-btn px-6 py-4 bg-white text-black rounded-xl font-black shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1 transition-all text-center block sm:inline-block">
-
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                    <span class="btn-text-back" aria-hidden="true">Book Session</span>
-
-                    <span class="btn-text-front">Book Session</span>
-
-                </a>
-
-                
-
-                <button onclick="openAssessment()" style="--sparkle-color: rgba(96, 165, 250, 0.8);" class="sparkle-btn px-6 py-4 bg-blue-600/20 border border-blue-500/50 text-blue-400 rounded-xl font-bold shadow-[0_5px_0_0_#1e3a8a] active:translate-y-1 transition-all">
-
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                    <span class="btn-text-back" aria-hidden="true">Free Assessment</span>
-
-                    <span class="btn-text-front">Free Assessment</span>
-
-                </button>
-
+            <!-- Quest Tracking Accent -->
+            <div class="flex items-center gap-3 mb-6 border-b-2 border-rpg-border/50 pb-4">
+                <div class="w-3 h-3 bg-rpg-crimson animate-pulse border border-rpg-border shadow-[2px_2px_0px_#070A0D]"></div>
+                <h2 class="font-retro text-rpg-text opacity-70 text-xl md:text-2xl tracking-widest mt-1 uppercase">
+                    Active Campaign
+                </h2>
             </div>
+            
+            <!-- Pixel Header -->
+            <h1 class="font-retro text-5xl md:text-7xl text-white mb-6 leading-[0.9] tracking-tight drop-shadow-[3px_3px_0px_#070A0C]">
+                Make great games without burning out.
+            </h1>
+            
+            <!-- Highly Readable, Professional IDE Text -->
+            <p class="font-engine text-sm md:text-base mb-10 leading-relaxed text-rpg-muted max-w-xl">
+                Building a masterpiece requires conquering the hardest bosses first: imposter syndrome, critical self-talk, and the fear of shipping. Let's map out the terrain and equip you for the journey.
+            </p>
 
+            <!-- Heavy Tactile Buttons (Wired to your existing functions) -->
+            <div class="flex flex-col sm:flex-row gap-5 font-engine">
+                <button onclick="openAssessment()" class="rpg-btn bg-rpg-armor text-rpg-card font-extrabold border-4 border-rpg-border px-8 py-4 text-sm md:text-base uppercase tracking-wider hover:bg-rpg-armor-hover text-center w-full sm:w-auto">
+                    [ Begin Quest ]
+                </button>
+                
+                <a href="#book" class="rpg-btn bg-rpg-card text-rpg-text font-bold border-4 border-rpg-border px-8 py-4 text-sm md:text-base uppercase tracking-wider hover:bg-black/40 text-center w-full sm:w-auto inline-block">
+                    [ Inspect Map ]
+                </a>
+            </div>
         </div>
-
     </section>
 
 
