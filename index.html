@@ -38,14 +38,77 @@
     </script>
 
     <style>
-        /* --- RPG ENGINE PHYSICS & PARALLAX --- */
-        #parallax-hero {
-            --scroll: 0px;
+        /* --- HARDWARE 3D PARALLAX ENGINE --- */
+        html, body {
+            height: 100%;
+            overflow: hidden; /* Lock native scroll */
+            background-color: #3B2A2E; /* Seamless blend color */
         }
-        .pixel-bg {
+
+        .parallax-viewport {
+            perspective: 100px;
+            height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            scroll-behavior: smooth;
+        }
+
+        .parallax__layer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .parallax__layer img {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             image-rendering: pixelated;
             image-rendering: crisp-edges;
-            will-change: transform;
+        }
+
+        /* Pre-calculated SCSS math: transform: translateZ(-100 * $x px) scale($x + 1)
+           Perspective = 100px. Farthest = 1, Closest = 6.
+        */
+        .parallax__layer__1 { transform: translateZ(-250px) scale(3.5); z-index: 1; }
+        .parallax__layer__2 { transform: translateZ(-200px) scale(3.0); z-index: 2; }
+        .parallax__layer__3 { transform: translateZ(-150px) scale(2.5); z-index: 3; }
+        .parallax__layer__4 { transform: translateZ(-100px) scale(2.0); z-index: 4; }
+        .parallax__layer__5 { transform: translateZ(-50px)  scale(1.5); z-index: 5; }
+        .parallax__layer__6 { transform: translateZ(0px)    scale(1.0); z-index: 6; }
+
+        .parallax__cover {
+            display: block;
+            position: relative;
+            z-index: 10; /* Sits above all 3D layers */
+            background-color: #3B2A2E;
+            margin-top: 100vh; /* Pushes content exactly below the hero scene */
+        }
+
+        /* Hero UI Container in 3D Space */
+        .parallax__ui {
+            transform: translateZ(0px) scale(1);
+            z-index: 7;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none; /* Let scroll/clicks pass through empty space */
+        }
+        
+        .parallax__ui > * {
+            pointer-events: auto; /* Re-enable clicks on the UI card */
         }
         .rpg-btn {
             box-shadow: inset -2px -2px 0px rgba(0,0,0,0.4), 
@@ -332,87 +395,72 @@
 
 </head>
 
-<body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
+<body class="bg-[#3B2A2E] text-zinc-100 font-sans selection:bg-rpg-armor selection:text-[#3B2A2E]">
 
-
-    <nav class="sticky top-0 z-40 bg-zinc-950/70 backdrop-blur-xl border-b border-white/5">
-        <div class="max-w-4xl mx-auto px-6 py-4 md:py-6 flex justify-between items-center relative">
-            
-            <a href="#" class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-pointer z-50">
-                <span>S</span><span>O</span><span class="text-blue-500">N</span><span>D</span><span>I</span><span>M</span>
-            </a>
-
-            <button id="mobile-menu-btn" class="md:hidden text-zinc-400 hover:text-white z-50 p-2 -mr-2 transition-transform active:scale-95">
-                <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-                <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-
-            <div class="hidden md:flex gap-6 items-center">
-                <a href="#render-state" class="text-[15px] font-mono uppercase tracking-widest text-zinc-500 hover:text-blue-400 transition-colors">[ Draw your problem ]</a>
-                <a href="#contact" class="text-[15px] font-mono uppercase tracking-widest text-zinc-500 hover:text-blue-400 transition-colors">[ Contact ]</a>
-                <a href="#book" class="text-[15px] font-mono uppercase tracking-widest text-zinc-400 hover:text-blue-400 transition-colors font-bold">[ Book a session ]</a>
-            </div>
-            
-            <div id="mobile-menu" class="absolute top-full left-0 w-full bg-zinc-950/95 backdrop-blur-xl border-b border-white/5 hidden flex-col items-center py-8 gap-8 shadow-2xl transition-all md:hidden">
-                <a href="#render-state" class="mobile-link text-[15px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">[ Draw your problem ]</a>
-                <a href="#contact" class="mobile-link text-[15px] font-mono uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">[ Contact ]</a>
-                <a href="#book" class="mobile-link text-[15px] font-mono uppercase tracking-widest text-blue-400 hover:text-white transition-colors font-bold">[ Book a session ]</a>
-            </div>
-        </div>
-    </nav>
-
-
-    <!-- MULTI-LAYER PARALLAX HERO STAGE -->
-    <section id="parallax-hero" class="relative w-full min-h-[100vh] flex items-center justify-center overflow-hidden bg-rpg-border select-none border-b border-white/5">
+    <div class="parallax-viewport">
         
-        <!-- PARALLAX LAYERS (Driven by JS Scroll Engine) -->
-        <img src="hero_1.png" alt="Sky" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-0" style="transform: translateY(calc(var(--scroll) * 0.05));">
-        <img src="hero_2.png" alt="Distant Clouds" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-0" style="transform: translateY(calc(var(--scroll) * 0.15));">
-        <img src="hero_3.png" alt="Castle and Path" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-0" style="transform: translateY(calc(var(--scroll) * 0.30));">
-        <img src="hero_4.png" alt="Mist Mountains" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-10" style="transform: translateY(calc(var(--scroll) * 0.50));">
-        <img src="hero_5.png" alt="Knight" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-10" style="transform: translateY(calc(var(--scroll) * 0.75));">
-        <img src="hero_6.png" alt="Foreground Trees" class="absolute inset-0 w-full h-full object-cover pixel-bg pointer-events-none z-20" style="transform: translateY(calc(var(--scroll) * 1.00));">
+        <div class="parallax__layer parallax__layer__1"><img src="hero_1.png" alt="Layer 1"></div>
+        <div class="parallax__layer parallax__layer__2"><img src="hero_2.png" alt="Layer 2"></div>
+        <div class="parallax__layer parallax__layer__3"><img src="hero_3.png" alt="Layer 3"></div>
+        <div class="parallax__layer parallax__layer__4"><img src="hero_4.png" alt="Layer 4"></div>
+        <div class="parallax__layer parallax__layer__5"><img src="hero_5.png" alt="Layer 5"></div>
+        <div class="parallax__layer parallax__layer__6"><img src="hero_6.png" alt="Layer 6"></div>
 
-        <!-- Screen Grid Overlay (Ties the layers together visually) -->
-        <div class="absolute inset-0 pixel-grid z-20 mix-blend-overlay"></div>
-
-        <!-- THE ADVENTURE HEADS-UP DISPLAY CARD -->
-        <div class="rpg-card bg-rpg-card/90 backdrop-blur-sm border-4 border-rpg-border p-8 md:p-12 max-w-2xl w-full relative z-30 mx-6 mt-16">
-            
-            <!-- Quest Tracking Accent -->
-            <div class="flex items-center gap-3 mb-6 border-b-2 border-rpg-border/50 pb-4">
-                <div class="w-3 h-3 bg-rpg-crimson animate-pulse border border-rpg-border shadow-[2px_2px_0px_#070A0D]"></div>
-                <h2 class="font-retro text-rpg-text opacity-70 text-xl md:text-2xl tracking-widest mt-1 uppercase">
-                    Active Campaign
-                </h2>
-            </div>
-            
-            <!-- Pixel Header -->
-            <h1 class="font-retro text-5xl md:text-7xl text-white mb-6 leading-[0.9] tracking-tight drop-shadow-[3px_3px_0px_#070A0C]">
-                Make great games without burning out.
-            </h1>
-            
-            <!-- Highly Readable, Professional IDE Text -->
-            <p class="font-engine text-sm md:text-base mb-10 leading-relaxed text-rpg-muted max-w-xl">
-                Building a masterpiece requires conquering the hardest bosses first: imposter syndrome, critical self-talk, and the fear of shipping. Let's map out the terrain and equip you for the journey.
-            </p>
-
-            <!-- Heavy Tactile Buttons (Wired to your existing functions) -->
-            <div class="flex flex-col sm:flex-row gap-5 font-engine">
-                <button onclick="openAssessment()" class="rpg-btn bg-rpg-armor text-rpg-card font-extrabold border-4 border-rpg-border px-8 py-4 text-sm md:text-base uppercase tracking-wider hover:bg-rpg-armor-hover text-center w-full sm:w-auto">
-                    [ Begin Quest ]
-                </button>
-                
-                <a href="#book" class="rpg-btn bg-rpg-card text-rpg-text font-bold border-4 border-rpg-border px-8 py-4 text-sm md:text-base uppercase tracking-wider hover:bg-black/40 text-center w-full sm:w-auto inline-block">
-                    [ Inspect Map ]
-                </a>
+        <div class="parallax__ui">
+            <div class="rpg-card bg-[#11161B]/90 backdrop-blur-sm border-4 border-rpg-border p-8 md:p-12 max-w-2xl w-full mx-6 mt-16">
+                <div class="flex items-center gap-3 mb-6 border-b-2 border-rpg-border/50 pb-4">
+                    <div class="w-3 h-3 bg-rpg-crimson animate-pulse border border-rpg-border shadow-[2px_2px_0px_#070A0D]"></div>
+                    <h2 class="font-retro text-rpg-text opacity-70 text-xl md:text-2xl tracking-widest mt-1 uppercase">
+                        Active Campaign
+                    </h2>
+                </div>
+                <h1 class="font-retro text-5xl md:text-7xl text-white mb-6 leading-[0.9] tracking-tight drop-shadow-[3px_3px_0px_#070A0C]">
+                    Make great games without burning out.
+                </h1>
+                <p class="font-engine text-sm md:text-base mb-10 leading-relaxed text-rpg-muted max-w-xl">
+                    Building a masterpiece requires conquering the hardest bosses first: imposter syndrome, critical self-talk, and the fear of shipping. Let's map out the terrain and equip you for the journey.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-5 font-engine">
+                    <button onclick="openAssessment()" class="rpg-btn bg-rpg-armor text-[#11161B] font-extrabold border-4 border-rpg-border px-8 py-4 text-sm md:text-base uppercase tracking-wider hover:bg-rpg-armor-hover text-center w-full sm:w-auto">
+                        [ Begin Quest ]
+                    </button>
+                    <a href="#book" class="rpg-btn bg-[#11161B] text-rpg-text font-bold border-4 border-rpg-border px-8 py-4 text-sm md:text-base uppercase tracking-wider hover:bg-black/40 text-center w-full sm:w-auto inline-block">
+                        [ Inspect Map ]
+                    </a>
+                </div>
             </div>
         </div>
-    </section>
+
+        <div class="parallax__cover">
+            
+            <nav class="sticky top-0 z-40 bg-[#3B2A2E]/95 backdrop-blur-xl border-b border-white/5">
+                <div class="max-w-4xl mx-auto px-6 py-4 md:py-6 flex justify-between items-center relative">
+                    <a href="#" class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-pointer z-50 font-engine">
+                        <span>S</span><span>O</span><span class="text-rpg-armor">N</span><span>D</span><span>I</span><span>M</span>
+                    </a>
+
+                    <button id="mobile-menu-btn" class="md:hidden text-zinc-400 hover:text-white z-50 p-2 -mr-2 transition-transform active:scale-95">
+                        <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+
+                    <div class="hidden md:flex gap-6 items-center">
+                        <a href="#render-state" class="text-[15px] font-engine uppercase tracking-widest text-zinc-400 hover:text-rpg-text transition-colors">[ Draw your problem ]</a>
+                        <a href="#contact" class="text-[15px] font-engine uppercase tracking-widest text-zinc-400 hover:text-rpg-text transition-colors">[ Contact ]</a>
+                        <a href="#book" class="text-[15px] font-engine uppercase tracking-widest text-rpg-armor hover:text-rpg-armor-hover transition-colors font-bold">[ Book a session ]</a>
+                    </div>
+                    
+                    <div id="mobile-menu" class="absolute top-full left-0 w-full bg-[#3B2A2E]/95 backdrop-blur-xl border-b border-white/5 hidden flex-col items-center py-8 gap-8 shadow-2xl transition-all md:hidden">
+                        <a href="#render-state" class="mobile-link text-[15px] font-engine uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">[ Draw your problem ]</a>
+                        <a href="#contact" class="mobile-link text-[15px] font-engine uppercase tracking-widest text-zinc-400 hover:text-white transition-colors">[ Contact ]</a>
+                        <a href="#book" class="mobile-link text-[15px] font-engine uppercase tracking-widest text-rpg-armor hover:text-white transition-colors font-bold">[ Book a session ]</a>
+                    </div>
+                </div>
+            </nav>
 
 
     <section class="bg-zinc-900/40 border-y border-white/5 py-16 md:py-24">
@@ -428,265 +476,7 @@
     </section>
 
 
-    <div id="lightbox-modal" class="fixed inset-0 z-[60] hidden bg-black/90 flex items-center justify-center p-2 md:p-8 cursor-zoom-out" onclick="closeLightbox()">
-
-        <button onclick="prevLightboxImage(event)" class="absolute left-6 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center bg-zinc-900 border border-white/10 rounded-full p-4 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all hover:scale-110 active:scale-95 z-[70] cursor-pointer shadow-2xl">
-
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
-
-        </button>
-
-
-        <div class="relative flex-shrink-0 max-w-full cursor-default" onclick="event.stopPropagation()">
-
-            <button onclick="closeLightbox()" class="absolute top-3 right-3 md:-top-5 md:-right-5 bg-zinc-900 border border-white/10 rounded-full p-2 md:p-3 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all hover:scale-110 active:scale-95 z-[70] cursor-pointer shadow-2xl">
-
-                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
-
-            </button>
-
-            <img id="lightbox-img" src="" alt="Full size painting" class="max-w-full max-h-[85vh] md:max-h-[95vh] rounded-2xl shadow-2xl border border-white/10 object-contain relative z-[65]">
-
-        </div>
-
-
-        <button onclick="nextLightboxImage(event)" class="absolute right-6 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center bg-zinc-900 border border-white/10 rounded-full p-4 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all hover:scale-110 active:scale-95 z-[70] cursor-pointer shadow-2xl">
-
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
-
-        </button>
-
-    </div>
-
-
-<div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-black/90 flex items-center justify-center p-4 md:p-8">
-    <div class="w-full flex items-center justify-center h-full">
-
-        <!-- Added max-w-2xl for narrower width, max-h-[90vh] and overflow-y-auto for safe mobile scrolling -->
-        <div class="w-full max-w-2xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-10 rounded-3xl shadow-2xl my-auto transform-gpu max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:hidden">
-            
-            <!-- UNIVERSAL CLOSE BUTTON (Floats top right over everything) -->
-            <button onclick="closeModals()" class="absolute top-4 right-4 md:top-6 md:right-6 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50 bg-zinc-900/80 rounded-full backdrop-blur-sm">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-
-            <div id="state-quiz" class="hidden text-left flex flex-col h-full">
-
-                <div class="flex items-center justify-between mb-4 md:mb-6 pr-8">
-                    <div class="text-xs font-mono text-blue-500 uppercase tracking-[0.2em] font-bold" id="question-counter">Free assessment</div>
-                </div>
-
-                <div id="xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-5 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
-                    <div id="quiz-progress" class="h-full w-0 transition-[width] duration-150 ease-out relative" 
-                        style="background: linear-gradient(to bottom, 
-                            #315c10 0%, #315c10 16.6%, 
-                            #5ca826 16.6%, #5ca826 33.3%, 
-                            #a4ff45 33.3%, #a4ff45 66.6%, 
-                            #76cd2d 66.6%, #76cd2d 83.3%, 
-                            #467b22 83.3%, #467b22 100%
-                        );">
-                        <div id="flash-overlay" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-10"></div>
-                    </div>
-                    <div id="master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-20"></div>
-                </div>
-
-                    <h2 id="question-text" class="text-2xl md:text-3xl font-normal text-white mb-6 md:mb-8 leading-tight tracking-tight min-h-[100px] md:min-h-[90px]"></h2>
-                    
-                    <div id="answers-container" class="flex flex-col gap-2 md:gap-3 mt-auto">
-                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="1">Strongly Disagree</button>
-                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="2">Disagree</button>
-                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="3">Agree</button>
-                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="4">Strongly Agree</button>
-                    </div>
-                </div>
-
-
-                <div id="state-results" class="hidden fade-in text-center max-w-2xl mx-auto">
-
-                    <div id="result-label" class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-3 font-bold">// NEXT_STEP_DIAGNOSTIC</div>
-
-                    <h2 class="text-lg md:text-xl font-mono text-zinc-400 mb-1">Focus on:</h2>
-
-                    <h1 id="result-title" class="text-3xl md:text-5xl font-black text-white mb-8 leading-tight tracking-tight"></h1>
-
-                    
-
-                    <div class="p-6 md:p-8 bg-zinc-950/60 rounded-2xl border border-white/5 shadow-inner mb-10 text-left">
-
-                        <p id="result-description" class="text-zinc-300 text-sm md:text-base leading-relaxed whitespace-pre-line font-normal"></p>
-
-                    </div>
-
-                    
-
-                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
-
-                        <a id="result-download-btn" href="#" download style="--sparkle-color: rgba(0, 0, 0, 0.4);" class="sparkle-btn w-full sm:w-auto px-8 py-4 bg-white text-black rounded-xl font-black text-center shadow-[0_4px_0_0_#d4d4d8] active:translate-y-1 transition-all uppercase tracking-wide text-xs md:text-sm whitespace-nowrap">
-
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                            <span class="btn-text-back" aria-hidden="true">Download Guide</span>
-
-                            <span class="btn-text-front text-black">Download Guide</span>
-
-                        </a>
-
-                        
-
-                        <button id="result-book-btn" onclick="bookFromModal()" style="--sparkle-color: rgba(255, 255, 255, 0.6);" class="sparkle-btn w-full sm:w-auto px-8 py-4 bg-zinc-800 border border-zinc-700 rounded-xl font-bold text-center shadow-[0_4px_0_0_#27272a] active:translate-y-1 hover:bg-zinc-700 transition-all uppercase tracking-wide text-xs md:text-sm whitespace-nowrap">
-
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                            <span class="btn-text-back text-zinc-300" aria-hidden="true">Book a session</span>
-
-                            <span class="btn-text-front text-zinc-300 group-hover:text-white">Book a session</span>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div id="topic-modal" class="fixed inset-0 z-50 hidden bg-black/90 overflow-y-auto">
-
-        <div class="min-h-screen flex items-center justify-center px-6 py-20 w-full relative">
-
-            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl transform-gpu">
-
-                <button onclick="closeModals()" class="absolute top-4 right-4 text-zinc-500 hover:text-white p-2 z-50">
-
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-
-                </button>
-
-                <div id="state-topic-picker" class="hidden">
-
-                    <h2 class="text-4xl font-black text-white mb-4 text-center">What do you want to work on?</h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-
-                        <button onclick="renderTopic('critical')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Critical Self Talk</button>
-
-                        <button onclick="renderTopic('imposter')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Imposter Syndrome</button>
-
-                        <button onclick="renderTopic('procrastination')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Procrastination</button>
-
-                        <button onclick="renderTopic('relationship')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Relationship to Self & Others</button>
-
-                    </div>
-
-                </div>
-
-                <div id="state-topic-result" class="hidden space-y-6 leading-relaxed text-zinc-300">
-
-                    <div id="topic-dynamic-content"></div>
-
-                    <div class="pt-10 border-t border-white/10 text-center">
-
-                        <button onclick="bookFromModal()" class="px-10 py-5 bg-white text-black rounded-xl font-black text-lg shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1">Book Session</button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div id="contact-modal" class="fixed inset-0 z-[60] hidden bg-black/90 overflow-y-auto">
-
-        <div class="min-h-screen flex items-center justify-center px-4 py-12 md:py-20 w-full">
-
-            <div class="w-full max-w-2xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-12 rounded-3xl shadow-2xl my-auto transform-gpu">
-
-                <button onclick="closeModals()" class="absolute top-4 right-4 md:top-6 md:right-6 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50">
-
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-
-                </button>
-
-
-                <div class="text-center mb-8">
-
-                    <h2 class="text-3xl md:text-4xl font-black text-white mb-3 tracking-tight">Email me</h2>
-
-                    <p class="text-zinc-400">I read all emails sent to me and I try to get back to you as soon as possible!</p>
-
-                </div>
-
-
-                <div class="flex flex-col gap-4 w-full bg-zinc-950 p-5 md:p-6 rounded-2xl border border-white/5 shadow-inner">
-
-                    <div class="flex flex-col sm:flex-row gap-4 w-full">
-
-                        <input type="text" id="contactName" placeholder="Your Name" class="w-full sm:w-1/2 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
-
-                        <input type="email" id="contactEmail" placeholder="Your Email" class="w-full sm:w-1/2 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
-
-                    </div>
-
-                    
-
-                    <textarea id="contactMessage" placeholder="Your Message" rows="4" class="w-full bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner resize-none"></textarea>
-
-                    
-
-                    <button id="contactSendBtn" class="sparkle-btn w-full mt-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-black shadow-[0_4px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 uppercase tracking-wide text-sm">
-
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                        <span class="btn-text-back" aria-hidden="true">SEND MESSAGE</span>
-
-                        <span class="btn-text-front">SEND MESSAGE</span>
-
-                    </button>
-
-                </div>
-
-                <p id="contactStatusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center mt-4"></p>
-
-            </div>
-
-        </div>
-
-    </div>
-
+    
 
 
     <section id="render-state" class="max-w-5xl mx-auto px-6 py-24 text-center border-t border-white/5">
@@ -1015,6 +805,265 @@
 
     </section>
 
+    </div> </div> <div id="lightbox-modal" class="fixed inset-0 z-[60] hidden bg-black/90 flex items-center justify-center p-2 md:p-8 cursor-zoom-out" onclick="closeLightbox()">
+
+        <button onclick="prevLightboxImage(event)" class="absolute left-6 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center bg-zinc-900 border border-white/10 rounded-full p-4 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all hover:scale-110 active:scale-95 z-[70] cursor-pointer shadow-2xl">
+
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg>
+
+        </button>
+
+
+        <div class="relative flex-shrink-0 max-w-full cursor-default" onclick="event.stopPropagation()">
+
+            <button onclick="closeLightbox()" class="absolute top-3 right-3 md:-top-5 md:-right-5 bg-zinc-900 border border-white/10 rounded-full p-2 md:p-3 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all hover:scale-110 active:scale-95 z-[70] cursor-pointer shadow-2xl">
+
+                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
+
+            </button>
+
+            <img id="lightbox-img" src="" alt="Full size painting" class="max-w-full max-h-[85vh] md:max-h-[95vh] rounded-2xl shadow-2xl border border-white/10 object-contain relative z-[65]">
+
+        </div>
+
+
+        <button onclick="nextLightboxImage(event)" class="absolute right-6 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center bg-zinc-900 border border-white/10 rounded-full p-4 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-all hover:scale-110 active:scale-95 z-[70] cursor-pointer shadow-2xl">
+
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+
+        </button>
+
+    </div>
+
+
+<div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-black/90 flex items-center justify-center p-4 md:p-8">
+    <div class="w-full flex items-center justify-center h-full">
+
+        <!-- Added max-w-2xl for narrower width, max-h-[90vh] and overflow-y-auto for safe mobile scrolling -->
+        <div class="w-full max-w-2xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-10 rounded-3xl shadow-2xl my-auto transform-gpu max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:hidden">
+            
+            <!-- UNIVERSAL CLOSE BUTTON (Floats top right over everything) -->
+            <button onclick="closeModals()" class="absolute top-4 right-4 md:top-6 md:right-6 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50 bg-zinc-900/80 rounded-full backdrop-blur-sm">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <div id="state-quiz" class="hidden text-left flex flex-col h-full">
+
+                <div class="flex items-center justify-between mb-4 md:mb-6 pr-8">
+                    <div class="text-xs font-mono text-blue-500 uppercase tracking-[0.2em] font-bold" id="question-counter">Free assessment</div>
+                </div>
+
+                <div id="xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-5 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
+                    <div id="quiz-progress" class="h-full w-0 transition-[width] duration-150 ease-out relative" 
+                        style="background: linear-gradient(to bottom, 
+                            #315c10 0%, #315c10 16.6%, 
+                            #5ca826 16.6%, #5ca826 33.3%, 
+                            #a4ff45 33.3%, #a4ff45 66.6%, 
+                            #76cd2d 66.6%, #76cd2d 83.3%, 
+                            #467b22 83.3%, #467b22 100%
+                        );">
+                        <div id="flash-overlay" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-10"></div>
+                    </div>
+                    <div id="master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-20"></div>
+                </div>
+
+                    <h2 id="question-text" class="text-2xl md:text-3xl font-normal text-white mb-6 md:mb-8 leading-tight tracking-tight min-h-[100px] md:min-h-[90px]"></h2>
+                    
+                    <div id="answers-container" class="flex flex-col gap-2 md:gap-3 mt-auto">
+                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="1">Strongly Disagree</button>
+                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="2">Disagree</button>
+                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="3">Agree</button>
+                        <button class="quiz-btn p-4 rounded-xl bg-zinc-800 border border-white/5 text-left font-bold text-zinc-300 transform-gpu will-change-transform translate-y-0 transition-[transform,colors] duration-150 ease-out hover:border-blue-500 hover:bg-zinc-700 hover:text-white hover:-translate-y-1 active:scale-[0.98] active:translate-y-0" data-val="4">Strongly Agree</button>
+                    </div>
+                </div>
+
+
+                <div id="state-results" class="hidden fade-in text-center max-w-2xl mx-auto">
+
+                    <div id="result-label" class="text-blue-500 font-mono text-xs uppercase tracking-[0.3em] mb-3 font-bold">// NEXT_STEP_DIAGNOSTIC</div>
+
+                    <h2 class="text-lg md:text-xl font-mono text-zinc-400 mb-1">Focus on:</h2>
+
+                    <h1 id="result-title" class="text-3xl md:text-5xl font-black text-white mb-8 leading-tight tracking-tight"></h1>
+
+                    
+
+                    <div class="p-6 md:p-8 bg-zinc-950/60 rounded-2xl border border-white/5 shadow-inner mb-10 text-left">
+
+                        <p id="result-description" class="text-zinc-300 text-sm md:text-base leading-relaxed whitespace-pre-line font-normal"></p>
+
+                    </div>
+
+                    
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full">
+
+                        <a id="result-download-btn" href="#" download style="--sparkle-color: rgba(0, 0, 0, 0.4);" class="sparkle-btn w-full sm:w-auto px-8 py-4 bg-white text-black rounded-xl font-black text-center shadow-[0_4px_0_0_#d4d4d8] active:translate-y-1 transition-all uppercase tracking-wide text-xs md:text-sm whitespace-nowrap">
+
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                            <span class="btn-text-back" aria-hidden="true">Download Guide</span>
+
+                            <span class="btn-text-front text-black">Download Guide</span>
+
+                        </a>
+
+                        
+
+                        <button id="result-book-btn" onclick="bookFromModal()" style="--sparkle-color: rgba(255, 255, 255, 0.6);" class="sparkle-btn w-full sm:w-auto px-8 py-4 bg-zinc-800 border border-zinc-700 rounded-xl font-bold text-center shadow-[0_4px_0_0_#27272a] active:translate-y-1 hover:bg-zinc-700 transition-all uppercase tracking-wide text-xs md:text-sm whitespace-nowrap">
+
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                            <span class="btn-text-back text-zinc-300" aria-hidden="true">Book a session</span>
+
+                            <span class="btn-text-front text-zinc-300 group-hover:text-white">Book a session</span>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div id="topic-modal" class="fixed inset-0 z-50 hidden bg-black/90 overflow-y-auto">
+
+        <div class="min-h-screen flex items-center justify-center px-6 py-20 w-full relative">
+
+            <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-8 md:p-12 rounded-3xl shadow-2xl transform-gpu">
+
+                <button onclick="closeModals()" class="absolute top-4 right-4 text-zinc-500 hover:text-white p-2 z-50">
+
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+
+                </button>
+
+                <div id="state-topic-picker" class="hidden">
+
+                    <h2 class="text-4xl font-black text-white mb-4 text-center">What do you want to work on?</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+
+                        <button onclick="renderTopic('critical')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Critical Self Talk</button>
+
+                        <button onclick="renderTopic('imposter')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Imposter Syndrome</button>
+
+                        <button onclick="renderTopic('procrastination')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Procrastination</button>
+
+                        <button onclick="renderTopic('relationship')" class="p-6 text-left rounded-xl bg-zinc-800 border border-white/5 hover:border-blue-500 transition-all">Relationship to Self & Others</button>
+
+                    </div>
+
+                </div>
+
+                <div id="state-topic-result" class="hidden space-y-6 leading-relaxed text-zinc-300">
+
+                    <div id="topic-dynamic-content"></div>
+
+                    <div class="pt-10 border-t border-white/10 text-center">
+
+                        <button onclick="bookFromModal()" class="px-10 py-5 bg-white text-black rounded-xl font-black text-lg shadow-[0_5px_0_0_#d4d4d8] active:translate-y-1">Book Session</button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div id="contact-modal" class="fixed inset-0 z-[60] hidden bg-black/90 overflow-y-auto">
+
+        <div class="min-h-screen flex items-center justify-center px-4 py-12 md:py-20 w-full">
+
+            <div class="w-full max-w-2xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-12 rounded-3xl shadow-2xl my-auto transform-gpu">
+
+                <button onclick="closeModals()" class="absolute top-4 right-4 md:top-6 md:right-6 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50">
+
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+
+                </button>
+
+
+                <div class="text-center mb-8">
+
+                    <h2 class="text-3xl md:text-4xl font-black text-white mb-3 tracking-tight">Email me</h2>
+
+                    <p class="text-zinc-400">I read all emails sent to me and I try to get back to you as soon as possible!</p>
+
+                </div>
+
+
+                <div class="flex flex-col gap-4 w-full bg-zinc-950 p-5 md:p-6 rounded-2xl border border-white/5 shadow-inner">
+
+                    <div class="flex flex-col sm:flex-row gap-4 w-full">
+
+                        <input type="text" id="contactName" placeholder="Your Name" class="w-full sm:w-1/2 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+
+                        <input type="email" id="contactEmail" placeholder="Your Email" class="w-full sm:w-1/2 bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner">
+
+                    </div>
+
+                    
+
+                    <textarea id="contactMessage" placeholder="Your Message" rows="4" class="w-full bg-zinc-900 border border-zinc-700 text-white rounded-xl px-5 py-4 focus:outline-none focus:border-blue-500 transition-colors font-mono text-sm placeholder:text-zinc-600 shadow-inner resize-none"></textarea>
+
+                    
+
+                    <button id="contactSendBtn" class="sparkle-btn w-full mt-2 px-8 py-4 bg-blue-600 text-white rounded-xl font-black shadow-[0_4px_0_0_#1e3a8a] active:translate-y-1 transition-all hover:bg-blue-500 uppercase tracking-wide text-sm">
+
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+
+                        <span class="btn-text-back" aria-hidden="true">SEND MESSAGE</span>
+
+                        <span class="btn-text-front">SEND MESSAGE</span>
+
+                    </button>
+
+                </div>
+
+                <p id="contactStatusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center mt-4"></p>
+
+            </div>
+
+        </div>
+
+    </div>
+
 
     <script>
 
@@ -1114,7 +1163,7 @@
             if (progressBar) progressBar.style.width = '0%';
             // ------------------------------------------------------
 
-            document.body.style.overflow = 'hidden';
+            document.querySelector('.parallax-viewport').style.overflowY = 'hidden';
             document.getElementById('assessment-modal').classList.remove('hidden');
             document.getElementById('state-quiz').classList.remove('hidden');
             document.getElementById('state-results').classList.add('hidden');
@@ -1125,7 +1174,7 @@
 
         function openContactModal() {
 
-            document.body.style.overflow = 'hidden';
+            document.querySelector('.parallax-viewport').style.overflowY = 'hidden';
 
             document.getElementById('contact-modal').classList.remove('hidden');
 
@@ -1134,7 +1183,7 @@
 
         function closeModals() {
 
-            document.body.style.overflow = 'auto';
+            document.querySelector('.parallax-viewport').style.overflowY = 'auto';
 
             document.getElementById('assessment-modal').classList.add('hidden');
 
@@ -1452,25 +1501,6 @@
 
 
         function bookFromModal() { closeModals(); document.getElementById('book').scrollIntoView(); }
-
-        // --- PARALLAX ENGINE ---
-        const parallaxHero = document.getElementById('parallax-hero');
-        let isTicking = false;
-
-        window.addEventListener('scroll', () => {
-            if (!parallaxHero) return;
-            
-            if (!isTicking) {
-                window.requestAnimationFrame(() => {
-                    // Only calculate parallax if the hero section is actually in the viewport
-                    if (window.scrollY <= parallaxHero.offsetHeight + 100) {
-                        parallaxHero.style.setProperty('--scroll', `${window.scrollY}px`);
-                    }
-                    isTicking = false;
-                });
-                isTicking = true;
-            }
-        }, { passive: true });
 
         // --- CANVAS ENGINE ---
 
@@ -2065,7 +2095,7 @@
 
             img.onerror = () => { img.remove(); slot.innerHTML = `<span class="text-zinc-700 font-mono text-xs uppercase tracking-widest pointer-events-none select-none text-center">[ SLOT_${num} ]</span>`; slot.classList.add('border-dashed'); };
 
-            img.onclick = () => { currentLightboxSrc = img.src; lightboxImg.src = currentLightboxSrc; lightboxModal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; };
+            img.onclick = () => { currentLightboxSrc = img.src; lightboxImg.src = currentLightboxSrc; lightboxModal.classList.remove('hidden'); document.querySelector('.parallax-viewport').style.overflowY = 'hidden'; };
 
 
             slot.appendChild(img); slideWrapper.appendChild(slot); galleryTrack.appendChild(slideWrapper);
@@ -2166,7 +2196,7 @@
         }
 
 
-        function closeLightbox() { lightboxModal.classList.add('hidden'); document.body.style.overflow = 'auto'; }
+        function closeLightbox() { lightboxModal.classList.add('hidden'); document.querySelector('.parallax-viewport').style.overflowY = 'auto';; }
 
 
         // Keyboard & Swipe Bindings
