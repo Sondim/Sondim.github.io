@@ -42,12 +42,11 @@
         html, body {
             height: 100%;
             overflow: hidden; /* Lock native scroll */
-            background-color: #3B2A2E !important; /* Seamless blend color */
+            background-color: #3B2A2E; /* Seamless blend color */
         }
 
         .parallax-viewport {
             perspective: 100px;
-            transform-style: preserve-3d; /* Locks the 3D spatial grid */
             height: 100vh;
             overflow-x: hidden;
             overflow-y: auto;
@@ -65,7 +64,6 @@
             right: 0;
             bottom: 0;
             left: 0;
-            transform-origin: bottom center; /* MAGIC FIX: Anchors the scaling to the floor so it doesn't sink */
         }
 
         .parallax__layer img {
@@ -75,7 +73,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: bottom center; /* Keeps the artwork grounded */
             image-rendering: pixelated;
             image-rendering: crisp-edges;
         }
@@ -94,17 +91,10 @@
             display: block;
             position: relative;
             z-index: 10; /* Sits above all 3D layers */
-            background-color: #3B2A2E !important;
+            background-color: #3B2A2E;
             margin-top: 100vh; /* Pushes content exactly below the hero scene */
         }
 
-        /* MAGIC FIX 2: Nuke the old corporate grey backgrounds to reveal the seamless blend */
-        .parallax__cover section, 
-        .parallax__cover nav, 
-        #mobile-menu {
-            background-color: transparent !important;
-            border-color: rgba(255,255,255,0.05) !important;
-        }
         /* Hero UI Container in 3D Space */
         .parallax__ui {
             transform: translateZ(0px) scale(1);
