@@ -435,22 +435,23 @@
     </div>
 
 
-<div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-black/90 flex items-center justify-center p-4">
-    <div class="w-full flex items-center justify-center">
+<div id="assessment-modal" class="fixed inset-0 z-50 hidden bg-black/90 flex items-center justify-center p-4 md:p-8">
+    <div class="w-full flex items-center justify-center h-full">
 
-        <div class="w-full max-w-3xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-8 rounded-3xl shadow-2xl my-auto transform-gpu">
+        <!-- Added max-w-2xl for narrower width, max-h-[90vh] and overflow-y-auto for safe mobile scrolling -->
+        <div class="w-full max-w-2xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-10 rounded-3xl shadow-2xl my-auto transform-gpu max-h-[90vh] overflow-y-auto [&::-webkit-scrollbar]:hidden">
             
+            <!-- UNIVERSAL CLOSE BUTTON (Floats top right over everything) -->
+            <button onclick="closeModals()" class="absolute top-4 right-4 md:top-6 md:right-6 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50 bg-zinc-900/80 rounded-full backdrop-blur-sm">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
 
             <div id="state-quiz" class="hidden text-left flex flex-col h-full">
 
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center justify-between mb-4 md:mb-6 pr-8">
                     <div class="text-xs font-mono text-blue-500 uppercase tracking-[0.2em] font-bold" id="question-counter">Free assessment</div>
-                    
-                    <button onclick="closeModals()" class="text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-1 z-50">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                        </svg>
-                    </button>
                 </div>
 
                 <div id="xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-5 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
@@ -1026,39 +1027,22 @@
 
 
         // PSYCHOLOGICAL MASTER PAYLOAD OBJECT
-
         const resultsData = {
-
             selftalk: {
-
                 title: "Self-Talk",
-
-                desc: `Your negative self-talk is the voice in your head that’s constantly speaking to you. Sometimes it's subtle, showing up as a steady anxiety or pressure: Replaying conversations, comparing yourself to others, or never quite feeling good enough. One of the clearest signs of heavy negative self-talk is ending the day stressed or depleted (no matter how many hours you put in). Your exhaustion actually comes from *pushing against that voice all day long*. Counterintuitively, it’s not usually the workload that wears you down – it’s the voice in your head driving you through it. If you end the day tense, anxious, or wiped out, your motivation is coming from threat and self-criticism. When the pressure of the inner critic eases, your energy and clarity return naturally. Work feels lighter, decisions come faster, and you find yourself judging both yourself and others around you far less.`,
-
+                desc: `Your negative self-talk is the voice in your head that’s constantly speaking to you. One of the clearest signs of heavy negative self-talk is ending the day stressed or depleted—your exhaustion actually comes from pushing against that voice all day long, not the workload itself. When the pressure of the inner critic eases, your energy and clarity return naturally.`,
                 pdfFile: "guide-selftalk.pdf"
-
             },
-
             emotional: {
-
                 title: "Emotional Fluidity",
-
-                desc: `Emotional fluidity is your ability to feel and welcome the full range of your emotions without resisting them. Learning to identify and actually feel your emotions in your body, rather than just talking or thinking about them, is life-changing. Many of us avoid feeling our emotions because they seem painful, but it’s not the emotion itself that hurts, it’s our resistance to it that does. When you resist fear, it becomes chronic anxiety. You spin in worst-case scenarios and overthink every move. When you resist sadness, it becomes angst and numbness. You get lost in doubt, stop trusting yourself, and lose touch with what matters. When you resist anger, it becomes a feeling of stuckness. Notice when you're looping on a choice – weighing pros and cons, procrastinating, feeling analysis paralysis. The real issue may not be logic or more data. Often, there’s an emotion under the surface that hasn’t been felt yet. Giving space to that emotion can make the next step surprisingly clear.`,
-
+                desc: `Emotional fluidity is your ability to feel and welcome the full range of your emotions without resisting them. Many of us avoid feeling our emotions because they seem painful, but it’s not the emotion itself that hurts—it’s our resistance to it that causes anxiety, stuckness, and doubt. Giving space to that emotion can make your next step surprisingly clear.`,
                 pdfFile: "guide-emotional.pdf"
-
             },
-
             relationship: {
-
-                title: "Your Relationship to Yourself & Others",
-
-                desc: `This area is about your capacity to be with yourself and others without needing anyone to change. Thinking that you have to be fixed only slows this process down, because it kills the wonder and curiosity needed for understanding. In relation to others, you might find yourself contorting to keep the peace, finding yourself alone even when you’re with people, or subtly steering conversations toward a specific outcome to feel safe. In relation to yourself, you might have a hard time being alone and unoccupied—constantly in motion optimizing, improving, planning—where stillness feels dangerous. Both of these patterns stem from the same unconscious root: The belief that you are not good enough to be accepted as you are. Not feeling good enough was an old survival strategy, but now it’s keeping you from experiencing deep connection. The way to work with this isn’t through more fixing or self-improvement; it's about learning to release the hidden agenda and getting to know yourself and others with genuine curiosity.`,
-
+                title: "Relationship to Self & Others",
+                desc: `This area is about your capacity to be with yourself and others without needing anyone to change. Not feeling "good enough" is an old survival strategy that keeps you from experiencing deep connection or finding peace in stillness. The way forward isn’t through more self-improvement; it's about getting to know yourself with genuine curiosity.`,
                 pdfFile: "guide-relationship.pdf"
-
             }
-
         };
 
 
