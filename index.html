@@ -1610,25 +1610,20 @@
         brushBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 ctx.lineWidth = parseInt(btn.getAttribute('data-size'));
-                brushBtns.forEach(b => b.classList.remove('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-zinc-950'));
-                btn.classList.add('ring-2', 'ring-blue-500', 'ring-offset-4', 'ring-offset-zinc-950');
+                brushBtns.forEach(b => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
             });
         });
 
-        const activeClasses = ['bg-zinc-800', 'text-white', 'border-white/10', 'ring-2', 'ring-blue-500'];
-        const inactiveClasses = ['text-zinc-500', 'border-transparent'];
-
         function clearToolStates() {
             [btnPencil, btnEraser, btnBucket].forEach(btn => {
-                btn.classList.remove(...activeClasses);
-                btn.classList.add(...inactiveClasses);
+                btn.classList.remove('is-active');
             });
         }
 
         function setActiveTool(btn) {
             clearToolStates();
-            btn.classList.remove(...inactiveClasses);
-            btn.classList.add(...activeClasses);
+            btn.classList.add('is-active');
         }
 
         btnPencil.addEventListener('click', () => {
