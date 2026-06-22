@@ -1721,7 +1721,8 @@
 
                 let reachLeft = false; let reachRight = false;
 
-                while (y++ < height - 1 && matchColor(pixelPos)) {
+                /* Removed the - 1 so the fill reaches the absolute bottom edge */
+                while (y++ < height && matchColor(pixelPos)) {
 
                     colorPixel(pixelPos);
 
