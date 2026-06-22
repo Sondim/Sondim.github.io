@@ -578,7 +578,7 @@
 
             </button>
 
-            <img id="lightbox-img" src="" alt="Full size painting" class="max-w-full max-h-[85vh] md:max-h-[95vh] rounded-2xl shadow-2xl border border-white/10 object-contain relative z-[65]">
+            <img id="lightbox-img" src="" alt="Full size painting" class="max-w-full max-h-[85vh] md:max-h-[95vh] rounded-none shadow-2xl border border-white/10 object-contain relative z-[65]">
 
         </div>
 
@@ -990,7 +990,7 @@
             </button>
 
 
-            <div class="overflow-hidden w-full max-w-5xl rounded-2xl relative">
+            <div class="overflow-hidden w-full max-w-5xl rounded-none relative">
 
                 <div id="gallery-track" class="flex transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
 
@@ -2111,8 +2111,7 @@
 
             const slideWrapper = document.createElement('div'); slideWrapper.className = "w-1/2 md:w-1/4 flex-shrink-0 px-2 md:px-3";
 
-            const slot = document.createElement('div'); slot.className = "aspect-square w-full bg-zinc-950 border border-white/5 rounded-2xl overflow-hidden relative group shadow-inner flex items-center justify-center transition-all duration-300";
-
+            const slot = document.createElement('div'); slot.className = "aspect-square w-full bg-zinc-950 border border-white/5 rounded-none overflow-hidden relative group shadow-inner flex items-center justify-center transition-all duration-300";
             const img = document.createElement('img'); img.src = fileName; img.className = "w-full h-full object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-105 opacity-0";
 
             
