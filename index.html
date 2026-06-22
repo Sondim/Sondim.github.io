@@ -96,8 +96,9 @@
         .hero-container {
             position: relative;
             width: 100vw;
-            /* Subtract ~76px to perfectly account for the nav bar */
-            height: calc(100vh - 76px); 
+            height: calc(100vh - 76px);
+            /* The Steel Rod: Never compress smaller than 800px tall */
+            min-height: 800px; 
             background: #7dd3fc;
         }
 
