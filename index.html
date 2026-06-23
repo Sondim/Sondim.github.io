@@ -1180,13 +1180,22 @@
                         </div>
 
                         <div class="w-full max-w-2xl flex flex-col items-center">
-                            <button onclick="triggerQuestComplete('Artifact Shared: Diagnostic Sketch')" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full max-w-md">
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">TRANSMIT TO MAGNUS</span>
-                                <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">TRANSMIT TO MAGNUS</span>
-                            </button>
+                            <div class="canvas-panel-8bit flex flex-col gap-4 w-full p-4 md:p-6 mb-4">
+                                <div class="flex flex-col sm:flex-row gap-4 w-full">
+                                    <input type="text" id="questSenderName" placeholder="Your Name" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600">
+                                    <input type="email" id="questSenderEmail" placeholder="Your Email" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600">
+                                </div>
+                                <textarea id="questSenderMessage" placeholder="Your Message (Optional)" rows="3" class="w-full bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600 resize-none"></textarea>
+                                
+                                <button id="questSendBtn" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full mt-2">
+                                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">TRANSMIT TO MAGNUS</span>
+                                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">TRANSMIT TO MAGNUS</span>
+                                </button>
+                            </div>
+                            <p id="questStatusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center"></p>
                         </div>
                     </div>
                 </div>
@@ -1199,7 +1208,6 @@
             <div class="flex items-center justify-between mb-4 pr-8">
                 <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest" id="quest-question-counter">// Diagnostic_Protocol</div>
             </div>
-            
             <div id="quest-xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
                 <div id="quest-quiz-progress" class="h-full w-0 transition-[width] duration-150 ease-out relative" 
                     style="background: linear-gradient(to bottom, 
@@ -1213,34 +1221,29 @@
                 </div>
                 <div id="quest-master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-20"></div>
             </div>
-
             <h2 id="quest-question-text" class="text-base md:text-lg font-normal text-zinc-100 mb-8 leading-relaxed min-h-[90px] text-left">
                 [ INIT_DIAGNOSTIC_ENGINE... ]
             </h2>
-            
             <div id="quest-answers-container" class="flex flex-col gap-3 md:gap-4 mt-auto transition-opacity duration-300">
                 <button class="quest-quiz-btn canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300" data-val="1">Strongly Disagree</button>
                 <button class="quest-quiz-btn canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300" data-val="2">Disagree</button>
                 <button class="quest-quiz-btn canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300" data-val="3">Agree</button>
                 <button class="quest-quiz-btn canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300" data-val="4">Strongly Agree</button>
             </div>
-
             <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
         </div>
 
-        <!-- LEVEL 3 & 4: QUEST COMPLETE & POST-GAME -->
         <div id="state-complete" class="hidden fade-in max-w-3xl mx-auto w-full">
             <div class="text-center">
                 <h2 class="text-2xl md:text-3xl text-yellow-400 mb-6 font-['Press_Start_2P'] animate-pulse">QUEST COMPLETE!</h2>
                 <p id="reward-text" class="text-zinc-300 mb-12 font-mono tracking-widest uppercase bg-black border-2 border-zinc-800 inline-block px-4 py-2"></p>
             </div>
             
-            <!-- Dynamic Injection for Topic/Test Results -->
             <div id="quest-dynamic-content" class="hidden mb-12 text-left text-zinc-300 leading-relaxed canvas-panel-8bit p-8 text-sm md:text-base"></div>
             
             <div class="flex flex-col gap-4 max-w-sm mx-auto mt-8">
-                <button class="btn-8bit w-full">Send to me (Optional)</button>
-                <button class="btn-8bit btn-8bit-secondary w-full">Discord Community</button>
+                <button onclick="openContactModal()" class="btn-8bit w-full">Send to me (Optional)</button>
+                <button onclick="window.open('https://discord.gg/3jd52Vgkjh', '_blank')" class="btn-8bit btn-8bit-secondary w-full">Discord Community</button>
                 <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-6 transition-colors bg-transparent border-none cursor-pointer p-2 text-center w-full">[ Do another quest ]</button>
             </div>
         </div>
@@ -1293,9 +1296,16 @@
         }
 
         function completeTopicQuest(key) {
-            // Pulling from your live topicsData object in the existing script below
             if(typeof topicsData !== 'undefined' && topicsData[key]) {
-                triggerQuestComplete('Insight Unlocked', topicsData[key].html);
+                const data = topicsData[key];
+                const htmlBlob = `
+                    <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400">// ${data.title}</h3>
+                    <p class="mb-8">${data.desc}</p>
+                    <div class="mt-8 flex flex-col items-center border-t border-white/10 pt-8">
+                        <a href="${data.pdfFile}" download class="btn-8bit w-full max-w-md text-center" style="text-decoration: none;">Download Full Guide</a>
+                    </div>
+                `;
+                triggerQuestComplete('Insight Unlocked', htmlBlob);
             }
         }
         // -------------------------------
@@ -1331,54 +1341,46 @@
             { text: "I feel lonely even when I'm around other people", category: "relationship", invert: false }
         ];
 
-
         // PSYCHOLOGICAL MASTER PAYLOAD OBJECT
-
         const resultsData = {
-
             selftalk: {
-
                 title: "Self-Talk",
-
                 desc: `Your negative self-talk is the voice in your head that’s constantly speaking to you. Sometimes it's subtle, showing up as a steady anxiety or pressure: Replaying conversations, comparing yourself to others, or never quite feeling good enough. One of the clearest signs of heavy negative self-talk is ending the day stressed or depleted (no matter how many hours you put in). Your exhaustion actually comes from *pushing against that voice all day long*. Counterintuitively, it’s not usually the workload that wears you down – it’s the voice in your head driving you through it. If you end the day tense, anxious, or wiped out, your motivation is coming from threat and self-criticism. When the pressure of the inner critic eases, your energy and clarity return naturally. Work feels lighter, decisions come faster, and you find yourself judging both yourself and others around you far less.`,
-
                 pdfFile: "guide-selftalk.pdf"
-
             },
-
             emotional: {
-
                 title: "Emotional Fluidity",
-
                 desc: `Emotional fluidity is your ability to feel and welcome the full range of your emotions without resisting them. Learning to identify and actually feel your emotions in your body, rather than just talking or thinking about them, is life-changing. Many of us avoid feeling our emotions because they seem painful, but it’s not the emotion itself that hurts, it’s our resistance to it that does. When you resist fear, it becomes chronic anxiety. You spin in worst-case scenarios and overthink every move. When you resist sadness, it becomes angst and numbness. You get lost in doubt, stop trusting yourself, and lose touch with what matters. When you resist anger, it becomes a feeling of stuckness. Notice when you're looping on a choice – weighing pros and cons, procrastinating, feeling analysis paralysis. The real issue may not be logic or more data. Often, there’s an emotion under the surface that hasn’t been felt yet. Giving space to that emotion can make the next step surprisingly clear.`,
-
                 pdfFile: "guide-emotional.pdf"
-
             },
-
             relationship: {
-
                 title: "Your Relationship to Yourself & Others",
-
                 desc: `This area is about your capacity to be with yourself and others without needing anyone to change. Thinking that you have to be fixed only slows this process down, because it kills the wonder and curiosity needed for understanding. In relation to others, you might find yourself contorting to keep the peace, finding yourself alone even when you’re with people, or subtly steering conversations toward a specific outcome to feel safe. In relation to yourself, you might have a hard time being alone and unoccupied—constantly in motion optimizing, improving, planning—where stillness feels dangerous. Both of these patterns stem from the same unconscious root: The belief that you are not good enough to be accepted as you are. Not feeling good enough was an old survival strategy, but now it’s keeping you from experiencing deep connection. The way to work with this isn’t through more fixing or self-improvement; it's about learning to release the hidden agenda and getting to know yourself and others with genuine curiosity.`,
-
                 pdfFile: "guide-relationship.pdf"
-
             }
-
         };
 
-
         const topicsData = {
-
-            relationship: { html: `<h2 class="text-3xl font-black text-white mb-6 leading-tight">Focus on your relationship to yourself and others</h2><p>This area is about your capacity to be with yourself and others without needing anyone to change. Thinking that you have to be fixed only slows this process down, because it kills the wonder and curiosity needed for understanding.</p>` },
-
-            critical: { html: `<h2 class="text-3xl font-bold text-white mb-6">Critical Self Talk</h2><p>Quiet the internal critic and build sustainable motivation.</p>` },
-
-            imposter: { html: `<h2 class="text-3xl font-bold text-white mb-6">Imposter Syndrome</h2><p>Stop waiting for permission and own your studio's vision.</p>` },
-
-            procrastination: { html: `<h2 class="text-3xl font-bold text-white mb-6">Procrastination</h2><p>Move past the freeze response when the work gets overwhelming.</p>` }
-
+            relationship: { 
+                title: "Relationship to Self & Others",
+                desc: "This area is about your capacity to be with yourself and others without needing anyone to change. Thinking that you have to be fixed only slows this process down, because it kills the wonder and curiosity needed for understanding.",
+                pdfFile: "guide-relationship.pdf"
+            },
+            critical: { 
+                title: "Critical Self Talk",
+                desc: "Quiet the internal critic and build sustainable motivation. Your negative self-talk is the voice in your head that’s constantly speaking to you. If you end the day tense, anxious, or wiped out, your motivation is coming from threat and self-criticism.",
+                pdfFile: "guide-selftalk.pdf"
+            },
+            imposter: { 
+                title: "Imposter Syndrome",
+                desc: "Stop waiting for permission and own your studio's vision. When you resist fear, it becomes chronic anxiety. You spin in worst-case scenarios and overthink every move.",
+                pdfFile: "guide-emotional.pdf"
+            },
+            procrastination: { 
+                title: "Procrastination",
+                desc: "Move past the freeze response when the work gets overwhelming. Notice when you're looping on a choice – weighing pros and cons, procrastinating, feeling analysis paralysis. Often, there’s an emotion under the surface that hasn’t been felt yet.",
+                pdfFile: "guide-emotional.pdf"
+            }
         };
 
 
@@ -1756,6 +1758,80 @@
         const btnUndo = document.getElementById('quest-btn-undo');
 
         const btnRedo = document.getElementById('quest-btn-redo');
+
+        // --- NEW CANVAS WEBHOOK INTEGRATION ---
+        const questNameInput = document.getElementById('questSenderName');
+        const questEmailInput = document.getElementById('questSenderEmail');
+        const questMessageInput = document.getElementById('questSenderMessage');
+        const questSendBtn = document.getElementById('questSendBtn');
+        const questStatusMsg = document.getElementById('questStatusMsg');
+
+        [questNameInput, questEmailInput, questMessageInput].forEach(input => {
+            if(input) {
+                input.addEventListener('input', function() {
+                    this.classList.remove('border-red-500'); this.classList.add('border-zinc-800', 'focus:border-yellow-400');
+                    if (questStatusMsg.innerText.includes('REQUIRED')) { questStatusMsg.innerText = ''; }
+                });
+            }
+        });
+
+        if(questSendBtn) {
+            questSendBtn.addEventListener('click', async () => {
+                const nameVal = questNameInput.value.trim(); 
+                const emailVal = questEmailInput.value.trim();
+                const messageVal = questMessageInput.value.trim();
+
+                if (!nameVal || !emailVal) {
+                    questStatusMsg.innerText = '[ ERROR: IDENTITY AND COORDINATES REQUIRED ]';
+                    questStatusMsg.className = "text-sm font-mono tracking-widest h-6 text-red-500 text-center";
+                    if (!nameVal) { questNameInput.classList.add('border-red-500'); }
+                    if (!emailVal) { questEmailInput.classList.add('border-red-500'); }
+                    return;
+                }
+
+                const dataURL = canvas.toDataURL('image/jpeg', 1.0);
+                questSendBtn.disabled = true; questStatusMsg.innerText = '';
+                questSendBtn.classList.add('is-transmitting');
+
+                let dotCount = 1;
+                const updateText = () => {
+                    const textHTML = `TRANSMITTING<span style="display: inline-block; width: 1.5em; text-align: left;">${'.'.repeat(dotCount)}</span>`;
+                    questSendBtn.querySelector('.btn-text-front').innerHTML = textHTML;
+                    questSendBtn.querySelector('.btn-text-back').innerHTML = textHTML;
+                    dotCount = dotCount >= 3 ? 1 : dotCount + 1;
+                };
+                updateText(); const dotInterval = setInterval(updateText, 400);
+
+                try {
+                    await fetch(WEBHOOK_URL, {
+                        method: 'POST', body: JSON.stringify({ type: 'canvas', image: dataURL, name: nameVal, email: emailVal, message: messageVal }),
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+                    });
+                    clearInterval(dotInterval);
+                    
+                    // ON SUCCESS: Route to the QUEST COMPLETE screen!
+                    triggerQuestComplete('Artifact Shared', `
+                        <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400">// Diagnostic Sketch Sent</h3>
+                        <p class="mb-8">Your illustration has been transmitted. I will review it and get back to you with insights shortly.</p>
+                    `);
+
+                    // Reset button state silently in the background so it's clean if they do another quest
+                    setTimeout(() => {
+                        questSendBtn.disabled = false;
+                        questSendBtn.classList.remove('is-transmitting');
+                        questSendBtn.querySelector('.btn-text-front').innerText = 'TRANSMIT TO MAGNUS';
+                        questSendBtn.querySelector('.btn-text-back').innerText = 'TRANSMIT TO MAGNUS';
+                        questNameInput.value = ''; questEmailInput.value = ''; questMessageInput.value = '';
+                    }, 1000);
+
+                } catch (err) {
+                    clearInterval(dotInterval); questSendBtn.disabled = false;
+                    questSendBtn.classList.remove('is-transmitting');
+                    questSendBtn.querySelector('.btn-text-front').innerText = 'TRANSMIT TO MAGNUS';
+                    questStatusMsg.innerText = '[ SIGNAL LOST. RETRY. ]'; questStatusMsg.classList.replace('text-zinc-500', 'text-red-400');
+                }
+            });
+        }
 
 
         colorSwatches.forEach(swatch => {
