@@ -1089,11 +1089,20 @@
         <div id="state-topic" class="hidden text-center fade-in w-full max-w-3xl mx-auto">
             <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">// Select_Module</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                <button onclick="completeTopicQuest('critical')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Critical Self Talk</button>
-                <button onclick="completeTopicQuest('imposter')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Imposter Syndrome</button>
-                <button onclick="completeTopicQuest('procrastination')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Procrastination</button>
-                <button onclick="completeTopicQuest('relationship')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Relationship to Self & Others</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left" id="topic-selection-grid">
+                <button onclick="selectQuestTopic(this, 'critical')" class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Critical Self Talk</button>
+                <button onclick="selectQuestTopic(this, 'imposter')" class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Imposter Syndrome</button>
+                <button onclick="selectQuestTopic(this, 'procrastination')" class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Procrastination</button>
+                <button onclick="selectQuestTopic(this, 'relationship')" class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Relationship to Self & Others</button>
+            </div>
+
+            <div id="topic-confirm-container" class="hidden mt-10 fade-in flex-col items-center">
+                <button id="topic-confirm-btn" onclick="confirmQuestTopic()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full max-w-md">
+                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Confirm Selection</span>
+                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Confirm Selection</span>
+                </button>
             </div>
 
             <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
@@ -1345,15 +1354,39 @@
             goToQuestState('state-complete');
         }
 
-        function completeTopicQuest(key) {
-            if(typeof topicsData !== 'undefined' && topicsData[key]) {
-                const data = topicsData[key];
+        let currentSelectedTopic = null;
+
+        function selectQuestTopic(btn, key) {
+            // Un-press all buttons
+            document.querySelectorAll('.quest-topic-btn').forEach(b => b.classList.remove('is-active'));
+            
+            // Press the selected button down (mechanical lock-in)
+            btn.classList.add('is-active');
+            currentSelectedTopic = key;
+
+            // Reveal the confirm button with a smooth fade-in
+            const confirmContainer = document.getElementById('topic-confirm-container');
+            confirmContainer.classList.remove('hidden');
+            confirmContainer.classList.add('flex');
+            
+            // Gentle camera bump to ensure the new button is framed
+            setTimeout(() => {
+                confirmContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 50);
+        }
+
+        function confirmQuestTopic() {
+            if(!currentSelectedTopic) return;
+            
+            if(typeof topicsData !== 'undefined' && topicsData[currentSelectedTopic]) {
+                const data = topicsData[currentSelectedTopic];
+                
+                // Set up the dynamic text blob (Title & Desc only). 
+                // We omit the download button here because we will build the dual-button layout 
+                // directly into the state-complete screen in the next step!
                 const htmlBlob = `
                     <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400">// ${data.title}</h3>
                     <p class="mb-8">${data.desc}</p>
-                    <div class="mt-8 flex flex-col items-center border-t border-white/10 pt-8">
-                        <a href="${data.pdfFile}" download class="btn-8bit w-full max-w-md text-center" style="text-decoration: none;">Download Full Guide</a>
-                    </div>
                 `;
                 triggerQuestComplete('Insight Unlocked', htmlBlob);
             }
