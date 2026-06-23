@@ -1431,11 +1431,11 @@
                     answersContainer.style.pointerEvents = 'none'; // Disable clicking
                     document.getElementById('question-counter').style.opacity = '0';
                     
-                    // 3. Inject the glowing success message without changing font sizes or margins
+                    // 3. Inject the glowing success message using the large retro font layout
                     const qText = document.getElementById('question-text');
                     qText.innerText = "ASSESSMENT COMPLETE!";
-                    qText.classList.remove('text-white');
-                    qText.classList.add('text-transparent', 'bg-clip-text', 'bg-gradient-to-r', 'from-lime-400', 'to-green-500', 'animate-pulse', 'text-center');
+                    qText.classList.remove('text-white', 'text-base', 'md:text-lg');
+                    qText.classList.add('font-[\'Press_Start_2P\']', 'text-sm', 'md:text-lg', 'tracking-widest', 'leading-relaxed', 'text-transparent', 'bg-clip-text', 'bg-gradient-to-r', 'from-lime-400', 'to-green-500', 'animate-pulse', 'text-center');
 
                     // 4. Fire finale blast
                     triggerFinaleEffects();
