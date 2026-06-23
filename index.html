@@ -1825,13 +1825,13 @@
             completeState.classList.remove('hidden');
             completeState.classList.add('flex');
 
-            // 4. Snap the camera to perfectly frame the Complete view
-            const engineContainer = document.getElementById('state-draw');
-            if(engineContainer) {
-                const yOffset = -50; 
-                const y = engineContainer.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                window.scrollTo({top: y, behavior: 'smooth'});
-            }
+            // 4. Center the camera exactly on the reward panel
+            setTimeout(() => {
+                if (completeState && completeState.parentElement) {
+                    // This forces the dark gray container box to sit dead center in the screen
+                    completeState.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 50); // Tiny delay ensures the browser calculates the new layout height first
         }
 
         function downloadQuestDrawing() {
