@@ -1100,23 +1100,98 @@
         </div>
         
         <div id="state-draw" class="hidden text-center fade-in w-full max-w-5xl mx-auto">
-            <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">// Draw_Your_Problem</h2>
+            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-6 leading-tight tracking-wide">Draw your problem</h2>
+            <p class="text-lg text-zinc-400 mb-12">Render an illustration of what is currently blocking your studio's progression.</p>
             
-            <div class="bg-zinc-900 border border-white/5 rounded-3xl p-6 shadow-2xl mb-8">
-                <div class="relative z-10 w-full min-h-[300px] md:min-h-[450px] canvas-panel-8bit flex items-center justify-center border-dashed">
-                    <span class="font-['Press_Start_2P'] text-[10px] text-zinc-500 uppercase tracking-widest animate-pulse">[ Canvas Engine Will Mount Here ]</span>
-                </div>
-                
-                <div class="mt-8 flex flex-col items-center">
-                    <button onclick="triggerQuestComplete('Catharsis & Clarity')" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full max-w-md">
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                        <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">SUBMIT DRAWING</span>
-                        <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">SUBMIT DRAWING</span>
-                    </button>
+            <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12">
+                <div class="grid grid-cols-1 md:grid-cols-[6rem_1fr_5rem] gap-6">
+                    
+                    <!-- TOOL CONTROL SWITCHES -->
+                    <div class="flex flex-col gap-4 md:gap-0 md:contents w-full">
+                        <div class="canvas-panel-8bit w-full p-3 md:p-4 flex flex-col gap-3 items-center justify-center md:col-start-3 md:row-start-1">
+                            <div class="flex flex-row md:flex-col justify-between md:justify-center items-center w-full px-1 md:px-0 gap-2 md:gap-4">
+                                <button id="quest-btn-pencil" title="Pencil" class="canvas-tool-btn is-active p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+                                    <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                                </button>
+                                <button id="quest-btn-bucket" title="Fill Bucket" class="canvas-tool-btn p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+                                    <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 5 5"/><path d="M2 13h15"/><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"/></svg>
+                                </button>
+                                <button id="quest-btn-eraser" title="Eraser" class="canvas-tool-btn p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+                                    <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21Z"/><path d="m5 11 9 9"/></svg>
+                                </button>
+                                <div class="h-1 w-full md:w-8 bg-black hidden md:block my-1"></div>
+                                <button id="quest-btn-undo" title="Undo" class="canvas-tool-btn p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+                                    <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
+                                </button>
+                                <button id="quest-btn-redo" title="Redo" class="canvas-tool-btn p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
+                                    <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
+                                </button>
+                            </div>
+                            <div class="flex md:hidden items-center justify-center gap-4 bg-zinc-900 px-4 py-2 border-4 border-black w-full">
+                                <button class="quest-brush-btn pixel-circle-btn" data-size="2"><svg width="12" height="12" viewBox="0 0 8 8"><path d="M3 3h2v2H3z" /></svg></button>
+                                <button class="quest-brush-btn pixel-circle-btn is-active" data-size="5"><svg width="16" height="16" viewBox="0 0 8 8"><path d="M3 1h2v1h-2z M2 2h4v1h-4z M1 3h6v2h-6z M2 5h4v1h-4z M3 6h2v1h-2z" /></svg></button>
+                                <button class="quest-brush-btn pixel-circle-btn" data-size="12"><svg width="24" height="24" viewBox="0 0 16 16"><path d="M6 2h4v1h-4z M4 3h8v1h-8z M3 4h10v1h-10z M2 5h12v6h-12z M3 11h10v1h-10z M4 12h8v1h-8z M6 13h4v1h-4z" /></svg></button>
+                                <button class="quest-brush-btn pixel-circle-btn" data-size="24"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M9 2h6v1h-6z M6 3h12v2h-12z M4 5h16v2h-16z M3 7h18v2h-18z M2 9h20v6h-20z M3 15h18v2h-18z M4 17h16v2h-16z M6 19h12v2h-12z M9 21h6v1h-6z" /></svg></button>
+                            </div>
+                        </div>
+
+                        <!-- RETRO COLOR PALETTE -->
+                        <div class="hidden md:flex canvas-panel-8bit w-full flex-col items-center justify-start md:col-start-1 md:row-start-1 overflow-hidden pt-0 px-0 pb-4">
+                            <div class="w-full text-center py-2 bg-black text-white text-[10px] font-['Press_Start_2P'] uppercase tracking-widest border-b-4 border-black mb-4">Palette</div>
+                            <div class="grid grid-cols-5 md:grid-cols-2 gap-3 md:gap-2 w-full justify-items-center px-4">
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#000000]" data-color="#000000"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#ffffff]" data-color="#ffffff"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#7b7b7b]" data-color="#7b7b7b"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#c3c3c3]" data-color="#c3c3c3"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#8b181a]" data-color="#8b181a"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#b97a57]" data-color="#b97a57"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#ee2424]" data-color="#ee2424"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#ffaec9]" data-color="#ffaec9"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#f47b20]" data-color="#f47b20"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#ffc90e]" data-color="#ffc90e"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#ffea00]" data-color="#ffea00"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#efe4b0]" data-color="#efe4b0"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#22b14c]" data-color="#22b14c"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#b5e61d]" data-color="#b5e61d"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#00a2e8]" data-color="#00a2e8"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#99d9ea]" data-color="#99d9ea"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#3f48cc]" data-color="#3f48cc"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#7092be]" data-color="#7092be"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#a349a4]" data-color="#a349a4"></div>
+                                <div class="quest-color-swatch retro-swatch w-6 h-6 bg-[#c8bfe7]" data-color="#c8bfe7"></div>
+                            </div>
+                            <div class="w-[80%] h-8 md:h-10 bg-black border-4 border-black mt-4 transition-colors duration-200" id="quest-current-color-indicator"></div>
+                        </div>
+                    </div>
+
+                    <!-- THE CRISP CANVAS -->
+                    <div class="relative z-10 w-full h-full min-h-[450px] md:col-start-2 md:row-start-1">
+                        <canvas id="questDrawingCanvas" width="600" height="450" class="w-full h-full touch-none block"></canvas>
+                    </div>
+
+                    <!-- BRUSH CONTROLS & SUBMIT -->
+                    <div class="md:col-start-2 flex flex-col items-center justify-center gap-8 mt-0 w-full">
+                        <div class="hidden md:flex items-center gap-8 canvas-panel-8bit px-6 py-4 justify-center">
+                            <span class="text-[10px] font-['Press_Start_2P'] uppercase text-zinc-400 mr-2">Size:</span>
+                            <button class="quest-brush-btn pixel-circle-btn" data-size="2"><svg width="20" height="20" viewBox="0 0 8 8"><path d="M3 3h2v2H3z" /></svg></button>
+                            <button class="quest-brush-btn pixel-circle-btn is-active" data-size="5"><svg width="28" height="28" viewBox="0 0 8 8"><path d="M3 1h2v1h-2z M2 2h4v1h-4z M1 3h6v2h-6z M2 5h4v1h-4z M3 6h2v1h-2z" /></svg></button>
+                            <button class="quest-brush-btn pixel-circle-btn" data-size="12"><svg width="36" height="36" viewBox="0 0 16 16"><path d="M6 2h4v1h-4z M4 3h8v1h-8z M3 4h10v1h-10z M2 5h12v6h-12z M3 11h10v1h-10z M4 12h8v1h-8z M6 13h4v1h-4z" /></svg></button>
+                            <button class="quest-brush-btn pixel-circle-btn" data-size="24"><svg width="44" height="44" viewBox="0 0 24 24"><path d="M9 2h6v1h-6z M6 3h12v2h-12z M4 5h16v2h-16z M3 7h18v2h-18z M2 9h20v6h-20z M3 15h18v2h-18z M4 17h16v2h-16z M6 19h12v2h-12z M9 21h6v1h-6z" /></svg></button>
+                        </div>
+
+                        <div class="w-full max-w-2xl flex flex-col items-center">
+                            <button onclick="triggerQuestComplete('Artifact Shared: Diagnostic Sketch')" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full max-w-md">
+                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">TRANSMIT TO MAGNUS</span>
+                                <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">TRANSMIT TO MAGNUS</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
             <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
         </div>
         
