@@ -1180,8 +1180,19 @@
                         </div>
 
                         <div class="w-full max-w-2xl flex flex-col items-center">
+
+                            <div id="quest-finish-step" class="flex flex-col items-center w-full mb-4 fade-in">
+                                <p class="text-zinc-400 text-sm md:text-base mb-6 font-medium text-center">Click the button below when you're happy with your drawing to progress.</p>
+                                <button onclick="finishQuestDrawing()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full sm:w-auto">
+                                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Finish Drawing</span>
+                                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Finish Drawing</span>
+                                </button>
+                            </div>
                             
-                            <div id="quest-action-choices" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4 fade-in">
+                            <div id="quest-action-choices" class="hidden grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4 fade-in">
                                 
                                 <div class="flex flex-col items-center text-center">
                                     <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Download & reflect on your own</p>
@@ -1785,6 +1796,27 @@
         const btnRedo = document.getElementById('quest-btn-redo');
 
         // --- QUEST DRAWING UI LOGIC ---
+        function finishQuestDrawing() {
+            // Hide the initial finish step
+            document.getElementById('quest-finish-step').classList.add('hidden');
+            
+            // Show the next choices
+            const choices = document.getElementById('quest-action-choices');
+            choices.classList.remove('hidden');
+            choices.classList.add('grid');
+            
+            // Lock the canvas so the artifact is "frozen"
+            const canvas = document.getElementById('questDrawingCanvas');
+            canvas.style.pointerEvents = 'none';
+            
+            // Hide the toolbars so the UI feels like a clean "Quest Complete" screen
+            const drawToolsWrap = document.querySelector('#state-draw .md\\:contents');
+            if (drawToolsWrap) drawToolsWrap.classList.add('hidden');
+            
+            const sizeControls = document.querySelector('#state-draw .canvas-panel-8bit.px-6');
+            if (sizeControls) sizeControls.classList.add('hidden');
+        }
+
         function downloadQuestDrawing() {
             const canvas = document.getElementById('questDrawingCanvas');
             const dataURL = canvas.toDataURL('image/png');
