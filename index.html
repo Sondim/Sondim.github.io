@@ -1085,14 +1085,15 @@
             </div>
         </div>
 
+        <!-- LEVEL 2: QUEST MECHANICS (Isolated placeholders for testing flow) -->
         <div id="state-topic" class="hidden text-center fade-in w-full max-w-3xl mx-auto">
             <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">// Select_Module</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                <button onclick="triggerQuestComplete('Insight: Critical Self Talk')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Critical Self Talk</button>
-                <button onclick="triggerQuestComplete('Insight: Imposter Syndrome')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Imposter Syndrome</button>
-                <button onclick="triggerQuestComplete('Insight: Procrastination')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Procrastination</button>
-                <button onclick="triggerQuestComplete('Insight: Relationships')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Relationship to Self & Others</button>
+                <button onclick="completeTopicQuest('critical')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Critical Self Talk</button>
+                <button onclick="completeTopicQuest('imposter')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Imposter Syndrome</button>
+                <button onclick="completeTopicQuest('procrastination')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Procrastination</button>
+                <button onclick="completeTopicQuest('relationship')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Relationship to Self & Others</button>
             </div>
 
             <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
@@ -1102,7 +1103,6 @@
             <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">// Draw_Your_Problem</h2>
             
             <div class="bg-zinc-900 border border-white/5 rounded-3xl p-6 shadow-2xl mb-8">
-                
                 <div class="relative z-10 w-full min-h-[300px] md:min-h-[450px] canvas-panel-8bit flex items-center justify-center border-dashed">
                     <span class="font-['Press_Start_2P'] text-[10px] text-zinc-500 uppercase tracking-widest animate-pulse">[ Canvas Engine Will Mount Here ]</span>
                 </div>
@@ -1111,12 +1111,12 @@
                     <button onclick="triggerQuestComplete('Catharsis & Clarity')" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full max-w-md">
                         <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                         <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                         <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">SUBMIT DRAWING</span>
                         <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">SUBMIT DRAWING</span>
                     </button>
                 </div>
             </div>
-            
             <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
         </div>
         
@@ -1124,37 +1124,41 @@
             <div class="flex items-center justify-between mb-4 pr-8">
                 <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest">// Diagnostic_Protocol</div>
             </div>
-
             <div class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]">
                 <div class="h-full w-1/3" style="background: linear-gradient(to bottom, #76cd2d 0%, #467b22 100%);"></div>
             </div>
-
             <h2 class="text-base md:text-lg font-normal text-zinc-100 mb-8 leading-relaxed min-h-[90px] text-left">
                 "I only feel ok about myself when I'm productive or when others praise my work."
             </h2>
-            
             <div class="flex flex-col gap-3 md:gap-4 mt-auto">
                 <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Strongly Disagree</button>
                 <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Disagree</button>
                 <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Agree</button>
                 <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Strongly Agree</button>
             </div>
-
             <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
         </div>
 
-        <div id="state-complete" class="hidden text-center fade-in">
-            <h2 class="text-2xl md:text-3xl text-yellow-400 mb-6 font-['Press_Start_2P'] animate-pulse">QUEST COMPLETE!</h2>
-            <p id="reward-text" class="text-zinc-300 mb-12 font-mono tracking-widest uppercase bg-black border-2 border-zinc-800 inline-block px-4 py-2"></p>
+        <!-- LEVEL 3 & 4: QUEST COMPLETE & POST-GAME -->
+        <div id="state-complete" class="hidden fade-in max-w-3xl mx-auto w-full">
+            <div class="text-center">
+                <h2 class="text-2xl md:text-3xl text-yellow-400 mb-6 font-['Press_Start_2P'] animate-pulse">QUEST COMPLETE!</h2>
+                <p id="reward-text" class="text-zinc-300 mb-12 font-mono tracking-widest uppercase bg-black border-2 border-zinc-800 inline-block px-4 py-2"></p>
+            </div>
             
-            <div class="flex flex-col gap-4 max-w-sm mx-auto">
-                <button class="btn-8bit">Send to me (Optional)</button>
-                <button class="btn-8bit btn-8bit-secondary">Discord Community</button>
-                <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-6 transition-colors bg-transparent border-none cursor-pointer p-2">[ Do another quest ]</button>
+            <!-- Dynamic Injection for Topic/Test Results -->
+            <div id="quest-dynamic-content" class="hidden mb-12 text-left text-zinc-300 leading-relaxed canvas-panel-8bit p-8 text-sm md:text-base"></div>
+            
+            <div class="flex flex-col gap-4 max-w-sm mx-auto mt-8">
+                <button class="btn-8bit w-full">Send to me (Optional)</button>
+                <button class="btn-8bit btn-8bit-secondary w-full">Discord Community</button>
+                <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-6 transition-colors bg-transparent border-none cursor-pointer p-2 text-center w-full">[ Do another quest ]</button>
             </div>
         </div>
 
     </section>
+    <!-- ========================================== -->
+
     <script>
         // --- RPG QUEST STATE MACHINE ---
         const questStates = ['state-hub', 'state-topic', 'state-draw', 'state-test', 'state-complete'];
@@ -1166,12 +1170,39 @@
             });
             const targetEl = document.getElementById(targetId);
             if(targetEl) targetEl.classList.remove('hidden');
+            
+            // Auto-scroll slightly above the section for clean framing
+            const engineContainer = document.getElementById('quest-engine-prototype');
+            if(engineContainer) {
+                const yOffset = -50; 
+                const y = engineContainer.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
         }
 
-        function triggerQuestComplete(reward) {
+        function triggerQuestComplete(reward, dynamicHTML = '') {
             const rewardEl = document.getElementById('reward-text');
+            const dynamicContentEl = document.getElementById('quest-dynamic-content');
+            
             if(rewardEl) rewardEl.innerText = 'Reward: ' + reward;
+            
+            if(dynamicContentEl) {
+                dynamicContentEl.innerHTML = dynamicHTML;
+                if (dynamicHTML) {
+                    dynamicContentEl.classList.remove('hidden');
+                } else {
+                    dynamicContentEl.classList.add('hidden');
+                }
+            }
+            
             goToQuestState('state-complete');
+        }
+
+        function completeTopicQuest(key) {
+            // Pulling from your live topicsData object in the existing script below
+            if(typeof topicsData !== 'undefined' && topicsData[key]) {
+                triggerQuestComplete('Insight Unlocked', topicsData[key].html);
+            }
         }
         // -------------------------------
 
