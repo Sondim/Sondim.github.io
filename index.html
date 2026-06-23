@@ -1103,8 +1103,9 @@
             <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-6 leading-tight tracking-wide">Draw your problem</h2>
             <p class="text-lg text-zinc-400 mb-12">Render an illustration of what is currently blocking your studio's progression.</p>
             
-            <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12">
-                <div class="grid grid-cols-1 md:grid-cols-[6rem_1fr_5rem] gap-6">
+            <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12 relative min-h-[500px] flex flex-col justify-center">
+                
+                <div id="quest-drawing-workspace" class="grid grid-cols-1 md:grid-cols-[6rem_1fr_5rem] gap-6 fade-in w-full">
                     
                     <!-- TOOL CONTROL SWITCHES -->
                     <div class="flex flex-col gap-4 md:gap-0 md:contents w-full">
@@ -1191,47 +1192,7 @@
                                     <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Finish Drawing</span>
                                 </button>
                             </div>
-                            
-                            <div id="quest-action-choices" class="hidden grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4 fade-in">
-                                
-                                <div class="flex flex-col items-center text-center">
-                                    <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Download & reflect on your own</p>
-                                    <button onclick="downloadQuestDrawing()" class="btn-8bit btn-8bit-secondary w-full text-center hover:bg-zinc-100 transition-colors">Download Drawing</button>
-                                </div>
-                                
-                                <div class="flex flex-col items-center text-center">
-                                    <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Send to me (for free!)</p>
-                                    <button onclick="showQuestSendForm()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full text-center">
-                                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                        <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Send to Magnus</span>
-                                        <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Send to Magnus</span>
-                                    </button>
-                                </div>
-                            </div>
 
-                            <div id="quest-send-form" class="canvas-panel-8bit flex-col gap-4 w-full p-4 md:p-6 mb-4 hidden fade-in relative">
-                                <button onclick="hideQuestSendForm()" class="absolute -top-3 -right-3 bg-zinc-900 border-4 border-black p-2 text-zinc-500 hover:text-white hover:bg-zinc-800 transition-all shadow-[4px_4px_0px_black] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_black] z-20" title="Cancel">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                                </button>
-                                
-                                <div class="flex flex-col sm:flex-row gap-4 w-full mt-2">
-                                    <input type="text" id="questSenderName" placeholder="Your Name" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600">
-                                    <input type="email" id="questSenderEmail" placeholder="Your Email" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600">
-                                </div>
-                                <textarea id="questSenderMessage" placeholder="Your Message (Optional)" rows="3" class="w-full bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600 resize-none mt-2"></textarea>
-                                
-                                <button id="questSendBtn" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full mt-2">
-                                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">TRANSMIT TO MAGNUS</span>
-                                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">TRANSMIT TO MAGNUS</span>
-                                </button>
-                            </div>
-
-                            <p id="questStatusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center"></p>
                         </div>
                     </div>
                 </div>
@@ -1797,24 +1758,21 @@
 
         // --- QUEST DRAWING UI LOGIC ---
         function finishQuestDrawing() {
-            // Hide the initial finish step
-            document.getElementById('quest-finish-step').classList.add('hidden');
-            
-            // Show the next choices
-            const choices = document.getElementById('quest-action-choices');
-            choices.classList.remove('hidden');
-            choices.classList.add('grid');
-            
-            // Lock the canvas so the artifact is "frozen"
             const canvas = document.getElementById('questDrawingCanvas');
-            canvas.style.pointerEvents = 'none';
             
-            // Hide the toolbars so the UI feels like a clean "Quest Complete" screen
-            const drawToolsWrap = document.querySelector('#state-draw .md\\:contents');
-            if (drawToolsWrap) drawToolsWrap.classList.add('hidden');
-            
-            const sizeControls = document.querySelector('#state-draw .canvas-panel-8bit.px-6');
-            if (sizeControls) sizeControls.classList.add('hidden');
+            // 1. Capture the image data for the thumbnail
+            const dataURL = canvas.toDataURL('image/png');
+            document.getElementById('quest-drawing-thumbnail').src = dataURL;
+
+            // 2. Hide the entire drawing workspace
+            const workspace = document.getElementById('quest-drawing-workspace');
+            workspace.classList.remove('grid');
+            workspace.classList.add('hidden');
+
+            // 3. Reveal the Complete State
+            const completeState = document.getElementById('quest-drawing-complete-state');
+            completeState.classList.remove('hidden');
+            completeState.classList.add('flex');
         }
 
         function downloadQuestDrawing() {
