@@ -1196,6 +1196,57 @@
                         </div>
                     </div>
                 </div>
+
+                <div id="quest-drawing-complete-state" class="hidden flex-col items-center justify-center w-full max-w-2xl mx-auto fade-in h-full">
+                    <h2 class="font-['Press_Start_2P'] text-sm md:text-lg tracking-widest leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-green-500 animate-pulse text-center mb-8">
+                        // ARTIFACT_CAPTURED
+                    </h2>
+
+                    <div class="canvas-panel-8bit w-48 h-36 mb-12 flex-shrink-0 bg-white flex items-center justify-center overflow-hidden">
+                        <img id="quest-drawing-thumbnail" src="" class="w-full h-full object-contain">
+                    </div>
+
+                    <div id="quest-action-choices" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4">
+                        <div class="flex flex-col items-center text-center">
+                            <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Download & reflect on your own</p>
+                            <button onclick="downloadQuestDrawing()" class="btn-8bit btn-8bit-secondary w-full text-center hover:bg-zinc-100 transition-colors">Download Drawing</button>
+                        </div>
+                        
+                        <div class="flex flex-col items-center text-center">
+                            <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Send to me (for free!)</p>
+                            <button onclick="showQuestSendForm()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full text-center">
+                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Send to Magnus</span>
+                                <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Send to Magnus</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="quest-send-form" class="canvas-panel-8bit flex-col gap-4 w-full p-4 md:p-6 hidden fade-in relative">
+                        <button onclick="hideQuestSendForm()" class="absolute -top-3 -right-3 bg-zinc-900 border-4 border-black p-2 text-zinc-500 hover:text-white hover:bg-zinc-800 transition-all shadow-[4px_4px_0px_black] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_black] z-20" title="Cancel">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 w-full mt-2">
+                            <input type="text" id="questSenderName" placeholder="Your Name" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600">
+                            <input type="email" id="questSenderEmail" placeholder="Your Email" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600">
+                        </div>
+                        <textarea id="questSenderMessage" placeholder="Your Message (Optional)" rows="3" class="w-full bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600 resize-none mt-2"></textarea>
+                        
+                        <button id="questSendBtn" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full mt-2">
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">TRANSMIT TO MAGNUS</span>
+                            <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">TRANSMIT TO MAGNUS</span>
+                        </button>
+                        
+                        <p id="questStatusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center mt-2"></p>
+                    </div>
+
+                </div>
             </div>
             
             <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
