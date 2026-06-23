@@ -1852,6 +1852,11 @@
             const form = document.getElementById('quest-send-form');
             form.classList.remove('hidden');
             form.classList.add('flex');
+
+            // Re-center the camera on the newly revealed form
+            setTimeout(() => {
+                form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 50);
         }
 
         function hideQuestSendForm() {
