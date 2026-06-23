@@ -1737,7 +1737,8 @@
 
         // --- CANVAS ENGINE ---
 
-        const canvas = document.getElementById('drawingCanvas');
+        // TELEPORTED: Now targeting the new Quest Engine Canvas
+        const canvas = document.getElementById('questDrawingCanvas');
 
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
@@ -1767,7 +1768,7 @@
             ctx.lineJoin = 'round';
             
             // Keep current brush size and color active
-            const activeBrush = document.querySelector('.brush-btn.ring-blue-500');
+            const activeBrush = document.querySelector('.quest-brush-btn.is-active');
             ctx.lineWidth = activeBrush ? parseInt(activeBrush.getAttribute('data-size')) : 5;
             ctx.strokeStyle = currentTool === 'eraser' ? '#ffffff' : currentColor;
             
@@ -1782,21 +1783,22 @@
         window.addEventListener('resize', syncCanvasResolution);
 
 
-        const colorSwatches = document.querySelectorAll('.color-swatch');
+        // TELEPORTED: Now targeting the new Quest Engine controls
+        const colorSwatches = document.querySelectorAll('.quest-color-swatch');
 
-        const colorIndicator = document.getElementById('current-color-indicator');
+        const colorIndicator = document.getElementById('quest-current-color-indicator');
 
-        const brushBtns = document.querySelectorAll('.brush-btn');
+        const brushBtns = document.querySelectorAll('.quest-brush-btn');
 
-        const btnPencil = document.getElementById('btn-pencil');
+        const btnPencil = document.getElementById('quest-btn-pencil');
 
-        const btnEraser = document.getElementById('btn-eraser');
+        const btnEraser = document.getElementById('quest-btn-eraser');
 
-        const btnBucket = document.getElementById('btn-bucket');
+        const btnBucket = document.getElementById('quest-btn-bucket');
 
-        const btnUndo = document.getElementById('btn-undo');
+        const btnUndo = document.getElementById('quest-btn-undo');
 
-        const btnRedo = document.getElementById('btn-redo');
+        const btnRedo = document.getElementById('quest-btn-redo');
 
 
         colorSwatches.forEach(swatch => {
