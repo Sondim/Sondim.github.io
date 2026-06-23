@@ -1199,7 +1199,7 @@
 
                 <div id="quest-drawing-complete-state" class="hidden flex-col items-center justify-center w-full max-w-2xl mx-auto fade-in h-full">
                     <h2 class="font-['Press_Start_2P'] text-sm md:text-lg tracking-widest leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-green-500 animate-pulse text-center mb-8">
-                        // ARTIFACT_CAPTURED
+                        QUEST COMPLETE!
                     </h2>
 
                     <div class="canvas-panel-8bit w-48 h-36 mb-12 flex-shrink-0 bg-white flex items-center justify-center overflow-hidden">
@@ -1824,6 +1824,14 @@
             const completeState = document.getElementById('quest-drawing-complete-state');
             completeState.classList.remove('hidden');
             completeState.classList.add('flex');
+
+            // 4. Snap the camera to perfectly frame the Complete view
+            const engineContainer = document.getElementById('state-draw');
+            if(engineContainer) {
+                const yOffset = -50; 
+                const y = engineContainer.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
         }
 
         function downloadQuestDrawing() {
