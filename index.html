@@ -1300,11 +1300,49 @@
             
             <div id="quest-dynamic-content" class="hidden mb-12 text-left text-zinc-300 leading-relaxed canvas-panel-8bit p-8 text-sm md:text-base"></div>
             
-            <div class="flex flex-col gap-4 max-w-sm mx-auto mt-8">
-                <button onclick="openContactModal()" class="btn-8bit w-full">Send to me (Optional)</button>
-                <button onclick="window.open('https://discord.gg/3jd52Vgkjh', '_blank')" class="btn-8bit btn-8bit-secondary w-full">Discord Community</button>
-                <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-6 transition-colors bg-transparent border-none cursor-pointer p-2 text-center w-full">[ Do another quest ]</button>
+            <div id="general-action-choices" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4 mt-8">
+                <div class="flex flex-col items-center text-center">
+                    <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Download & reflect on your own</p>
+                    <a id="general-download-btn" href="#" download class="btn-8bit btn-8bit-secondary w-full text-center hover:bg-zinc-100 transition-colors" style="text-decoration: none;">Download Guide</a>
+                </div>
+                
+                <div class="flex flex-col items-center text-center">
+                    <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Send to me (for free!)</p>
+                    <button onclick="showGeneralSendForm()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full text-center">
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                        <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                        <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Send to Magnus</span>
+                        <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Send to Magnus</span>
+                    </button>
+                </div>
             </div>
+
+            <div id="general-send-form" class="canvas-panel-8bit flex-col gap-4 w-full p-4 md:p-6 hidden fade-in relative mt-8">
+                <button onclick="hideGeneralSendForm()" class="absolute -top-3 -right-3 bg-zinc-900 border-4 border-black p-2 text-zinc-500 hover:text-white hover:bg-zinc-800 transition-all shadow-[4px_4px_0px_black] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_black] z-20" title="Cancel">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                
+                <p class="text-zinc-300 text-sm md:text-base font-medium text-center mb-2 px-2 leading-relaxed">Tell me a bit about what you're working on and I'll get back to you with some thoughts and ways forward.</p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 w-full mt-2">
+                    <input type="text" id="generalSenderName" placeholder="Your Name" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600">
+                    <input type="email" id="generalSenderEmail" placeholder="Your Email" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600">
+                </div>
+                <textarea id="generalSenderMessage" placeholder="Your Message" rows="3" class="w-full bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600 resize-none mt-2"></textarea>
+                
+                <button id="generalSendBtn" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full mt-2">
+                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">TRANSMIT TO MAGNUS</span>
+                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">TRANSMIT TO MAGNUS</span>
+                </button>
+                
+                <p id="generalStatusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center mt-2"></p>
+            </div>
+
+            <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2 text-center w-full block">[ Do another quest ]</button>
         </div>
 
     </section>
@@ -1336,11 +1374,15 @@
             }
         }
 
-        function triggerQuestComplete(reward, dynamicHTML = '') {
+        function triggerQuestComplete(reward, dynamicHTML = '', pdfUrl = '#') {
             const rewardEl = document.getElementById('reward-text');
             const dynamicContentEl = document.getElementById('quest-dynamic-content');
+            const downloadBtn = document.getElementById('general-download-btn');
             
             if(rewardEl) rewardEl.innerText = 'Reward: ' + reward;
+            
+            // Dynamically load the correct PDF into the unified download button
+            if(downloadBtn) downloadBtn.href = pdfUrl;
             
             if(dynamicContentEl) {
                 dynamicContentEl.innerHTML = dynamicHTML;
@@ -1351,7 +1393,33 @@
                 }
             }
             
+            hideGeneralSendForm(); // Reset form state just in case they loop back
             goToQuestState('state-complete');
+        }
+
+        function showGeneralSendForm() {
+            document.getElementById('general-action-choices').classList.add('hidden');
+            const form = document.getElementById('general-send-form');
+            form.classList.remove('hidden');
+            form.classList.add('flex');
+
+            // Wait a tick for layout shift, then frame the form perfectly in the center
+            setTimeout(() => {
+                form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 50);
+        }
+
+        function hideGeneralSendForm() {
+            const form = document.getElementById('general-send-form');
+            if(form) {
+                form.classList.add('hidden');
+                form.classList.remove('flex');
+            }
+            const choices = document.getElementById('general-action-choices');
+            if(choices) choices.classList.remove('hidden');
+            
+            const statusMsg = document.getElementById('generalStatusMsg');
+            if(statusMsg) statusMsg.innerText = ''; 
         }
 
         let currentSelectedTopic = null;
@@ -1381,14 +1449,13 @@
             if(typeof topicsData !== 'undefined' && topicsData[currentSelectedTopic]) {
                 const data = topicsData[currentSelectedTopic];
                 
-                // Set up the dynamic text blob (Title & Desc only). 
-                // We omit the download button here because we will build the dual-button layout 
-                // directly into the state-complete screen in the next step!
                 const htmlBlob = `
                     <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400">// ${data.title}</h3>
                     <p class="mb-8">${data.desc}</p>
                 `;
-                triggerQuestComplete('Insight Unlocked', htmlBlob);
+                
+                // Pass the PDF URL as the powerful third argument
+                triggerQuestComplete('Insight Unlocked', htmlBlob, data.pdfFile);
             }
         }
         // -------------------------------
@@ -1720,11 +1787,10 @@
             const htmlBlob = `
                 <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400">// ${resultData.title}</h3>
                 <p class="mb-8">${resultData.desc}</p>
-                <div class="mt-8 flex flex-col items-center border-t border-white/10 pt-8">
-                    <a href="${resultData.pdfFile}" download class="btn-8bit w-full max-w-md text-center" style="text-decoration: none;">Download Full Guide</a>
-                </div>
             `;
-            triggerQuestComplete('Diagnostic Analyzed', htmlBlob);
+            
+            // Cleaned up the old nested button and passing the URL directly!
+            triggerQuestComplete('Diagnostic Analyzed', htmlBlob, resultData.pdfFile);
         }
 
 
