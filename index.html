@@ -1074,8 +1074,71 @@
 
     </section>
 
+    <section id="quest-engine-prototype" class="max-w-4xl mx-auto px-6 py-24 border-t border-white/5 border-dashed bg-zinc-900/30">
+        
+        <div id="state-hub" class="text-center fade-in">
+            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-12 leading-tight tracking-wide text-shadow-sm">What would you like to work on?</h2>
+            <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+                <button onclick="goToQuestState('state-topic')" class="btn-8bit w-full md:w-auto">Pick a Topic</button>
+                <button onclick="goToQuestState('state-draw')" class="btn-8bit w-full md:w-auto">Draw Your Problem</button>
+                <button onclick="goToQuestState('state-test')" class="btn-8bit w-full md:w-auto">Do a Test</button>
+            </div>
+        </div>
 
+        <div id="state-topic" class="hidden text-center fade-in w-full max-w-3xl mx-auto">
+            <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">// Select_Module</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                <button onclick="triggerQuestComplete('Insight: Critical Self Talk')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Critical Self Talk</button>
+                <button onclick="triggerQuestComplete('Insight: Imposter Syndrome')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Imposter Syndrome</button>
+                <button onclick="triggerQuestComplete('Insight: Procrastination')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Procrastination</button>
+                <button onclick="triggerQuestComplete('Insight: Relationships')" class="canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Relationship to Self & Others</button>
+            </div>
+
+            <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
+        </div>
+        
+        <div id="state-draw" class="hidden text-center fade-in">
+            <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">// Draw_Problem</h2>
+            <button onclick="triggerQuestComplete('Downloaded Image')" class="btn-8bit btn-8bit-secondary">Finish Draw Quest</button>
+        </div>
+        
+        <div id="state-test" class="hidden text-center fade-in">
+            <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">// Diagnostic_Test</h2>
+            <button onclick="triggerQuestComplete('Test Results Analyzed')" class="btn-8bit btn-8bit-secondary">Finish Test Quest</button>
+        </div>
+
+        <div id="state-complete" class="hidden text-center fade-in">
+            <h2 class="text-2xl md:text-3xl text-yellow-400 mb-6 font-['Press_Start_2P'] animate-pulse">QUEST COMPLETE!</h2>
+            <p id="reward-text" class="text-zinc-300 mb-12 font-mono tracking-widest uppercase bg-black border-2 border-zinc-800 inline-block px-4 py-2"></p>
+            
+            <div class="flex flex-col gap-4 max-w-sm mx-auto">
+                <button class="btn-8bit">Send to me (Optional)</button>
+                <button class="btn-8bit btn-8bit-secondary">Discord Community</button>
+                <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-6 transition-colors bg-transparent border-none cursor-pointer p-2">[ Do another quest ]</button>
+            </div>
+        </div>
+
+    </section>
     <script>
+        // --- RPG QUEST STATE MACHINE ---
+        const questStates = ['state-hub', 'state-topic', 'state-draw', 'state-test', 'state-complete'];
+        
+        function goToQuestState(targetId) {
+            questStates.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.classList.add('hidden');
+            });
+            const targetEl = document.getElementById(targetId);
+            if(targetEl) targetEl.classList.remove('hidden');
+        }
+
+        function triggerQuestComplete(reward) {
+            const rewardEl = document.getElementById('reward-text');
+            if(rewardEl) rewardEl.innerText = 'Reward: ' + reward;
+            goToQuestState('state-complete');
+        }
+        // -------------------------------
 
         const assessmentQuestions = [
             // --- BUCKET: SELF-TALK ---
