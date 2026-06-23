@@ -1120,9 +1120,27 @@
             <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
         </div>
         
-        <div id="state-test" class="hidden text-center fade-in">
-            <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">// Diagnostic_Test</h2>
-            <button onclick="triggerQuestComplete('Test Results Analyzed')" class="btn-8bit btn-8bit-secondary">Finish Test Quest</button>
+        <div id="state-test" class="hidden text-center fade-in w-full max-w-2xl mx-auto flex flex-col h-full">
+            <div class="flex items-center justify-between mb-4 pr-8">
+                <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest">// Diagnostic_Protocol</div>
+            </div>
+
+            <div class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]">
+                <div class="h-full w-1/3" style="background: linear-gradient(to bottom, #76cd2d 0%, #467b22 100%);"></div>
+            </div>
+
+            <h2 class="text-base md:text-lg font-normal text-zinc-100 mb-8 leading-relaxed min-h-[90px] text-left">
+                "I only feel ok about myself when I'm productive or when others praise my work."
+            </h2>
+            
+            <div class="flex flex-col gap-3 md:gap-4 mt-auto">
+                <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Strongly Disagree</button>
+                <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Disagree</button>
+                <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Agree</button>
+                <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Strongly Agree</button>
+            </div>
+
+            <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
         </div>
 
         <div id="state-complete" class="hidden text-center fade-in">
