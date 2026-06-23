@@ -1197,20 +1197,34 @@
         
         <div id="state-test" class="hidden text-center fade-in w-full max-w-2xl mx-auto flex flex-col h-full">
             <div class="flex items-center justify-between mb-4 pr-8">
-                <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest">// Diagnostic_Protocol</div>
+                <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest" id="quest-question-counter">// Diagnostic_Protocol</div>
             </div>
-            <div class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]">
-                <div class="h-full w-1/3" style="background: linear-gradient(to bottom, #76cd2d 0%, #467b22 100%);"></div>
+            
+            <div id="quest-xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
+                <div id="quest-quiz-progress" class="h-full w-0 transition-[width] duration-150 ease-out relative" 
+                    style="background: linear-gradient(to bottom, 
+                        #315c10 0%, #315c10 16.6%, 
+                        #5ca826 16.6%, #5ca826 33.3%, 
+                        #a4ff45 33.3%, #a4ff45 66.6%, 
+                        #76cd2d 66.6%, #76cd2d 83.3%, 
+                        #467b22 83.3%, #467b22 100%
+                    );">
+                    <div id="quest-flash-overlay" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-10"></div>
+                </div>
+                <div id="quest-master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-20"></div>
             </div>
-            <h2 class="text-base md:text-lg font-normal text-zinc-100 mb-8 leading-relaxed min-h-[90px] text-left">
-                "I only feel ok about myself when I'm productive or when others praise my work."
+
+            <h2 id="quest-question-text" class="text-base md:text-lg font-normal text-zinc-100 mb-8 leading-relaxed min-h-[90px] text-left">
+                [ INIT_DIAGNOSTIC_ENGINE... ]
             </h2>
-            <div class="flex flex-col gap-3 md:gap-4 mt-auto">
-                <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Strongly Disagree</button>
-                <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Disagree</button>
-                <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Agree</button>
-                <button onclick="triggerQuestComplete('Insight: Self-Talk Baseline')" class="canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300">Strongly Agree</button>
+            
+            <div id="quest-answers-container" class="flex flex-col gap-3 md:gap-4 mt-auto transition-opacity duration-300">
+                <button class="quest-quiz-btn canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300" data-val="1">Strongly Disagree</button>
+                <button class="quest-quiz-btn canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300" data-val="2">Disagree</button>
+                <button class="quest-quiz-btn canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300" data-val="3">Agree</button>
+                <button class="quest-quiz-btn canvas-tool-btn p-4 text-left font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-zinc-300" data-val="4">Strongly Agree</button>
             </div>
+
             <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
         </div>
 
@@ -1252,6 +1266,11 @@
                 const yOffset = -50; 
                 const y = engineContainer.getBoundingClientRect().top + window.pageYOffset + yOffset;
                 window.scrollTo({top: y, behavior: 'smooth'});
+            }
+
+            // [NEW] Intercept and boot the neural engine
+            if(targetId === 'state-test') {
+                startQuestTest();
             }
         }
 
@@ -1372,90 +1391,70 @@
         const priorityHierarchy = ['selftalk', 'emotional', 'relationship'];
 
 
-        function openAssessment() {
+        // TELEPORTED: This function boots the new Quest Engine test
+        function startQuestTest() {
             qIdx = 0; 
             scores = { selftalk: 0, emotional: 0, relationship: 0 };
             
-            const answersContainer = document.getElementById('answers-container');
+            const answersContainer = document.getElementById('quest-answers-container');
             answersContainer.style.opacity = '1';
-            answersContainer.style.pointerEvents = 'auto'; // Re-enable clicks
-            document.getElementById('question-counter').style.opacity = '1'; 
+            answersContainer.style.pointerEvents = 'auto'; 
+            document.getElementById('quest-question-counter').style.opacity = '1'; 
             
-            const qText = document.getElementById('question-text');
-            qText.classList.remove('text-transparent', 'bg-clip-text', 'bg-gradient-to-r', 'from-lime-400', 'to-green-500', 'animate-pulse', 'text-center');
-            qText.classList.add('text-white');
+            const qText = document.getElementById('quest-question-text');
+            qText.classList.remove('text-transparent', 'bg-clip-text', 'bg-gradient-to-r', 'from-lime-400', 'to-green-500', 'animate-pulse', 'text-center', 'font-[\'Press_Start_2P\']', 'text-sm');
+            qText.classList.add('text-white', 'text-base', 'md:text-lg');
             
-            // Clear any straggling particles
-            const masterEmitter = document.getElementById('master-emitter-container');
+            const masterEmitter = document.getElementById('quest-master-emitter-container');
             if (masterEmitter) masterEmitter.innerHTML = '';
             
-            // Instantly snap the bar back to 0% before the transition kicks in
-            const progressBar = document.getElementById('quiz-progress');
+            const progressBar = document.getElementById('quest-quiz-progress');
             if (progressBar) progressBar.style.width = '0%';
-            // ------------------------------------------------------
-
-            document.body.style.overflow = 'hidden';
-            document.getElementById('assessment-modal').classList.remove('hidden');
-            document.getElementById('state-quiz').classList.remove('hidden');
-            document.getElementById('state-results').classList.add('hidden');
             
             renderQ();
         }
 
+        function openAssessment() {
+            // Dummy function to prevent live site errors until we delete the old modal button
+            console.log("Assessment Engine migrated to Quest Hub.");
+        }
 
         function openContactModal() {
-
             document.body.style.overflow = 'hidden';
-
             document.getElementById('contact-modal').classList.remove('hidden');
-
         }
-
 
         function closeModals() {
-
             document.body.style.overflow = 'auto';
-
             document.getElementById('assessment-modal').classList.add('hidden');
-
             document.getElementById('topic-modal').classList.add('hidden');
-
             document.getElementById('contact-modal')?.classList.add('hidden');
-
         }
-
-
 
         function renderQ() {
             const q = assessmentQuestions[qIdx];
+            document.getElementById('quest-question-text').innerText = q.text;
             
-            // We no longer overwrite the counter text here
-            document.getElementById('question-text').innerText = q.text;
-            
-            // Strict fraction math (1/23rd steps)
             const totalQuestions = assessmentQuestions.length;
             const progressPct = (qIdx / totalQuestions) * 100;
-            const progressBar = document.getElementById('quiz-progress');
+            const progressBar = document.getElementById('quest-quiz-progress');
             
             if (progressBar) {
-                // Pure width adjustment. Let CSS handle the 8-bit styling.
                 progressBar.style.width = `${progressPct}%`;
             }
         }
 
-
-        // --- HARDWARE-OPTIMIZED DOM EVENT BINDING & PHYSICS ENGINE ---
+        // --- HARDWARE-OPTIMIZED DOM EVENT BINDING & PHYSICS ENGINE (TELEPORTED) ---
         
-        const masterEmitter = document.getElementById('master-emitter-container');
-        const flashOverlay = document.getElementById('flash-overlay');
-        const xpBarContainer = document.getElementById('xp-bar-container');
+        const masterEmitter = document.getElementById('quest-master-emitter-container');
+        const flashOverlay = document.getElementById('quest-flash-overlay');
+        const xpBarContainer = document.getElementById('quest-xp-bar-container');
         const particleColors = ['#ffffff', '#ffdf00', '#a4ff45', '#76cd2d'];
 
         function spawnParticle(type, ratio, customAngle = null) {
             const particle = document.createElement('div');
             particle.className = 'pixel-particle';
             
-            // Finale particles get slightly larger variants
             const size = type === 'finale' ? (Math.random() > 0.4 ? '3px' : '4px') : (Math.random() > 0.6 ? '2px' : '3px');
             particle.style.width = size;
             particle.style.height = size;
@@ -1493,10 +1492,8 @@
         }
 
         function triggerFinaleEffects() {
-            // Snap to center for the final explosion
             masterEmitter.style.left = '50%';
 
-            // 1. FINALE CELEBRATORY CEILING JUMP
             xpBarContainer.style.animation = 'none';
             void xpBarContainer.offsetWidth;
             xpBarContainer.style.transformOrigin = 'center center';
@@ -1508,33 +1505,23 @@
                 { transform: 'scale(1.05, 0.93) translateY(2px)' },   
                 { transform: 'scale(0.98, 1.02) translateY(-2px)' },  
                 { transform: 'scale(1, 1) translateY(0)' }
-            ], {
-                duration: 450, 
-                easing: 'steps(6)', 
-                fill: 'forwards'
-            });
+            ], { duration: 450, easing: 'steps(6)', fill: 'forwards' });
 
-            // 2. 160 BPM TRIPLE STROBE ENGINE
             if(flashOverlay) {
                 flashOverlay.style.animation = 'none';
                 void flashOverlay.offsetWidth;
                 
                 flashOverlay.animate([
-                    { opacity: 1, offset: 0.0 },   // Tap 1
-                    { opacity: 0, offset: 0.166 }, // Gap 1
-                    { opacity: 1, offset: 0.333 }, // Tap 2
-                    { opacity: 0, offset: 0.5 },   // Gap 2
-                    { opacity: 1, offset: 0.666 }, // Tap 3
-                    { opacity: 0, offset: 0.833 }, // Done
-                    { opacity: 0, offset: 1.0 }    // Hold
-                ], {
-                    duration: 1125,      
-                    easing: 'steps(6)', 
-                    fill: 'forwards'
-                });
+                    { opacity: 1, offset: 0.0 },
+                    { opacity: 0, offset: 0.166 },
+                    { opacity: 1, offset: 0.333 },
+                    { opacity: 0, offset: 0.5 },
+                    { opacity: 1, offset: 0.666 },
+                    { opacity: 0, offset: 0.833 },
+                    { opacity: 0, offset: 1.0 }
+                ], { duration: 1125, easing: 'steps(6)', fill: 'forwards' });
             }
 
-            // 3. GENERATE 360-DEGREE ORBITAL SHOWER
             masterEmitter.innerHTML = '';
             const finaleCount = 40;
             for (let i = 0; i < finaleCount; i++) {
@@ -1546,10 +1533,8 @@
         function triggerEffects(currentIdx, total) {
             const ratio = currentIdx / total;
 
-            // Update Emitter Position to follow the bar
             masterEmitter.style.left = `${ratio * 100}%`;
 
-            // 1. EXPONENTIAL WOBBLE PROGRESSION
             xpBarContainer.style.animation = 'none';
             void xpBarContainer.offsetWidth; 
             xpBarContainer.style.transformOrigin = 'bottom center';
@@ -1563,17 +1548,11 @@
                 { transform: `scale(1.03, ${squishFactor})` }, 
                 { transform: `scale(0.97, ${stretchFactor})` }, 
                 { transform: 'scale(1, 1)' }
-            ], {
-                duration: 110 + (ratio * 40), 
-                easing: 'steps(4)', 
-                fill: 'forwards'
-            });
+            ], { duration: 110 + (ratio * 40), easing: 'steps(4)', fill: 'forwards' });
 
-            // 2. SCALED RETRO WHITE FLASH INTENSITY
             if(flashOverlay) {
                 flashOverlay.style.animation = 'none';
                 void flashOverlay.offsetWidth;
-                
                 const flashDuration = 120 + (ratio * 180);
                 
                 flashOverlay.animate([
@@ -1581,16 +1560,10 @@
                     { opacity: 0.9, offset: 0.35 },
                     { opacity: 0.4, offset: 0.7 },
                     { opacity: 0, offset: 1 }
-                ], {
-                    duration: flashDuration,
-                    easing: 'steps(3)',
-                    fill: 'forwards'
-                });
+                ], { duration: flashDuration, easing: 'steps(3)', fill: 'forwards' });
             }
 
-            // 3. GENERATE BURST
             masterEmitter.innerHTML = ''; 
-
             const verticalSideCount = Math.max(2, Math.floor(ratio * 6));
             for (let i = 0; i < verticalSideCount; i++) {
                 spawnParticle('top', ratio);
@@ -1603,16 +1576,13 @@
                 const totalRemainingSteps = total - halfwayStep;
                 const frontCount = Math.floor((stepsPastHalfway / totalRemainingSteps) * 8);
                 
-                for (let i = 0; i < frontCount; i++) {
-                    spawnParticle('front', ratio);
-                }
+                for (let i = 0; i < frontCount; i++) { spawnParticle('front', ratio); }
             }
         }
 
-        // DOM EVENT BINDING
-        document.querySelectorAll('.quiz-btn').forEach(btn => {
+        // DOM EVENT BINDING (TELEPORTED)
+        document.querySelectorAll('.quest-quiz-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                // Prevent double clicking on the final question
                 if (qIdx >= assessmentQuestions.length) return;
 
                 const q = assessmentQuestions[qIdx];
@@ -1625,64 +1595,51 @@
                 qIdx++;
                 
                 if (qIdx === assessmentQuestions.length) {
-                    // 1. Force the bar to 100%
-                    const progressBar = document.getElementById('quiz-progress');
+                    const progressBar = document.getElementById('quest-quiz-progress');
                     if (progressBar) progressBar.style.width = '100%';
                     
-                    // 2. THE CUT: Ghost the UI so it holds the layout structure perfectly still
-                    const answersContainer = document.getElementById('answers-container');
+                    const answersContainer = document.getElementById('quest-answers-container');
                     answersContainer.style.opacity = '0';
-                    answersContainer.style.pointerEvents = 'none'; // Disable clicking
-                    document.getElementById('question-counter').style.opacity = '0';
+                    answersContainer.style.pointerEvents = 'none';
+                    document.getElementById('quest-question-counter').style.opacity = '0';
                     
-                    // 3. Inject the glowing success message using the large retro font layout
-                    const qText = document.getElementById('question-text');
+                    const qText = document.getElementById('quest-question-text');
                     qText.innerText = "ASSESSMENT COMPLETE!";
                     qText.classList.remove('text-white', 'text-base', 'md:text-lg');
                     qText.classList.add('font-[\'Press_Start_2P\']', 'text-sm', 'md:text-lg', 'tracking-widest', 'leading-relaxed', 'text-transparent', 'bg-clip-text', 'bg-gradient-to-r', 'from-lime-400', 'to-green-500', 'animate-pulse', 'text-center');
 
-                    // 4. Fire finale blast
                     triggerFinaleEffects();
                     
-                    // 5. Tension Hold: Wait exactly 3 seconds before showing results
-                    setTimeout(() => {
-                        showA();
-                    }, 3000);
+                    setTimeout(() => { showA(); }, 3000);
 
                 } else {
-                    // Standard progressing behavior
                     triggerEffects(qIdx, assessmentQuestions.length);
-                    
-                    setTimeout(() => {
-                        renderQ();
-                    }, 100); 
+                    setTimeout(() => { renderQ(); }, 100); 
                 }
             });
         });
 
-
         function showA() {
-
             let maxScore = -1;
-
             let winningCategory = '';
-
             const counts = { selftalk: 0, emotional: 0, relationship: 0 };
-
             assessmentQuestions.forEach(q => counts[q.category]++);
 
-
             priorityHierarchy.forEach(cat => {
-
                 const averageScore = scores[cat] / counts[cat];
-
                 if (averageScore > maxScore) { maxScore = averageScore; winningCategory = cat; }
-
             });
 
-
-            triggerRes(resultsData[winningCategory], "Free assessment result");
-
+            // TELEPORTED: Injects data directly into the Quest Engine Terminal!
+            const resultData = resultsData[winningCategory];
+            const htmlBlob = `
+                <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400">// ${resultData.title}</h3>
+                <p class="mb-8">${resultData.desc}</p>
+                <div class="mt-8 flex flex-col items-center border-t border-white/10 pt-8">
+                    <a href="${resultData.pdfFile}" download class="btn-8bit w-full max-w-md text-center" style="text-decoration: none;">Download Full Guide</a>
+                </div>
+            `;
+            triggerQuestComplete('Diagnostic Analyzed', htmlBlob);
         }
 
 
