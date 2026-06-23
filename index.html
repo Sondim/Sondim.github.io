@@ -1395,6 +1395,14 @@
             
             hideGeneralSendForm(); // Reset form state just in case they loop back
             goToQuestState('state-complete');
+
+            // Force the camera to perfectly frame the reward screen after layout shift
+            setTimeout(() => {
+                const completeState = document.getElementById('state-complete');
+                if (completeState) {
+                    completeState.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 50);
         }
 
         function showGeneralSendForm() {
