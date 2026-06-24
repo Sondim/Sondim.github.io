@@ -1304,7 +1304,7 @@
             <div id="general-action-choices" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4 mt-8">
                 <div class="flex flex-col items-center text-center">
                     <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Download & reflect on your own</p>
-                    <button id="general-download-btn" onclick="downloadGeneralGuide()" class="btn-8bit btn-8bit-secondary w-full text-center hover:bg-zinc-100 transition-colors">Download Guide</button>
+                    <a id="general-download-btn" href="#" download class="btn-8bit btn-8bit-secondary w-full text-center hover:bg-zinc-100 transition-colors" style="text-decoration: none;">Download Guide</a>
                 </div>
                 
                 <div class="flex flex-col items-center text-center">
@@ -1382,8 +1382,8 @@
             
             if(rewardEl) rewardEl.innerText = 'Reward: ' + reward;
             
-            // Store the PDF URL as a data attribute instead of an href so the browser doesn't navigate
-            if(downloadBtn) downloadBtn.setAttribute('data-pdf', pdfUrl);
+            // Dynamically load the correct PDF into the unified download button
+            if(downloadBtn) downloadBtn.href = pdfUrl;
             
             if(dynamicContentEl) {
                 dynamicContentEl.innerHTML = dynamicHTML;
@@ -1404,50 +1404,6 @@
                     completeState.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
             }, 50);
-        }
-
-        async function downloadGeneralGuide() {
-            const btn = document.getElementById('general-download-btn');
-            if (!btn) return;
-            
-            const pdfUrl = btn.getAttribute('data-pdf');
-            if(!pdfUrl || pdfUrl === '#') return;
-
-            // Visual feedback: Lock input and damp the button physics
-            const originalText = btn.innerText;
-            btn.innerText = "FETCHING...";
-            btn.style.pointerEvents = "none";
-            btn.style.opacity = "0.7";
-
-            try {
-                // Fetch the PDF as a raw Blob to bypass the browser's native PDF viewer
-                const response = await fetch(pdfUrl);
-                const blob = await response.blob();
-                
-                // Create a temporary, local URL from the blob
-                const blobUrl = window.URL.createObjectURL(blob);
-                
-                // Force the download via the local blob
-                const link = document.createElement('a');
-                link.href = blobUrl;
-                link.download = pdfUrl.split('/').pop() || 'sondim_guide.pdf';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                // Clean up memory
-                window.URL.revokeObjectURL(blobUrl);
-            } catch (error) {
-                console.error("Download failed:", error);
-                btn.innerText = "ERROR - TRY AGAIN";
-            } finally {
-                // Restore button physics and state
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.style.pointerEvents = "auto";
-                    btn.style.opacity = "1";
-                }, 1500);
-            }
         }
 
         function showGeneralSendForm() {
@@ -2503,7 +2459,7 @@
                     clearInterval(dotInterval);
                     
                     // Maintain the current PDF link so the user doesn't lose it!
-                    const currentPdfUrl = document.getElementById('general-download-btn')?.getAttribute('data-pdf') || '#';
+                    const currentPdfUrl = document.getElementById('general-download-btn')?.href || '#';
 
                     // ON SUCCESS: Overwrite the Complete screen text dynamically
                     triggerQuestComplete('Reflection Shared', `
