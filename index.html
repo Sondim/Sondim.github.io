@@ -1555,8 +1555,11 @@
             const hudWrapper = document.getElementById('global-quest-progress-wrapper');
             const bootFlash = document.getElementById('hud-boot-flash');
             
-            // Unhide and slide down the Nav HUD
-            if (hudWrapper) {
+            // 1. Check if the engine is already booted
+            const isBooting = hudWrapper && hudWrapper.classList.contains('opacity-0');
+            
+            if (isBooting) {
+                // Unhide and slide down the Nav HUD
                 hudWrapper.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none');
                 hudWrapper.classList.add('max-h-[100px]', 'opacity-100', 'pointer-events-auto'); 
                 
@@ -1576,12 +1579,22 @@
                             { opacity: 0, offset: 0.833 },
                             { opacity: 0, offset: 1.0 }
                         ], { duration: 800, easing: 'steps(6)', fill: 'forwards' });
-                    }, 0); // 0ms delay waits for the CSS slide-down to finish before blinding them
+                    }, 0);
                 }
             }
             
-            // Frame the camera tightly onto the Hub State to skip massive top paddings on mobile
-            const targetElement = document.getElementById('state-hub');
+            // 2. Smart-scan the DOM to find the currently active quest state
+            let activeStateId = 'state-hub'; // Default fallback
+            for (let i = 0; i < questStates.length; i++) {
+                const stateEl = document.getElementById(questStates[i]);
+                if (stateEl && !stateEl.classList.contains('hidden')) {
+                    activeStateId = questStates[i];
+                    break;
+                }
+            }
+            
+            // 3. Frame the camera tightly onto the active state
+            const targetElement = document.getElementById(activeStateId);
             if (targetElement) {
                 // Dynamically calculate the nav height so the scroll never overlaps the title
                 const navHeight = document.querySelector('nav').offsetHeight;
