@@ -569,14 +569,14 @@
             <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-16 leading-tight tracking-wide text-shadow-sm">Choose your path</h2>
             
             <div class="flex flex-wrap gap-6 justify-center items-center">
-                <button onclick="selectHubQuest(this, 'state-topic')" data-desc="Select a specific psychological blocker to explore and resolve." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Pick a Topic</button>
-                <button onclick="selectHubQuest(this, 'state-draw-prompt')" data-desc="Sometimes drawing is more effective than words to gain insight." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Draw Your Problem</button>
-                <button onclick="selectHubQuest(this, 'state-test')" data-desc="Run a full diagnostic to uncover what's draining your studio's energy." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Do a Test</button>
-                <button onclick="selectHubQuest(this, 'random')" data-desc="It's ok to not feel sure, roll the dice and have the universe decide for you." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Roll the Dice</button>
+                <button onclick="selectHubQuest(this, 'state-topic')" data-desc="Choose between common topics. No drawings, tests or dice!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Pick a Topic</button>
+                <button onclick="selectHubQuest(this, 'state-draw-prompt')" data-desc="Sometimes a sketch helps more than a long explanation, a great way to get out of your head." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Draw Your Problem</button>
+                <button onclick="selectHubQuest(this, 'state-test')" data-desc="Do a test to help find out where you're stuck!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Do a Test</button>
+                <button onclick="selectHubQuest(this, 'random')" data-desc="It's ok to not feel sure, roll the dice and have the universe decide for you!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Roll the Dice</button>
             </div>
 
             <div id="hub-confirm-container" class="mt-10 flex flex-col items-center">
-                <p id="quest-desc-text" class="text-sm md:text-base text-zinc-400 font-mono mb-6 min-h-[32px] px-4 flex items-center justify-center text-center"></p>
+                <p id="quest-desc-text" class="text-sm md:text-base text-white font-mono mb-6 min-h-[32px] px-4 flex items-center justify-center text-center"></p>
                 
                 <button id="hub-confirm-btn" disabled onclick="confirmHubQuest()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full max-w-md disabled:opacity-50 disabled:grayscale transition-all duration-300">
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
@@ -593,13 +593,14 @@
             <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">Questline: Pick a topic</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left" id="topic-selection-grid">
-                <button onclick="selectQuestTopic(this, 'critical')" class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Critical Self Talk</button>
-                <button onclick="selectQuestTopic(this, 'imposter')" class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Imposter Syndrome</button>
-                <button onclick="selectQuestTopic(this, 'procrastination')" class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Procrastination</button>
-                <button onclick="selectQuestTopic(this, 'relationship')" class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Relationship to Self & Others</button>
+                <button onclick="selectQuestTopic(this, 'critical')" data-desc="Quiet the internal critic and build sustainable motivation." class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Critical Self Talk</button>
+                <button onclick="selectQuestTopic(this, 'imposter')" data-desc="Stop waiting for permission and own your studio's vision." class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Imposter Syndrome</button>
+                <button onclick="selectQuestTopic(this, 'procrastination')" data-desc="Move past the freeze response when the work gets overwhelming." class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Procrastination</button>
+                <button onclick="selectQuestTopic(this, 'relationship')" data-desc="This area is about your capacity to be with yourself and others." class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Relationship to Self & Others</button>
             </div>
 
             <div id="topic-confirm-container" class="mt-10 flex flex-col items-center">
+                <p id="topic-desc-text" class="text-sm md:text-base text-white font-mono mb-6 min-h-[32px] px-4 flex items-center justify-center text-center"></p>
                 <button id="topic-confirm-btn" disabled onclick="confirmQuestTopic()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full max-w-md disabled:opacity-50 disabled:grayscale transition-all duration-300">
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
@@ -616,7 +617,7 @@
             
             <div class="flex items-center justify-center gap-6 mb-12 px-6 h-28 md:h-24 w-full max-w-xl mx-auto bg-black border-4 border-yellow-400 p-4 shadow-inner">
                 <p id="drawing-prompt-text" class="text-sm md:text-base text-zinc-300 font-mono m-0 leading-relaxed flex-1 text-center flex items-center justify-center italic">
-                    "Click the button for a random drawing prompt, click until you have one you want or just click No prompt below if you don't want one."
+                    "Get a random prompt to get started, or click 'Skip' if you already have a drawing in mind!"
                 </p>
                 
                 <button onclick="rerollPrompt()" title="Get New Prompt" class="canvas-tool-btn p-2 md:p-3 w-12 h-12 flex items-center justify-center flex-shrink-0 transition-transform active:scale-95 shadow-[4px_4px_0px_#000]">
@@ -633,7 +634,7 @@
                     <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Confirm Prompt</span>
                 </button>
                 <button onclick="confirmDrawingPrompt(true)" class="w-full md:w-1/2 bg-zinc-900 border-4 border-zinc-500 text-white font-['Press_Start_2P'] text-[10px] uppercase tracking-widest p-[1.25rem] hover:border-white hover:bg-zinc-800 transition-colors active:translate-y-[2px] active:translate-x-[2px] shadow-[4px_4px_0px_#000]">
-                    No Prompt
+                    Skip
                 </button>
             </div>
             
@@ -1436,6 +1437,8 @@
             
             const descEl = document.getElementById('quest-desc-text');
             if (descEl) descEl.innerText = '';
+            const topicDescEl = document.getElementById('topic-desc-text');
+            if (topicDescEl) topicDescEl.innerText = '';
         });
 
         // Global Physics Engine Setup
@@ -1676,12 +1679,14 @@
                 const topicBtn = document.getElementById('topic-confirm-btn');
                 const drawBtn = document.getElementById('draw-confirm-btn');
                 const descEl = document.getElementById('quest-desc-text');
+                const topicDescEl = document.getElementById('topic-desc-text');
                 const promptText = document.getElementById('drawing-prompt-text');
                 
                 if (hubBtn) hubBtn.disabled = true;
                 if (topicBtn) topicBtn.disabled = true;
                 if (drawBtn) drawBtn.disabled = true;
                 if (descEl) descEl.innerText = '';
+                if (topicDescEl) topicDescEl.innerText = '';
                 
                 // Scrub prompt state
                 if (promptText) promptText.innerText = "Click the button for a random drawing prompt, click until you have one you want.";
@@ -1770,6 +1775,11 @@
             // Press the selected button down (mechanical lock-in)
             btn.classList.add('is-active');
             currentSelectedTopic = key;
+
+            // Update the topic description text
+            const descText = btn.getAttribute('data-desc');
+            const topicDescEl = document.getElementById('topic-desc-text');
+            if (topicDescEl) topicDescEl.innerText = descText;
 
             // Enable the confirm button
             const confirmBtn = document.getElementById('topic-confirm-btn');
@@ -2279,7 +2289,7 @@
                 if (!currentActivePrompt) {
                     activePromptText.innerText = "Render an illustration of what is currently blocking your studio's progression.";
                 } else {
-                    activePromptText.innerText = `Objective: "${currentActivePrompt}"`;
+                    activePromptText.innerText = `"${currentActivePrompt}"`;
                 }
             }
             
