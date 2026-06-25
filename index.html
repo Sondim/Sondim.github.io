@@ -570,7 +570,7 @@
             
             <div class="flex flex-wrap gap-6 justify-center items-center">
                 <button onclick="selectHubQuest(this, 'state-topic')" data-desc="Select a specific psychological blocker to explore and resolve." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Pick a Topic</button>
-                <button onclick="selectHubQuest(this, 'state-draw')" data-desc="Sometimes drawing is more effective than words to gain insight." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Draw Your Problem</button>
+                <button onclick="selectHubQuest(this, 'state-draw-prompt')" data-desc="Sometimes drawing is more effective than words to gain insight." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Draw Your Problem</button>
                 <button onclick="selectHubQuest(this, 'state-test')" data-desc="Run a full diagnostic to uncover what's draining your studio's energy." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Do a Test</button>
                 <button onclick="selectHubQuest(this, 'random')" data-desc="It's ok to not feel sure, roll the dice and have the universe decide for you." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Roll the Dice</button>
             </div>
@@ -611,15 +611,39 @@
             <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
         </div>
         
-        <div id="state-draw" class="hidden text-center fade-in w-full max-w-5xl mx-auto">
-            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-6 leading-tight tracking-wide">Draw your problem</h2>
+        <div id="state-draw-prompt" class="hidden text-center fade-in w-full max-w-3xl mx-auto">
+            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-6 leading-tight tracking-wide">Select A Prompt</h2>
             
-            <div class="flex items-center justify-center gap-4 mb-12 max-w-2xl mx-auto px-4">
-                <p id="drawing-prompt-text" class="text-lg text-zinc-400 m-0 leading-snug">Click the button for a random drawing prompt, click until you have one you want.</p>
-                <button onclick="rerollPrompt()" title="Get New Prompt" class="canvas-tool-btn p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center flex-shrink-0 transition-transform active:scale-95">
-                    <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
+            <div class="flex items-center justify-center gap-6 mb-12 px-6 h-28 md:h-24 w-full max-w-xl mx-auto bg-black border-4 border-zinc-800 p-4 shadow-inner">
+                <p id="drawing-prompt-text" class="text-sm md:text-base text-zinc-300 font-mono m-0 leading-relaxed flex-1 text-center flex items-center justify-center italic">
+                    "Click the button for a random drawing prompt, click until you have one you want."
+                </p>
+                
+                <button onclick="rerollPrompt()" title="Get New Prompt" class="canvas-tool-btn p-2 md:p-3 w-12 h-12 flex items-center justify-center flex-shrink-0 transition-transform active:scale-95 shadow-[4px_4px_0px_#000]">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
                 </button>
             </div>
+
+            <div class="flex flex-col gap-6 items-center w-full max-w-md mx-auto">
+                <button onclick="confirmDrawingPrompt(false)" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full">
+                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Confirm Prompt</span>
+                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Confirm Prompt</span>
+                </button>
+                <button onclick="confirmDrawingPrompt(true)" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase transition-colors bg-transparent border-none cursor-pointer p-2 tracking-widest">
+                    [ I don't need a prompt ]
+                </button>
+            </div>
+            
+            <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
+        </div>
+
+        <div id="state-draw" class="hidden text-center fade-in w-full max-w-5xl mx-auto">
+            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-4 leading-tight tracking-wide">Draw your problem</h2>
+            
+            <p id="active-drawing-prompt" class="text-sm md:text-lg text-yellow-400 font-mono mb-10 min-h-[24px] flex items-center justify-center italic text-balance px-4">
+                </p>
             
             <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12 relative min-h-[500px] flex flex-col justify-center">
                 
@@ -1393,7 +1417,7 @@
 
     <script>
         // --- RPG QUEST STATE MACHINE & GLOBAL PROGRESSION ---
-        const questStates = ['state-hub', 'state-topic', 'state-draw', 'state-test', 'state-complete'];
+        const questStates = ['state-hub', 'state-topic', 'state-draw-prompt', 'state-draw', 'state-test', 'state-complete'];
         let selectedHubTargetState = null;
 
         // Global Physics Engine Setup
@@ -1611,7 +1635,7 @@
             // Transition instantly without artificial delays
             let finalState = selectedHubTargetState;
             if (finalState === 'random') {
-                const paths = ['state-topic', 'state-draw', 'state-test'];
+                const paths = ['state-topic', 'state-draw-prompt', 'state-test'];
                 finalState = paths[Math.floor(Math.random() * paths.length)];
             }
             goToQuestState(finalState);
@@ -2192,19 +2216,39 @@
         // --- QUEST DRAWING UI LOGIC ---
         
         const drawingPrompts = [
-            "It could be your own inner critic.",
+            "Draw your own inner critic.",
             "Draw a boat on the ocean symbolizing where you currently are.",
-            "Draw what's missing."
+            "Draw what's missing right now."
         ];
+
+        let currentActivePrompt = "";
 
         function rerollPrompt() {
             const promptText = document.getElementById('drawing-prompt-text');
             if (promptText) {
                 const randomPrompt = drawingPrompts[Math.floor(Math.random() * drawingPrompts.length)];
-                promptText.innerText = randomPrompt;
+                currentActivePrompt = randomPrompt;
+                promptText.innerText = `"${randomPrompt}"`;
             }
-            // Instantly push the global progress bar to the mid-way point
+        }
+
+        function confirmDrawingPrompt(skip = false) {
+            const activePromptText = document.getElementById('active-drawing-prompt');
+            
+            if (skip) {
+                activePromptText.innerText = "Render an illustration of what is currently blocking your studio's progression.";
+            } else {
+                // Failsafe: if they hit confirm without ever hitting random, show generic text
+                if (!currentActivePrompt) {
+                    activePromptText.innerText = "Render an illustration of what is currently blocking your studio's progression.";
+                } else {
+                    activePromptText.innerText = `Objective: "${currentActivePrompt}"`;
+                }
+            }
+            
+            // Advance XP exactly as they transition to the canvas
             updateGlobalProgress(66);
+            goToQuestState('state-draw');
         }
 
         function finishQuestDrawing() {
