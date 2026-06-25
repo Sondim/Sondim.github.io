@@ -624,15 +624,16 @@
                 </button>
             </div>
 
-            <div class="flex flex-col gap-6 items-center w-full max-w-md mx-auto">
-                <button onclick="confirmDrawingPrompt(false)" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full">
+            <div class="flex flex-col md:flex-row gap-6 justify-center items-center w-full max-w-2xl mx-auto">
+                <button onclick="confirmDrawingPrompt(false)" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full md:w-1/2">
+                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Confirm Prompt</span>
                     <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Confirm Prompt</span>
                 </button>
-                <button onclick="confirmDrawingPrompt(true)" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase transition-colors bg-transparent border-none cursor-pointer p-2 tracking-widest">
-                    [ I don't need a prompt ]
+                <button onclick="confirmDrawingPrompt(true)" class="w-full md:w-1/2 bg-zinc-900 border-4 border-zinc-500 text-white font-['Press_Start_2P'] text-[10px] uppercase tracking-widest p-[1.25rem] hover:border-white hover:bg-zinc-800 transition-colors active:translate-y-[2px] active:translate-x-[2px] shadow-[4px_4px_0px_#000]">
+                    No Prompt
                 </button>
             </div>
             
@@ -739,13 +740,16 @@
                     </div>
                 </div>
 
-                <div id="quest-drawing-complete-state" class="hidden flex-col items-center justify-center w-full max-w-2xl mx-auto fade-in h-full">
-                    <h2 class="font-['Press_Start_2P'] text-sm md:text-lg tracking-widest leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-lime-400 to-green-500 animate-pulse text-center mb-8">
-                        QUEST COMPLETE!
-                    </h2>
+                <div id="quest-drawing-complete-state" class="hidden flex-col items-center justify-center w-full max-w-3xl mx-auto fade-in h-full text-center">
+                    
+                    <h2 class="text-2xl md:text-3xl text-yellow-400 mb-6 font-['Press_Start_2P'] animate-pulse w-full">QUEST COMPLETE!</h2>
+                    <p class="text-zinc-300 mb-12 font-mono tracking-widest uppercase bg-black border-2 border-zinc-800 inline-block px-4 py-2">Reward: Artifact Generated</p>
 
-                    <div class="canvas-panel-8bit w-48 h-36 mb-12 flex-shrink-0 bg-white flex items-center justify-center overflow-hidden">
-                        <img id="quest-drawing-thumbnail" src="" class="w-full h-full object-contain">
+                    <div class="canvas-panel-8bit p-6 md:p-8 text-left mb-12 w-full max-w-2xl mx-auto flex flex-col items-center">
+                        <h3 class="text-lg md:text-xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 w-full text-left">// Diagnostic Sketch</h3>
+                        <div class="w-full sm:w-64 md:w-80 aspect-[4/3] bg-white border-4 border-black flex items-center justify-center overflow-hidden shadow-inner">
+                            <img id="quest-drawing-thumbnail" src="" class="w-full h-full object-contain">
+                        </div>
                     </div>
 
                     <div id="quest-action-choices" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4">
