@@ -510,6 +510,28 @@
                 <a href="#book" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-yellow-400 hover:text-yellow-300 transition-colors">[ Book a session ]</a>
             </div>
         </div>
+        
+        <div id="global-quest-progress-wrapper" class="w-full bg-zinc-950 border-t border-white/5 overflow-hidden transition-all duration-500 max-h-0 opacity-0 pointer-events-none">
+            <div id="global-quest-progress-container" class="w-full max-w-4xl mx-auto py-4 px-6 md:px-0">
+                <div class="flex justify-between items-center mb-3 pr-2">
+                    <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest">// Quest_Status</div>
+                    <div id="global-quest-pct" class="text-[10px] font-['Press_Start_2P'] text-zinc-500 uppercase tracking-widest">0%</div>
+                </div>
+                <div id="global-xp-bar-container" class="w-full h-3 bg-[#1a2e0b] border-4 border-black relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
+                    <div id="global-quest-progress-bar" class="h-full w-[0%] transition-[width] duration-500 ease-out relative" 
+                        style="background: linear-gradient(to bottom, 
+                            #315c10 0%, #315c10 16.6%, 
+                            #5ca826 16.6%, #5ca826 33.3%, 
+                            #a4ff45 33.3%, #a4ff45 66.6%, 
+                            #76cd2d 66.6%, #76cd2d 83.3%, 
+                            #467b22 83.3%, #467b22 100%
+                        );">
+                        <div id="global-flash-overlay" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-10"></div>
+                    </div>
+                    <div id="global-master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-20"></div>
+                </div>
+            </div>
+        </div>
     </nav>
 
 
@@ -526,7 +548,7 @@
                 </p>
             </div>
 
-            <button onclick="document.getElementById('quest-engine-prototype').scrollIntoView({ behavior: 'smooth', block: 'start' });" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full sm:w-auto z-10">
+            <button onclick="bootQuestEngine()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full sm:w-auto z-10">
                 <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                 <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                 <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
@@ -538,27 +560,6 @@
 
 <section id="quest-engine-prototype" class="max-w-4xl mx-auto px-6 py-24 border-t border-white/5 border-dashed bg-zinc-900/30 relative min-h-[850px]">
         
-        <div id="global-quest-progress-wrapper" class="sticky top-[68px] md:top-[88px] z-30 w-full mb-16 pt-4 pb-6 px-4 bg-zinc-900/95 backdrop-blur-md border-b-2 border-dashed border-white/10 opacity-0 pointer-events-none -translate-y-4 transition-all duration-500 shadow-2xl -mx-4 md:mx-0">
-            <div id="global-quest-progress-container" class="w-full max-w-2xl mx-auto">
-                <div class="flex justify-between items-center mb-4 pr-2">
-                    <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest">// Quest_Status</div>
-                    <div id="global-quest-pct" class="text-[10px] font-['Press_Start_2P'] text-zinc-500 uppercase tracking-widest">0%</div>
-                </div>
-                <div id="global-xp-bar-container" class="w-full h-4 bg-[#1a2e0b] border-4 border-black relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
-                    <div id="global-quest-progress-bar" class="h-full w-[0%] transition-[width] duration-500 ease-out relative" 
-                        style="background: linear-gradient(to bottom, 
-                            #315c10 0%, #315c10 16.6%, 
-                            #5ca826 16.6%, #5ca826 33.3%, 
-                            #a4ff45 33.3%, #a4ff45 66.6%, 
-                            #76cd2d 66.6%, #76cd2d 83.3%, 
-                            #467b22 83.3%, #467b22 100%
-                        );">
-                        <div id="global-flash-overlay" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-10"></div>
-                    </div>
-                    <div id="global-master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-20"></div>
-                </div>
-            </div>
-        </div>
 
         <div id="state-hub" class="text-center fade-in">
             <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-16 leading-tight tracking-wide text-shadow-sm">Choose your path</h2>
@@ -1447,21 +1448,29 @@
             }
         }
 
+        function bootQuestEngine() {
+            const hudWrapper = document.getElementById('global-quest-progress-wrapper');
+            
+            // Unhide and slide down the Nav HUD
+            if (hudWrapper) {
+                hudWrapper.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none');
+                hudWrapper.classList.add('max-h-[100px]', 'opacity-100', 'pointer-events-auto'); 
+            }
+            
+            // Frame the camera cleanly around the main Quest Engine stage
+            const targetElement = document.getElementById('quest-engine-prototype');
+            if (targetElement) {
+                // Dynamically calculate the nav height so the scroll never overlaps the title
+                const navHeight = document.querySelector('nav').offsetHeight;
+                const yOffset = -(navHeight + 40); 
+                const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
+        }
+
         function updateGlobalProgress(pctNum) {
             const globalBar = document.getElementById('global-quest-progress-bar');
             const globalPctText = document.getElementById('global-quest-pct');
-            const hudWrapper = document.getElementById('global-quest-progress-wrapper');
-            
-            // HUD Visibility Engine
-            if (hudWrapper) {
-                if (pctNum > 0) {
-                    hudWrapper.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
-                    hudWrapper.classList.add('opacity-100', 'translate-y-0');
-                } else {
-                    hudWrapper.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
-                    hudWrapper.classList.remove('opacity-100', 'translate-y-0');
-                }
-            }
 
             if (globalBar) globalBar.style.width = pctNum + '%';
             if (globalPctText) globalPctText.innerText = pctNum + '%';
