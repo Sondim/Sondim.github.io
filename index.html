@@ -511,8 +511,11 @@
             </div>
         </div>
         
-        <div id="global-quest-progress-wrapper" class="w-full bg-zinc-950 border-t border-white/5 overflow-hidden transition-all duration-500 max-h-0 opacity-0 pointer-events-none">
-            <div id="global-quest-progress-container" class="w-full max-w-4xl mx-auto py-4 px-6 md:px-0">
+        <div id="global-quest-progress-wrapper" class="relative w-full bg-zinc-950 border-t border-white/5 overflow-hidden transition-all duration-500 max-h-0 opacity-0 pointer-events-none">
+            
+            <div id="hud-boot-flash" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-50"></div>
+            
+            <div id="global-quest-progress-container" class="w-full max-w-4xl mx-auto py-4 px-6 md:px-0 relative z-10">
                 <div class="flex justify-between items-center mb-3 pr-2">
                     <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest">// Quest_Status</div>
                     <div id="global-quest-pct" class="text-[10px] font-['Press_Start_2P'] text-zinc-500 uppercase tracking-widest">0%</div>
@@ -1450,11 +1453,31 @@
 
         function bootQuestEngine() {
             const hudWrapper = document.getElementById('global-quest-progress-wrapper');
+            const bootFlash = document.getElementById('hud-boot-flash');
             
             // Unhide and slide down the Nav HUD
             if (hudWrapper) {
                 hudWrapper.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none');
                 hudWrapper.classList.add('max-h-[100px]', 'opacity-100', 'pointer-events-auto'); 
+                
+                // Trigger the system boot-up strobe flash
+                if (bootFlash) {
+                    setTimeout(() => {
+                        // Hardware snap reset just in case
+                        bootFlash.style.animation = 'none';
+                        void bootFlash.offsetWidth;
+                        
+                        bootFlash.animate([
+                            { opacity: 1, offset: 0.0 },
+                            { opacity: 0, offset: 0.166 },
+                            { opacity: 1, offset: 0.333 },
+                            { opacity: 0, offset: 0.5 },
+                            { opacity: 1, offset: 0.666 },
+                            { opacity: 0, offset: 0.833 },
+                            { opacity: 0, offset: 1.0 }
+                        ], { duration: 1125, easing: 'steps(6)', fill: 'forwards' });
+                    }, 450); // 450ms delay waits for the CSS slide-down to finish before blinding them
+                }
             }
             
             // Frame the camera cleanly around the main Quest Engine stage
