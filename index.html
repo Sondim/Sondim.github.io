@@ -536,25 +536,27 @@
         </div>
     </section>
 
-<section id="quest-engine-prototype" class="max-w-4xl mx-auto px-6 py-24 border-t border-white/5 border-dashed bg-zinc-900/30 relative">
+<section id="quest-engine-prototype" class="max-w-4xl mx-auto px-6 py-24 border-t border-white/5 border-dashed bg-zinc-900/30 relative min-h-[850px]">
         
-        <div id="global-quest-progress-container" class="w-full max-w-2xl mx-auto mb-16 fade-in">
-            <div class="flex justify-between items-center mb-4 pr-2">
-                <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest">// Quest_Status</div>
-                <div id="global-quest-pct" class="text-[10px] font-['Press_Start_2P'] text-zinc-500 uppercase tracking-widest">0%</div>
-            </div>
-            <div id="global-xp-bar-container" class="w-full h-4 bg-[#1a2e0b] border-4 border-black relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
-                <div id="global-quest-progress-bar" class="h-full w-[0%] transition-[width] duration-500 ease-out relative" 
-                    style="background: linear-gradient(to bottom, 
-                        #315c10 0%, #315c10 16.6%, 
-                        #5ca826 16.6%, #5ca826 33.3%, 
-                        #a4ff45 33.3%, #a4ff45 66.6%, 
-                        #76cd2d 66.6%, #76cd2d 83.3%, 
-                        #467b22 83.3%, #467b22 100%
-                    );">
-                    <div id="global-flash-overlay" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-10"></div>
+        <div id="global-quest-progress-wrapper" class="sticky top-[68px] md:top-[88px] z-30 w-full mb-16 pt-4 pb-6 px-4 bg-zinc-900/95 backdrop-blur-md border-b-2 border-dashed border-white/10 opacity-0 pointer-events-none -translate-y-4 transition-all duration-500 shadow-2xl -mx-4 md:mx-0">
+            <div id="global-quest-progress-container" class="w-full max-w-2xl mx-auto">
+                <div class="flex justify-between items-center mb-4 pr-2">
+                    <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest">// Quest_Status</div>
+                    <div id="global-quest-pct" class="text-[10px] font-['Press_Start_2P'] text-zinc-500 uppercase tracking-widest">0%</div>
                 </div>
-                <div id="global-master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-20"></div>
+                <div id="global-xp-bar-container" class="w-full h-4 bg-[#1a2e0b] border-4 border-black relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
+                    <div id="global-quest-progress-bar" class="h-full w-[0%] transition-[width] duration-500 ease-out relative" 
+                        style="background: linear-gradient(to bottom, 
+                            #315c10 0%, #315c10 16.6%, 
+                            #5ca826 16.6%, #5ca826 33.3%, 
+                            #a4ff45 33.3%, #a4ff45 66.6%, 
+                            #76cd2d 66.6%, #76cd2d 83.3%, 
+                            #467b22 83.3%, #467b22 100%
+                        );">
+                        <div id="global-flash-overlay" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-10"></div>
+                    </div>
+                    <div id="global-master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-20"></div>
+                </div>
             </div>
         </div>
 
@@ -1448,7 +1450,19 @@
         function updateGlobalProgress(pctNum) {
             const globalBar = document.getElementById('global-quest-progress-bar');
             const globalPctText = document.getElementById('global-quest-pct');
+            const hudWrapper = document.getElementById('global-quest-progress-wrapper');
             
+            // HUD Visibility Engine
+            if (hudWrapper) {
+                if (pctNum > 0) {
+                    hudWrapper.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+                    hudWrapper.classList.add('opacity-100', 'translate-y-0');
+                } else {
+                    hudWrapper.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+                    hudWrapper.classList.remove('opacity-100', 'translate-y-0');
+                }
+            }
+
             if (globalBar) globalBar.style.width = pctNum + '%';
             if (globalPctText) globalPctText.innerText = pctNum + '%';
             
@@ -1464,7 +1478,6 @@
             btn.classList.add('is-active');
             selectedHubTargetState = targetState;
 
-            // Update Dynamic Description Text
             const descText = btn.getAttribute('data-desc');
             const descEl = document.getElementById('quest-desc-text');
             if (descEl) descEl.innerText = descText;
@@ -1484,10 +1497,8 @@
             document.getElementById('hub-confirm-container').classList.add('hidden');
             document.querySelectorAll('.hub-quest-btn').forEach(b => b.classList.remove('is-active'));
             
-            // Fire the global progress bar physics for taking the first step
             updateGlobalProgress(33);
 
-            // Allow animation to snap before transitioning state
             setTimeout(() => {
                 let finalState = selectedHubTargetState;
                 if (finalState === 'random') {
@@ -1508,16 +1519,15 @@
             if(targetEl) targetEl.classList.remove('hidden');
             
             if (targetId === 'state-hub') {
-                // Wipe progress clean when bailing to the main menu
                 updateGlobalProgress(0);
                 document.getElementById('hub-confirm-container').classList.add('hidden');
                 document.querySelectorAll('.topic-selection-btn, .hub-quest-btn').forEach(b => b.classList.remove('is-active'));
             }
 
-            // Frame the camera cleanly around the new Global Progress Bar anchor
-            const targetElement = document.getElementById('global-quest-progress-container');
+            // Frame the camera cleanly around the main Quest Engine stage (accounting for nav height)
+            const targetElement = document.getElementById('quest-engine-prototype');
             if (targetElement) {
-                const yOffset = -20; 
+                const yOffset = -70; 
                 const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
                 window.scrollTo({top: y, behavior: 'smooth'});
             }
