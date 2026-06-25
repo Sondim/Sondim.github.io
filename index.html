@@ -1497,10 +1497,11 @@
 
             if (globalBar) globalBar.style.width = pctNum + '%';
             
+            // Fire the sparks exactly 500ms later, matching the CSS transition duration
             if (pctNum > 0 && pctNum < 100) {
-                setTimeout(() => { triggerGlobalEffects(pctNum / 100); }, 50);
+                setTimeout(() => { triggerGlobalEffects(pctNum / 100); }, 500);
             } else if (pctNum === 100) {
-                setTimeout(() => { triggerGlobalEffects(1.2); }, 50);
+                setTimeout(() => { triggerGlobalEffects(1.2); }, 500);
             }
         }
 
@@ -1530,15 +1531,14 @@
             
             updateGlobalProgress(33);
 
-            setTimeout(() => {
-                let finalState = selectedHubTargetState;
-                if (finalState === 'random') {
-                    const paths = ['state-topic', 'state-draw', 'state-test'];
-                    finalState = paths[Math.floor(Math.random() * paths.length)];
-                }
-                goToQuestState(finalState);
-                selectedHubTargetState = null;
-            }, 600); 
+            // Transition instantly without artificial delays
+            let finalState = selectedHubTargetState;
+            if (finalState === 'random') {
+                const paths = ['state-topic', 'state-draw', 'state-test'];
+                finalState = paths[Math.floor(Math.random() * paths.length)];
+            }
+            goToQuestState(finalState);
+            selectedHubTargetState = null;
         }
         
         function goToQuestState(targetId) {
@@ -1591,16 +1591,14 @@
             
             hideGeneralSendForm(); 
             
-            // Give the global progress bar exactly 600ms to pop before hiding the view
+            // Instantly transition to the complete view
+            goToQuestState('state-complete');
             setTimeout(() => {
-                goToQuestState('state-complete');
-                setTimeout(() => {
-                    const completeState = document.getElementById('state-complete');
-                    if (completeState) {
-                        completeState.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                }, 50);
-            }, 600);
+                const completeState = document.getElementById('state-complete');
+                if (completeState) {
+                    completeState.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 50); // 50ms ensures the browser updates the DOM layout before scrolling
         }
 
         function showGeneralSendForm() {
