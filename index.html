@@ -1395,11 +1395,13 @@
         const globalFlashOverlay = document.getElementById('global-flash-overlay');
         const globalXpBarContainer = document.getElementById('global-xp-bar-container');
 
-        function spawnGlobalParticle(type, ratio) {
+        function spawnGlobalParticle(type, ratio, customAngle = null) {
             const particle = document.createElement('div');
             particle.className = 'pixel-particle';
-            particle.style.width = '3px';
-            particle.style.height = '3px';
+            
+            const size = type === 'finale' ? (Math.random() > 0.4 ? '3px' : '4px') : '3px';
+            particle.style.width = size;
+            particle.style.height = size;
             particle.style.backgroundColor = particleColors[Math.floor(Math.random() * particleColors.length)];
             
             let targetX = 0, targetY = 0;
@@ -1416,10 +1418,17 @@
                 const velocity = 15 + (Math.random() * 12) + (ratio * 25);
                 targetX = Math.cos(angle) * velocity;
                 targetY = Math.sin(angle) * velocity;
+            } else if (type === 'finale') {
+                const velocity = 35 + (Math.random() * 45);
+                targetX = Math.cos(customAngle) * velocity;
+                targetY = Math.sin(customAngle) * velocity;
             }
 
             particle.style.setProperty('--tw-x', `${targetX}px`);
             particle.style.setProperty('--tw-y', `${targetY}px`);
+            if (type === 'finale') {
+                particle.style.animationDelay = `${Math.random() * 0.05}s`;
+            }
             globalMasterEmitter.appendChild(particle);
         }
 
@@ -1449,6 +1458,45 @@
                 spawnGlobalParticle('top', ratio);
                 spawnGlobalParticle('bottom', ratio);
                 spawnGlobalParticle('front', ratio);
+            }
+        }
+
+        function triggerGlobalFinaleEffects() {
+            globalMasterEmitter.style.left = '100%';
+
+            globalXpBarContainer.style.animation = 'none';
+            void globalXpBarContainer.offsetWidth;
+            globalXpBarContainer.style.transformOrigin = 'center center';
+
+            globalXpBarContainer.animate([
+                { transform: 'scale(1, 1) translateY(0)' },
+                { transform: 'scale(1.08, 0.82) translateY(2px)' },  
+                { transform: 'scale(0.88, 1.22) translateY(-14px)' }, 
+                { transform: 'scale(1.05, 0.93) translateY(2px)' },   
+                { transform: 'scale(0.98, 1.02) translateY(-2px)' },  
+                { transform: 'scale(1, 1) translateY(0)' }
+            ], { duration: 450, easing: 'steps(6)', fill: 'forwards' });
+
+            if(globalFlashOverlay) {
+                globalFlashOverlay.style.animation = 'none';
+                void globalFlashOverlay.offsetWidth;
+                
+                globalFlashOverlay.animate([
+                    { opacity: 1, offset: 0.0 },
+                    { opacity: 0, offset: 0.166 },
+                    { opacity: 1, offset: 0.333 },
+                    { opacity: 0, offset: 0.5 },
+                    { opacity: 1, offset: 0.666 },
+                    { opacity: 0, offset: 0.833 },
+                    { opacity: 0, offset: 1.0 }
+                ], { duration: 1125, easing: 'steps(6)', fill: 'forwards' });
+            }
+
+            globalMasterEmitter.innerHTML = '';
+            const finaleCount = 40;
+            for (let i = 0; i < finaleCount; i++) {
+                const angle = (i / finaleCount) * (Math.PI * 2);
+                spawnGlobalParticle('finale', 1, angle);
             }
         }
 
@@ -1497,11 +1545,10 @@
 
             if (globalBar) globalBar.style.width = pctNum + '%';
             
-            // Fire the sparks exactly 500ms later, matching the CSS transition duration
             if (pctNum > 0 && pctNum < 100) {
                 setTimeout(() => { triggerGlobalEffects(pctNum / 100); }, 500);
             } else if (pctNum === 100) {
-                setTimeout(() => { triggerGlobalEffects(1.2); }, 500);
+                setTimeout(() => { triggerGlobalFinaleEffects(); }, 500);
             }
         }
 
