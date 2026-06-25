@@ -1074,25 +1074,47 @@
 
     </section>
 
-    <section id="quest-engine-prototype" class="max-w-4xl mx-auto px-6 py-24 border-t border-white/5 border-dashed bg-zinc-900/30">
+    <section id="quest-engine-prototype" class="max-w-4xl mx-auto px-6 py-24 border-t border-white/5 border-dashed bg-zinc-900/30 relative">
         
+        <div id="global-quest-progress-container" class="w-full max-w-2xl mx-auto mb-16 fade-in">
+            <div class="flex justify-between items-center mb-4 pr-2">
+                <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest">// Quest_Status</div>
+                <div id="global-quest-pct" class="text-[10px] font-['Press_Start_2P'] text-zinc-500 uppercase tracking-widest">0%</div>
+            </div>
+            <div id="global-xp-bar-container" class="w-full h-4 bg-[#1a2e0b] border-4 border-black relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
+                <div id="global-quest-progress-bar" class="h-full w-[0%] transition-[width] duration-500 ease-out relative" 
+                    style="background: linear-gradient(to bottom, 
+                        #315c10 0%, #315c10 16.6%, 
+                        #5ca826 16.6%, #5ca826 33.3%, 
+                        #a4ff45 33.3%, #a4ff45 66.6%, 
+                        #76cd2d 66.6%, #76cd2d 83.3%, 
+                        #467b22 83.3%, #467b22 100%
+                    );">
+                    <div id="global-flash-overlay" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-10"></div>
+                </div>
+                <div id="global-master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-20"></div>
+            </div>
+        </div>
+
         <div id="state-hub" class="text-center fade-in">
-            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-4 leading-tight tracking-wide text-shadow-sm">What would you like to work on?</h2>
-            <p class="text-lg text-zinc-400 mb-12 font-mono uppercase tracking-widest">// Pick a questline</p>
-            <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
-                <button onclick="selectHubQuest(this, 'state-topic')" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Pick a Topic</button>
-                <button onclick="selectHubQuest(this, 'state-draw')" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Draw Your Problem</button>
-                <button onclick="selectHubQuest(this, 'state-test')" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Do a Test</button>
+            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-16 leading-tight tracking-wide text-shadow-sm">Choose your path</h2>
+            
+            <div class="flex flex-wrap gap-6 justify-center items-center">
+                <button onclick="selectHubQuest(this, 'state-topic')" data-desc="Select a specific psychological blocker to explore and resolve." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Pick a Topic</button>
+                <button onclick="selectHubQuest(this, 'state-draw')" data-desc="Sometimes drawing is more effective than words to gain insight." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Draw Your Problem</button>
+                <button onclick="selectHubQuest(this, 'state-test')" data-desc="Run a full diagnostic to uncover what's draining your studio's energy." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Do a Test</button>
+                <button onclick="selectHubQuest(this, 'random')" data-desc="It's ok to not feel sure, roll the dice and have the universe decide for you." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Roll the Dice</button>
             </div>
 
-            <!-- Snappy Lock-in Confirm Module -->
-            <div id="hub-confirm-container" class="hidden mt-12 fade-in flex-col items-center">
+            <div id="hub-confirm-container" class="hidden mt-10 fade-in flex-col items-center">
+                <p id="quest-desc-text" class="text-sm md:text-base text-zinc-400 font-mono mb-6 min-h-[32px] px-4 flex items-center justify-center text-center"></p>
+                
                 <button id="hub-confirm-btn" onclick="confirmHubQuest()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full max-w-md">
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Start Quest</span>
-                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Start Quest</span>
+                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Lock In Selection</span>
+                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Lock In Selection</span>
                 </button>
             </div>
         </div>
@@ -1361,24 +1383,100 @@
     <!-- ========================================== -->
 
     <script>
-        // --- RPG QUEST STATE MACHINE ---
+        // --- RPG QUEST STATE MACHINE & GLOBAL PROGRESSION ---
         const questStates = ['state-hub', 'state-topic', 'state-draw', 'state-test', 'state-complete'];
         let selectedHubTargetState = null;
 
-        function selectHubQuest(btn, targetState) {
-            // Disengage all alternative paths instantly inside the choice ring
-            document.querySelectorAll('.hub-quest-btn').forEach(b => b.classList.remove('is-active'));
+        // Global Physics Engine Setup
+        const globalMasterEmitter = document.getElementById('global-master-emitter-container');
+        const globalFlashOverlay = document.getElementById('global-flash-overlay');
+        const globalXpBarContainer = document.getElementById('global-xp-bar-container');
+
+        function spawnGlobalParticle(type, ratio) {
+            const particle = document.createElement('div');
+            particle.className = 'pixel-particle';
+            particle.style.width = '3px';
+            particle.style.height = '3px';
+            particle.style.backgroundColor = particleColors[Math.floor(Math.random() * particleColors.length)];
             
-            // Lock chosen switch state downward into the board hardware
+            let targetX = 0, targetY = 0;
+            const baseVerticalSpread = 12 + (Math.random() * 12) + (ratio * 20);
+
+            if (type === 'top') {
+                targetX = (Math.random() - 0.5) * (ratio * 30);
+                targetY = -baseVerticalSpread;
+            } else if (type === 'bottom') {
+                targetX = (Math.random() - 0.5) * (ratio * 30);
+                targetY = baseVerticalSpread;
+            } else if (type === 'front') {
+                const angle = (Math.random() - 0.5) * Math.PI; 
+                const velocity = 15 + (Math.random() * 12) + (ratio * 25);
+                targetX = Math.cos(angle) * velocity;
+                targetY = Math.sin(angle) * velocity;
+            }
+
+            particle.style.setProperty('--tw-x', `${targetX}px`);
+            particle.style.setProperty('--tw-y', `${targetY}px`);
+            globalMasterEmitter.appendChild(particle);
+        }
+
+        function triggerGlobalEffects(ratio) {
+            globalMasterEmitter.style.left = `${ratio * 100}%`;
+            globalXpBarContainer.style.animation = 'none';
+            void globalXpBarContainer.offsetWidth; 
+            
+            globalXpBarContainer.animate([
+                { transform: 'scale(1, 1)' },
+                { transform: `scale(1.03, ${1 - (ratio * 0.1)})` }, 
+                { transform: `scale(0.97, ${1 + (ratio * 0.15)})` }, 
+                { transform: 'scale(1, 1)' }
+            ], { duration: 250, easing: 'steps(4)', fill: 'forwards' });
+
+            if(globalFlashOverlay) {
+                globalFlashOverlay.style.animation = 'none';
+                void globalFlashOverlay.offsetWidth;
+                globalFlashOverlay.animate([
+                    { opacity: 0.8, offset: 0 },
+                    { opacity: 0, offset: 1 }
+                ], { duration: 350, easing: 'steps(3)', fill: 'forwards' });
+            }
+
+            globalMasterEmitter.innerHTML = ''; 
+            for (let i = 0; i < 15; i++) {
+                spawnGlobalParticle('top', ratio);
+                spawnGlobalParticle('bottom', ratio);
+                spawnGlobalParticle('front', ratio);
+            }
+        }
+
+        function updateGlobalProgress(pctNum) {
+            const globalBar = document.getElementById('global-quest-progress-bar');
+            const globalPctText = document.getElementById('global-quest-pct');
+            
+            if (globalBar) globalBar.style.width = pctNum + '%';
+            if (globalPctText) globalPctText.innerText = pctNum + '%';
+            
+            if (pctNum > 0 && pctNum < 100) {
+                setTimeout(() => { triggerGlobalEffects(pctNum / 100); }, 50);
+            } else if (pctNum === 100) {
+                setTimeout(() => { triggerGlobalEffects(1.2); }, 50);
+            }
+        }
+
+        function selectHubQuest(btn, targetState) {
+            document.querySelectorAll('.hub-quest-btn').forEach(b => b.classList.remove('is-active'));
             btn.classList.add('is-active');
             selectedHubTargetState = targetState;
 
-            // Trigger physics animation container for "Start Quest" button
+            // Update Dynamic Description Text
+            const descText = btn.getAttribute('data-desc');
+            const descEl = document.getElementById('quest-desc-text');
+            if (descEl) descEl.innerText = descText;
+
             const confirmContainer = document.getElementById('hub-confirm-container');
             confirmContainer.classList.remove('hidden');
             confirmContainer.classList.add('flex');
             
-            // Camera adjustment to ensure perfect positioning over the new lock-in trigger
             setTimeout(() => {
                 confirmContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }, 50);
@@ -1387,13 +1485,22 @@
         function confirmHubQuest() {
             if (!selectedHubTargetState) return;
             
-            // Clean interface states back to baseline values before loading views
             document.getElementById('hub-confirm-container').classList.add('hidden');
             document.querySelectorAll('.hub-quest-btn').forEach(b => b.classList.remove('is-active'));
             
-            // Transition player state directly into game mode loops
-            goToQuestState(selectedHubTargetState);
-            selectedHubTargetState = null;
+            // Fire the global progress bar physics for taking the first step
+            updateGlobalProgress(33);
+
+            // Allow animation to snap before transitioning state
+            setTimeout(() => {
+                let finalState = selectedHubTargetState;
+                if (finalState === 'random') {
+                    const paths = ['state-topic', 'state-draw', 'state-test'];
+                    finalState = paths[Math.floor(Math.random() * paths.length)];
+                }
+                goToQuestState(finalState);
+                selectedHubTargetState = null;
+            }, 600); 
         }
         
         function goToQuestState(targetId) {
@@ -1404,28 +1511,36 @@
             const targetEl = document.getElementById(targetId);
             if(targetEl) targetEl.classList.remove('hidden');
             
-            // Auto-scroll slightly above the section for clean framing
-            const engineContainer = document.getElementById('quest-engine-prototype');
-            if(engineContainer) {
-                const yOffset = -50; 
-                const y = engineContainer.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            if (targetId === 'state-hub') {
+                // Wipe progress clean when bailing to the main menu
+                updateGlobalProgress(0);
+                document.getElementById('hub-confirm-container').classList.add('hidden');
+                document.querySelectorAll('.topic-selection-btn, .hub-quest-btn').forEach(b => b.classList.remove('is-active'));
+            }
+
+            // Frame the camera cleanly around the new Global Progress Bar anchor
+            const targetElement = document.getElementById('global-quest-progress-container');
+            if (targetElement) {
+                const yOffset = -20; 
+                const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
                 window.scrollTo({top: y, behavior: 'smooth'});
             }
 
-            // [NEW] Intercept and boot the neural engine
             if(targetId === 'state-test') {
                 startQuestTest();
             }
         }
 
         function triggerQuestComplete(reward, dynamicHTML = '', pdfUrl = '#') {
+            // Slam the global progression bar to the final physics milestone
+            updateGlobalProgress(100);
+
             const rewardEl = document.getElementById('reward-text');
             const dynamicContentEl = document.getElementById('quest-dynamic-content');
             const downloadBtn = document.getElementById('general-download-btn');
             
             if(rewardEl) rewardEl.innerText = 'Reward: ' + reward;
             
-            // Dynamically load the correct PDF into the unified download button
             if(downloadBtn) downloadBtn.href = pdfUrl;
             
             if(dynamicContentEl) {
@@ -1437,16 +1552,18 @@
                 }
             }
             
-            hideGeneralSendForm(); // Reset form state just in case they loop back
-            goToQuestState('state-complete');
-
-            // Force the camera to perfectly frame the reward screen after layout shift
+            hideGeneralSendForm(); 
+            
+            // Give the global progress bar exactly 600ms to pop before hiding the view
             setTimeout(() => {
-                const completeState = document.getElementById('state-complete');
-                if (completeState) {
-                    completeState.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }, 50);
+                goToQuestState('state-complete');
+                setTimeout(() => {
+                    const completeState = document.getElementById('state-complete');
+                    if (completeState) {
+                        completeState.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 50);
+            }, 600);
         }
 
         function showGeneralSendForm() {
