@@ -616,7 +616,7 @@
             
             <div class="flex items-center justify-center gap-6 mb-12 px-6 h-28 md:h-24 w-full max-w-xl mx-auto bg-black border-4 border-zinc-800 p-4 shadow-inner">
                 <p id="drawing-prompt-text" class="text-sm md:text-base text-zinc-300 font-mono m-0 leading-relaxed flex-1 text-center flex items-center justify-center italic">
-                    "Click the button for a random drawing prompt, click until you have one you want."
+                    "Click the button for a random drawing prompt, click until you have one you want or just click No prompt below if you don't want one."
                 </p>
                 
                 <button onclick="rerollPrompt()" title="Get New Prompt" class="canvas-tool-btn p-2 md:p-3 w-12 h-12 flex items-center justify-center flex-shrink-0 transition-transform active:scale-95 shadow-[4px_4px_0px_#000]">
@@ -625,7 +625,7 @@
             </div>
 
             <div class="flex flex-col md:flex-row gap-6 justify-center items-center w-full max-w-2xl mx-auto">
-                <button onclick="confirmDrawingPrompt(false)" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full md:w-1/2">
+                <button id="draw-confirm-btn" disabled onclick="confirmDrawingPrompt(false)" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full md:w-1/2 disabled:opacity-50 disabled:grayscale transition-all duration-300">
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
@@ -1428,8 +1428,10 @@
         window.addEventListener('DOMContentLoaded', () => {
             const hubBtn = document.getElementById('hub-confirm-btn');
             const topicBtn = document.getElementById('topic-confirm-btn');
+            const drawBtn = document.getElementById('draw-confirm-btn');
             if (hubBtn) hubBtn.disabled = true;
             if (topicBtn) topicBtn.disabled = true;
+            if (drawBtn) drawBtn.disabled = true;
             document.querySelectorAll('.hub-quest-btn, .quest-topic-btn').forEach(b => b.classList.remove('is-active'));
             
             const descEl = document.getElementById('quest-desc-text');
@@ -1672,11 +1674,18 @@
                 
                 const hubBtn = document.getElementById('hub-confirm-btn');
                 const topicBtn = document.getElementById('topic-confirm-btn');
+                const drawBtn = document.getElementById('draw-confirm-btn');
                 const descEl = document.getElementById('quest-desc-text');
+                const promptText = document.getElementById('drawing-prompt-text');
                 
                 if (hubBtn) hubBtn.disabled = true;
                 if (topicBtn) topicBtn.disabled = true;
+                if (drawBtn) drawBtn.disabled = true;
                 if (descEl) descEl.innerText = '';
+                
+                // Scrub prompt state
+                if (promptText) promptText.innerText = "Click the button for a random drawing prompt, click until you have one you want.";
+                if (typeof currentActivePrompt !== 'undefined') currentActivePrompt = "";
                 
                 document.querySelectorAll('.topic-selection-btn, .hub-quest-btn').forEach(b => b.classList.remove('is-active'));
             }
@@ -2254,6 +2263,10 @@
                 currentActivePrompt = randomPrompt;
                 promptText.innerText = `"${randomPrompt}"`;
             }
+            
+            // Release the lock on the confirm button now that a prompt is loaded
+            const drawBtn = document.getElementById('draw-confirm-btn');
+            if (drawBtn) drawBtn.disabled = false;
         }
 
         function confirmDrawingPrompt(skip = false) {
