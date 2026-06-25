@@ -747,7 +747,7 @@
                     <p class="text-zinc-300 mb-12 font-mono tracking-widest uppercase bg-black border-2 border-zinc-800 inline-block px-4 py-2">Reward: Artifact Generated</p>
 
                     <div class="canvas-panel-8bit p-6 md:p-8 text-left mb-12 w-full max-w-2xl mx-auto flex flex-col items-center">
-                        <h3 class="text-lg md:text-xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 w-full text-left">// Diagnostic Sketch</h3>
+                        <h3 class="text-lg md:text-xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 w-full text-center">// Diagnostic Sketch</h3>
                         <div class="w-full sm:w-64 md:w-80 aspect-[4/3] bg-white border-4 border-black flex items-center justify-center overflow-hidden shadow-inner">
                             <img id="quest-drawing-thumbnail" src="" class="w-full h-full object-contain">
                         </div>
@@ -1580,12 +1580,12 @@
                 }
             }
             
-            // Frame the camera cleanly around the main Quest Engine stage
-            const targetElement = document.getElementById('quest-engine-prototype');
+            // Frame the camera tightly onto the Hub State to skip massive top paddings on mobile
+            const targetElement = document.getElementById('state-hub');
             if (targetElement) {
                 // Dynamically calculate the nav height so the scroll never overlaps the title
                 const navHeight = document.querySelector('nav').offsetHeight;
-                const yOffset = -(navHeight + 40); 
+                const yOffset = -(navHeight + 20); // Tighter offset to maximize bottom screen space
                 const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
                 window.scrollTo({top: y, behavior: 'smooth'});
             }
@@ -1798,8 +1798,8 @@
                 const data = topicsData[currentSelectedTopic];
                 
                 const htmlBlob = `
-                    <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400">// ${data.title}</h3>
-                    <p class="mb-8">${data.desc}</p>
+                    <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 text-center w-full">// ${data.title}</h3>
+                    <p class="mb-8 text-center md:text-left">${data.desc}</p>
                 `;
                 
                 // Pass the PDF URL as the powerful third argument
@@ -2133,8 +2133,8 @@
             // TELEPORTED: Injects data directly into the Quest Engine Terminal!
             const resultData = resultsData[winningCategory];
             const htmlBlob = `
-                <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400">// ${resultData.title}</h3>
-                <p class="mb-8">${resultData.desc}</p>
+                <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 text-center w-full">// ${resultData.title}</h3>
+                <p class="mb-8 text-center md:text-left">${resultData.desc}</p>
             `;
             
             // Cleaned up the old nested button and passing the URL directly!
@@ -2413,8 +2413,8 @@
                     
                     // ON SUCCESS: Route to the QUEST COMPLETE screen!
                     triggerQuestComplete('Artifact Shared', `
-                        <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400">// Diagnostic Sketch Sent</h3>
-                        <p class="mb-8">Your illustration has been transmitted. I will review it and get back to you with insights shortly.</p>
+                        <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 text-center w-full">// Diagnostic Sketch Sent</h3>
+                        <p class="mb-8 text-center md:text-left">Your illustration has been transmitted. I will review it and get back to you with insights shortly.</p>
                     `);
 
                     // Reset button state silently in the background so it's clean if they do another quest
@@ -2846,8 +2846,8 @@
 
                     // ON SUCCESS: Overwrite the Complete screen text dynamically
                     triggerQuestComplete('Reflection Shared', `
-                        <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400">// Diagnostics Transmitted</h3>
-                        <p class="mb-8">Your thoughts have been successfully sent. I'll read through this and get back to you with some insights soon.</p>
+                        <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 text-center w-full">// Diagnostics Transmitted</h3>
+                        <p class="mb-8 text-center md:text-left">Your thoughts have been successfully sent. I'll read through this and get back to you with some insights soon.</p>
                     `, currentPdfUrl);
 
                     // Reset button silently in background for the next session
