@@ -1424,6 +1424,18 @@
         const questStates = ['state-hub', 'state-topic', 'state-draw-prompt', 'state-draw', 'state-test', 'state-complete'];
         let selectedHubTargetState = null;
 
+        // Force strict hardware reset on browser refresh to clear cached states
+        window.addEventListener('DOMContentLoaded', () => {
+            const hubBtn = document.getElementById('hub-confirm-btn');
+            const topicBtn = document.getElementById('topic-confirm-btn');
+            if (hubBtn) hubBtn.disabled = true;
+            if (topicBtn) topicBtn.disabled = true;
+            document.querySelectorAll('.hub-quest-btn, .quest-topic-btn').forEach(b => b.classList.remove('is-active'));
+            
+            const descEl = document.getElementById('quest-desc-text');
+            if (descEl) descEl.innerText = '';
+        });
+
         // Global Physics Engine Setup
         const globalMasterEmitter = document.getElementById('global-master-emitter-container');
         const globalFlashOverlay = document.getElementById('global-flash-overlay');
