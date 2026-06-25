@@ -613,7 +613,13 @@
         
         <div id="state-draw" class="hidden text-center fade-in w-full max-w-5xl mx-auto">
             <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-6 leading-tight tracking-wide">Draw your problem</h2>
-            <p class="text-lg text-zinc-400 mb-12">It could be your own inner critic or a boat on the ocean symbolizing where you currently are.  </p>
+            
+            <div class="flex items-center justify-center gap-4 mb-12 max-w-2xl mx-auto px-4">
+                <p id="drawing-prompt-text" class="text-lg text-zinc-400 m-0 leading-snug">Click the button for a random drawing prompt, click until you have one you want.</p>
+                <button onclick="rerollPrompt()" title="Get New Prompt" class="canvas-tool-btn p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center flex-shrink-0 transition-transform active:scale-95">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
+                </button>
+            </div>
             
             <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12 relative min-h-[500px] flex flex-col justify-center">
                 
@@ -2184,7 +2190,27 @@
         const btnRedo = document.getElementById('quest-btn-redo');
 
         // --- QUEST DRAWING UI LOGIC ---
+        
+        const drawingPrompts = [
+            "It could be your own inner critic.",
+            "Draw a boat on the ocean symbolizing where you currently are.",
+            "Draw what's missing."
+        ];
+
+        function rerollPrompt() {
+            const promptText = document.getElementById('drawing-prompt-text');
+            if (promptText) {
+                const randomPrompt = drawingPrompts[Math.floor(Math.random() * drawingPrompts.length)];
+                promptText.innerText = randomPrompt;
+            }
+            // Instantly push the global progress bar to the mid-way point
+            updateGlobalProgress(66);
+        }
+
         function finishQuestDrawing() {
+            // Instantly slam the global progression bar to 100% to trigger the finale strobe
+            updateGlobalProgress(100);
+
             const canvas = document.getElementById('questDrawingCanvas');
             
             // 1. Capture the image data for the thumbnail
