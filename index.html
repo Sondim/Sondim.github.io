@@ -566,7 +566,7 @@
         
 
         <div id="state-hub" class="text-center fade-in">
-            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-16 leading-tight tracking-wide text-shadow-sm">Choose your path</h2>
+            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-16 leading-tight tracking-wide text-shadow-sm">Choose your path</h2>
             
             <div class="flex flex-wrap gap-6 justify-center items-center">
                 <button onclick="selectHubQuest(this, 'state-topic')" data-desc="Select a specific psychological blocker to explore and resolve." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full md:w-auto">Pick a Topic</button>
@@ -612,9 +612,9 @@
         </div>
         
         <div id="state-draw-prompt" class="hidden text-center fade-in w-full max-w-3xl mx-auto">
-            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-6 leading-tight tracking-wide">Select A Prompt</h2>
+            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-6 leading-tight tracking-wide">Select A Prompt</h2>
             
-            <div class="flex items-center justify-center gap-6 mb-12 px-6 h-28 md:h-24 w-full max-w-xl mx-auto bg-black border-4 border-zinc-800 p-4 shadow-inner">
+            <div class="flex items-center justify-center gap-6 mb-12 px-6 h-28 md:h-24 w-full max-w-xl mx-auto bg-black border-4 border-yellow-400 p-4 shadow-inner">
                 <p id="drawing-prompt-text" class="text-sm md:text-base text-zinc-300 font-mono m-0 leading-relaxed flex-1 text-center flex items-center justify-center italic">
                     "Click the button for a random drawing prompt, click until you have one you want or just click No prompt below if you don't want one."
                 </p>
@@ -641,9 +641,9 @@
         </div>
 
         <div id="state-draw" class="hidden text-center fade-in w-full max-w-5xl mx-auto">
-            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-4 leading-tight tracking-wide">Draw your problem</h2>
+            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-4 leading-tight tracking-wide">Draw your problem</h2>
             
-            <p id="active-drawing-prompt" class="text-sm md:text-lg text-yellow-400 font-mono mb-10 min-h-[24px] flex items-center justify-center italic text-balance px-4">
+            <p id="active-drawing-prompt" class="text-sm md:text-lg text-white font-mono mb-10 min-h-[24px] flex items-center justify-center italic text-balance px-4">
                 </p>
             
             <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12 relative min-h-[500px] flex flex-col justify-center">
@@ -801,9 +801,9 @@
         </div>
         
         <div id="state-test" class="hidden text-center fade-in w-full max-w-2xl mx-auto flex flex-col h-full">
-            <div class="flex items-center justify-between mb-4 pr-8">
-                <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest" id="quest-question-counter">Questline: Do a test</div>
-            </div>
+            
+            <h2 id="quest-question-counter" class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 leading-tight tracking-wide transition-opacity duration-300">Questline: Do a test</h2>
+            
             <div id="quest-xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
                 <div id="quest-quiz-progress" class="h-full w-0 transition-[width] duration-150 ease-out relative" 
                     style="background: linear-gradient(to bottom, 
