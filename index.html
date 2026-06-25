@@ -590,7 +590,7 @@
 
         <!-- LEVEL 2: QUEST MECHANICS (Isolated placeholders for testing flow) -->
         <div id="state-topic" class="hidden text-center fade-in w-full max-w-3xl mx-auto">
-            <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">// Select_Module</h2>
+            <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">Questline: Pick a topic</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left" id="topic-selection-grid">
                 <button onclick="selectQuestTopic(this, 'critical')" class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Critical Self Talk</button>
@@ -613,7 +613,7 @@
         
         <div id="state-draw" class="hidden text-center fade-in w-full max-w-5xl mx-auto">
             <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-6 leading-tight tracking-wide">Draw your problem</h2>
-            <p class="text-lg text-zinc-400 mb-12">Render an illustration of what is currently blocking your studio's progression.</p>
+            <p class="text-lg text-zinc-400 mb-12">It could be your own inner critic or a boat on the ocean symbolizing where you currently are.  </p>
             
             <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12 relative min-h-[500px] flex flex-col justify-center">
                 
@@ -768,7 +768,7 @@
         
         <div id="state-test" class="hidden text-center fade-in w-full max-w-2xl mx-auto flex flex-col h-full">
             <div class="flex items-center justify-between mb-4 pr-8">
-                <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest" id="quest-question-counter">// Diagnostic_Protocol</div>
+                <div class="text-[10px] font-['Press_Start_2P'] text-yellow-400 uppercase tracking-widest" id="quest-question-counter">Questline: Do a test</div>
             </div>
             <div id="quest-xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
                 <div id="quest-quiz-progress" class="h-full w-0 transition-[width] duration-150 ease-out relative" 
@@ -1506,6 +1506,30 @@
         }
 
         function selectHubQuest(btn, targetState) {
+            // Failsafe: If user refreshed and bypassed the Hero trigger, boot the HUD now
+            const hudWrapper = document.getElementById('global-quest-progress-wrapper');
+            if (hudWrapper && hudWrapper.classList.contains('opacity-0')) {
+                hudWrapper.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none');
+                hudWrapper.classList.add('max-h-[100px]', 'opacity-100', 'pointer-events-auto'); 
+                
+                const bootFlash = document.getElementById('hud-boot-flash');
+                if (bootFlash) {
+                    setTimeout(() => {
+                        bootFlash.style.animation = 'none';
+                        void bootFlash.offsetWidth;
+                        bootFlash.animate([
+                            { opacity: 1, offset: 0.0 },
+                            { opacity: 0, offset: 0.166 },
+                            { opacity: 1, offset: 0.333 },
+                            { opacity: 0, offset: 0.5 },
+                            { opacity: 1, offset: 0.666 },
+                            { opacity: 0, offset: 0.833 },
+                            { opacity: 0, offset: 1.0 }
+                        ], { duration: 800, easing: 'steps(6)', fill: 'forwards' });
+                    }, 0);
+                }
+            }
+
             document.querySelectorAll('.hub-quest-btn').forEach(b => b.classList.remove('is-active'));
             btn.classList.add('is-active');
             selectedHubTargetState = targetState;
