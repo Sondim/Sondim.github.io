@@ -505,7 +505,7 @@
                 <a href="#book" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors">Book a session</a>
             </div>
             
-            <div id="mobile-menu" class="absolute top-full left-0 w-full bg-zinc-950 border-b border-white/5 hidden flex-col items-center py-8 gap-8 shadow-2xl transition-all md:hidden">
+            <div id="mobile-menu" class="absolute top-full left-0 w-full bg-zinc-950 border-b border-white/5 hidden flex-col items-center py-8 gap-8 shadow-2xl transition-all md:hidden z-50">
                 <button onclick="goToQuestState('state-draw-prompt'); bootQuestEngine();" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">[ Draw your problem ]</button>
                 <button onclick="openAssessment()" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">[ Free Assessment ]</button>
                 <a href="#contact" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors">[ Contact ]</a>
@@ -1130,50 +1130,28 @@
 
     <section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
         <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-4 leading-tight tracking-wide">Drawings</h2>
-
         <p class="text-lg text-zinc-400 mb-12">by other devs</p>
 
-    
-        
-
         <div class="flex items-center justify-center gap-2 md:gap-6 w-full relative">
-
             <button id="carousel-prev" class="spring-arrow-btn canvas-tool-btn p-3 md:p-4 z-10 flex-shrink-0">
-
                 <svg class="w-6 h-6 md:w-8 md:h-8 overflow-visible" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-
                     <path class="arrow-shaft" d="M 19 12 H 5" />
-
                     <path class="arrow-tip" d="M 12 5 L 5 12 L 12 19" />
-
                 </svg>
-
             </button>
-
 
             <div class="overflow-hidden w-full max-w-5xl rounded-none relative">
-
                 <div id="gallery-track" class="flex transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"></div>
-
             </div>
 
-
             <button id="carousel-next" class="spring-arrow-btn canvas-tool-btn p-3 md:p-4 z-10 flex-shrink-0">
-
                 <svg class="w-6 h-6 md:w-8 md:h-8 overflow-visible" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-
                     <path class="arrow-shaft" d="M 5 12 H 19" />
-
                     <path class="arrow-tip" d="M 12 5 L 19 12 L 12 19" />
-
                 </svg>
-
             </button>
-
         </div>
-
     </section>
-
 
     <section id="contact" class="max-w-4xl mx-auto px-6 py-24 border-t border-white/5">
 
@@ -1527,10 +1505,11 @@
                 document.querySelectorAll('.topic-selection-btn, .hub-quest-btn').forEach(b => b.classList.remove('is-active'));
             }
 
-            // Frame the camera cleanly around the main Quest Engine stage (accounting for nav height)
-            const targetElement = document.getElementById('quest-engine-prototype');
+            // Frame the camera tightly around the specific active state for perfect mobile scannability
+            const targetElement = document.getElementById(targetId);
             if (targetElement) {
-                const yOffset = -70; 
+                const navHeight = document.querySelector('nav').offsetHeight;
+                const yOffset = -(navHeight + 24); // Snug offset so the title sits right under the nav 
                 const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
                 window.scrollTo({top: y, behavior: 'smooth'});
             }
@@ -2149,11 +2128,12 @@
             completeState.classList.remove('hidden');
             completeState.classList.add('flex');
 
-            // 4. Frame the camera cleanly around the top of the Quest Engine stage
+            // 4. Frame the camera cleanly around the Quest Complete state so action buttons are immediately visible
             setTimeout(() => {
-                const targetElement = document.getElementById('quest-engine-prototype');
+                const targetElement = document.getElementById('quest-drawing-complete-state');
                 if (targetElement) {
-                    const yOffset = -70; 
+                    const navHeight = document.querySelector('nav').offsetHeight;
+                    const yOffset = -(navHeight + 24); 
                     const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
                     window.scrollTo({top: y, behavior: 'smooth'});
                 }
