@@ -562,11 +562,11 @@
         </div>
     </section>
 
-<section id="quest-engine-prototype" class="max-w-4xl mx-auto px-6 py-24 border-t border-white/5 border-dashed bg-zinc-900/30 relative min-h-[850px]">
+<section id="quest-engine-prototype" class="max-w-4xl mx-auto px-6 py-12 md:py-24 border-t border-white/5 border-dashed bg-zinc-900/30 relative min-h-[850px]">
         
 
         <div id="state-hub" class="text-center fade-in">
-            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-16 leading-tight tracking-wide text-shadow-sm">Choose your path</h2>
+            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 md:mb-16 leading-tight tracking-wide text-shadow-sm">Choose your path</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto text-left">
                 <button onclick="selectHubQuest(this, 'state-topic')" data-desc="Choose between common topics. No drawings, tests or dice!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Pick a Topic</button>
@@ -1143,36 +1143,35 @@
                 
 
                 <!-- MOBILE COLOR PICKER MODAL -->
-                <div id="mobile-color-modal" class="fixed inset-0 z-[70] hidden bg-black/25 flex items-center justify-center p-6 touch-none">
-                    <div class="bg-zinc-900 border border-white/10 p-6 rounded-3xl shadow-2xl w-full max-w-sm fade-in transform-gpu">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-white font-black text-xl tracking-tight">Select Color</h3>
-                            <button onclick="document.getElementById('mobile-color-modal').classList.add('hidden')" class="text-zinc-500 hover:text-white transition-colors active:scale-95">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <div id="mobile-color-modal" class="fixed inset-0 z-[70] hidden bg-black/80 flex items-center justify-center p-6 touch-none">
+                    <div class="canvas-panel-8bit w-full max-w-sm fade-in p-6">
+                        <div class="flex justify-between items-center mb-6 border-b-4 border-black pb-2">
+                            <h3 class="text-white font-['Press_Start_2P'] text-[10px] uppercase tracking-widest">Select Color</h3>
+                            <button onclick="document.getElementById('mobile-color-modal').classList.add('hidden')" class="text-zinc-500 hover:text-white transition-colors active:translate-y-[2px]">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>
                         </div>
-                        <div class="grid grid-cols-5 gap-4 w-full justify-items-center">
-                            <!-- Swatches duplicated for mobile targeting -->
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#000000] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#000000"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#ffffff] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#ffffff"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#7b7b7b] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#7b7b7b"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#c3c3c3] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#c3c3c3"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#8b181a] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#8b181a"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#b97a57] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#b97a57"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#ee2424] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#ee2424"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#ffaec9] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#ffaec9"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#f47b20] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#f47b20"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#ffc90e] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#ffc90e"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#ffea00] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#ffea00"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#efe4b0] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#efe4b0"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#22b14c] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#22b14c"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#b5e61d] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#b5e61d"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#00a2e8] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#00a2e8"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#99d9ea] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#99d9ea"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#3f48cc] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#3f48cc"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#7092be] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#7092be"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#a349a4] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#a349a4"></div>
-                            <div class="color-swatch w-8 h-8 rounded-md bg-[#c8bfe7] border border-white/10 cursor-pointer hover:scale-110 active:scale-95 transition-transform shadow-sm" data-color="#c8bfe7"></div>
+                        <div class="grid grid-cols-5 gap-3 w-full justify-items-center">
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#000000]" data-color="#000000"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#ffffff]" data-color="#ffffff"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#7b7b7b]" data-color="#7b7b7b"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#c3c3c3]" data-color="#c3c3c3"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#8b181a]" data-color="#8b181a"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#b97a57]" data-color="#b97a57"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#ee2424]" data-color="#ee2424"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#ffaec9]" data-color="#ffaec9"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#f47b20]" data-color="#f47b20"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#ffc90e]" data-color="#ffc90e"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#ffea00]" data-color="#ffea00"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#efe4b0]" data-color="#efe4b0"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#22b14c]" data-color="#22b14c"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#b5e61d]" data-color="#b5e61d"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#00a2e8]" data-color="#00a2e8"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#99d9ea]" data-color="#99d9ea"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#3f48cc]" data-color="#3f48cc"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#7092be]" data-color="#7092be"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#a349a4]" data-color="#a349a4"></div>
+                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#c8bfe7]" data-color="#c8bfe7"></div>
                         </div>
                     </div>
                 </div>
