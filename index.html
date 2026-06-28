@@ -747,11 +747,11 @@
 
                 <div id="quest-drawing-complete-state" class="hidden flex-col items-center justify-center w-full max-w-3xl mx-auto fade-in h-full text-center">
                     
-                    <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-12 font-['Press_Start_2P'] animate-pulse w-full">QUEST COMPLETE!</h2>
+                    <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 md:mb-8 font-['Press_Start_2P'] animate-pulse w-full">QUEST COMPLETE!</h2>
 
-                    <div class="canvas-panel-8bit p-6 md:p-8 text-left mb-12 w-full max-w-2xl mx-auto flex flex-col items-center">
-                        <h3 class="text-lg md:text-xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 w-full text-center">// Diagnostic Sketch</h3>
-                        <div class="w-full bg-white border-4 border-black flex items-center justify-center overflow-hidden shadow-inner">
+                    <div class="canvas-panel-8bit p-4 md:p-6 text-left mb-6 w-full max-w-md mx-auto flex flex-col items-center">
+                        <h3 class="text-sm md:text-base font-black text-white mb-4 uppercase tracking-widest text-yellow-400 w-full text-center">// Diagnostic Sketch</h3>
+                        <div class="w-3/4 max-w-[200px] bg-white border-4 border-black flex items-center justify-center overflow-hidden shadow-inner">
                             <img id="quest-drawing-thumbnail" src="" class="w-full h-auto object-contain">
                         </div>
                     </div>
@@ -835,12 +835,12 @@
 
         <div id="state-complete" class="hidden fade-in max-w-3xl mx-auto w-full">
             <div class="text-center">
-                <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-12 font-['Press_Start_2P'] animate-pulse">QUEST COMPLETE!</h2>
+                <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 md:mb-8 font-['Press_Start_2P'] animate-pulse">QUEST COMPLETE!</h2>
             </div>
             
-            <div id="quest-dynamic-content" class="hidden mb-12 text-left text-zinc-300 leading-relaxed canvas-panel-8bit p-8 text-sm md:text-base"></div>
+            <div id="quest-dynamic-content" class="hidden mb-6 text-left text-zinc-300 leading-relaxed canvas-panel-8bit p-6 text-sm md:text-base"></div>
             
-            <div id="general-action-choices" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4 mt-8">
+            <div id="general-action-choices" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4 mt-4">
                 <div class="flex flex-col items-center text-center">
                     <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Download & reflect on your own</p>
                     <a id="general-download-btn" href="#" download class="btn-8bit btn-8bit-secondary w-full text-center hover:bg-zinc-100 transition-colors" style="text-decoration: none;">Download Guide</a>
@@ -1854,17 +1854,17 @@
         const resultsData = {
             selftalk: {
                 title: "Self-Talk",
-                desc: `Your negative self-talk is the voice in your head that’s constantly speaking to you. Sometimes it's subtle, showing up as a steady anxiety or pressure: Replaying conversations, comparing yourself to others, or never quite feeling good enough. One of the clearest signs of heavy negative self-talk is ending the day stressed or depleted (no matter how many hours you put in). Your exhaustion actually comes from *pushing against that voice all day long*. Counterintuitively, it’s not usually the workload that wears you down – it’s the voice in your head driving you through it. If you end the day tense, anxious, or wiped out, your motivation is coming from threat and self-criticism. When the pressure of the inner critic eases, your energy and clarity return naturally. Work feels lighter, decisions come faster, and you find yourself judging both yourself and others around you far less.`,
+                desc: `Your exhaustion comes from pushing against the inner critic all day long, not the actual workload. When the pressure of that voice eases, your energy and clarity will return naturally.`,
                 pdfFile: "guide-selftalk.pdf"
             },
             emotional: {
                 title: "Emotional Fluidity",
-                desc: `Emotional fluidity is your ability to feel and welcome the full range of your emotions without resisting them. Learning to identify and actually feel your emotions in your body, rather than just talking or thinking about them, is life-changing. Many of us avoid feeling our emotions because they seem painful, but it’s not the emotion itself that hurts, it’s our resistance to it that does. When you resist fear, it becomes chronic anxiety. You spin in worst-case scenarios and overthink every move. When you resist sadness, it becomes angst and numbness. You get lost in doubt, stop trusting yourself, and lose touch with what matters. When you resist anger, it becomes a feeling of stuckness. Notice when you're looping on a choice – weighing pros and cons, procrastinating, feeling analysis paralysis. The real issue may not be logic or more data. Often, there’s an emotion under the surface that hasn’t been felt yet. Giving space to that emotion can make the next step surprisingly clear.`,
+                desc: `When you resist uncomfortable feelings like fear, they mutate into chronic anxiety and overthinking. Giving space to the underlying emotion often makes your next step surprisingly clear.`,
                 pdfFile: "guide-emotional.pdf"
             },
             relationship: {
                 title: "Your Relationship to Yourself & Others",
-                desc: `This area is about your capacity to be with yourself and others without needing anyone to change. Thinking that you have to be fixed only slows this process down, because it kills the wonder and curiosity needed for understanding. In relation to others, you might find yourself contorting to keep the peace, finding yourself alone even when you’re with people, or subtly steering conversations toward a specific outcome to feel safe. In relation to yourself, you might have a hard time being alone and unoccupied—constantly in motion optimizing, improving, planning—where stillness feels dangerous. Both of these patterns stem from the same unconscious root: The belief that you are not good enough to be accepted as you are. Not feeling good enough was an old survival strategy, but now it’s keeping you from experiencing deep connection. The way to work with this isn’t through more fixing or self-improvement; it's about learning to release the hidden agenda and getting to know yourself and others with genuine curiosity.`,
+                desc: `You might find yourself constantly in motion or contorting to keep the peace, which stems from believing you aren't enough. Learning to drop the hidden agenda of "fixing" yourself unlocks genuine connection and relief.`,
                 pdfFile: "guide-relationship.pdf"
             }
         };
@@ -1872,22 +1872,22 @@
         const topicsData = {
             relationship: { 
                 title: "Relationship to Self & Others",
-                desc: "This area is about your capacity to be with yourself and others without needing anyone to change. Thinking that you have to be fixed only slows this process down, because it kills the wonder and curiosity needed for understanding.",
+                desc: "Thinking that you have to be fixed only slows this process down. Release the hidden agenda and get to know yourself with genuine curiosity.",
                 pdfFile: "guide-relationship.pdf"
             },
             critical: { 
                 title: "Critical Self Talk",
-                desc: "Quiet the internal critic and build sustainable motivation. Your negative self-talk is the voice in your head that’s constantly speaking to you. If you end the day tense, anxious, or wiped out, your motivation is coming from threat and self-criticism.",
+                desc: "Quiet the internal critic and build sustainable motivation. Your exhaustion comes from pushing against that voice all day, not the actual work.",
                 pdfFile: "guide-selftalk.pdf"
             },
             imposter: { 
                 title: "Imposter Syndrome",
-                desc: "Stop waiting for permission and own your studio's vision. When you resist fear, it becomes chronic anxiety. You spin in worst-case scenarios and overthink every move.",
+                desc: "Stop waiting for permission and own your studio's vision. When you stop resisting the underlying fear, it stops turning into chronic anxiety.",
                 pdfFile: "guide-emotional.pdf"
             },
             procrastination: { 
                 title: "Procrastination",
-                desc: "Move past the freeze response when the work gets overwhelming. Notice when you're looping on a choice – weighing pros and cons, procrastinating, feeling analysis paralysis. Often, there’s an emotion under the surface that hasn’t been felt yet.",
+                desc: "Move past the freeze response when the work gets overwhelming. Giving space to the emotion under the surface will make your next step surprisingly clear.",
                 pdfFile: "guide-emotional.pdf"
             }
         };
