@@ -1742,14 +1742,8 @@
             
             hideGeneralSendForm(); 
             
-            // Instantly transition to the complete view
+            // Instantly transition to the complete view (camera logic is handled inside goToQuestState)
             goToQuestState('state-complete');
-            setTimeout(() => {
-                const completeState = document.getElementById('state-complete');
-                if (completeState) {
-                    completeState.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }, 50); // 50ms ensures the browser updates the DOM layout before scrolling
         }
 
         function showGeneralSendForm() {
@@ -2331,13 +2325,15 @@
             completeState.classList.remove('hidden');
             completeState.classList.add('flex');
 
-            // 4. Center the camera exactly on the reward panel
+            // 4. Frame the camera cleanly around the top of the Quest Engine stage
             setTimeout(() => {
-                if (completeState && completeState.parentElement) {
-                    // This forces the dark gray container box to sit dead center in the screen
-                    completeState.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const targetElement = document.getElementById('quest-engine-prototype');
+                if (targetElement) {
+                    const yOffset = -70; 
+                    const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({top: y, behavior: 'smooth'});
                 }
-            }, 50); // Tiny delay ensures the browser calculates the new layout height first
+            }, 50);
         }
 
         function downloadQuestDrawing() {
