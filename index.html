@@ -644,10 +644,12 @@
         </div>
 
         <div id="state-draw" class="hidden text-center fade-in w-full max-w-5xl mx-auto">
-            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-4 leading-tight tracking-wide">Draw your problem</h2>
-            
-            <p id="active-drawing-prompt" class="text-sm md:text-lg text-white font-mono mb-10 min-h-[24px] flex items-center justify-center italic text-balance px-4">
-                </p>
+            <div id="quest-draw-header">
+                <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-4 leading-tight tracking-wide">Draw your problem</h2>
+                
+                <p id="active-drawing-prompt" class="text-sm md:text-lg text-white font-mono mb-10 min-h-[24px] flex items-center justify-center italic text-balance px-4">
+                    </p>
+            </div>
             
             <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12 relative min-h-[500px] flex flex-col justify-center">
                 
@@ -745,13 +747,12 @@
 
                 <div id="quest-drawing-complete-state" class="hidden flex-col items-center justify-center w-full max-w-3xl mx-auto fade-in h-full text-center">
                     
-                    <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 font-['Press_Start_2P'] animate-pulse w-full">QUEST COMPLETE!</h2>
-                    <p class="text-zinc-300 mb-12 font-mono tracking-widest uppercase bg-black border-2 border-zinc-800 inline-block px-4 py-2">Reward: Artifact Generated</p>
+                    <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-12 font-['Press_Start_2P'] animate-pulse w-full">QUEST COMPLETE!</h2>
 
                     <div class="canvas-panel-8bit p-6 md:p-8 text-left mb-12 w-full max-w-2xl mx-auto flex flex-col items-center">
                         <h3 class="text-lg md:text-xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 w-full text-center">// Diagnostic Sketch</h3>
-                        <div class="w-full sm:w-64 md:w-80 aspect-[4/3] bg-white border-4 border-black flex items-center justify-center overflow-hidden shadow-inner">
-                            <img id="quest-drawing-thumbnail" src="" class="w-full h-full object-contain">
+                        <div class="w-full bg-white border-4 border-black flex items-center justify-center overflow-hidden shadow-inner">
+                            <img id="quest-drawing-thumbnail" src="" class="w-full h-auto object-contain">
                         </div>
                     </div>
 
@@ -834,8 +835,7 @@
 
         <div id="state-complete" class="hidden fade-in max-w-3xl mx-auto w-full">
             <div class="text-center">
-                <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 font-['Press_Start_2P'] animate-pulse">QUEST COMPLETE!</h2>
-                <p id="reward-text" class="text-zinc-300 mb-12 font-mono tracking-widest uppercase bg-black border-2 border-zinc-800 inline-block px-4 py-2"></p>
+                <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-12 font-['Press_Start_2P'] animate-pulse">QUEST COMPLETE!</h2>
             </div>
             
             <div id="quest-dynamic-content" class="hidden mb-12 text-left text-zinc-300 leading-relaxed canvas-panel-8bit p-8 text-sm md:text-base"></div>
@@ -1726,11 +1726,8 @@
             // Slam the global progression bar to the final physics milestone
             updateGlobalProgress(100);
 
-            const rewardEl = document.getElementById('reward-text');
             const dynamicContentEl = document.getElementById('quest-dynamic-content');
             const downloadBtn = document.getElementById('general-download-btn');
-            
-            if(rewardEl) rewardEl.innerText = 'Reward: ' + reward;
             
             if(downloadBtn) downloadBtn.href = pdfUrl;
             
@@ -2322,10 +2319,12 @@
             const dataURL = canvas.toDataURL('image/png');
             document.getElementById('quest-drawing-thumbnail').src = dataURL;
 
-            // 2. Hide the entire drawing workspace
+            // 2. Hide the entire drawing workspace and header
             const workspace = document.getElementById('quest-drawing-workspace');
             workspace.classList.remove('grid');
             workspace.classList.add('hidden');
+            const drawHeader = document.getElementById('quest-draw-header');
+            if (drawHeader) drawHeader.classList.add('hidden');
 
             // 3. Reveal the Complete State
             const completeState = document.getElementById('quest-drawing-complete-state');
@@ -2419,8 +2418,9 @@
                 updateText(); const dotInterval = setInterval(updateText, 400);
 
                 try {
+                    const promptToSave = currentActivePrompt || "Skipped";
                     await fetch(WEBHOOK_URL, {
-                        method: 'POST', body: JSON.stringify({ type: 'canvas', image: dataURL, name: nameVal, email: emailVal, message: messageVal }),
+                        method: 'POST', body: JSON.stringify({ type: 'canvas', image: dataURL, name: nameVal, email: emailVal, message: messageVal, prompt: promptToSave }),
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                     });
                     clearInterval(dotInterval);
