@@ -499,14 +499,14 @@
             </button>
 
             <div class="hidden md:flex gap-12 lg:gap-16 items-center">
-                <a href="#render-state" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-500 hover:text-yellow-400 transition-colors">Draw your problem</a>
+                <button onclick="goToQuestState('state-draw-prompt'); bootQuestEngine();" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-500 hover:text-yellow-400 transition-colors cursor-pointer">Draw your problem</button>
                 <button onclick="openAssessment()" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-500 hover:text-yellow-400 transition-colors cursor-pointer">Free Assessment</button>
                 <a href="#contact" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-500 hover:text-yellow-400 transition-colors">Contact</a>
                 <a href="#book" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors">Book a session</a>
             </div>
             
             <div id="mobile-menu" class="absolute top-full left-0 w-full bg-zinc-950 border-b border-white/5 hidden flex-col items-center py-8 gap-8 shadow-2xl transition-all md:hidden">
-                <a href="#render-state" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors">[ Draw your problem ]</a>
+                <button onclick="goToQuestState('state-draw-prompt'); bootQuestEngine();" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">[ Draw your problem ]</button>
                 <button onclick="openAssessment()" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">[ Free Assessment ]</button>
                 <a href="#contact" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors">[ Contact ]</a>
                 <a href="#book" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-yellow-400 hover:text-yellow-300 transition-colors">[ Book a session ]</a>
@@ -651,7 +651,7 @@
                     </p>
             </div>
             
-            <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12 relative min-h-[500px] flex flex-col justify-center">
+            <div id="quest-workspace-container" class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12 relative min-h-[500px] flex flex-col justify-center">
                 
                 <div id="quest-drawing-workspace" class="grid grid-cols-1 md:grid-cols-[6rem_1fr_5rem] gap-6 fade-in w-full">
                     
@@ -744,26 +744,25 @@
                         </div>
                     </div>
                 </div>
+            </div> <div id="quest-drawing-complete-state" class="hidden flex-col items-center justify-center w-full max-w-3xl mx-auto fade-in text-center mt-4 md:mt-8">
+                
+                <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 md:mb-8 font-['Press_Start_2P'] animate-pulse w-full">QUEST COMPLETE!</h2>
 
-                <div id="quest-drawing-complete-state" class="hidden flex-col items-center justify-center w-full max-w-3xl mx-auto fade-in h-full text-center">
-                    
-                    <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 md:mb-8 font-['Press_Start_2P'] animate-pulse w-full">QUEST COMPLETE!</h2>
-
-                    <div class="canvas-panel-8bit p-4 md:p-6 text-left mb-6 w-full max-w-md mx-auto flex flex-col items-center">
-                        <h3 class="text-sm md:text-base font-black text-white mb-4 uppercase tracking-widest text-yellow-400 w-full text-center">// Diagnostic Sketch</h3>
-                        <div class="w-3/4 max-w-[200px] bg-white border-4 border-black flex items-center justify-center overflow-hidden shadow-inner">
-                            <img id="quest-drawing-thumbnail" src="" class="w-full h-auto object-contain">
-                        </div>
+                <div class="canvas-panel-8bit p-3 md:p-6 text-left mb-6 w-full max-w-[200px] md:max-w-xs mx-auto flex flex-col items-center">
+                    <h3 class="text-sm font-black text-white mb-3 uppercase tracking-widest text-yellow-400 w-full text-center">// Diagnostic Sketch</h3>
+                    <div class="w-full max-w-[120px] md:max-w-[150px] bg-white border-4 border-black flex items-center justify-center overflow-hidden shadow-inner">
+                        <img id="quest-drawing-thumbnail" src="" class="w-full h-auto object-contain">
                     </div>
+                </div>
 
-                    <div id="quest-action-choices" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4">
-                        <div class="flex flex-col items-center text-center">
-                            <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Download & reflect on your own</p>
-                            <button onclick="downloadQuestDrawing()" class="btn-8bit btn-8bit-secondary w-full text-center hover:bg-zinc-100 transition-colors">Download Drawing</button>
-                        </div>
-                        
-                        <div class="flex flex-col items-center text-center">
-                            <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Send to me (for free!)</p>
+                <div id="quest-action-choices" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4">
+                    <div class="flex flex-col items-center text-center">
+                        <p class="text-zinc-400 text-xs md:text-sm font-mono mb-1 h-8 flex items-center justify-center text-balance">Download & reflect on your own</p>
+                        <button onclick="downloadQuestDrawing()" class="btn-8bit btn-8bit-secondary w-full text-center hover:bg-zinc-100 transition-colors">Download Drawing</button>
+                    </div>
+                    
+                    <div class="flex flex-col items-center text-center">
+                        <p class="text-zinc-400 text-xs md:text-sm font-mono mb-1 h-8 flex items-center justify-center text-balance">Send to me (for free!)</p>
                             <button onclick="showQuestSendForm()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full text-center">
                                 <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                                 <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
@@ -799,9 +798,8 @@
                     </div>
 
                 </div>
-            </div>
             
-            <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
+            <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
         </div>
         
         <div id="state-test" class="hidden text-center fade-in w-full max-w-2xl mx-auto flex flex-col h-full">
@@ -838,16 +836,16 @@
                 <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 md:mb-8 font-['Press_Start_2P'] animate-pulse">QUEST COMPLETE!</h2>
             </div>
             
-            <div id="quest-dynamic-content" class="hidden mb-6 text-left text-zinc-300 leading-relaxed canvas-panel-8bit p-6 text-sm md:text-base"></div>
+            <div id="quest-dynamic-content" class="hidden mb-4 text-left text-zinc-300 leading-relaxed canvas-panel-8bit px-4 py-3 md:p-6 text-sm md:text-base"></div>
             
-            <div id="general-action-choices" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4 mt-4">
+            <div id="general-action-choices" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-4 mt-2">
                 <div class="flex flex-col items-center text-center">
-                    <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Download & reflect on your own</p>
+                    <p class="text-zinc-400 text-xs md:text-sm font-mono mb-1 h-8 flex items-center justify-center text-balance">Download & reflect on your own</p>
                     <a id="general-download-btn" href="#" download class="btn-8bit btn-8bit-secondary w-full text-center hover:bg-zinc-100 transition-colors" style="text-decoration: none;">Download Guide</a>
                 </div>
                 
                 <div class="flex flex-col items-center text-center">
-                    <p class="text-zinc-400 text-xs md:text-sm font-mono mb-3 h-8 flex items-center justify-center text-balance">Send to me (for free!)</p>
+                    <p class="text-zinc-400 text-xs md:text-sm font-mono mb-1 h-8 flex items-center justify-center text-balance">Send to me (for free!)</p>
                     <button onclick="showGeneralSendForm()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full text-center">
                         <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                         <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
@@ -1130,187 +1128,7 @@
 
 
 
-    <section id="render-state" class="max-w-5xl mx-auto px-6 py-24 text-center border-t border-white/5">
-
-        <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-6 leading-tight tracking-wide">Draw your problem</h2>
-
-        <p class="text-lg text-zinc-400 mb-12">Send me a drawing of what's holding you or your studio back right now!</p>
-
-        
-
-        <div class="bg-zinc-900 border-zinc-800 rounded-3xl p-6 shadow-2xl mb-12">
-
-            <div class="grid grid-cols-1 md:grid-cols-[6rem_1fr_5rem] gap-6">
-
-                
-
-                <!-- MOBILE COLOR PICKER MODAL -->
-                <div id="mobile-color-modal" class="fixed inset-0 z-[70] hidden bg-black/80 flex items-center justify-center p-6 touch-none">
-                    <div class="canvas-panel-8bit w-full max-w-sm fade-in p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-white font-['Press_Start_2P'] text-[10px] uppercase tracking-widest">Select Color</h3>
-                            <button onclick="document.getElementById('mobile-color-modal').classList.add('hidden')" class="text-zinc-500 hover:text-white transition-colors active:translate-y-[2px]">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            </button>
-                        </div>
-                        <div class="grid grid-cols-5 gap-3 w-full justify-items-center">
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#000000]" data-color="#000000"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#ffffff]" data-color="#ffffff"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#7b7b7b]" data-color="#7b7b7b"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#c3c3c3]" data-color="#c3c3c3"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#8b181a]" data-color="#8b181a"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#b97a57]" data-color="#b97a57"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#ee2424]" data-color="#ee2424"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#ffaec9]" data-color="#ffaec9"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#f47b20]" data-color="#f47b20"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#ffc90e]" data-color="#ffc90e"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#ffea00]" data-color="#ffea00"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#efe4b0]" data-color="#efe4b0"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#22b14c]" data-color="#22b14c"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#b5e61d]" data-color="#b5e61d"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#00a2e8]" data-color="#00a2e8"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#99d9ea]" data-color="#99d9ea"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#3f48cc]" data-color="#3f48cc"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#7092be]" data-color="#7092be"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#a349a4]" data-color="#a349a4"></div>
-                            <div class="quest-color-swatch retro-swatch w-8 h-8 bg-[#c8bfe7]" data-color="#c8bfe7"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- REPLACED TOOL WRAPPER -->
-                <div class="flex flex-col gap-4 md:gap-0 md:contents w-full">
-                    
-                    <div class="canvas-panel-8bit w-full p-3 md:p-4 flex flex-col gap-3 items-center justify-center md:col-start-3 md:row-start-1">
-                        
-                        <div class="flex flex-row md:flex-col justify-between md:justify-center items-center w-full px-1 md:px-0 gap-2 md:gap-4">
-                            <button id="btn-pencil" title="Pencil" class="canvas-tool-btn is-active p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
-                                <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
-                            </button>
-                            <button id="btn-bucket" title="Fill Bucket" class="canvas-tool-btn p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
-                                <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0L19 11Z"/><path d="m5 2 5 5"/><path d="M2 13h15"/><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4Z"/></svg>
-                            </button>
-                            <button id="btn-eraser" title="Eraser" class="canvas-tool-btn p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
-                                <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21Z"/><path d="m5 11 9 9"/></svg>
-                            </button>
-                            
-                            <div class="h-1 w-full md:w-8 bg-black hidden md:block my-1"></div>
-                            
-                            <button id="btn-undo" title="Undo" class="canvas-tool-btn p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
-                                <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg>
-                            </button>
-                            <button id="btn-redo" title="Redo" class="canvas-tool-btn p-2 md:p-3 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center">
-                                <svg class="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"/></svg>
-                            </button>
-                        </div>
-
-                        <div class="flex md:hidden items-center justify-center gap-4 bg-zinc-900 px-4 py-2 border-4 border-black w-full">
-                            <button class="brush-btn pixel-circle-btn" data-size="2"><svg width="12" height="12" viewBox="0 0 8 8"><path d="M3 3h2v2H3z" /></svg></button>
-                            <button class="brush-btn pixel-circle-btn is-active" data-size="5"><svg width="16" height="16" viewBox="0 0 8 8"><path d="M3 1h2v1h-2z M2 2h4v1h-4z M1 3h6v2h-6z M2 5h4v1h-4z M3 6h2v1h-2z" /></svg></button>
-                            <button class="brush-btn pixel-circle-btn" data-size="12"><svg width="24" height="24" viewBox="0 0 16 16"><path d="M6 2h4v1h-4z M4 3h8v1h-8z M3 4h10v1h-10z M2 5h12v6h-12z M3 11h10v1h-10z M4 12h8v1h-8z M6 13h4v1h-4z" /></svg></button>
-                            <button class="brush-btn pixel-circle-btn" data-size="24"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M9 2h6v1h-6z M6 3h12v2h-12z M4 5h16v2h-16z M3 7h18v2h-18z M2 9h20v6h-20z M3 15h18v2h-18z M4 17h16v2h-16z M6 19h12v2h-12z M9 21h6v1h-6z" /></svg></button>
-                        </div>
-                    </div>
-
-                    <div class="hidden md:flex canvas-panel-8bit w-full flex-col items-center justify-start md:col-start-1 md:row-start-1 overflow-hidden pt-0 px-0 pb-4">
-                        <div class="w-full text-center py-2 bg-black text-white text-[10px] font-['Press_Start_2P'] uppercase tracking-widest border-b-4 border-black mb-4">Palette</div>
-                        <div class="grid grid-cols-5 md:grid-cols-2 gap-3 md:gap-2 w-full justify-items-center px-4">
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#000000]" data-color="#000000"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#ffffff]" data-color="#ffffff"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#7b7b7b]" data-color="#7b7b7b"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#c3c3c3]" data-color="#c3c3c3"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#8b181a]" data-color="#8b181a"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#b97a57]" data-color="#b97a57"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#ee2424]" data-color="#ee2424"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#ffaec9]" data-color="#ffaec9"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#f47b20]" data-color="#f47b20"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#ffc90e]" data-color="#ffc90e"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#ffea00]" data-color="#ffea00"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#efe4b0]" data-color="#efe4b0"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#22b14c]" data-color="#22b14c"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#b5e61d]" data-color="#b5e61d"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#00a2e8]" data-color="#00a2e8"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#99d9ea]" data-color="#99d9ea"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#3f48cc]" data-color="#3f48cc"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#7092be]" data-color="#7092be"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#a349a4]" data-color="#a349a4"></div>
-                            <div class="color-swatch retro-swatch w-6 h-6 bg-[#c8bfe7]" data-color="#c8bfe7"></div>
-                        </div>
-                        <div class="w-[80%] h-8 md:h-10 bg-black border-4 border-black mt-4 transition-colors duration-200" id="current-color-indicator"></div>
-                    </div>
-                </div>
-
-                <div class="relative z-10 w-full h-full min-h-[450px] md:col-start-2 md:row-start-1">
-                    <canvas id="drawingCanvas" width="600" height="450" class="w-full h-full touch-none block"></canvas>
-                </div>
-
-                <div class="md:col-start-2 flex flex-col items-center justify-center gap-8 mt-0 w-full">
-
-                    <div class="hidden md:flex items-center gap-8 canvas-panel-8bit px-6 py-4 justify-center">
-                        <span class="text-[10px] font-['Press_Start_2P'] uppercase text-zinc-400 mr-2">Size:</span>
-                        <button class="brush-btn pixel-circle-btn" data-size="2"><svg width="20" height="20" viewBox="0 0 8 8"><path d="M3 3h2v2H3z" /></svg></button>
-                        <button class="brush-btn pixel-circle-btn is-active" data-size="5"><svg width="28" height="28" viewBox="0 0 8 8"><path d="M3 1h2v1h-2z M2 2h4v1h-4z M1 3h6v2h-6z M2 5h4v1h-4z M3 6h2v1h-2z" /></svg></button>
-                        <button class="brush-btn pixel-circle-btn" data-size="12"><svg width="36" height="36" viewBox="0 0 16 16"><path d="M6 2h4v1h-4z M4 3h8v1h-8z M3 4h10v1h-10z M2 5h12v6h-12z M3 11h10v1h-10z M4 12h8v1h-8z M6 13h4v1h-4z" /></svg></button>
-                        <button class="brush-btn pixel-circle-btn" data-size="24"><svg width="44" height="44" viewBox="0 0 24 24"><path d="M9 2h6v1h-6z M6 3h12v2h-12z M4 5h16v2h-16z M3 7h18v2h-18z M2 9h20v6h-20z M3 15h18v2h-18z M4 17h16v2h-16z M6 19h12v2h-12z M9 21h6v1h-6z" /></svg></button>
-                    </div>
-
-                    
-
-                    <div class="w-full max-w-2xl flex flex-col items-center">
-
-                        <p class="text-zinc-400 text-sm md:text-base mb-4 font-medium">Send me your drawing and I'll get back to you!</p>
-
-                        
-
-                        <div class="canvas-panel-8bit flex flex-col gap-4 w-full p-4 md:p-6">
-
-                            <div class="flex flex-col sm:flex-row gap-4 w-full">
-
-                                <input type="text" id="senderName" placeholder="Your Name" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600">
-
-                                <input type="email" id="senderEmail" placeholder="Your Email" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600">
-
-                            </div>
-
-                            
-
-                            <textarea id="senderMessage" placeholder="Your Message (Optional)" rows="3" class="w-full bg-black border-4 border-zinc-800 text-white px-5 py-4 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600 resize-none"></textarea>
-
-                            
-
-                            <button id="sendBtn" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full">
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-
-                                <span class="btn-text-back" aria-hidden="true">SEND</span>
-                                <span class="btn-text-front text-black">SEND</span>
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="md:col-start-2">
-
-                    <p id="statusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center -mt-2"></p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
     <section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
-
         <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-4 leading-tight tracking-wide">Drawings</h2>
 
         <p class="text-lg text-zinc-400 mb-12">by other devs</p>
@@ -1920,8 +1738,8 @@
         }
 
         function openAssessment() {
-            // Dummy function to prevent live site errors until we delete the old modal button
-            console.log("Assessment Engine migrated to Quest Hub.");
+            goToQuestState('state-test');
+            bootQuestEngine();
         }
 
         function openContactModal() {
@@ -2185,7 +2003,11 @@
 
             document.getElementById('state-topic-picker').classList.add('hidden');
 
-            document.getElementById('topic-dynamic-content').innerHTML = topicsData[key].html;
+            const data = topicsData[key];
+            document.getElementById('topic-dynamic-content').innerHTML = `
+                <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 text-center w-full">// ${data.title}</h3>
+                <p class="mb-8 text-center md:text-left">${data.desc}</p>
+            `;
 
             document.getElementById('state-topic-result').classList.remove('hidden');
 
@@ -2313,10 +2135,12 @@
             const dataURL = canvas.toDataURL('image/png');
             document.getElementById('quest-drawing-thumbnail').src = dataURL;
 
-            // 2. Hide the entire drawing workspace and header
-            const workspace = document.getElementById('quest-drawing-workspace');
-            workspace.classList.remove('grid');
-            workspace.classList.add('hidden');
+            // 2. Hide the entire drawing workspace container and header
+            const workspaceContainer = document.getElementById('quest-workspace-container');
+            if (workspaceContainer) {
+                workspaceContainer.classList.remove('flex');
+                workspaceContainer.classList.add('hidden');
+            }
             const drawHeader = document.getElementById('quest-draw-header');
             if (drawHeader) drawHeader.classList.add('hidden');
 
