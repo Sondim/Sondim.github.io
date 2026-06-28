@@ -499,15 +499,13 @@
             </button>
 
             <div class="hidden md:flex gap-12 lg:gap-16 items-center">
-                <button onclick="goToQuestState('state-draw-prompt'); bootQuestEngine();" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-500 hover:text-yellow-400 transition-colors cursor-pointer">Draw your problem</button>
-                <button onclick="openAssessment()" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-500 hover:text-yellow-400 transition-colors cursor-pointer">Free Assessment</button>
+                <button onclick="openAboutModal()" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-500 hover:text-yellow-400 transition-colors cursor-pointer">About Me</button>
                 <a href="#contact" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-500 hover:text-yellow-400 transition-colors">Contact</a>
                 <a href="#book" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors">Book a session</a>
             </div>
             
             <div id="mobile-menu" class="absolute top-full left-0 w-full bg-zinc-950 border-b border-white/5 hidden flex-col items-center py-8 gap-8 shadow-2xl transition-all md:hidden z-50">
-                <button onclick="goToQuestState('state-draw-prompt'); bootQuestEngine();" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">[ Draw your problem ]</button>
-                <button onclick="openAssessment()" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">[ Free Assessment ]</button>
+                <button onclick="openAboutModal()" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">[ About Me ]</button>
                 <a href="#contact" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors">[ Contact ]</a>
                 <a href="#book" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-yellow-400 hover:text-yellow-300 transition-colors">[ Book a session ]</a>
             </div>
@@ -885,23 +883,6 @@
 
     </section>
 
-    <section class="border-b border-white/5 py-16 md:py-24 overflow-hidden -mt-[1px]" style="background-color: #2E4047;">
-        <div class="max-w-4xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12 md:gap-16">
-            
-            <div class="group relative w-48 h-48 md:w-64 md:h-64 flex-shrink-0 animate-float">
-                <div class="canvas-panel-8bit w-full h-full overflow-hidden">
-                    <img src="IMG_4416.jpg" alt="Magnus" class="w-full h-full object-cover">
-                </div>
-            </div>
-
-            <div class="flex-1 text-center md:text-left z-10">
-                <h2 class="text-yellow-400 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest mb-6">// Meet_Magnus</h2>
-                <p class="canvas-panel-8bit p-6 md:p-8 text-zinc-300 text-lg md:text-xl leading-relaxed italic text-left w-full block">"I realized that deep self-discovery isn't just for a meditation cushion—it's in the work of raising money, managing a team, and launching a game."</p>
-            </div>
-
-        </div>
-    </section>
-
 
     <div id="lightbox-modal" class="fixed inset-0 z-[60] hidden bg-black/90 flex items-center justify-center p-2 md:p-8 cursor-zoom-out" onclick="closeLightbox()">
 
@@ -1126,7 +1107,29 @@
 
     </div>
 
+<div id="about-modal" class="fixed inset-0 z-[60] hidden bg-black/90 overflow-y-auto">
+        <div class="min-h-screen flex items-center justify-center px-4 py-12 md:py-20 w-full">
+            <div class="w-full max-w-4xl mx-auto relative bg-zinc-900 border border-white/10 p-6 md:p-12 rounded-none shadow-2xl my-auto transform-gpu">
+                
+                <button onclick="closeModals()" class="absolute top-4 right-4 md:top-6 md:right-6 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
 
+                <div class="max-w-4xl mx-auto px-2 flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                    <div class="group relative w-48 h-48 md:w-64 md:h-64 flex-shrink-0 animate-float">
+                        <div class="canvas-panel-8bit w-full h-full overflow-hidden">
+                            <img src="IMG_4416.jpg" alt="Magnus" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="flex-1 text-center md:text-left z-10">
+                        <h2 class="text-yellow-400 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest mb-6">// Meet_Magnus</h2>
+                        <p class="canvas-panel-8bit p-6 md:p-8 text-zinc-300 text-base md:text-lg leading-relaxed italic text-left w-full block">"I realized that deep self-discovery isn't just for a meditation cushion—it's in the work of raising money, managing a team, and launching a game."</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
         <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-4 leading-tight tracking-wide">Drawings</h2>
@@ -1716,9 +1719,9 @@
             renderQ();
         }
 
-        function openAssessment() {
-            goToQuestState('state-test');
-            bootQuestEngine();
+        function openAboutModal() {
+            document.body.style.overflow = 'hidden';
+            document.getElementById('about-modal').classList.remove('hidden');
         }
 
         function openContactModal() {
@@ -1731,6 +1734,7 @@
             document.getElementById('assessment-modal').classList.add('hidden');
             document.getElementById('topic-modal').classList.add('hidden');
             document.getElementById('contact-modal')?.classList.add('hidden');
+            document.getElementById('about-modal')?.classList.add('hidden');
         }
 
         function renderQ() {
@@ -2003,10 +2007,6 @@
         const canvas = document.getElementById('questDrawingCanvas');
 
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
-
-        const sendBtn = document.getElementById('sendBtn');
-
-        const statusMsg = document.getElementById('statusMsg');
 
 
         let currentColor = '#000000';
