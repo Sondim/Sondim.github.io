@@ -154,9 +154,17 @@
             text-decoration: none;
         }
 
-        .btn-8bit:active {
+        .btn-8bit:active:not(:disabled) {
             transform: translate(4px, 4px) !important;
             box-shadow: 2px 2px 0px black !important;
+        }
+        
+        .btn-8bit:disabled {
+            background-color: #3f3f46 !important;
+            color: #71717a !important;
+            box-shadow: 0px 0px 0px black !important;
+            transform: translate(4px, 4px) !important;
+            cursor: not-allowed;
         }
 
         .btn-8bit-secondary {
@@ -302,7 +310,44 @@
             75% { transform: translate(-0.5px, -0.5px); }
         }
 
-        /* --- GENERALIZED SPARKLE BUTTON PHYSICS --- */
+        /* --- RPG DIALOGUE SYSTEM --- */
+        .dialogue-text-area {
+            cursor: pointer;
+            transition: background-color 0.1s ease;
+            user-select: none;
+            padding-right: 1rem;
+            padding-bottom: 2rem;
+            position: relative;
+            flex-grow: 1;
+            border-radius: 8px;
+        }
+        
+        .dialogue-text-area:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        
+        .dialogue-text-area:active {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .dialogue-arrow {
+            position: absolute;
+            bottom: 4px;
+            right: 8px;
+            font-family: 'Press Start 2P', monospace;
+            color: #facc15;
+            font-size: 1.25rem;
+            text-shadow: 2px 2px 0px rgba(0,0,0,1);
+            animation: bounce-blink 0.9s infinite step-end;
+            pointer-events: none; /* Passes clicks through to the text area */
+        }
+
+        @keyframes bounce-blink {
+            0%, 100% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(4px); opacity: 0.2; }
+        }
+
+        /* --- GENERALIZED SPARKLE BUTTON PHYSICS --- */f
 
         #sendBtn, .sparkle-btn {
 
@@ -731,24 +776,22 @@
                     </a>
                 </div>
 
-                <div class="flex-1 w-full text-center md:text-left">
+                <div class="flex-1 w-full text-center md:text-left flex flex-col">
                     <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-400">
                         <span id="discord-username-display">Hey I'm Magnus Chirgwin</span>
                     </div>
 
-                    <div class="font-mono text-sm md:text-base text-zinc-300 space-y-4 leading-relaxed text-left">
-                        <p>
-                            I've worked with studios worldwide and I see that we all start from a <em>pure love and passion for games</em>, but I also see so many getting trapped in stress and conflict. You end up losing that joy and then you either start grinding, procrastinating or the game dies.
-                        </br>         </br>   
-                        My passion is coaching you (or your team) to understand yourself better so you can thrive!  
-                        <p class="text-zinc-300 italic border-l-4 border-yellow-400 pl-3 bg-black/30 py-1">
-                            ...so I made this "quest" based on all my work to help you get started!
+                    <div id="dialogue-zone" class="dialogue-text-area min-h-[140px] md:min-h-[100px]" onclick="advanceDialogue()">
+                        <p id="dialogue-text" class="font-mono text-sm md:text-base text-zinc-300 leading-relaxed text-left m-0">
+                            I've worked with studios worldwide and I see that we all start from a pure love and passion for games, but I also see so many getting trapped in stress and conflict.
                         </p>
+                        
+                        <div id="dialogue-arrow" class="dialogue-arrow">▼</div>
                     </div>
                 </div>
             </div>
 
-            <button onclick="bootQuestEngine()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full sm:w-auto z-10">
+            <button id="start-quest-btn" disabled onclick="bootQuestEngine()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full sm:w-auto z-10">
                 <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                 <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                 <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
@@ -1473,6 +1516,36 @@
 
         fetchDiscordPresence();
         setInterval(fetchDiscordPresence, 30000);
+
+        // --- HERO RPG DIALOGUE MACHINE ---
+        const dialoguePages = [
+            "I've worked with studios worldwide and I see that we all start from a pure love and passion for games, but I also see so many getting trapped in stress and conflict.",
+            "You end up losing that joy and then you either start grinding, procrastinating or the game dies. My passion is coaching you (or your team) to understand yourself better so you can thrive!",
+            "...so I made this \"quest\" based on all my work to help you get started! Press the button below to start."
+        ];
+        
+        let currentPage = 0;
+
+        function advanceDialogue() {
+            const dialogueTextEl = document.getElementById('dialogue-text');
+            const dialogueArrowEl = document.getElementById('dialogue-arrow');
+            const startQuestBtn = document.getElementById('start-quest-btn');
+            const dialogueZone = document.getElementById('dialogue-zone');
+
+            if (currentPage < dialoguePages.length - 1) {
+                currentPage++;
+                dialogueTextEl.innerText = dialoguePages[currentPage];
+                
+                if (currentPage === dialoguePages.length - 1) {
+                    // Final Page Actions: Hide arrow, unlock button, disable further clicking
+                    dialogueArrowEl.style.display = "none"; 
+                    startQuestBtn.disabled = false;
+                    dialogueZone.classList.remove('dialogue-text-area');
+                    dialogueZone.style.cursor = 'default';
+                    dialogueZone.onclick = null; 
+                }
+            }
+        }
 
         // --- RPG QUEST STATE MACHINE & GLOBAL PROGRESSION ---
         const questStates = ['state-hub', 'state-topic', 'state-draw-prompt', 'state-draw', 'state-test', 'state-complete'];
