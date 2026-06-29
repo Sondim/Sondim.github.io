@@ -216,6 +216,141 @@
         }
 
 
+        /* --- 3-LAYER PIXEL FRAME ENGINE --- */
+        .pixel-frame-outer {
+            clip-path: polygon(
+                8px 0, calc(100% - 8px) 0,
+                calc(100% - 8px) 4px, calc(100% - 4px) 4px,
+                calc(100% - 4px) 8px, 100% 8px,
+                100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px),
+                calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px),
+                calc(100% - 8px) 100%, 8px 100%,
+                8px calc(100% - 4px), 4px calc(100% - 4px),
+                4px calc(100% - 8px), 0 calc(100% - 8px),
+                0 8px, 4px 8px,
+                4px 4px, 8px 4px
+            );
+            padding: 4px;
+            background-color: var(--frame-outer, #000000); 
+            transition: background-color 0.15s ease;
+            filter: drop-shadow(6px 6px 0px rgba(0,0,0,0.95));
+        }
+
+        .pixel-frame-inner {
+            clip-path: polygon(
+                4px 0, calc(100% - 4px) 0,
+                calc(100% - 4px) 4px, 100% 4px,
+                100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px),
+                calc(100% - 4px) 100%, 4px 100%,
+                4px calc(100% - 4px), 0 calc(100% - 4px),
+                0 4px, 4px 4px
+            );
+            padding: 4px;
+            background-color: var(--frame-border, #ffffff);
+            transition: background-color 0.15s ease;
+            height: 100%;
+        }
+
+        .pixel-frame-content {
+            clip-path: polygon(
+                4px 0, calc(100% - 4px) 0,
+                calc(100% - 4px) 4px, 100% 4px,
+                100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px),
+                calc(100% - 4px) 100%, 4px 100%,
+                4px calc(100% - 4px), 0 calc(100% - 4px),
+                0 4px, 4px 4px
+            );
+            background-color: var(--frame-bg, rgba(24, 24, 27, 0.95));
+            color: var(--frame-text, #ffffff);
+            transition: background-color 0.15s ease, color 0.15s ease;
+            height: 100%;
+            position: relative;
+        }
+
+        .dialog-config {
+            --frame-outer: #000000;
+            --frame-border: #ffffff;
+            --frame-bg: rgba(24, 24, 27, 0.95);
+            --frame-text: #ffffff;
+        }
+
+        /* --- PIXEL ENGINE BUTTON PHYSICS --- */
+        .pixel-btn {
+            display: block;
+            width: 100%;
+            border: none;
+            padding: 0;
+            background: transparent;
+            cursor: pointer;
+            transition: transform 0.1s;
+            position: relative;
+        }
+        
+        .pixel-btn:active:not(:disabled) .pixel-frame-outer {
+            transform: translate(4px, 4px);
+            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.95));
+        }
+
+        .pixel-btn-locked {
+            --frame-outer: #000000;
+            --frame-border: #52525b; 
+            --frame-bg: #27272a;     
+            --frame-text: #a1a1aa;   
+        }
+        @media (hover: hover) {
+            .pixel-btn-locked:hover {
+                --frame-border: #ffffff;
+                --frame-bg: #3f3f46;     
+                --frame-text: #ffffff;
+            }
+        }
+
+        .pixel-btn-unlocked-yellow {
+            --frame-outer: #000000;
+            --frame-border: #000000;
+            --frame-bg: #facc15;     
+            --frame-text: #000000;
+        }
+        @media (hover: hover) {
+            .pixel-btn-unlocked-yellow:hover {
+                --frame-border: #ffffff;
+                --frame-bg: #fde047;     
+            }
+        }
+
+        /* --- SHIMMER SHIFT SWEEP --- */
+        .shimmer-sweep-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            display: none; 
+            clip-path: polygon(
+                4px 0, calc(100% - 4px) 0,
+                calc(100% - 4px) 4px, 100% 4px,
+                100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px),
+                calc(100% - 4px) 100%, 4px 100%,
+                4px calc(100% - 4px), 0 calc(100% - 4px),
+                0 4px, 4px 4px
+            );
+            background: linear-gradient(
+                108deg,
+                transparent 0%,
+                transparent 35%,
+                rgba(255, 255, 255, 0.4) 45%,
+                rgba(255, 255, 255, 0.7) 50%,
+                rgba(255, 255, 255, 0.4) 55%,
+                transparent 65%,
+                transparent 100%
+            );
+            background-size: 200% 100%;
+        }
+
+        .pixel-btn-unlocked-yellow .shimmer-sweep-overlay {
+            display: block;
+            animation: buttonSweep 2.5s infinite linear;
+        }
+
         /* --- PIXEL HERO PHYSICS --- */
         .hero-container {
             position: relative;
@@ -760,60 +895,79 @@
                 </span>
             </p>
 
-            <div class="canvas-panel-8bit w-full max-w-2xl p-6 md:p-8 text-left mb-10 animate-float flex flex-col md:flex-row gap-6 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
-                
-                <div class="flex flex-col items-center flex-shrink-0">
-                    <a href="https://discord.com/users/198813370441269249" target="_blank" class="discord-avatar-container cursor-pointer block">
-                        <div class="discord-avatar-mask">
-                            <img id="discord-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%2318181b'></svg>" 
-                                 alt="Magnus" class="w-full h-full object-cover transition-opacity duration-300 opacity-0">
+            <div class="pixel-frame-outer dialog-config w-full max-w-2xl mx-4 mb-10 animate-float">
+                <div class="pixel-frame-inner">
+                    <div class="pixel-frame-content p-6 md:p-8 flex flex-col md:flex-row gap-6 items-center md:items-start z-10">
+                        
+                        <div class="flex flex-col items-center flex-shrink-0">
+                            <a href="https://discord.com/users/198813370441269249" target="_blank" class="discord-avatar-container cursor-pointer block">
+                                <div class="discord-avatar-mask">
+                                    <img id="discord-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%2318181b'></svg>" 
+                                         alt="Magnus" class="w-full h-full object-cover transition-opacity duration-300 opacity-0">
+                                </div>
+                                <div id="discord-badge-element" class="discord-badge offline"></div>
+                                
+                                <div class="discord-tooltip">
+                                    <span id="discord-tooltip-text">Connecting...</span>
+                                </div>
+                            </a>
                         </div>
-                        <div id="discord-badge-element" class="discord-badge offline"></div>
-                        
-                        <div class="discord-tooltip">
-                            <span id="discord-tooltip-text">Connecting...</span>
+
+                        <div class="flex-1 w-full text-center md:text-left flex flex-col h-full">
+                            <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-400">
+                                <span id="discord-username-display">Hey I'm Magnus Chirgwin</span>
+                            </div>
+
+                            <div id="dialogue-zone" class="dialogue-text-area min-h-[140px] md:min-h-[100px]" onclick="advanceDialogue()">
+                                <p id="dialogue-text" class="font-mono text-sm md:text-base text-zinc-300 leading-relaxed text-left m-0">
+                                    I've worked with studios worldwide and I see that we all start from a pure love and passion for games, but I also see so many getting trapped in stress and conflict.
+                                </p>
+                                <div id="dialogue-arrow" class="dialogue-arrow">▼</div>
+                            </div>
+
+                            <div id="hero-btns-container" class="flex flex-col sm:flex-row gap-4 w-full mt-4 pt-2 justify-center">
+                                
+                                <button id="btn-about" class="pixel-btn pixel-btn-locked flex-1" onclick="advanceDialogue()">
+                                    <div class="pixel-frame-outer">
+                                        <div class="pixel-frame-inner">
+                                            <div class="pixel-frame-content p-4 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-center relative">
+                                                
+                                                <div class="shimmer-sweep-overlay"></div>
+
+                                                <svg class="sparkle-svg" viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                                <svg class="sparkle-svg" viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                                <svg class="sparkle-svg" viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                                
+                                                ABOUT MAGNUS
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+                                
+                                <button id="btn-quest" class="pixel-btn pixel-btn-locked flex-1" onclick="advanceDialogue()">
+                                    <div class="pixel-frame-outer">
+                                        <div class="pixel-frame-inner">
+                                            <div class="pixel-frame-content p-4 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest text-center relative">
+                                                
+                                                <div class="shimmer-sweep-overlay"></div>
+
+                                                <svg class="sparkle-svg" viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                                <svg class="sparkle-svg" viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                                <svg class="sparkle-svg" viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                                                
+                                                START QUEST
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+
+                            </div>
+
                         </div>
-                    </a>
-                </div>
-
-                <div class="flex-1 w-full text-center md:text-left flex flex-col h-full">
-                    <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-400">
-                        <span id="discord-username-display">Hey I'm Magnus Chirgwin</span>
                     </div>
-
-                    <div id="dialogue-zone" class="dialogue-text-area min-h-[140px] md:min-h-[100px]" onclick="advanceDialogue()">
-                        <p id="dialogue-text" class="font-mono text-sm md:text-base text-zinc-300 leading-relaxed text-left m-0">
-                            I've worked with studios worldwide and I see that we all start from a pure love and passion for games, but I also see so many getting trapped in stress and conflict.
-                        </p>
-                        
-                        <div id="dialogue-arrow" class="dialogue-arrow">▼</div>
-                    </div>
-
-                    <div id="hero-locked-btns" class="flex flex-col sm:flex-row gap-4 w-full mt-auto pt-2 justify-center fade-in">
-                        <button onclick="advanceDialogue()" class="canvas-tool-btn p-4 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full sm:w-1/2 text-center transition-all duration-150">About Magnus</button>
-                        <button onclick="advanceDialogue()" class="canvas-tool-btn p-4 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full sm:w-1/2 text-center transition-all duration-150">Start Quest</button>
-                    </div>
-
-                    <div id="hero-unlocked-btns" class="hidden flex-col sm:flex-row gap-4 w-full mt-auto pt-2 justify-center fade-in">
-                        <button onclick="openAboutModal()" style="--sparkle-color: rgba(0, 0, 0, 0.4);" class="btn-8bit btn-8bit-secondary sparkle-btn w-full sm:w-1/2">
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">ABOUT MAGNUS</span>
-                            <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">ABOUT MAGNUS</span>
-                        </button>
-                        
-                        <button onclick="bootQuestEngine()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full sm:w-1/2">
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">START QUEST</span>
-                            <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">START QUEST</span>
-                        </button>
-                    </div>
-
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -1593,25 +1747,28 @@
             const dialogueArrowEl = document.getElementById('dialogue-arrow');
             const dialogueZone = document.getElementById('dialogue-zone');
             
-            const lockedBtns = document.getElementById('hero-locked-btns');
-            const unlockedBtns = document.getElementById('hero-unlocked-btns');
+            const btnAbout = document.getElementById('btn-about');
+            const btnQuest = document.getElementById('btn-quest');
 
             if (currentPage < dialoguePages.length - 1) {
                 currentPage++;
                 dialogueTextEl.innerText = dialoguePages[currentPage];
                 
                 if (currentPage === dialoguePages.length - 1) {
-                    // Final Page Actions
                     dialogueArrowEl.style.display = "none"; 
                     
-                    // State swap for the CTAs
-                    if(lockedBtns) {
-                        lockedBtns.classList.add('hidden');
-                        lockedBtns.classList.remove('flex');
+                    if (btnAbout) {
+                        btnAbout.classList.remove('pixel-btn-locked');
+                        btnAbout.classList.add('pixel-btn-unlocked-yellow');
+                        btnAbout.style.setProperty('--sparkle-color', 'rgba(255,255,255,0.9)');
+                        btnAbout.onclick = () => { openAboutModal(); };
                     }
-                    if(unlockedBtns) {
-                        unlockedBtns.classList.remove('hidden');
-                        unlockedBtns.classList.add('flex');
+                    
+                    if (btnQuest) {
+                        btnQuest.classList.remove('pixel-btn-locked');
+                        btnQuest.classList.add('pixel-btn-unlocked-yellow');
+                        btnQuest.style.setProperty('--sparkle-color', 'rgba(255,255,255,0.9)');
+                        btnQuest.onclick = () => { bootQuestEngine(); };
                     }
                     
                     dialogueZone.classList.remove('dialogue-text-area');
