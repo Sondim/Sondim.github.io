@@ -1394,6 +1394,37 @@
         </div>
     </div>
 
+    <div id="mobile-color-modal" class="fixed inset-0 z-[70] hidden bg-black/90 flex flex-col items-center justify-center p-4">
+        <div class="canvas-panel-8bit w-full max-w-sm p-6 relative flex flex-col items-center bg-zinc-900">
+            <button onclick="document.getElementById('mobile-color-modal').classList.add('hidden')" class="absolute -top-4 -right-4 bg-zinc-900 border-4 border-black p-2 text-zinc-500 hover:text-white transition-all shadow-[4px_4px_0px_black] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[0px_0px_0px_black] z-20">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-white text-[10px] font-['Press_Start_2P'] uppercase tracking-widest mb-6 border-b-4 border-black pb-4 w-full text-center">Palette</h3>
+            <div class="grid grid-cols-5 gap-3 w-full justify-items-center">
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#000000]" data-color="#000000"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#ffffff]" data-color="#ffffff"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#7b7b7b]" data-color="#7b7b7b"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#c3c3c3]" data-color="#c3c3c3"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#8b181a]" data-color="#8b181a"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#b97a57]" data-color="#b97a57"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#ee2424]" data-color="#ee2424"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#ffaec9]" data-color="#ffaec9"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#f47b20]" data-color="#f47b20"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#ffc90e]" data-color="#ffc90e"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#ffea00]" data-color="#ffea00"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#efe4b0]" data-color="#efe4b0"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#22b14c]" data-color="#22b14c"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#b5e61d]" data-color="#b5e61d"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#00a2e8]" data-color="#00a2e8"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#99d9ea]" data-color="#99d9ea"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#3f48cc]" data-color="#3f48cc"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#7092be]" data-color="#7092be"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#a349a4]" data-color="#a349a4"></div>
+                <div class="quest-color-swatch retro-swatch w-10 h-10 bg-[#c8bfe7]" data-color="#c8bfe7"></div>
+            </div>
+        </div>
+    </div>
+
     <section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
         <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-4 leading-tight tracking-wide">Drawings</h2>
         <p class="text-lg text-zinc-400 mb-12">by other devs</p>
