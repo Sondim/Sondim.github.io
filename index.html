@@ -751,7 +751,7 @@
     <section class="hero-container">
         <div class="static-hero-bg" style="background-image: url('https://raw.githubusercontent.com/Sondim/Sondim.github.io/028ce08aa3995700c93a6780e2127e9ba25a0e97/staticimagehero.jpg');"></div>
 
-        <div class="absolute top-[55%] md:top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10 w-11/12 md:w-full flex flex-col items-center">
+        <div class="absolute top-[45%] md:top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10 w-11/12 md:w-full flex flex-col items-center">
             <h1 class="pixel-title">MAKE GREAT GAMES</h1>
             <p class="pixel-subtitle">
                 without 
@@ -776,7 +776,7 @@
                     </a>
                 </div>
 
-                <div class="flex-1 w-full text-center md:text-left flex flex-col">
+                <div class="flex-1 w-full text-center md:text-left flex flex-col h-full">
                     <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-400">
                         <span id="discord-username-display">Hey I'm Magnus Chirgwin</span>
                     </div>
@@ -788,25 +788,31 @@
                         
                         <div id="dialogue-arrow" class="dialogue-arrow">▼</div>
                     </div>
-                </div>
-            </div>
 
-            <div class="flex flex-col sm:flex-row gap-4 w-full max-w-2xl mx-auto z-10 justify-center">
-                <button id="about-me-btn" disabled onclick="openAboutModal()" style="--sparkle-color: rgba(0, 0, 0, 0.4);" class="btn-8bit btn-8bit-secondary sparkle-btn w-full sm:w-1/2">
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">ABOUT MAGNUS</span>
-                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">ABOUT MAGNUS</span>
-                </button>
-                
-                <button id="start-quest-btn" disabled onclick="bootQuestEngine()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full sm:w-1/2">
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                    <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">START QUEST</span>
-                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">START QUEST</span>
-                </button>
+                    <div id="hero-locked-btns" class="flex flex-col sm:flex-row gap-4 w-full mt-auto pt-2 justify-center fade-in">
+                        <button onclick="advanceDialogue()" class="canvas-tool-btn p-4 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full sm:w-1/2 text-center transition-all duration-150">About Magnus</button>
+                        <button onclick="advanceDialogue()" class="canvas-tool-btn p-4 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full sm:w-1/2 text-center transition-all duration-150">Start Quest</button>
+                    </div>
+
+                    <div id="hero-unlocked-btns" class="hidden flex-col sm:flex-row gap-4 w-full mt-auto pt-2 justify-center fade-in">
+                        <button onclick="openAboutModal()" style="--sparkle-color: rgba(0, 0, 0, 0.4);" class="btn-8bit btn-8bit-secondary sparkle-btn w-full sm:w-1/2">
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">ABOUT MAGNUS</span>
+                            <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">ABOUT MAGNUS</span>
+                        </button>
+                        
+                        <button onclick="bootQuestEngine()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full sm:w-1/2">
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
+                            <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">START QUEST</span>
+                            <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">START QUEST</span>
+                        </button>
+                    </div>
+
+                </div>
             </div>
         </div>
     </section>
@@ -1585,19 +1591,28 @@
         function advanceDialogue() {
             const dialogueTextEl = document.getElementById('dialogue-text');
             const dialogueArrowEl = document.getElementById('dialogue-arrow');
-            const startQuestBtn = document.getElementById('start-quest-btn');
-            const aboutMeBtn = document.getElementById('about-me-btn');
             const dialogueZone = document.getElementById('dialogue-zone');
+            
+            const lockedBtns = document.getElementById('hero-locked-btns');
+            const unlockedBtns = document.getElementById('hero-unlocked-btns');
 
             if (currentPage < dialoguePages.length - 1) {
                 currentPage++;
                 dialogueTextEl.innerText = dialoguePages[currentPage];
                 
                 if (currentPage === dialoguePages.length - 1) {
-                    // Final Page Actions: Hide arrow, unlock BOTH buttons, disable further clicking
+                    // Final Page Actions
                     dialogueArrowEl.style.display = "none"; 
-                    startQuestBtn.disabled = false;
-                    if (aboutMeBtn) aboutMeBtn.disabled = false;
+                    
+                    // State swap for the CTAs
+                    if(lockedBtns) {
+                        lockedBtns.classList.add('hidden');
+                        lockedBtns.classList.remove('flex');
+                    }
+                    if(unlockedBtns) {
+                        unlockedBtns.classList.remove('hidden');
+                        unlockedBtns.classList.add('flex');
+                    }
                     
                     dialogueZone.classList.remove('dialogue-text-area');
                     dialogueZone.style.cursor = 'default';
