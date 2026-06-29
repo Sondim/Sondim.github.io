@@ -252,6 +252,54 @@
                 1px  1px 0 #000,
                 4px  4px 0px rgba(0,0,0,0.85); 
             }
+            .pixel-subtitle {
+                font-size: 0.85rem;
+                line-height: 1.6;
+            }
+        }
+
+        /* --- SUBHEADER RENDER BLOCK --- */
+        .pixel-subtitle {
+            font-family: 'Press Start 2P', monospace;
+            color: #000000;
+            font-size: 1.25rem;
+            line-height: 1.5;
+            margin: 0 0 1.5rem 0;
+            letter-spacing: -1px;
+        }
+
+        /* --- INTERACTIVE TEXT METAFOR --- */
+        .status-value-wrap {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mood-pissed-readable {
+            display: inline-block;
+            text-transform: uppercase;
+            image-rendering: pixelated;
+            -webkit-font-smoothing: none;
+            font-smooth: never;
+            color: #ff3a2b;
+            will-change: transform;
+            
+            text-shadow: 
+                2px 0 0 rgba(0, 0, 0, 1), 
+                -2px 0 0 rgba(0, 0, 0, 1),
+                0 2px 0 rgba(0, 0, 0, 1), 
+                0 -2px 0 rgba(0, 0, 0, 1),
+                3px 3px 0 rgba(0, 0, 0, 0.8);
+
+            animation: clean-vibe 0.15s infinite steps(2);
+            filter: drop-shadow(0 0 3px rgba(255, 55, 35, 0.4));
+        }
+
+        @keyframes clean-vibe {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-0.5px, 0.5px); }
+            50% { transform: translate(0.5px, -0.5px); }
+            75% { transform: translate(-0.5px, -0.5px); }
         }
 
         /* --- GENERALIZED SPARKLE BUTTON PHYSICS --- */
@@ -658,9 +706,14 @@
     <section class="hero-container">
         <div class="static-hero-bg" style="background-image: url('https://raw.githubusercontent.com/Sondim/Sondim.github.io/028ce08aa3995700c93a6780e2127e9ba25a0e97/staticimagehero.jpg');"></div>
 
-        <div class="absolute top-[45%] md:top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10 w-11/12 md:w-full flex flex-col items-center">
+        <div class="absolute top-[55%] md:top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-center z-10 w-11/12 md:w-full flex flex-col items-center">
             <h1 class="pixel-title">MAKE GREAT GAMES</h1>
-            <p class="text-black text-xl md:text-2xl font-extrabold m-0 tracking-wide mb-6">without burning out</p>
+            <p class="pixel-subtitle">
+                without 
+                <span class="status-value-wrap">
+                    <span class="mood-pissed-readable">burning out</span>
+                </span>
+            </p>
 
             <div class="canvas-panel-8bit w-full max-w-2xl p-6 md:p-8 text-left mb-10 animate-float flex flex-col md:flex-row gap-6 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
                 
