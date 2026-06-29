@@ -2400,6 +2400,9 @@
         let redoStack = [];
         let isDrawing = false;
 
+        // HARDWARE LOCK: Store the initial screen width to prevent URL-bar resize glitches
+        let cachedDeviceWidth = window.innerWidth;
+
         function syncCanvasResolution() {
             // Save existing drawing data if the screen rotates or resizes
             const savedImage = canvas.toDataURL(); 
@@ -2425,9 +2428,17 @@
             img.src = savedImage;
         }
 
-        // Apply immediately on load, and adjust if mobile device rotates
+        function handleHardwareResize() {
+            // Only trigger a canvas recalculation if the physical width changes (e.g. device rotation)
+            if (window.innerWidth !== cachedDeviceWidth) {
+                cachedDeviceWidth = window.innerWidth;
+                syncCanvasResolution();
+            }
+        }
+
+        // Apply immediately on load, and adjust ONLY if mobile device rotates horizontally
         syncCanvasResolution();
-        window.addEventListener('resize', syncCanvasResolution);
+        window.addEventListener('resize', handleHardwareResize);
 
 
         // TELEPORTED: Now targeting the new Quest Engine controls
