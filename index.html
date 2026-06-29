@@ -961,8 +961,8 @@
                     </div>
 
                     <!-- THE CRISP CANVAS -->
-                    <div class="relative z-10 w-full h-full min-h-[450px] md:col-start-2 md:row-start-1">
-                        <canvas id="questDrawingCanvas" width="600" height="450" class="w-full h-full touch-none block"></canvas>
+                    <div class="relative z-10 w-full flex justify-center items-center md:col-start-2 md:row-start-1">
+                        <canvas id="questDrawingCanvas" width="1080" height="1080" class="w-full max-w-[600px] aspect-square touch-none block bg-white border-4 border-black shadow-[6px_6px_0px_#000000] cursor-crosshair" style="image-rendering: pixelated;"></canvas>
                     </div>
 
                     <!-- BRUSH CONTROLS & SUBMIT -->
@@ -2400,45 +2400,21 @@
         let redoStack = [];
         let isDrawing = false;
 
-        // HARDWARE LOCK: Store the initial screen width to prevent URL-bar resize glitches
-        let cachedDeviceWidth = window.innerWidth;
 
-        function syncCanvasResolution() {
-            // Save existing drawing data if the screen rotates or resizes
-            const savedImage = canvas.toDataURL(); 
-            
-            // Update internal resolution to match actual display pixels
-            canvas.width = canvas.offsetWidth || 600;
-            canvas.height = canvas.offsetHeight || 450;
-            
-            // Re-initialize canvas background and styles
+        // HARDWARE ENGINE: Initialize 1080x1080 buffer once on boot.
+        // We rely on CSS for visual scaling, making the canvas immune to mobile address bar shifting.
+        function initCanvasBuffer() {
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
             
-            // Keep current brush size and color active
             const activeBrush = document.querySelector('.quest-brush-btn.is-active');
             ctx.lineWidth = activeBrush ? parseInt(activeBrush.getAttribute('data-size')) : 5;
             ctx.strokeStyle = currentTool === 'eraser' ? '#ffffff' : currentColor;
-            
-            // Redraw the saved image so the canvas doesn't clear out
-            const img = new Image();
-            img.onload = () => ctx.drawImage(img, 0, 0);
-            img.src = savedImage;
         }
 
-        function handleHardwareResize() {
-            // Only trigger a canvas recalculation if the physical width changes (e.g. device rotation)
-            if (window.innerWidth !== cachedDeviceWidth) {
-                cachedDeviceWidth = window.innerWidth;
-                syncCanvasResolution();
-            }
-        }
-
-        // Apply immediately on load, and adjust ONLY if mobile device rotates horizontally
-        syncCanvasResolution();
-        window.addEventListener('resize', handleHardwareResize);
+        initCanvasBuffer();
 
 
         // TELEPORTED: Now targeting the new Quest Engine controls
