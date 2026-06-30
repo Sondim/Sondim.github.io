@@ -831,11 +831,10 @@
         <div id="state-hub" class="text-center fade-in">
             <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 md:mb-16 leading-tight tracking-wide text-shadow-sm">Choose your path</h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto text-left">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto text-left">
                 <button onclick="selectHubQuest(this, 'state-topic')" data-desc="Choose between common topics. No drawings, tests or dice!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Pick a Topic</button>
                 <button onclick="selectHubQuest(this, 'state-draw-prompt')" data-desc="Sometimes a sketch helps more than a long explanation, a great way to get out of your head." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Paint Your Problem</button>
                 <button onclick="selectHubQuest(this, 'state-test')" data-desc="Do a test to help find out where you're stuck!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Do a Test</button>
-                <button onclick="selectHubQuest(this, 'random')" data-desc="It's ok to not feel sure, roll the dice and have the universe decide for you!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Roll the Dice</button>
             </div>
 
             <div id="hub-confirm-container" class="mt-10 flex flex-col items-center">
@@ -1881,12 +1880,7 @@
             updateGlobalProgress(33);
 
             // Transition instantly without artificial delays
-            let finalState = selectedHubTargetState;
-            if (finalState === 'random') {
-                const paths = ['state-topic', 'state-draw-prompt', 'state-test'];
-                finalState = paths[Math.floor(Math.random() * paths.length)];
-            }
-            goToQuestState(finalState);
+            goToQuestState(selectedHubTargetState);
             selectedHubTargetState = null;
         }
         
