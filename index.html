@@ -781,7 +781,7 @@
                 without burning out
             </p>
 
-            <div class="canvas-panel-8bit w-full max-w-2xl p-6 md:p-8 text-left mb-10 animate-float flex flex-col md:flex-row gap-6 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
+            <div id="hero-panel" class="canvas-panel-8bit w-full max-w-2xl p-6 md:p-8 text-left mb-10 animate-float flex flex-col md:flex-row gap-6 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
                 
                 <div class="flex flex-col items-center flex-shrink-0">
                     <a href="https://discord.com/users/198813370441269249" target="_blank" class="discord-avatar-container cursor-pointer block">
@@ -1622,6 +1622,14 @@
                     // Keep the frame class active, just disable the interaction
                     dialogueZone.style.cursor = 'default';
                     dialogueZone.onclick = null; 
+                    
+                    // Camera pan down to reveal the buttons
+                    setTimeout(() => {
+                        const heroPanel = document.getElementById('hero-panel');
+                        if (heroPanel) {
+                            heroPanel.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                        }
+                    }, 50);
                 }
             }
         }
