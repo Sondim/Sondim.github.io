@@ -1067,7 +1067,7 @@
             <h2 id="quest-question-counter" class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 leading-tight tracking-wide transition-opacity duration-300">Questline: Do a test</h2>
             
             <div id="quest-xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
-                <div id="quest-quiz-progress" class="h-full w-0 transition-[width] duration-150 ease-out relative" 
+                <div id="quest-quiz-progress" class="h-full w-0 transition-[width] duration-500 ease-out relative" 
                     style="background: linear-gradient(to bottom, 
                         #315c10 0%, #315c10 16.6%, 
                         #5ca826 16.6%, #5ca826 33.3%, 
@@ -2310,13 +2310,15 @@
                     qText.classList.remove('text-white', 'text-base', 'md:text-lg');
                     qText.classList.add('font-[\'Press_Start_2P\']', 'text-sm', 'md:text-lg', 'tracking-widest', 'leading-relaxed', 'text-transparent', 'bg-clip-text', 'bg-gradient-to-r', 'from-lime-400', 'to-green-500', 'animate-pulse', 'text-center');
 
-                    triggerFinaleEffects();
+                    // Delay finale explosion until the bar hits 100%
+                    setTimeout(() => { triggerFinaleEffects(); }, 500);
                     
                     setTimeout(() => { showA(); }, 3000);
 
                 } else {
-                    triggerEffects(qIdx, assessmentQuestions.length);
-                    setTimeout(() => { renderQ(); }, 100); 
+                    // Start the bar moving immediately, delay the particles until impact
+                    renderQ(); 
+                    setTimeout(() => { triggerEffects(qIdx, assessmentQuestions.length); }, 500); 
                 }
             });
         });
