@@ -794,13 +794,13 @@
                 </div>
 
                 <div class="flex-1 w-full text-center md:text-left flex flex-col h-full">
-                    <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-400">
-                        <span id="discord-username-display">Hey I'm Magnus Chirgwin</span>
+                    <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-300">
+                        <span id="discord-username-display">Welcome, I'm Magnus!</span>
                     </div>
 
                     <div id="dialogue-zone" class="dialogue-text-area min-h-[140px] md:min-h-[100px]" onclick="advanceDialogue()">
                         <p id="dialogue-text" class="font-mono text-sm md:text-base text-zinc-300 leading-relaxed text-left m-0">
-                            I've worked with studios worldwide and I see that we all start from a pure love and passion for games, but I also see so many getting trapped in stress and conflict.
+                            I've worked with studios from all over the world, and I've noticed something universal...
                         </p>
                         
                         <div id="dialogue-arrow" class="dialogue-arrow">▼</div>
@@ -1548,9 +1548,9 @@
                 // Update the greeting dynamically if available, otherwise default to full name
                 const nameDisplay = document.getElementById('discord-username-display');
                 if(user.global_name) {
-                    nameDisplay.innerText = `Hey I'm ${user.global_name}`;
+                    nameDisplay.innerText = `Welcome! I'm ${user.global_name}`;
                 } else {
-                    nameDisplay.innerText = `Hey I'm Magnus Chirgwin`;
+                    nameDisplay.innerText = `Welcome! I'm Magnus Chirgwin`;
                 }
 
                 const badge = document.getElementById('discord-badge-element');
@@ -1584,10 +1584,13 @@
 
         // --- HERO RPG DIALOGUE MACHINE ---
         const dialoguePages = [
-            "I've worked with studios worldwide and I see that we all start from a pure love and passion for games, but I also see so many getting trapped in stress and conflict.",
-            "You end up losing that joy and then you either start grinding, procrastinating or the game dies.",
-            "My passion is coaching you (or your team) to understand yourself better so you can thrive!",
-            "...so I made this \"quest\" based on all my work to help you get started! Press the button below to start."
+            "I've coached game studios all over the world, and I've noticed something universal...",
+            "Everyone starts making a game from a place of pure magic and excitement! I think for a alot of us it started when we played games as kids but...",
+            "making games isn't easy and I see so many brilliant devs get trapped in chronic stress, anxiety, self-critizism or team conflicts...",
+            "and they lose that joy and excitement they had from the start and end up grinding, losing motivation or burning out and then the game just dies...",
+            "and that breaks my heart but I've also seen how that can <em>change</em>. When you understand yourself and what's really blocking you...",
+            "you can create a process of making a game that you <em>want to spend more time in</em>, that then leads to a better game...",
+            "So I made this \"quest\" based on all my work to help you get started or if you want you can also read more about me first!"
         ];
         
         let currentPage = 0;
@@ -1601,7 +1604,7 @@
 
             if (currentPage < dialoguePages.length - 1) {
                 currentPage++;
-                dialogueTextEl.innerText = dialoguePages[currentPage];
+                dialogueTextEl.innerHTML = dialoguePages[currentPage];
                 
                 if (currentPage === dialoguePages.length - 1) {
                     // Final Page Actions
