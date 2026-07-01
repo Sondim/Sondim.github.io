@@ -1331,7 +1331,7 @@
                         <span class="font-['Press_Start_2P'] text-[10px] text-zinc-500 uppercase tracking-widest group-hover:text-white transition-colors duration-75 leading-relaxed contact-text-spring">Email Me</span>
                     </button>
 
-                    <a href="https://discord.com/users/198813370441269249" target="_blank" class="group flex flex-col items-center no-underline relative">
+                    <a href="https://discord.com/users/198813370441269249" target="_blank" onclick="closeModals()" class="group flex flex-col items-center no-underline relative">
                         <div class="flex items-center justify-center w-28 h-28 mb-4 bg-zinc-800 border-4 border-black shadow-[6px_6px_0px_black] group-hover:bg-[#5865F2] group-active:translate-x-[4px] group-active:translate-y-[4px] group-active:shadow-[2px_2px_0px_black] transition-all duration-75">
                             <svg class="w-14 h-14 text-white transition-colors duration-75 render-pixel contact-icon-jump" viewBox="0 0 24 24" fill="currentColor">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4h4v2h4V4h4v4h2v8h-2v2h-4v-2h-4v2H6v-2H4V8h2V4zm3 6H7v2h2v-2zm6 0h-2v2h2v-2z" />
@@ -2650,20 +2650,17 @@
                     });
                     clearInterval(dotInterval);
                     
-                    // ON SUCCESS: Route to the QUEST COMPLETE screen!
-                    triggerQuestComplete('Artifact Shared', `
-                        <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 text-center w-full">// Diagnostic Sketch Sent</h3>
-                        <p class="mb-8 text-center md:text-left">Your illustration has been transmitted. I will review it and get back to you with insights shortly.</p>
-                    `);
-
-                    // Reset button state silently in the background so it's clean if they do another quest
-                    setTimeout(() => {
-                        questSendBtn.disabled = false;
-                        questSendBtn.classList.remove('is-transmitting');
-                        questSendBtn.querySelector('.btn-text-front').innerText = 'SEND TO MAGNUS';
-                        questSendBtn.querySelector('.btn-text-back').innerText = 'SEND TO MAGNUS';
-                        questNameInput.value = ''; questEmailInput.value = ''; questMessageInput.value = '';
-                    }, 1000);
+                    // ON SUCCESS: Transform the form into a success message, protecting the drawing above
+                    const formContainer = document.getElementById('quest-send-form');
+                    formContainer.innerHTML = `
+                        <button onclick="hideQuestSendForm()" class="absolute -top-3 -right-3 bg-zinc-900 border-4 border-black p-2 text-zinc-500 hover:text-white hover:bg-zinc-800 transition-all shadow-[4px_4px_0px_black] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_black] z-20" title="Close">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                        <div class="flex flex-col items-center justify-center py-10 fade-in">
+                            <h3 class="text-2xl md:text-3xl font-black text-[#a4ff45] mb-4 tracking-tight font-['Press_Start_2P'] uppercase text-center w-full">Message Sent</h3>
+                            <p class="text-zinc-300 font-mono text-sm md:text-base text-center">I'll get back to you as soon as possible.</p>
+                        </div>
+                    `;
 
                 } catch (err) {
                     clearInterval(dotInterval); questSendBtn.disabled = false;
@@ -2963,11 +2960,9 @@
                     const dynamicH3 = document.querySelector('#quest-dynamic-content h3');
                     
                     if (dynamicH3 && dynamicH3.innerText.trim() !== '') {
-                        // Cleans up the "//" formatting from the H3
                         questContext = dynamicH3.innerText.replace(/\/\//g, '').trim();
                     }
 
-                    // Prepend context to their message so you see it in the email body
                     const enrichedMessage = `[QUEST RESULT: ${questContext}]\n\n${messageVal}`;
 
                     await fetch(WEBHOOK_URL, {
@@ -2977,29 +2972,23 @@
                             name: nameVal, 
                             email: emailVal, 
                             message: enrichedMessage,
-                            subject: `Quest Result: ${questContext}` // Passes dynamic subject to backend
+                            subject: `Quest Result: ${questContext}` 
                         }),
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                     });
                     clearInterval(dotInterval);
                     
-                    // Maintain the current PDF link so the user doesn't lose it!
-                    const currentPdfUrl = document.getElementById('general-download-btn')?.href || '#';
-
-                    // ON SUCCESS: Overwrite the Complete screen text dynamically
-                    triggerQuestComplete('Reflection Shared', `
-                        <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 text-center w-full">// Diagnostics Transmitted</h3>
-                        <p class="mb-8 text-center md:text-left">Your thoughts have been successfully sent. I'll read through this and get back to you with some insights soon.</p>
-                    `, currentPdfUrl);
-
-                    // Reset button silently in background for the next session
-                    setTimeout(() => {
-                        generalSendBtn.disabled = false;
-                        generalSendBtn.classList.remove('is-transmitting');
-                        generalSendBtn.querySelector('.btn-text-front').innerText = 'Send to Magnus';
-                        generalSendBtn.querySelector('.btn-text-back').innerText = 'Send to Magnus';
-                        generalNameInput.value = ''; generalEmailInput.value = ''; generalMessageInput.value = '';
-                    }, 1000);
+                    // ON SUCCESS: Transform the form into a success message, protecting the results above
+                    const formContainer = document.getElementById('general-send-form');
+                    formContainer.innerHTML = `
+                        <button onclick="hideGeneralSendForm()" class="absolute -top-3 -right-3 bg-zinc-900 border-4 border-black p-2 text-zinc-500 hover:text-white hover:bg-zinc-800 transition-all shadow-[4px_4px_0px_black] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_black] z-20" title="Close">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                        <div class="flex flex-col items-center justify-center py-10 fade-in">
+                            <h3 class="text-2xl md:text-3xl font-black text-[#a4ff45] mb-4 tracking-tight font-['Press_Start_2P'] uppercase text-center w-full">Message Sent</h3>
+                            <p class="text-zinc-300 font-mono text-sm md:text-base text-center">I'll get back to you as soon as possible.</p>
+                        </div>
+                    `;
 
                 } catch (err) {
                     clearInterval(dotInterval); generalSendBtn.disabled = false;
