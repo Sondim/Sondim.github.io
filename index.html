@@ -2958,23 +2958,27 @@
                 updateText(); const dotInterval = setInterval(updateText, 400);
 
                 try {
-                    // Extract quest metadata from the UI dynamically
+                    // Extract quest metadata directly from the active Quest Engine UI
                     let questContext = "General Quest";
-                    const resultTitleEl = document.getElementById('result-title');
-                    const topicTitleEl = document.querySelector('#topic-dynamic-content h3');
+                    const dynamicH3 = document.querySelector('#quest-dynamic-content h3');
                     
-                    if (resultTitleEl && resultTitleEl.innerText.trim() !== '') {
-                        questContext = resultTitleEl.innerText.trim();
-                    } else if (topicTitleEl && topicTitleEl.innerText.trim() !== '') {
+                    if (dynamicH3 && dynamicH3.innerText.trim() !== '') {
                         // Cleans up the "//" formatting from the H3
-                        questContext = topicTitleEl.innerText.replace(/\/\//g, '').trim();
+                        questContext = dynamicH3.innerText.replace(/\/\//g, '').trim();
                     }
 
                     // Prepend context to their message so you see it in the email body
                     const enrichedMessage = `[QUEST RESULT: ${questContext}]\n\n${messageVal}`;
 
                     await fetch(WEBHOOK_URL, {
-                        method: 'POST', body: JSON.stringify({ type: 'contact', name: nameVal, email: emailVal, message: enrichedMessage }),
+                        method: 'POST', 
+                        body: JSON.stringify({ 
+                            type: 'contact', 
+                            name: nameVal, 
+                            email: emailVal, 
+                            message: enrichedMessage,
+                            subject: `Quest Result: ${questContext}` // Passes dynamic subject to backend
+                        }),
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                     });
                     clearInterval(dotInterval);
