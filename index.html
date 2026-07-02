@@ -1486,8 +1486,52 @@
         </div>
     </div>
 
+    <section id="testimonials" class="max-w-6xl mx-auto px-6 py-12 md:py-24 border-t border-white/5 text-center">
+        <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 md:mb-12 leading-tight tracking-wide">What my clients say</h2>
+
+        <div class="flex items-center justify-center gap-2 md:gap-6 w-full relative">
+            <button id="testi-prev" class="spring-arrow-btn canvas-tool-btn p-3 md:p-4 z-10 flex-shrink-0">
+                <svg class="w-6 h-6 md:w-8 md:h-8 overflow-visible" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <path class="arrow-shaft" d="M 19 12 H 5" />
+                    <path class="arrow-tip" d="M 12 5 L 5 12 L 12 19" />
+                </svg>
+            </button>
+
+            <div class="overflow-hidden w-full max-w-4xl relative">
+                <div id="testi-track" class="flex transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
+                    
+                    <div class="w-full flex-shrink-0 px-2 md:px-4">
+                        <div class="canvas-panel-8bit p-6 md:p-10 h-full flex items-center justify-center text-center italic text-zinc-300 min-h-[140px]">
+                            <p class="text-base md:text-lg leading-relaxed font-serif">"Magnus helped me see the blockers that were entirely in my own head. My studio is completely different now."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full flex-shrink-0 px-2 md:px-4">
+                        <div class="canvas-panel-8bit p-6 md:p-10 h-full flex items-center justify-center text-center italic text-zinc-300 min-h-[140px]">
+                            <p class="text-base md:text-lg leading-relaxed font-serif">"I was ready to quit gamedev entirely. Doing this work saved my game and my sanity."</p>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full flex-shrink-0 px-2 md:px-4">
+                        <div class="canvas-panel-8bit p-6 md:p-10 h-full flex items-center justify-center text-center italic text-zinc-300 min-h-[140px]">
+                            <p class="text-base md:text-lg leading-relaxed font-serif">"A completely different approach to coaching. We didn't talk pipelines; we talked about why I was hiding from my team."</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <button id="testi-next" class="spring-arrow-btn canvas-tool-btn p-3 md:p-4 z-10 flex-shrink-0">
+                <svg class="w-6 h-6 md:w-8 md:h-8 overflow-visible" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <path class="arrow-shaft" d="M 5 12 H 19" />
+                    <path class="arrow-tip" d="M 12 5 L 19 12 L 12 19" />
+                </svg>
+            </button>
+        </div>
+    </section>
+
     <section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
-        <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-4 leading-tight tracking-wide">Drawings</h2>
+        <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-4 leading-tight tracking-wide">Drawings</h2>
         <p class="text-lg text-zinc-400 mb-12">by other devs</p>
 
         <div class="flex items-center justify-center gap-2 md:gap-6 w-full relative">
@@ -1515,7 +1559,7 @@
 
         <div class="text-center mb-16">
 
-            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-white mb-4 leading-tight tracking-wide">Contact</h2>
+            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-4 leading-tight tracking-wide">Contact</h2>
 
             <p class="text-lg text-zinc-400">Reach out directly or join the studio server.</p>
 
@@ -1563,6 +1607,7 @@
 
 
     <section id="book" class="max-w-4xl mx-auto px-6 py-24 text-center border-t border-white/5">
+        <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 md:mb-12 leading-tight tracking-wide">Book a session</h2>
 
         <div class="bg-white rounded-3xl overflow-hidden min-h-[700px] border-4 border-white">
 
@@ -3457,7 +3502,108 @@
             });
         });
 
+// --- TESTIMONIAL CAROUSEL ENGINE (DOM-SWAP) ---
+        const testiTrack = document.getElementById('testi-track');
+        const testiPrevBtn = document.getElementById('testi-prev');
+        const testiNextBtn = document.getElementById('testi-next');
+        
+        let testiAutoTimer = null;
+        let isTestiAnimating = false;
+
+        function startTestiTimer() {
+            clearInterval(testiAutoTimer);
+            testiAutoTimer = setInterval(() => {
+                if (!isTestiAnimating) moveTestiRight();
+            }, 7000);
+        }
+
+        function resetTestiTimer() {
+            startTestiTimer();
+        }
+
+        function moveTestiRight() {
+            if (!testiTrack || isTestiAnimating) return;
+            isTestiAnimating = true;
+            
+            // Calculate exact physical width of the first cartridge
+            const itemWidth = testiTrack.firstElementChild.offsetWidth;
+            
+            // Apply velocity and transition
+            testiTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
+            testiTrack.style.transform = `translateX(-${itemWidth}px)`;
+            
+            // Once the visual slide finishes, instantly swap the DOM node to the back
+            testiTrack.addEventListener('transitionend', function handleNext() {
+                testiTrack.removeEventListener('transitionend', handleNext);
+                testiTrack.style.transition = 'none';
+                testiTrack.appendChild(testiTrack.firstElementChild); 
+                testiTrack.style.transform = 'translateX(0)';
+                void testiTrack.offsetWidth; // Force a hardware reflow
+                isTestiAnimating = false;
+            });
+        }
+
+        function moveTestiLeft() {
+            if (!testiTrack || isTestiAnimating) return;
+            isTestiAnimating = true;
+            
+            const itemWidth = testiTrack.lastElementChild.offsetWidth;
+            
+            // Instantly yank the last node to the front, hidden out of frame to the left
+            testiTrack.style.transition = 'none';
+            testiTrack.prepend(testiTrack.lastElementChild);
+            testiTrack.style.transform = `translateX(-${itemWidth}px)`;
+            void testiTrack.offsetWidth; // Force a hardware reflow
+            
+            // Apply velocity to slide it into view
+            testiTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
+            testiTrack.style.transform = 'translateX(0)';
+            
+            testiTrack.addEventListener('transitionend', function handlePrev() {
+                testiTrack.removeEventListener('transitionend', handlePrev);
+                isTestiAnimating = false;
+            });
+        }
+
+        // Hardware Button Bindings
+        if (testiNextBtn) {
+            testiNextBtn.addEventListener('click', () => {
+                resetTestiTimer();
+                moveTestiRight();
+            });
+        }
+
+        if (testiPrevBtn) {
+            testiPrevBtn.addEventListener('click', () => {
+                resetTestiTimer();
+                moveTestiLeft();
+            });
+        }
+
+        // Mobile Swipe Physics Bindings
+        let testiTouchStartX = 0;
+        if (testiTrack) {
+            testiTrack.addEventListener('touchstart', (e) => {
+                testiTouchStartX = e.changedTouches[0].screenX;
+                resetTestiTimer();
+            }, { passive: true });
+            
+            testiTrack.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].screenX;
+                const swipeDist = touchEndX - testiTouchStartX;
+                if (swipeDist < -50) moveTestiRight();
+                if (swipeDist > 50) moveTestiLeft();
+                resetTestiTimer();
+            }, { passive: true });
+        }
+
+        // Boot the auto-scroll engine on load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (testiTrack) startTestiTimer();
+        });
+
     </script>
+
 
 </body>
 
