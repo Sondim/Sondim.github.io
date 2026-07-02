@@ -1417,9 +1417,23 @@
                             <img src="IMG_4416.jpg" alt="Magnus" class="w-full h-full object-cover">
                         </div>
                     </div>
-                    <div class="flex-1 text-center md:text-left z-10">
-                        <h2 class="text-yellow-400 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest mb-6">// Meet_Magnus</h2>
-                        <p class="canvas-panel-8bit p-6 md:p-8 text-zinc-300 text-base md:text-lg leading-relaxed italic text-left w-full block">"I realized that deep self-discovery isn't just for a meditation cushion—it's in the work of raising money, managing a team, and launching a game."</p>
+                    <div class="flex-1 text-center md:text-left z-10 w-full flex flex-col">
+                        <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-300">
+                            <span>// Meet_Magnus</span>
+                        </div>
+
+                        <div id="about-dialogue-zone" class="dialogue-text-area h-[160px] md:h-[140px] mb-6 overflow-hidden" onclick="advanceAboutDialogue()">
+                            <p id="about-dialogue-text" class="font-mono text-sm md:text-base text-zinc-300 leading-relaxed text-left m-0">
+                                </p>
+                            <div id="about-dialogue-arrow" class="dialogue-arrow">▼</div>
+                        </div>
+
+                        <div id="about-choices-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full opacity-0 pointer-events-none transition-opacity duration-300">
+                            <button onclick="selectAboutOption('a', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">A. Coaching Style</button>
+                            <button onclick="selectAboutOption('b', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">B. My Experience</button>
+                            <button onclick="selectAboutOption('c', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">C. Core Philosophy</button>
+                            <button onclick="selectAboutOption('d', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">D. Random Fact</button>
+                        </div>
                     </div>
                 </div>
                 
@@ -2149,8 +2163,116 @@
             renderQ();
         }
 
+        // --- ABOUT ME RPG DIALOGUE LOGIC ---
+        const aboutDialogueData = {
+            intro: [
+                "Hey, I'm Magnus!",
+                "I realized that deep self-discovery isn't just for a meditation cushion—it's in the work of raising money, managing a team, and launching a game.",
+                "What would you like to know?"
+            ],
+            a: [
+                "I help indie devs and studio founders get unstuck by looking at the emotional blockages beneath the surface.",
+                "We don't just talk about pipelines; we talk about why you're avoiding that specific pipeline.",
+                "It's highly effective when you're ready to do the work. What else?"
+            ],
+            b: [
+                "I've been around the block, working with studios globally.",
+                "I've seen the exact same patterns of burnout and imposter syndrome everywhere.",
+                "That universal experience is what drove me to start coaching. What else?"
+            ],
+            c: [
+                "My philosophy is simple: Making games shouldn't destroy the people making them.",
+                "You can create a sustainable process that actually gives you energy.",
+                "When you aren't fighting yourself, the game gets remarkably better. What else?"
+            ],
+            d: [
+                "Outside of all this? I'm heavily invested in understanding how the mind works.",
+                "And I firmly believe that making a game is one of the most intense personal growth accelerators out there.",
+                "Also, I drink entirely too much coffee. What else?"
+            ]
+        };
+
+        let currentAboutTopic = 'intro';
+        let currentAboutPage = 0;
+
+       function renderAboutDialogue() {
+            const textEl = document.getElementById('about-dialogue-text');
+            const arrowEl = document.getElementById('about-dialogue-arrow');
+            const choicesEl = document.getElementById('about-choices-container');
+            const dialogueZone = document.getElementById('about-dialogue-zone');
+            
+            const pages = aboutDialogueData[currentAboutTopic];
+            textEl.innerHTML = pages[currentAboutPage];
+            
+            // Re-trigger the fade-in animation on the text
+            textEl.classList.remove('fade-in');
+            void textEl.offsetWidth; 
+            textEl.classList.add('fade-in');
+            
+            if (currentAboutPage === pages.length - 1) {
+                // End of current dialogue array: Hide arrow, lock text clicks, show choices
+                arrowEl.style.display = "none";
+                dialogueZone.style.cursor = "default";
+                
+                // Fade in buttons and let default pointer-events restore interactivity
+                choicesEl.classList.remove('opacity-0', 'pointer-events-none');
+                choicesEl.classList.add('opacity-100');
+            } else {
+                // Keep clicking: Show arrow, enable pointer, hide choices
+                arrowEl.style.display = "block";
+                dialogueZone.style.cursor = "pointer";
+                
+                // Fade out buttons and force disable interaction
+                choicesEl.classList.remove('opacity-100');
+                choicesEl.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function advanceAboutDialogue() {
+            const pages = aboutDialogueData[currentAboutTopic];
+            if (currentAboutPage < pages.length - 1) {
+                currentAboutPage++;
+                renderAboutDialogue();
+            }
+        }
+
+        function selectAboutOption(optionId, btnElement) {
+            // Visually mark the button as visited instantly
+            btnElement.classList.add('opacity-40', 'grayscale');
+
+            // 150ms physical delay: Let the CSS squash animation play out before transitioning the UI
+            setTimeout(() => {
+                currentAboutTopic = optionId;
+                currentAboutPage = 0;
+                renderAboutDialogue();
+            }, 150);
+        }
+
+        function selectAboutOption(optionId, btnElement) {
+            currentAboutTopic = optionId;
+            currentAboutPage = 0;
+            
+            // Visually mark the button as visited to give the user a sense of completion
+            btnElement.classList.add('opacity-40', 'grayscale');
+
+            renderAboutDialogue();
+        }
+
+
         function openAboutModal() {
             document.body.style.overflow = 'hidden';
+            
+            // Hard reset the state machine every time the modal opens
+            currentAboutTopic = 'intro';
+            currentAboutPage = 0;
+            
+            // Reset visual states of all choice buttons
+            document.querySelectorAll('.about-choice-btn').forEach(btn => {
+                btn.classList.remove('opacity-40', 'grayscale');
+            });
+
+            // Initialize the UI instantly
+            renderAboutDialogue();
             document.getElementById('about-modal').classList.remove('hidden');
         }
 
