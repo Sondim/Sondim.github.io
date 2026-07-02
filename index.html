@@ -240,6 +240,22 @@
             will-change: transform;
         }
 
+        @keyframes head-drift {
+            /* Starts fast at 0deg, brakes to a halt at 5deg */
+            0% { transform: rotate(0deg); animation-timing-function: ease-out; }
+            /* Accelerates through the center, brakes to a halt at -5deg */
+            25% { transform: rotate(5deg); animation-timing-function: ease-in-out; }
+            /* Accelerates back to max velocity precisely as it hits 0deg to loop smoothly */
+            75% { transform: rotate(-5deg); animation-timing-function: ease-in; }
+            100% { transform: rotate(0deg); }
+        }
+        .animate-head-drift { 
+            /* Removed the global ease so the custom keyframe velocity curves take over */
+            animation: head-drift 4s infinite; 
+            will-change: transform;
+            transform-origin: center center; /* Rotates exactly on the center axis */
+        }
+
 
         /* Modal Animations */
 
@@ -781,20 +797,21 @@
                 without burning out
             </p>
 
-            <div id="hero-panel" class="canvas-panel-8bit w-full max-w-2xl p-6 md:p-8 text-left mb-10 animate-float flex flex-col md:flex-row gap-6 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
-                
+            <<div id="hero-panel" class="canvas-panel-8bit w-full max-w-2xl p-6 md:p-8 text-left mb-10 flex flex-col md:flex-row gap-6 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
                 <div class="flex flex-col items-center flex-shrink-0">
-                    <a href="https://discord.com/users/198813370441269249" target="_blank" class="discord-avatar-container cursor-pointer block">
-                        <div class="discord-avatar-mask">
-                            <img id="discord-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%2318181b'></svg>" 
-                                 alt="Magnus" class="w-full h-full object-cover transition-opacity duration-300 opacity-0">
-                        </div>
-                        <div id="discord-badge-element" class="discord-badge offline"></div>
-                        
-                        <div class="discord-tooltip">
-                            <span id="discord-tooltip-text">Connecting...</span>
-                        </div>
-                    </a>
+                    <div id="hero-avatar-wrapper" class="animate-head-drift">
+                        <a href="https://discord.com/users/198813370441269249" target="_blank" class="discord-avatar-container cursor-pointer block">
+                            <div class="discord-avatar-mask">
+                                <img id="discord-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%2318181b'></svg>" 
+                                     alt="Magnus" class="w-full h-full object-cover transition-opacity duration-300 opacity-0">
+                            </div>
+                            <div id="discord-badge-element" class="discord-badge offline"></div>
+                            
+                            <div class="discord-tooltip">
+                                <span id="discord-tooltip-text">Connecting...</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="flex-1 w-full text-center md:text-left flex flex-col h-full">
@@ -1696,6 +1713,14 @@
             const dialogueZone = document.getElementById('dialogue-zone');
             
             const unlockedBtns = document.getElementById('hero-unlocked-btns');
+
+            // --- PHYSICS SNAP: Instantly reset head drift ---
+            const avatarWrapper = document.getElementById('hero-avatar-wrapper');
+            if (avatarWrapper) {
+                avatarWrapper.classList.remove('animate-head-drift');
+                void avatarWrapper.offsetWidth; // Force a hardware reflow to kill the momentum
+                avatarWrapper.classList.add('animate-head-drift');
+            }
 
             if (currentPage < dialoguePages.length - 1) {
                 currentPage++;
