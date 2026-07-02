@@ -1419,7 +1419,7 @@
                     </div>
                     <div class="flex-1 text-center md:text-left z-10 w-full flex flex-col">
                         <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-300">
-                            <span>// Meet_Magnus</span>
+                            <span>About me</span>
                         </div>
 
                         <div id="about-dialogue-zone" class="dialogue-text-area h-[160px] md:h-[140px] mb-6 overflow-hidden" onclick="advanceAboutDialogue()">
@@ -1429,10 +1429,10 @@
                         </div>
 
                         <div id="about-choices-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full opacity-0 pointer-events-none transition-opacity duration-300">
-                            <button onclick="selectAboutOption('a', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">A. Coaching Style</button>
-                            <button onclick="selectAboutOption('b', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">B. My Experience</button>
-                            <button onclick="selectAboutOption('c', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">C. Core Philosophy</button>
-                            <button onclick="selectAboutOption('d', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">D. Random Fact</button>
+                            <button onclick="selectAboutOption('a', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">Work experience</button>
+                            <button onclick="selectAboutOption('b', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">Personal background</button>
+                            <button onclick="selectAboutOption('c', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">How I coach</button>
+                            <button onclick="selectAboutOption('d', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">Random facts</button>
                         </div>
                     </div>
                 </div>
@@ -2166,9 +2166,7 @@
         // --- ABOUT ME RPG DIALOGUE LOGIC ---
         const aboutDialogueData = {
             intro: [
-                "Hey, I'm Magnus!",
-                "I realized that deep self-discovery isn't just for a meditation cushion—it's in the work of raising money, managing a team, and launching a game.",
-                "What would you like to know?"
+                "Hey, I'm Magnus! I coach solodevs and teams. <br><br>What would you like to know more about?",
             ],
             a: [
                 "I help indie devs and studio founders get unstuck by looking at the emotional blockages beneath the surface.",
