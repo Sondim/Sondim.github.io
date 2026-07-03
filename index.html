@@ -742,21 +742,39 @@
             </button>
 
             <div class="hidden md:flex gap-12 lg:gap-16 items-center">
-                <button onclick="openAboutModal()" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-500 hover:text-yellow-400 transition-colors cursor-pointer">About Me</button>
-                <button onclick="bootQuestEngine()" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-500 hover:text-yellow-400 transition-colors cursor-pointer">Start Quest</button>
-                <a href="#contact" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-500 hover:text-yellow-400 transition-colors">Contact</a>
-                <a href="#book" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors">Book a session</a>
+                <button onclick="openAboutModal()" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-300 hover:text-yellow-400 transition-colors cursor-pointer">About Me</button>
+                
+                <div class="relative group py-4 -my-4">
+                    <button onclick="bootQuestEngine()" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-300 hover:text-yellow-400 transition-colors cursor-pointer flex items-center gap-2">
+                        Resources <span class="text-[8px] transform group-hover:rotate-180 transition-transform">▼</span>
+                    </button>
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-64 bg-zinc-900 border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-150 flex flex-col z-50">
+                        <button onclick="fastTravelQuest('state-topic')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Free guides</button>
+                        <button onclick="fastTravelQuest('state-draw-prompt')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Paint Your Problem</button>
+                        <button onclick="fastTravelQuest('state-test')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors">Do a quick diagnostic</button>
+                    </div>
+                </div>
+
+                <a href="#contact" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-300 hover:text-yellow-400 transition-colors">Contact</a>
+                <a href="#book" class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-300 hover:text-yellow-400 transition-colors">Book a session</a>
             </div>
             
-            <div id="mobile-menu" class="absolute top-full left-0 w-full bg-zinc-900 border-b border-white/5 hidden flex-col items-center py-8 gap-8 shadow-2xl transition-all md:hidden z-50">
+            <div id="mobile-menu" class="absolute top-full left-0 w-full bg-zinc-900 border-b border-white/5 hidden flex-col items-center py-8 gap-6 shadow-2xl transition-all md:hidden z-50">
                 <button onclick="openAboutModal()" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">[ About Me ]</button>
-                <button onclick="bootQuestEngine()" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">[ Start Quest ]</button>
+                
+                <div class="flex flex-col items-center gap-5 w-full my-2">
+                    <span class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400">--- Resources ---</span>
+                    <button onclick="fastTravelQuest('state-topic');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Free guides</button>
+                    <button onclick="fastTravelQuest('state-draw-prompt');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Paint Your Problem</button>
+                    <button onclick="fastTravelQuest('state-test');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Do quick diagnostic</button>
+                </div>
+                
                 <a href="#contact" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors">[ Contact ]</a>
-                <a href="#book" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-yellow-400 hover:text-yellow-300 transition-colors">[ Book a session ]</a>
+                <a href="#book" class="mobile-link text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-yellow-400 hover:text-yellow-400 transition-colors">[ Book a session ]</a>
             </div>
         </div>
         
-        <div id="global-quest-progress-wrapper" class="relative w-full bg-zinc-950 border-t border-white/5 overflow-hidden transition-all duration-500 max-h-0 opacity-0 pointer-events-none">
+        <!---<div id="global-quest-progress-wrapper" class="relative w-full bg-zinc-950 border-t border-white/5 overflow-hidden transition-all duration-500 max-h-0 opacity-0 pointer-events-none">
             
             <div id="hud-boot-flash" class="absolute inset-0 bg-white opacity-0 pointer-events-none z-50"></div>
             
@@ -780,7 +798,7 @@
                     <div id="global-master-emitter-container" class="absolute left-0 top-1/2 h-0 w-0 pointer-events-none z-40"></div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </nav>
 
 
@@ -833,7 +851,7 @@
                         </button>
                         
                         <button onclick="bootQuestEngine()" class="btn-8bit w-full sm:w-1/2 text-[10px] tracking-widest">
-                            START QUEST
+                            RESOURCES
                         </button>
                     </div>
 
@@ -842,14 +860,64 @@
         </div>
     </section>
 
-<section id="quest-engine-prototype" class="max-w-4xl mx-auto px-6 py-12 md:py-24 border-t border-white/5 border-dashed bg-zinc-900/30 relative min-h-[850px]">
+    <section id="testimonials-ticker" class="w-full bg-zinc-950 py-2 md:py-4 border-b border-white/5 relative z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+        <div class="overflow-hidden w-full max-w-7xl mx-auto relative px-6">
+            <div id="testi-track" class="flex transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
+                
+                <div class="w-full flex-shrink-0 px-4">
+                    <div class="flex items-center justify-center text-center text-zinc-400 min-h-[80px]">
+                        <p class="text-base md:text-lg leading-relaxed font-mono">"I felt completely safe with Magnus's as a coach, which allowed me to be truly open. I never once felt judged."</p>
+                    </div>
+                </div>
+                
+                <div class="w-full flex-shrink-0 px-4">
+                    <div class="flex items-center justify-center text-center text-zinc-400 min-h-[80px]">
+                        <p class="text-base md:text-lg leading-relaxed font-mono">"With Magnus's help, those overwhelming tasks suddenly felt easy to do!"</p>
+                    </div>
+                </div>
+                
+                <div class="w-full flex-shrink-0 px-4">
+                    <div class="flex items-center justify-center text-center text-zinc-400 min-h-[80px]">
+                        <p class="text-base md:text-lg leading-relaxed font-mono">"Magnus is extremely professional!"</p>
+                    </div>
+                </div>
+
+                <div class="w-full flex-shrink-0 px-4">
+                    <div class="flex items-center justify-center text-center text-zinc-400 min-h-[80px]">
+                        <p class="text-base md:text-lg leading-relaxed font-mono">"Magnus pushed for the really constructive way forward in some our toughest meetings."</p>
+                    </div>
+                </div>
+
+                <div class="w-full flex-shrink-0 px-4">
+                    <div class="flex items-center justify-center text-center text-zinc-400 min-h-[80px]">
+                        <p class="text-base md:text-lg leading-relaxed font-mono">"Magnus is one of the rare professionals who not only has a lot of talent, but has a plethora of strong soft skills."</p>
+                    </div>
+                </div>
+
+                <div class="w-full flex-shrink-0 px-4">
+                    <div class="flex items-center justify-center text-center text-zinc-400 min-h-[80px]">
+                        <p class="text-base md:text-lg leading-relaxed font-mono">"We can rely on Magnus to ask the right questions, then get the work done to a very high standard."</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+<div id="quest-modal" class="fixed inset-0 z-[60] hidden bg-black/90 overflow-y-auto">
+        <div class="min-h-screen flex items-center justify-center px-4 py-12 w-full">
+            <div id="quest-engine-prototype" class="w-full max-w-4xl mx-auto relative bg-zinc-900 border border-white/10 px-6 py-12 md:py-24 shadow-2xl transform-gpu min-h-[850px]">
+                
+                <button onclick="closeModals()" class="absolute top-4 right-4 md:top-6 md:right-6 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
         
 
         <div id="state-hub" class="text-center fade-in">
-            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 md:mb-16 leading-tight tracking-wide text-shadow-sm">Choose your path</h2>
+            <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 md:mb-16 leading-tight tracking-wide text-shadow-sm">Resources</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto text-left">
-                <button onclick="selectHubQuest(this, 'state-topic')" data-desc="Choose between common topics. No drawings, tests or dice!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Pick a Topic</button>
+                <button onclick="selectHubQuest(this, 'state-topic')" data-desc="Choose between common topics. No drawings, tests or dice!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Free guides</button>
                 <button onclick="selectHubQuest(this, 'state-draw-prompt')" data-desc="Sometimes a sketch helps more than a long explanation, a great way to get out of your head." class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Paint Your Problem</button>
                 <button onclick="selectHubQuest(this, 'state-test')" data-desc="Do a test to help find out where you're stuck!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Do a Test</button>
             </div>
@@ -861,15 +929,15 @@
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Lock In Selection</span>
-                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Lock In Selection</span>
+                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Select</span>
+                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Select</span>
                 </button>
             </div>
         </div>
 
         <!-- LEVEL 2: QUEST MECHANICS (Isolated placeholders for testing flow) -->
         <div id="state-topic" class="hidden text-center fade-in w-full max-w-3xl mx-auto">
-            <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">Questline: Pick a topic</h2>
+            <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">Free guides</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left" id="topic-selection-grid">
                 <button onclick="selectQuestTopic(this, 'critical')" data-desc="Quiet the internal critic and build sustainable motivation." class="quest-topic-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose">Critical Self Talk</button>
@@ -883,8 +951,8 @@
                 <button id="topic-confirm-btn" disabled onclick="confirmQuestTopic()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full max-w-md disabled:opacity-50 disabled:grayscale transition-all duration-300">
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Confirm Selection</span>
-                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Confirm Selection</span>
+                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Select</span>
+                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Select</span>
                 </button>
             </div>
 
@@ -1023,7 +1091,7 @@
                 </div>
             </div> <div id="quest-drawing-complete-state" class="hidden flex-col items-center justify-center w-full max-w-3xl mx-auto fade-in text-center mt-4 md:mt-8">
                 
-                <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 md:mb-8 font-['Press_Start_2P'] animate-pulse w-full">QUEST COMPLETE!</h2>
+                <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 md:mb-8 font-['Press_Start_2P'] animate-pulse w-full">Paint finished!</h2>
 
                 <div class="canvas-panel-8bit p-3 md:p-6 text-left mb-6 w-full max-w-[200px] md:max-w-xs mx-auto flex flex-col items-center">
                     <h3 class="text-sm font-black text-white mb-3 uppercase tracking-widest text-yellow-400 w-full text-center">// Diagnostic Sketch</h3>
@@ -1081,7 +1149,7 @@
         
         <div id="state-test" class="hidden text-center fade-in w-full max-w-2xl mx-auto">
             
-            <h2 id="quest-question-counter" class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 leading-tight tracking-wide transition-opacity duration-300">Questline: Do a test</h2>
+            <h2 id="quest-question-counter" class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 leading-tight tracking-wide transition-opacity duration-300">Free resources</h2>
             
             <div id="quest-xp-bar-container" class="w-full h-6 bg-[#1a2e0b] border-4 border-black mb-8 relative overflow-visible drop-shadow-[0_4px_0_rgba(0,0,0,0.8)]" style="image-rendering: pixelated; transform-origin: bottom center;">
                 <div id="quest-quiz-progress" class="h-full w-0 transition-[width] duration-500 ease-out relative" 
@@ -1110,7 +1178,7 @@
 
         <div id="state-complete" class="hidden fade-in max-w-3xl mx-auto w-full">
             <div class="text-center">
-                <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 md:mb-8 font-['Press_Start_2P'] animate-pulse">QUEST COMPLETE!</h2>
+                <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 md:mb-8 font-['Press_Start_2P'] animate-pulse">Test complete!</h2>
             </div>
             
             <div id="quest-dynamic-content" class="hidden mb-4 text-left text-zinc-300 leading-relaxed canvas-panel-8bit px-4 py-3 md:p-6 text-sm md:text-base"></div>
@@ -1160,7 +1228,9 @@
             <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2 text-center w-full block">[ Do another quest ]</button>
         </div>
 
-    </section>
+            </div>
+        </div>
+    </div>
 
 
     <div id="lightbox-modal" class="fixed inset-0 z-[60] hidden bg-black/90 flex items-center justify-center p-2 md:p-8 cursor-zoom-out" onclick="closeLightbox()">
@@ -1460,7 +1530,7 @@
                     
                     <div id="about-cta-dull" class="flex flex-col sm:flex-row gap-6 justify-center items-center w-full transition-opacity duration-300">
                         <button onclick="closeModals(); openQuestContactModal();" class="canvas-tool-btn p-5 md:p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest w-full sm:w-1/2 text-center leading-loose">CONTACT ME</button>
-                        <button onclick="closeModals(); bootQuestEngine();" class="canvas-tool-btn p-5 md:p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest w-full sm:w-1/2 text-center leading-loose">START QUEST</button>
+                        <button onclick="closeModals(); bootQuestEngine();" class="canvas-tool-btn p-5 md:p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest w-full sm:w-1/2 text-center leading-loose">RESOURCES</button>
                     </div>
 
                     <div id="about-cta-shiny" class="hidden opacity-0 flex-col sm:flex-row gap-6 justify-center items-center w-full transition-opacity duration-300">
@@ -1471,8 +1541,8 @@
                             <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                             <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                             <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">START QUEST</span>
-                            <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">START QUEST</span>
+                            <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">RESOURCES</span>
+                            <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">RESOURCES</span>
                         </button>
                     </div>
                 </div>
@@ -1512,69 +1582,8 @@
         </div>
     </div>
 
-    <section id="testimonials" class="max-w-6xl mx-auto px-6 py-12 md:py-24 border-t border-white/5 text-center">
-        <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 md:mb-12 leading-tight tracking-wide">What my clients say</h2>
 
-        <div class="flex items-center justify-center gap-2 md:gap-6 w-full relative">
-            <button id="testi-prev" class="spring-arrow-btn canvas-tool-btn p-3 md:p-4 z-10 flex-shrink-0">
-                <svg class="w-6 h-6 md:w-8 md:h-8 overflow-visible" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                    <path class="arrow-shaft" d="M 19 12 H 5" />
-                    <path class="arrow-tip" d="M 12 5 L 5 12 L 12 19" />
-                </svg>
-            </button>
-
-            <div class="overflow-hidden w-full max-w-4xl relative">
-                <div id="testi-track" class="flex transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]">
-                    
-                    <div class="w-full flex-shrink-0 px-2 md:px-4">
-                        <div class="canvas-panel-8bit p-6 md:p-10 h-full flex items-center justify-center text-center italic text-zinc-300 min-h-[140px]">
-                            <p class="text-base md:text-lg leading-relaxed font-serif">"I felt completely safe with Magnus's as a coach, which allowed me to be truly open. I never once felt judged."</p>
-                        </div>
-                    </div>
-                    
-                    <div class="w-full flex-shrink-0 px-2 md:px-4">
-                        <div class="canvas-panel-8bit p-6 md:p-10 h-full flex items-center justify-center text-center italic text-zinc-300 min-h-[140px]">
-                            <p class="text-base md:text-lg leading-relaxed font-serif">"With Magnus's help, those overwhelming tasks suddenly felt easy to do!"</p>
-                        </div>
-                    </div>
-                    
-                    <div class="w-full flex-shrink-0 px-2 md:px-4">
-                        <div class="canvas-panel-8bit p-6 md:p-10 h-full flex items-center justify-center text-center italic text-zinc-300 min-h-[140px]">
-                            <p class="text-base md:text-lg leading-relaxed font-serif">"Magnus is extremely professional!"</p>
-                        </div>
-                    </div>
-
-                    <div class="w-full flex-shrink-0 px-2 md:px-4">
-                        <div class="canvas-panel-8bit p-6 md:p-10 h-full flex items-center justify-center text-center italic text-zinc-300 min-h-[140px]">
-                            <p class="text-base md:text-lg leading-relaxed font-serif">"Magnus pushed for the really constructive way forward in some our toughest meetings."</p>
-                        </div>
-                    </div>
-
-                    <div class="w-full flex-shrink-0 px-2 md:px-4">
-                        <div class="canvas-panel-8bit p-6 md:p-10 h-full flex items-center justify-center text-center italic text-zinc-300 min-h-[140px]">
-                            <p class="text-base md:text-lg leading-relaxed font-serif">"Magnus is one of the rare professionals who not only has a lot of talent, but has a plethora of strong soft skills."</p>
-                        </div>
-                    </div>
-
-                    <div class="w-full flex-shrink-0 px-2 md:px-4">
-                        <div class="canvas-panel-8bit p-6 md:p-10 h-full flex items-center justify-center text-center italic text-zinc-300 min-h-[140px]">
-                            <p class="text-base md:text-lg leading-relaxed font-serif">"We can rely on Magnus to ask the right questions, then get the work done to a very high standard."</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <button id="testi-next" class="spring-arrow-btn canvas-tool-btn p-3 md:p-4 z-10 flex-shrink-0">
-                <svg class="w-6 h-6 md:w-8 md:h-8 overflow-visible" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                    <path class="arrow-shaft" d="M 5 12 H 19" />
-                    <path class="arrow-tip" d="M 12 5 L 19 12 L 12 19" />
-                </svg>
-            </button>
-        </div>
-    </section>
-
-    <section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
+    <!--<section id="gallery" class="max-w-6xl mx-auto px-6 py-12 md:py-24 text-center border-t border-white/5">
         <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-4 leading-tight tracking-wide">Drawings by other devs</h2>
 
         <div class="flex items-center justify-center gap-2 md:gap-6 w-full relative">
@@ -1596,7 +1605,7 @@
                 </svg>
             </button>
         </div>
-    </section>
+    </section>-->
 
     <section id="contact" class="max-w-4xl mx-auto px-6 py-24 border-t border-white/5">
 
@@ -1910,22 +1919,23 @@
         function bootQuestEngine() {
             const hudWrapper = document.getElementById('global-quest-progress-wrapper');
             const bootFlash = document.getElementById('hud-boot-flash');
+            const questModal = document.getElementById('quest-modal');
             
-            // 1. Check if the engine is already booted
+            // 1. Lock Body Scroll & Open Modal
+            document.body.style.overflow = 'hidden';
+            if (questModal) questModal.classList.remove('hidden');
+
+            // 2. Check if the engine is already booted
             const isBooting = hudWrapper && hudWrapper.classList.contains('opacity-0');
             
             if (isBooting) {
-                // Unhide and slide down the Nav HUD
                 hudWrapper.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none');
                 hudWrapper.classList.add('max-h-[100px]', 'opacity-100', 'pointer-events-auto'); 
                 
-                // Trigger the system boot-up strobe flash
                 if (bootFlash) {
                     setTimeout(() => {
-                        // Hardware snap reset just in case
                         bootFlash.style.animation = 'none';
                         void bootFlash.offsetWidth;
-                        
                         bootFlash.animate([
                             { opacity: 1, offset: 0.0 },
                             { opacity: 0, offset: 0.166 },
@@ -1939,25 +1949,20 @@
                 }
             }
             
-            // 2. Smart-scan the DOM to find the currently active quest state
-            let activeStateId = 'state-hub'; // Default fallback
-            for (let i = 0; i < questStates.length; i++) {
-                const stateEl = document.getElementById(questStates[i]);
-                if (stateEl && !stateEl.classList.contains('hidden')) {
-                    activeStateId = questStates[i];
-                    break;
-                }
+            // 3. Scroll modal container to top to ensure clean framing
+            if (questModal) {
+                questModal.scrollTo({ top: 0, behavior: 'instant' });
             }
+        }
+
+        function fastTravelQuest(targetState) {
+            // Run the standard boot sequence to lock the body and open the modal
+            bootQuestEngine();
             
-            // 3. Frame the camera tightly onto the active state
-            const targetElement = document.getElementById(activeStateId);
-            if (targetElement) {
-                // Dynamically calculate the nav height so the scroll never overlaps the title
-                const navHeight = document.querySelector('nav').offsetHeight;
-                const yOffset = -(navHeight + 20); // Tighter offset to maximize bottom screen space
-                const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                window.scrollTo({top: y, behavior: 'smooth'});
-            }
+            // Allow the modal's display:block to physically register before we force the state change
+            setTimeout(() => {
+                goToQuestState(targetState);
+            }, 50);
         }
 
         function updateGlobalProgress(pctNum) {
@@ -2059,13 +2064,14 @@
                 document.querySelectorAll('.topic-selection-btn, .hub-quest-btn').forEach(b => b.classList.remove('is-active'));
             }
 
-            // Frame the camera tightly around the specific active state for perfect mobile scannability
+            // Frame the camera tightly around the specific active state inside the modal
             const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                const navHeight = document.querySelector('nav').offsetHeight;
-                const yOffset = -(navHeight + 24); // Snug offset so the title sits right under the nav 
-                const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                window.scrollTo({top: y, behavior: 'smooth'});
+            const questModal = document.getElementById('quest-modal');
+            if (targetElement && questModal && !questModal.classList.contains('hidden')) {
+                // Scroll the modal container, not the window
+                const yOffset = -24; // Snug offset inside the modal
+                const y = targetElement.getBoundingClientRect().top + questModal.scrollTop - questModal.getBoundingClientRect().top + yOffset;
+                questModal.scrollTo({top: y, behavior: 'smooth'});
             }
 
             if(targetId === 'state-test') {
@@ -2436,11 +2442,12 @@
 
         function closeModals() {
             document.body.style.overflow = 'auto';
-            document.getElementById('assessment-modal').classList.add('hidden');
-            document.getElementById('topic-modal').classList.add('hidden');
+            document.getElementById('assessment-modal')?.classList.add('hidden');
+            document.getElementById('topic-modal')?.classList.add('hidden');
             document.getElementById('contact-modal')?.classList.add('hidden');
             document.getElementById('about-modal')?.classList.add('hidden');
             document.getElementById('quest-contact-modal')?.classList.add('hidden');
+            document.getElementById('quest-modal')?.classList.add('hidden');
         }
 
         function renderQ() {
@@ -3406,93 +3413,57 @@
         // --- CAROUSEL ENGINE & LIGHTBOX PHYSICS ---
 
         const galleryTrack = document.getElementById('gallery-track');
-
         const btnPrev = document.getElementById('carousel-prev');
-
         const btnNext = document.getElementById('carousel-next');
-
         const lightboxModal = document.getElementById('lightbox-modal');
-
         const lightboxImg = document.getElementById('lightbox-img');
-
         const totalSlots = 16;
-
         
-
         let currentLightboxSrc = '';
 
-
-        for (let i = 1; i <= totalSlots; i++) {
-
-            const num = String(i).padStart(2, '0'); const fileName = `gallery/painting_${num}.jpg`;
-
-            const slideWrapper = document.createElement('div'); slideWrapper.className = "w-1/2 md:w-1/4 flex-shrink-0 px-2 md:px-3";
-
-            const slot = document.createElement('div'); slot.className = "aspect-square w-full bg-zinc-950 border border-white/5 rounded-none overflow-hidden relative group shadow-inner flex items-center justify-center transition-all duration-300";
-            const img = document.createElement('img'); img.src = fileName; img.className = "w-full h-full object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-105 opacity-0";
-
+        // Safety lock: Only run physics if the HTML components are currently rendered
+        if (galleryTrack && btnPrev && btnNext) {
             
+            for (let i = 1; i <= totalSlots; i++) {
+                const num = String(i).padStart(2, '0'); const fileName = `gallery/painting_${num}.jpg`;
+                const slideWrapper = document.createElement('div'); slideWrapper.className = "w-1/2 md:w-1/4 flex-shrink-0 px-2 md:px-3";
+                const slot = document.createElement('div'); slot.className = "aspect-square w-full bg-zinc-950 border border-white/5 rounded-none overflow-hidden relative group shadow-inner flex items-center justify-center transition-all duration-300";
+                const img = document.createElement('img'); img.src = fileName; img.className = "w-full h-full object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-105 opacity-0";
+                
+                img.onload = () => { img.classList.remove('opacity-0'); img.classList.add('is-valid-gallery-img'); slot.classList.replace('bg-zinc-950', 'bg-zinc-900'); slot.classList.replace('border-white/5', 'border-zinc-700'); };
+                img.onerror = () => { img.remove(); slot.innerHTML = `<span class="text-zinc-700 font-mono text-xs uppercase tracking-widest pointer-events-none select-none text-center">[ SLOT_${num} ]</span>`; slot.classList.add('border-dashed'); };
+                img.onclick = () => { currentLightboxSrc = img.src; lightboxImg.src = currentLightboxSrc; lightboxModal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; };
 
-            img.onload = () => { img.classList.remove('opacity-0'); img.classList.add('is-valid-gallery-img'); slot.classList.replace('bg-zinc-950', 'bg-zinc-900'); slot.classList.replace('border-white/5', 'border-zinc-700'); };
+                slot.appendChild(img); slideWrapper.appendChild(slot); galleryTrack.appendChild(slideWrapper);
+            }
 
-            img.onerror = () => { img.remove(); slot.innerHTML = `<span class="text-zinc-700 font-mono text-xs uppercase tracking-widest pointer-events-none select-none text-center">[ SLOT_${num} ]</span>`; slot.classList.add('border-dashed'); };
+            // Carousel Scroll Logic
+            let isCarouselAnimating = false;
 
-            img.onclick = () => { currentLightboxSrc = img.src; lightboxImg.src = currentLightboxSrc; lightboxModal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; };
+            btnNext.addEventListener('click', () => {
+                if (isCarouselAnimating) return; isCarouselAnimating = true;
+                const itemWidth = galleryTrack.firstElementChild.offsetWidth;
+                galleryTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
+                galleryTrack.style.transform = `translateX(-${itemWidth}px)`;
+                galleryTrack.addEventListener('transitionend', function handleNext() {
+                    galleryTrack.removeEventListener('transitionend', handleNext);
+                    galleryTrack.style.transition = 'none'; galleryTrack.appendChild(galleryTrack.firstElementChild);
+                    galleryTrack.style.transform = 'translateX(0)'; void galleryTrack.offsetWidth; isCarouselAnimating = false;
+                });
+            });
 
-
-            slot.appendChild(img); slideWrapper.appendChild(slot); galleryTrack.appendChild(slideWrapper);
-
+            btnPrev.addEventListener('click', () => {
+                if (isCarouselAnimating) return; isCarouselAnimating = true;
+                const itemWidth = galleryTrack.lastElementChild.offsetWidth;
+                galleryTrack.style.transition = 'none'; galleryTrack.prepend(galleryTrack.lastElementChild);
+                galleryTrack.style.transform = `translateX(-${itemWidth}px)`; void galleryTrack.offsetWidth;
+                galleryTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
+                galleryTrack.style.transform = 'translateX(0)';
+                galleryTrack.addEventListener('transitionend', function handlePrev() {
+                    galleryTrack.removeEventListener('transitionend', handlePrev); isCarouselAnimating = false;
+                });
+            });
         }
-
-
-        // Carousel Scroll Logic
-
-        let isCarouselAnimating = false;
-
-        btnNext.addEventListener('click', () => {
-
-            if (isCarouselAnimating) return; isCarouselAnimating = true;
-
-            const itemWidth = galleryTrack.firstElementChild.offsetWidth;
-
-            galleryTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
-
-            galleryTrack.style.transform = `translateX(-${itemWidth}px)`;
-
-            galleryTrack.addEventListener('transitionend', function handleNext() {
-
-                galleryTrack.removeEventListener('transitionend', handleNext);
-
-                galleryTrack.style.transition = 'none'; galleryTrack.appendChild(galleryTrack.firstElementChild);
-
-                galleryTrack.style.transform = 'translateX(0)'; void galleryTrack.offsetWidth; isCarouselAnimating = false;
-
-            });
-
-        });
-
-
-        btnPrev.addEventListener('click', () => {
-
-            if (isCarouselAnimating) return; isCarouselAnimating = true;
-
-            const itemWidth = galleryTrack.lastElementChild.offsetWidth;
-
-            galleryTrack.style.transition = 'none'; galleryTrack.prepend(galleryTrack.lastElementChild);
-
-            galleryTrack.style.transform = `translateX(-${itemWidth}px)`; void galleryTrack.offsetWidth;
-
-            galleryTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
-
-            galleryTrack.style.transform = 'translateX(0)';
-
-            galleryTrack.addEventListener('transitionend', function handlePrev() {
-
-                galleryTrack.removeEventListener('transitionend', handlePrev); isCarouselAnimating = false;
-
-            });
-
-        });
 
 
         // Lightbox Navigation Logic
@@ -3609,9 +3580,6 @@
 
 // --- TESTIMONIAL CAROUSEL ENGINE (DOM-SWAP) ---
         const testiTrack = document.getElementById('testi-track');
-        const testiPrevBtn = document.getElementById('testi-prev');
-        const testiNextBtn = document.getElementById('testi-next');
-        
         let testiAutoTimer = null;
         let isTestiAnimating = false;
 
@@ -3619,7 +3587,7 @@
             clearInterval(testiAutoTimer);
             testiAutoTimer = setInterval(() => {
                 if (!isTestiAnimating) moveTestiRight();
-            }, 7000);
+            }, 6000); // Slightly faster pacing for a text-only ambient ticker
         }
 
         function resetTestiTimer() {
@@ -3627,65 +3595,64 @@
         }
 
         function moveTestiRight() {
-            if (!testiTrack || isTestiAnimating) return;
+            if (!testiTrack || isTestiAnimating || !testiTrack.firstElementChild) return;
             isTestiAnimating = true;
             
-            // Calculate exact physical width of the first cartridge
             const itemWidth = testiTrack.firstElementChild.offsetWidth;
             
-            // Apply velocity and transition
             testiTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
             testiTrack.style.transform = `translateX(-${itemWidth}px)`;
             
-            // Once the visual slide finishes, instantly swap the DOM node to the back
-            testiTrack.addEventListener('transitionend', function handleNext() {
+            let isHandled = false;
+            
+            const handleNext = (e) => {
+                // Ignore bubbling transitions from child elements (like hovers)
+                if (e && e.target !== testiTrack) return; 
+                if (isHandled) return;
+                isHandled = true;
+                
                 testiTrack.removeEventListener('transitionend', handleNext);
                 testiTrack.style.transition = 'none';
                 testiTrack.appendChild(testiTrack.firstElementChild); 
                 testiTrack.style.transform = 'translateX(0)';
-                void testiTrack.offsetWidth; // Force a hardware reflow
+                void testiTrack.offsetWidth; // Force hardware reflow
                 isTestiAnimating = false;
-            });
+            };
+
+            testiTrack.addEventListener('transitionend', handleNext);
+            // FAILSAFE: Force the lock open 50ms after the animation should complete
+            setTimeout(handleNext, 550); 
         }
 
         function moveTestiLeft() {
-            if (!testiTrack || isTestiAnimating) return;
+            if (!testiTrack || isTestiAnimating || !testiTrack.lastElementChild) return;
             isTestiAnimating = true;
             
             const itemWidth = testiTrack.lastElementChild.offsetWidth;
             
-            // Instantly yank the last node to the front, hidden out of frame to the left
             testiTrack.style.transition = 'none';
             testiTrack.prepend(testiTrack.lastElementChild);
             testiTrack.style.transform = `translateX(-${itemWidth}px)`;
-            void testiTrack.offsetWidth; // Force a hardware reflow
+            void testiTrack.offsetWidth; 
             
-            // Apply velocity to slide it into view
             testiTrack.style.transition = 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)';
             testiTrack.style.transform = 'translateX(0)';
             
-            testiTrack.addEventListener('transitionend', function handlePrev() {
+            let isHandled = false;
+            const handlePrev = (e) => {
+                if (e && e.target !== testiTrack) return;
+                if (isHandled) return;
+                isHandled = true;
+                
                 testiTrack.removeEventListener('transitionend', handlePrev);
                 isTestiAnimating = false;
-            });
+            };
+
+            testiTrack.addEventListener('transitionend', handlePrev);
+            setTimeout(handlePrev, 550);
         }
 
-        // Hardware Button Bindings
-        if (testiNextBtn) {
-            testiNextBtn.addEventListener('click', () => {
-                resetTestiTimer();
-                moveTestiRight();
-            });
-        }
-
-        if (testiPrevBtn) {
-            testiPrevBtn.addEventListener('click', () => {
-                resetTestiTimer();
-                moveTestiLeft();
-            });
-        }
-
-        // Mobile Swipe Physics Bindings
+        // Mobile Swipe Physics
         let testiTouchStartX = 0;
         if (testiTrack) {
             testiTrack.addEventListener('touchstart', (e) => {
@@ -3702,7 +3669,6 @@
             }, { passive: true });
         }
 
-        // Boot the auto-scroll engine on load
         window.addEventListener('DOMContentLoaded', () => {
             if (testiTrack) startTestiTimer();
         });
