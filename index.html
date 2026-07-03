@@ -839,19 +839,15 @@
 
                     <div id="dialogue-zone" class="dialogue-text-area min-h-[140px] md:min-h-[100px]" onclick="advanceDialogue()">
                         <p id="dialogue-text" class="font-mono text-sm md:text-base text-zinc-300 leading-relaxed text-left m-0">
-                            I've worked with studios from all over the world, and I've noticed something universal...
+                            I help solodevs and teams who are stuck in stress, conflict or burnout to finish the game they want to make.
                         </p>
                         
                         <div id="dialogue-arrow" class="dialogue-arrow">▼</div>
                     </div>
 
-                    <div id="hero-unlocked-btns" class="hidden flex-col sm:flex-row gap-4 w-full mt-auto pt-2 justify-center fade-in">
-                        <button onclick="openAboutModal()" class="btn-8bit w-full sm:w-1/2 text-[10px] tracking-widest">
-                            ABOUT MAGNUS
-                        </button>
-                        
-                        <button onclick="bootQuestEngine()" class="btn-8bit w-full sm:w-1/2 text-[10px] tracking-widest">
-                            RESOURCES
+                    <div id="hero-unlocked-btns" class="hidden flex-col w-full mt-6 md:mt-8 fade-in">
+                        <button onclick="bootQuestEngine()" class="btn-8bit w-full text-[10px] tracking-widest">
+                            FREE RESOURCES
                         </button>
                     </div>
 
@@ -1732,12 +1728,8 @@
 
         // --- HERO RPG DIALOGUE MACHINE ---
         const dialoguePages = [
-            "I've worked with studios all over the world, and I've noticed something universal...",
-            "Everyone starts making a game from a place of pure magic! For a lot of us it started as kids, but making games isn't easy...",
-            "I see brilliant devs get trapped in chronic stress, anxiety or team conflicts and then you burnout or the game dies...",
-            "and that breaks my heart, but I've seen how that can <em>change</em>. When you understand what's really blocking you...",
-            "you can create a process of making a game that you <em>want to spend more time in that gives you energy</em>, which then leads to a better game...",
-            "SO! I made this free \"quest\" based on my work to help you get started, or if you want you can read more about me first!"
+            "I help solodevs and teams who are stuck in stress, conflict or burnout to finish the game they want to make.",
+            "I've created free resources accessible to anyone committed to making great games without burning out. <br><br>Click the button to check them out!"
         ];
         
         let currentPage = 0;
