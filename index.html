@@ -925,7 +925,7 @@
 
 <div id="quest-modal" class="fixed inset-0 z-[60] hidden bg-black/90 overflow-y-auto">
         <div class="min-h-screen flex items-center justify-center px-4 py-12 w-full">
-            <div id="quest-engine-prototype" class="w-full max-w-4xl mx-auto relative bg-zinc-900 border border-white/10 px-6 py-12 md:py-24 shadow-2xl transform-gpu min-h-[850px]">
+            <div id="quest-engine-prototype" class="w-full max-w-4xl mx-auto relative bg-zinc-900 border border-white/10 px-6 py-12 md:py-24 shadow-2xl transform-gpu">
                 
                 <button onclick="closeModals()" class="absolute top-4 right-4 md:top-6 md:right-6 text-zinc-500 hover:text-white hover:scale-110 active:scale-95 transition-all p-2 z-50">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -1197,7 +1197,7 @@
 
         <div id="state-complete" class="hidden fade-in max-w-3xl mx-auto w-full">
             <div class="text-center">
-                <h2 class="text-2xl md:text-3xl text-[#a4ff45] mb-6 md:mb-8 font-['Press_Start_2P'] animate-pulse">Test complete!</h2>
+                <h2 id="quest-complete-header" class="text-2xl md:text-3xl text-yellow-400 mb-6 md:mb-8 font-['Press_Start_2P']">Test complete!</h2>
             </div>
             
             <div id="quest-dynamic-content" class="hidden mb-4 text-left text-zinc-300 leading-relaxed canvas-panel-8bit px-4 py-3 md:p-6 text-sm md:text-base"></div>
@@ -1326,7 +1326,7 @@
 
                 <div id="state-results" class="hidden fade-in text-center max-w-2xl mx-auto">
 
-                    <div id="result-label" class="text-yellow-400 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest mb-4">// NEXT_STEP_DIAGNOSTIC</div>
+                    <div id="result-label" class="text-yellow-400 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest mb-4">NEXT_STEP_DIAGNOSTIC</div>
 
                     <h2 class="text-base font-mono text-zinc-400 mb-1">Focus on:</h2>
 
@@ -1786,6 +1786,10 @@
         // --- RPG QUEST STATE MACHINE & GLOBAL PROGRESSION ---
         const questStates = ['state-hub', 'state-topic', 'state-draw-prompt', 'state-draw', 'state-test', 'state-complete'];
         let selectedHubTargetState = null;
+        
+        // --- GLOBAL MEMORY BANKS ---
+        let visitedTopics = new Set();
+        let completedHubQuests = new Set();
 
         // Force strict hardware reset on browser refresh to clear cached states
         window.addEventListener('DOMContentLoaded', () => {
@@ -2058,7 +2062,31 @@
                 if (promptText) promptText.innerText = "Click the button for a random drawing prompt, click until you have one you want.";
                 if (typeof currentActivePrompt !== 'undefined') currentActivePrompt = "";
                 
-                document.querySelectorAll('.topic-selection-btn, .hub-quest-btn').forEach(b => b.classList.remove('is-active'));
+                // Reset active states and apply grayscale to completed hub quests
+                document.querySelectorAll('.hub-quest-btn').forEach(btn => {
+                    btn.classList.remove('is-active');
+                    const match = btn.getAttribute('onclick').match(/'([^']+)'/);
+                    if (match && completedHubQuests.has(match[1])) {
+                        btn.classList.add('opacity-40', 'grayscale');
+                    } else {
+                        btn.classList.remove('opacity-40', 'grayscale');
+                    }
+                });
+                
+                document.querySelectorAll('.topic-selection-btn').forEach(b => b.classList.remove('is-active'));
+            }
+
+            if (targetId === 'state-topic') {
+                // Apply grayscale to completed sub-guide topics
+                document.querySelectorAll('.quest-topic-btn').forEach(btn => {
+                    btn.classList.remove('is-active');
+                    const match = btn.getAttribute('onclick').match(/'([^']+)'/);
+                    if (match && visitedTopics.has(match[1])) {
+                        btn.classList.add('opacity-40', 'grayscale');
+                    } else {
+                        btn.classList.remove('opacity-40', 'grayscale');
+                    }
+                });
             }
 
             // Frame the camera tightly around the specific active state inside the modal
@@ -2076,9 +2104,13 @@
             }
         }
 
-        function triggerQuestComplete(reward, dynamicHTML = '', pdfUrl = '#') {
+        function triggerQuestComplete(headerText, dynamicHTML = '', pdfUrl = '#') {
             // Slam the global progression bar to the final physics milestone
             updateGlobalProgress(100);
+
+            // Dynamically inject the correct header text based on the path
+            const completeHeader = document.getElementById('quest-complete-header');
+            if (completeHeader) completeHeader.innerText = headerText;
 
             const dynamicContentEl = document.getElementById('quest-dynamic-content');
             const downloadBtn = document.getElementById('general-download-btn');
@@ -2156,13 +2188,29 @@
             if(typeof topicsData !== 'undefined' && topicsData[currentSelectedTopic]) {
                 const data = topicsData[currentSelectedTopic];
                 
+                // Track this sub-guide in global memory
+                visitedTopics.add(currentSelectedTopic);
+                
+                // If all 4 guides are done, mark the parent hub quest as completed!
+                if (visitedTopics.size >= 4) {
+                    completedHubQuests.add('state-topic');
+                }
+
                 const htmlBlob = `
-                    <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 text-center w-full">// ${data.title}</h3>
-                    <p class="mb-8 text-center md:text-left">${data.desc}</p>
+                    <div class="flex flex-col items-center justify-center w-full py-8 md:py-12">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-20 h-20 md:w-24 md:h-24 text-white mb-6 render-pixel drop-shadow-[4px_4px_0_rgba(0,0,0,1)] hover:scale-105 transition-transform" fill="currentColor">
+                            <path d="M30.472 6.1H25.9V1.525h1.53V0H6.092v12.2h-1.52v1.52h1.52v3.05h-1.52v-3.05h-1.52v12.19h1.52v1.52h1.52V32H32V4.575h-1.53ZM7.622 18.285h4.57v4.57h-3.05v3.05h-1.52Zm22.85 12.19H7.622v-3.05H25.9v-1.52h1.53v-7.62H25.9v-1.52H7.622V1.525h16.76v6.09h6.09Zm-12.19 -10.67v4.58h-1.52v1.52h-3.05v-7.62h3.05v1.52Zm6.1 1.53v1.52h-3.05v3.05h-1.52v-7.62h4.57v1.52h-3.05v1.53Z"></path>
+                            <path d="M28.952 3.045h1.52v1.53h-1.52Z"></path>
+                            <path d="M27.432 1.525h1.52v1.52h-1.52Z"></path>
+                            <path d="M15.242 19.805h1.52v4.58h-1.52Z"></path>
+                            <path d="M9.142 19.805h1.53v1.53h-1.53Z"></path>
+                        </svg>
+                        <h3 class="text-base md:text-lg font-black uppercase tracking-widest text-yellow-400 text-center w-full">// ${data.title}</h3>
+                    </div>
                 `;
                 
-                // Pass the PDF URL as the powerful third argument
-                triggerQuestComplete('Insight Unlocked', htmlBlob, data.pdfFile);
+                // Pass the custom title and the PDF URL
+                triggerQuestComplete('Your guide is ready!', htmlBlob, data.pdfFile);
             }
         }
         // -------------------------------
@@ -2640,6 +2688,9 @@
         });
 
         function showA() {
+            // Mark the test path as completely finished in global memory
+            completedHubQuests.add('state-test');
+
             let maxScore = -1;
             let winningCategory = '';
             const counts = { selftalk: 0, emotional: 0, relationship: 0 };
@@ -2653,12 +2704,20 @@
             // TELEPORTED: Injects data directly into the Quest Engine Terminal!
             const resultData = resultsData[winningCategory];
             const htmlBlob = `
-                <h3 class="text-xl md:text-2xl font-black text-white mb-6 uppercase tracking-widest text-yellow-400 text-center w-full">// ${resultData.title}</h3>
-                <p class="mb-8 text-center md:text-left">${resultData.desc}</p>
+                <div class="flex flex-col items-center justify-center w-full py-8 md:py-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-20 h-20 md:w-24 md:h-24 text-white mb-6 render-pixel drop-shadow-[4px_4px_0_rgba(0,0,0,1)] hover:scale-105 transition-transform" fill="currentColor">
+                        <path d="M30.472 6.1H25.9V1.525h1.53V0H6.092v12.2h-1.52v1.52h1.52v3.05h-1.52v-3.05h-1.52v12.19h1.52v1.52h1.52V32H32V4.575h-1.53ZM7.622 18.285h4.57v4.57h-3.05v3.05h-1.52Zm22.85 12.19H7.622v-3.05H25.9v-1.52h1.53v-7.62H25.9v-1.52H7.622V1.525h16.76v6.09h6.09Zm-12.19 -10.67v4.58h-1.52v1.52h-3.05v-7.62h3.05v1.52Zm6.1 1.53v1.52h-3.05v3.05h-1.52v-7.62h4.57v1.52h-3.05v1.53Z"></path>
+                        <path d="M28.952 3.045h1.52v1.53h-1.52Z"></path>
+                        <path d="M27.432 1.525h1.52v1.52h-1.52Z"></path>
+                        <path d="M15.242 19.805h1.52v4.58h-1.52Z"></path>
+                        <path d="M9.142 19.805h1.53v1.53h-1.53Z"></path>
+                    </svg>
+                    <h3 class="text-base md:text-lg font-black uppercase tracking-widest text-yellow-400 text-center w-full">// ${resultData.title}</h3>
+                </div>
             `;
             
             // Cleaned up the old nested button and passing the URL directly!
-            triggerQuestComplete('Diagnostic Analyzed', htmlBlob, resultData.pdfFile);
+            triggerQuestComplete('Test complete!', htmlBlob, resultData.pdfFile);
         }
 
 
@@ -2808,6 +2867,9 @@
         function finishQuestDrawing() {
             // Instantly slam the global progression bar to 100% to trigger the finale strobe
             updateGlobalProgress(100);
+            
+            // Mark the draw path as completely finished in global memory
+            completedHubQuests.add('state-draw-prompt');
 
             const canvas = document.getElementById('questDrawingCanvas');
             
