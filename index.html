@@ -136,6 +136,30 @@
             transform: translateY(0) scale(1);
         }
 
+        /* --- HARDWARE SCROLLBAR --- */
+        /* Firefox Support */
+        .custom-scrollbar {
+            scrollbar-width: auto;
+            scrollbar-color: #fde047 #000000; /* Thumb color, Track color */
+        }
+        /* Chrome/Edge/Safari Support */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 12px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #000000;
+            border-left: 2px solid #27272a;
+            border-radius: 0 4px 4px 0;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #fde047; /* Pure, bright hardware yellow */
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #fef08a; /* Blinding highlight on hover */
+        }
+
+
         /* --- 8-BIT BUTTON SYSTEM --- */
         .btn-8bit {
             font-family: 'Press Start 2P', monospace;
@@ -750,7 +774,7 @@
                     </button>
                     <div class="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-64 bg-zinc-900 border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-150 flex flex-col z-50">
                         <button onclick="fastTravelQuest('state-topic')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Free guides</button>
-                        <button onclick="fastTravelQuest('state-draw-prompt')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Paint Your Problem</button>
+                        <button onclick="fastTravelQuest('state-draw-prompt')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Free workshops</button>
                         <button onclick="fastTravelQuest('state-test')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors">Do a quick diagnostic</button>
                     </div>
                 </div>
@@ -1504,47 +1528,29 @@
                             <span>About me</span>
                         </div>
 
-                        <div class="relative w-full h-[520px] md:h-[320px] mb-6">
-                            <div id="about-choices-container" class="absolute bottom-0 left-0 right-0 grid grid-cols-1 md:grid-cols-2 gap-4 w-full opacity-0 pointer-events-none transition-opacity duration-300 z-0">
-                                <button onclick="selectAboutOption('a', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">The work</button>
-                                <button onclick="selectAboutOption('b', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">My background</button>
-                                <button onclick="selectAboutOption('c', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">How I coach</button>
-                                <button onclick="selectAboutOption('d', this)" class="about-choice-btn canvas-tool-btn p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">Random facts</button>
+                        <div id="about-dialogue-wrapper" class="relative w-full mb-6 flex flex-col gap-4">
+                            
+                            <div class="relative w-full flex-1 overflow-hidden rounded-[8px]">
+                                <div id="about-dialogue-zone" class="dialogue-text-area w-full h-full overflow-y-auto custom-scrollbar transition-all duration-300 z-10 cursor-default" style="padding-bottom: 2.5rem;">
+                                    <p id="about-dialogue-text" class="font-mono text-sm md:text-base text-zinc-300 leading-relaxed text-left m-0"></p>
+                                </div>
                             </div>
 
-                            <div id="about-dialogue-zone" class="dialogue-text-area absolute top-0 left-0 right-0 h-full overflow-hidden transition-all duration-300 z-10" onclick="advanceAboutDialogue()">
-                                <p id="about-dialogue-text" class="font-mono text-sm md:text-base text-zinc-300 leading-relaxed text-left m-0">
-                                    </p>
-                                <div id="about-dialogue-arrow" class="dialogue-arrow">▼</div>
+                            <div id="about-choices-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full opacity-0 pointer-events-none transition-opacity duration-300 z-0 h-auto flex-shrink-0">
+                                <button onclick="selectAboutOption('a', this)" class="about-choice-btn canvas-tool-btn p-3 md:p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">Work experience</button>
+                                <button onclick="selectAboutOption('b', this)" class="about-choice-btn canvas-tool-btn p-3 md:p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">My background</button>
+                                <button onclick="selectAboutOption('c', this)" class="about-choice-btn canvas-tool-btn p-3 md:p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">How I coach</button>
+                                <button onclick="selectAboutOption('d', this)" class="about-choice-btn canvas-tool-btn p-3 md:p-4 font-['Press_Start_2P'] text-[9px] md:text-[10px] uppercase tracking-widest leading-loose text-left transition-all duration-300">Random facts</button>
                             </div>
+
                         </div>
                     </div>
                 </div>
                 
-                <div id="about-cta-container" class="flex opacity-0 pointer-events-none transition-opacity duration-300 mt-12 pt-8 border-t border-white/10 flex-col w-full max-w-2xl mx-auto">
-                    
-                    <div id="about-cta-dull" class="flex flex-col sm:flex-row gap-6 justify-center items-center w-full transition-opacity duration-300">
-                        <button onclick="closeModals(); openQuestContactModal();" class="canvas-tool-btn p-5 md:p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest w-full sm:w-1/2 text-center leading-loose">CONTACT ME</button>
-                        <button onclick="closeModals(); bootQuestEngine();" class="canvas-tool-btn p-5 md:p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest w-full sm:w-1/2 text-center leading-loose">RESOURCES</button>
-                    </div>
-
-                    <div id="about-cta-shiny" class="hidden opacity-0 flex-col sm:flex-row gap-6 justify-center items-center w-full transition-opacity duration-300">
-                        <button onclick="closeModals(); openQuestContactModal();" class="btn-8bit w-full sm:w-1/2 text-center">
-                            <span class="font-['Press_Start_2P'] text-[10px] tracking-widest text-black">CONTACT ME</span>
-                        </button>
-                        <button onclick="closeModals(); bootQuestEngine();" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full sm:w-1/2 text-center">
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">RESOURCES</span>
-                            <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">RESOURCES</span>
-                        </button>
-                    </div>
                 </div>
-
-            </div>
         </div>
     </div>
+
 
     <div id="mobile-color-modal" class="fixed inset-0 z-[70] hidden bg-black/90 flex flex-col items-center justify-center p-4">
         <div class="canvas-panel-8bit w-full max-w-sm p-6 relative flex flex-col items-center bg-zinc-900">
@@ -1636,7 +1642,7 @@
 
             </button>
 
-            <a href="https://discord.gg/3jd52Vgkjh" target="_blank" class="group flex flex-col items-center no-underline relative">
+            <a href="https://discord.com/users/198813370441269249" target="_blank" class="group flex flex-col items-center no-underline relative">
                 
                 <div class="flex items-center justify-center w-32 h-32 mb-6 bg-zinc-800 border-4 border-black shadow-[6px_6px_0px_black] group-hover:bg-[#5865F2] group-active:translate-x-[4px] group-active:translate-y-[4px] group-active:shadow-[2px_2px_0px_black] transition-all duration-75">
                     <svg class="w-16 h-16 text-white transition-colors duration-75 render-pixel contact-icon-jump" viewBox="0 0 24 24" fill="currentColor">
@@ -1644,7 +1650,7 @@
                     </svg>
                 </div>
 
-                <span class="font-['Press_Start_2P'] text-[10px] text-zinc-500 uppercase tracking-widest group-hover:text-white transition-colors duration-75 leading-relaxed contact-text-spring">Join the Server</span>
+                <span class="font-['Press_Start_2P'] text-[10px] text-zinc-500 uppercase tracking-widest group-hover:text-white transition-colors duration-75 leading-relaxed contact-text-spring">Discord DM</span>
 
             </a>
 
@@ -2259,7 +2265,7 @@
         // --- ABOUT ME RPG DIALOGUE LOGIC ---
         const aboutDialogueData = {
             intro: [
-                "Hi, it's so nice to have you here! If you'd rather chat in person then contact me below! <br><br>What would you like to know more about?",
+                "Hi, it's so nice to have you here!<br><br>What would you like to know more about?",
             ],
             a: [
                 "I coach solodevs & teams to create more alignment in their work, so they can actually finish the games they're stoked to build, but with more ease and joy.<br><br>So what the heck is alignment? <br><br> Well, you can usually tell when you aren't 'aligned'...",
@@ -2286,114 +2292,109 @@
         };
 
         let currentAboutTopic = 'intro';
-        let currentAboutPage = 0;
         let aboutReadOptions = new Set(); // Tracks unique options read to unlock the shiny buttons
+        let visitedAboutButtons = new Set(); // Tracks which buttons have been clicked globally
 
-       function renderAboutDialogue() {
+        function renderAboutDialogue() {
             const textEl = document.getElementById('about-dialogue-text');
-            const arrowEl = document.getElementById('about-dialogue-arrow');
             const choicesEl = document.getElementById('about-choices-container');
             const dialogueZone = document.getElementById('about-dialogue-zone');
             const ctaContainer = document.getElementById('about-cta-container');
             const ctaDull = document.getElementById('about-cta-dull');
             const ctaShiny = document.getElementById('about-cta-shiny');
             
+            // Merge all array strings into one solid block
             const pages = aboutDialogueData[currentAboutTopic];
-            textEl.innerHTML = pages[currentAboutPage];
+            textEl.innerHTML = pages.join('<br><br><br>');
             
             // Re-trigger the fade-in animation on the text
             textEl.classList.remove('fade-in');
             void textEl.offsetWidth; 
             textEl.classList.add('fade-in');
+
+            // Instantly reset hardware scroll coordinates to the top
+            dialogueZone.scrollTop = 0;
             
-            if (currentAboutPage === pages.length - 1) {
-                // End of current dialogue array: Hide arrow, lock text clicks, show choices
-                arrowEl.style.display = "none";
-                dialogueZone.style.cursor = "default";
-                
-                // Retract the shutter to reveal buttons
-                dialogueZone.classList.remove('h-full');
-                dialogueZone.classList.add('h-[160px]', 'md:h-[140px]');
-                
-                // Fade in buttons and let default pointer-events restore interactivity
-                choicesEl.classList.remove('opacity-0', 'pointer-events-none');
-                choicesEl.classList.add('opacity-100');
-
-                // Track if they've read past the intro
-                if (currentAboutTopic !== 'intro') {
-                    aboutReadOptions.add(currentAboutTopic);
-                }
-
-                // If they've completed an option, pop the CTAs back in
-                if (aboutReadOptions.size > 0 && ctaContainer) {
-                    ctaContainer.classList.remove('opacity-0', 'pointer-events-none');
-                    ctaContainer.classList.add('opacity-100');
+            // Reveal choices immediately 
+            choicesEl.classList.remove('opacity-0', 'pointer-events-none');
+            choicesEl.classList.add('opacity-100', 'pointer-events-auto');
+            
+            // --- TELEMETRY ENGINE: Scroll Awareness ---
+            const checkScroll = () => {
+                // If scrolled to the bottom (with a 5px buffer for float rounding issues)
+                if (dialogueZone.scrollTop + dialogueZone.clientHeight >= dialogueZone.scrollHeight - 5) {
                     
-                    // If they have explored all 4 paths, upgrade the buttons to SHINY
-                    if (aboutReadOptions.size === 4 && ctaDull && ctaShiny && !ctaDull.classList.contains('hidden')) {
-                        ctaDull.classList.remove('flex');
-                        ctaDull.classList.add('hidden');
+                    // Track read completion logic here when they hit the bottom of the content
+                    if (currentAboutTopic !== 'intro') {
+                        aboutReadOptions.add(currentAboutTopic);
+                    }
+
+                    // Unlock CTAs
+                    if (aboutReadOptions.size > 0 && ctaContainer) {
+                        ctaContainer.classList.remove('opacity-0', 'pointer-events-none');
+                        ctaContainer.classList.add('opacity-100');
                         
-                        ctaShiny.classList.remove('hidden');
-                        ctaShiny.classList.add('flex');
-                        
-                        // Micro-delay the opacity swap to ensure the display toggle has processed
-                        setTimeout(() => {
-                            ctaShiny.classList.remove('opacity-0');
-                            ctaShiny.classList.add('opacity-100');
-                        }, 50);
+                        // If they have explored all 4 paths, upgrade the buttons to SHINY
+                        if (aboutReadOptions.size === 4 && ctaDull && ctaShiny && !ctaDull.classList.contains('hidden')) {
+                            ctaDull.classList.remove('flex');
+                            ctaDull.classList.add('hidden');
+                            
+                            ctaShiny.classList.remove('hidden');
+                            ctaShiny.classList.add('flex');
+                            
+                            setTimeout(() => {
+                                ctaShiny.classList.remove('opacity-0');
+                                ctaShiny.classList.add('opacity-100');
+                            }, 50);
+                        }
                     }
                 }
+            };
 
-            } else {
-                // Keep clicking: Show arrow, enable pointer, hide choices
-                arrowEl.style.display = "block";
-                dialogueZone.style.cursor = "pointer";
-                
-                // Drop the shutter to envelope the space
-                dialogueZone.classList.remove('h-[160px]', 'md:h-[140px]');
-                dialogueZone.classList.add('h-full');
-                
-                // Fade out buttons and force disable interaction
-                choicesEl.classList.remove('opacity-100');
-                choicesEl.classList.add('opacity-0', 'pointer-events-none');
-
-                // Hide the CTAs while reading but keep them in the flow so the window doesn't shrink
-                if (ctaContainer) {
-                    ctaContainer.classList.remove('opacity-100');
-                    ctaContainer.classList.add('opacity-0', 'pointer-events-none');
-                }
-            }
-        }
-
-        function advanceAboutDialogue() {
-            const pages = aboutDialogueData[currentAboutTopic];
-            if (currentAboutPage < pages.length - 1) {
-                currentAboutPage++;
-                renderAboutDialogue();
-            }
+            // Bind the scroll listener dynamically
+            dialogueZone.onscroll = checkScroll;
+            
+            // Trigger check instantly in case the content doesn't overflow the box
+            setTimeout(checkScroll, 50); 
         }
 
         function selectAboutOption(optionId, btnElement) {
-            // Visually mark the button as visited instantly
-            btnElement.classList.add('opacity-40', 'grayscale');
+            // Track this button globally so it stays gray if the modal is closed
+            visitedAboutButtons.add(btnElement);
 
-            // 150ms physical delay: Let the CSS squash animation play out before transitioning the UI
-            setTimeout(() => {
-                currentAboutTopic = optionId;
-                currentAboutPage = 0;
-                renderAboutDialogue();
-            }, 150);
+            // 1. Find the currently active button and turn it gray (completed)
+            document.querySelectorAll('.about-choice-btn.is-active').forEach(btn => {
+                btn.classList.remove('is-active');
+                btn.classList.add('opacity-40', 'grayscale');
+            });
+
+            // 2. Make the newly clicked button bright yellow (active)
+            btnElement.classList.remove('opacity-40', 'grayscale');
+            btnElement.classList.add('is-active');
+
+            // Instant UI snap: expand to full height for scrollable lore
+            const wrapper = document.getElementById('about-dialogue-wrapper');
+            if (wrapper) {
+                wrapper.classList.add('h-[520px]', 'md:h-[420px]');
+            }
+
+            // Instantly transition the UI text
+            currentAboutTopic = optionId;
+            renderAboutDialogue();
         }
-
 
         function openAboutModal() {
             document.body.style.overflow = 'hidden';
             
+            // Instant UI snap: reset box size to tightly hug the intro text
+            const wrapper = document.getElementById('about-dialogue-wrapper');
+            if (wrapper) {
+                wrapper.classList.remove('h-[520px]', 'md:h-[420px]');
+            }
+
             // Hard reset the state machine every time the modal opens
             currentAboutTopic = 'intro';
-            currentAboutPage = 0;
-            aboutReadOptions.clear(); // Fresh start for the CTAs
+            // Removed aboutReadOptions.clear() so CTA progress is permanently saved!
             
             // Instantly hide the CTAs and reset to Dull state
             const ctaContainer = document.getElementById('about-cta-container');
@@ -2411,9 +2412,16 @@
                 ctaShiny.classList.add('hidden', 'opacity-0');
             }
             
-            // Reset visual states of all choice buttons
+            // Reset visual states based on global memory
             document.querySelectorAll('.about-choice-btn').forEach(btn => {
-                btn.classList.remove('opacity-40', 'grayscale');
+                btn.classList.remove('is-active'); // Always remove the yellow active state when going back to intro
+                
+                // If it was clicked previously, lock it into the grayed-out state
+                if (visitedAboutButtons.has(btn)) {
+                    btn.classList.add('opacity-40', 'grayscale');
+                } else {
+                    btn.classList.remove('opacity-40', 'grayscale');
+                }
             });
 
             // Initialize the UI instantly
