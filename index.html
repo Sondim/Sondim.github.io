@@ -33,9 +33,10 @@
         /* --- DISCORD UI ENGINE COMPONENT --- */
         .discord-avatar-container {
             position: relative;
-            width: 110px; /* Scaled up ~1.35x from 80px to provide a weightier anchoring element */
-            height: 110px;
-            display: block; /* Crucial since this will now be an <a> tag */
+            /* 25% REDUCTION: Down from 110px to a tight 82px profile */
+            width: 82px; 
+            height: 82px;
+            display: block; 
             transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -326,30 +327,33 @@
         .pixel-title {
             font-family: 'Press Start 2P', monospace;
             color: #ffcc00; 
-            font-size: 4.25rem; /* Pushed from 3rem to match the magnified 130% scale profile */
+            /* 25% REDUCTION: Desktop size 4.25rem -> 3.2rem */
+            font-size: 3.2rem; 
             line-height: 1.2;
             margin: 0 0 2rem 0;
             letter-spacing: -2px;
             text-shadow: 
-            -3px -3px 0 #000,  
-            3px -3px 0 #000,
-            -3px  3px 0 #000,
-            3px  3px 0 #000,
-            8px  8px 0px rgba(0,0,0,0.85); /* Weightier drop shadow to preserve contrast at higher scale */
+            -2px -2px 0 #000,  
+            2px -2px 0 #000,
+            -2px  2px 0 #000,
+            2px  2px 0 #000,
+            6px  6px 0px rgba(0,0,0,0.85); 
         }
 
         @media (max-width: 768px) {
             .pixel-title { 
-            font-size: 2.5rem; 
+            /* 25% REDUCTION: Mobile size 2.5rem -> 1.85rem */
+            font-size: 1.85rem; 
             text-shadow: 
-                -2px -2px 0 #000,  
-                2px -2px 0 #000,
-                -2px  2px 0 #000,
-                2px  2px 0 #000,
-                5px  5px 0px rgba(0,0,0,0.85); 
+                -1.5px -1.5px 0 #000,  
+                1.5px -1.5px 0 #000,
+                -1.5px  1.5px 0 #000,
+                1.5px  1.5px 0 #000,
+                4px  4px 0px rgba(0,0,0,0.85); 
             }
             .pixel-subtitle {
-                font-size: 1rem;
+                /* 25% REDUCTION: 1rem -> 0.75rem */
+                font-size: 0.75rem;
                 line-height: 1.6;
             }
         }
@@ -358,7 +362,8 @@
         .pixel-subtitle {
             font-family: 'Press Start 2P', monospace;
             color: #000000;
-            font-size: 1.65rem; /* Expanded to capture high-impact focus */
+            /* 25% REDUCTION: 1.65rem -> 1.25rem */
+            font-size: 1.25rem; 
             line-height: 1.5;
             margin: 0 0 2rem 0;
             letter-spacing: -1px;
@@ -838,16 +843,16 @@
     <section class="hero-container">
         <div class="static-hero-bg" style="background-image: url('https://raw.githubusercontent.com/Sondim/Sondim.github.io/028ce08aa3995700c93a6780e2127e9ba25a0e97/staticimagehero.jpg');"></div>
 
-        <div class="absolute top-[10%] md:top-[10%] left-1/2 -translate-x-1/2 text-center z-10 w-11/12 md:w-full flex flex-col items-center">
+        <div class="absolute top-[6%] md:top-[6%] left-1/2 -translate-x-1/2 text-center z-10 w-11/12 md:w-full flex flex-col items-center">
             <h1 class="pixel-title flex flex-col items-center text-center">
                 <span class="text-[1em] leading-none md:leading-tight">BUILD GREAT GAMES</span>
                 <span class="text-[1em] leading-none md:leading-tight mt-2 md:mt-4">WITHOUT BURNING OUT</span>
             </h1>
-            <p class="font-['Press_Start_2P'] text-[10px] md:text-sm text-black font-normal text-center leading-loose mt-4 mb-16 md:mb-20 max-w-5xl mx-auto px-4 tracking-widest uppercase">
+            <p class="font-['Press_Start_2P'] text-[9px] md:text-xs text-black font-normal text-center leading-loose mt-4 mb-10 md:mb-12 max-w-4xl mx-auto px-4 tracking-widest uppercase">
                 For gamedevs who are stuck in stress and conflict<br><br>and want to get their momentum back
             </p>
 
-            <div id="hero-panel" class="canvas-panel-8bit w-full max-w-4xl p-8 md:p-10 text-left mb-10 flex flex-col md:flex-row gap-8 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
+            <div id="hero-panel" class="canvas-panel-8bit w-full max-w-2xl p-5 md:p-6 text-left mb-6 flex flex-col md:flex-row gap-6 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
                 <div class="flex flex-col items-center flex-shrink-0 relative">
                     <div id="hero-avatar-wrapper" class="animate-head-drift">
                         <button onclick="copyDiscordId(this, 'portrait')" class="discord-avatar-container cursor-pointer block bg-transparent border-none p-0 outline-none appearance-none w-full text-left">
@@ -866,27 +871,27 @@
                 </div>
 
                 <div class="flex-1 w-full text-center md:text-left flex flex-col h-full">
-                    <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[13px] font-['Press_Start_2P'] tracking-widest text-zinc-300">
+                    <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-300">
                         <span id="discord-username-display">Welcome, I'm Magnus!</span>
                     </div>
 
-                    <div id="dialogue-zone" class="dialogue-text-area min-h-[160px] md:min-h-[120px]" onclick="advanceDialogue()">
-                        <p id="dialogue-text" class="font-mono text-base md:text-lg text-zinc-300 leading-relaxed text-left m-0">
+                    <div id="dialogue-zone" class="dialogue-text-area min-h-[120px] md:min-h-[90px]" onclick="advanceDialogue()">
+                        <p id="dialogue-text" class="font-mono text-xs md:text-sm text-zinc-300 leading-relaxed text-left m-0">
                             I'm a professional coach who helps solodevs and teams who are stuck in stress, conflict or burnout to get <em>unstuck</em> and finish the game they want to make.
                         </p>
                         
                         <div id="dialogue-arrow" class="dialogue-arrow">▼</div>
                     </div>
 
-                    <div id="hero-unlocked-btns" class="hidden flex-col w-full mt-6 md:mt-8 fade-in">
-                        <button onclick="bootQuestEngine()" class="btn-8bit w-full text-[12px] tracking-widest">
-                            FREE RESOURCES
+                    <div id="hero-unlocked-btns" class="hidden flex-col w-full mt-4 md:mt-5 fade-in">
+                        <button onclick="bootQuestEngine()" class="btn-8bit w-full text-[9px] tracking-widest">
+                            RESOURCES
                         </button>
                     </div>
 
                 </div>
             </div>
-        </div>
+        </div>  
     </section>
 
     <section id="testimonials-ticker" class="w-full bg-zinc-950 py-2 md:py-4 border-b border-white/5 relative z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
@@ -1860,13 +1865,8 @@
                     dialogueZone.style.cursor = 'default';
                     dialogueZone.onclick = null; 
                     
-                    // Camera pan down to reveal the buttons
-                    setTimeout(() => {
-                        const heroPanel = document.getElementById('hero-panel');
-                        if (heroPanel) {
-                            heroPanel.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                        }
-                    }, 50);
+                    // TWEAK: Removed forced camera pan down. The button reveals statically 
+                    // within the 25% shrunken card, leaving viewport control entirely to the player.
                 }
             }
         }
