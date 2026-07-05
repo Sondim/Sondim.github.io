@@ -33,8 +33,8 @@
         /* --- DISCORD UI ENGINE COMPONENT --- */
         .discord-avatar-container {
             position: relative;
-            width: 80px;
-            height: 80px;
+            width: 110px; /* Scaled up ~1.35x from 80px to provide a weightier anchoring element */
+            height: 110px;
             display: block; /* Crucial since this will now be an <a> tag */
             transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -326,30 +326,30 @@
         .pixel-title {
             font-family: 'Press Start 2P', monospace;
             color: #ffcc00; 
-            font-size: 3rem; 
-            line-height: 1.4;
-            margin: 0 0 1.5rem 0;
+            font-size: 4.25rem; /* Pushed from 3rem to match the magnified 130% scale profile */
+            line-height: 1.2;
+            margin: 0 0 2rem 0;
             letter-spacing: -2px;
             text-shadow: 
-            -2px -2px 0 #000,  
-            2px -2px 0 #000,
-            -2px  2px 0 #000,
-            2px  2px 0 #000,
-            6px  6px 0px rgba(0,0,0,0.85); 
+            -3px -3px 0 #000,  
+            3px -3px 0 #000,
+            -3px  3px 0 #000,
+            3px  3px 0 #000,
+            8px  8px 0px rgba(0,0,0,0.85); /* Weightier drop shadow to preserve contrast at higher scale */
         }
 
         @media (max-width: 768px) {
             .pixel-title { 
-            font-size: 2.0rem; 
+            font-size: 2.5rem; 
             text-shadow: 
-                -1px -1px 0 #000,  
-                1px -1px 0 #000,
-                -1px  1px 0 #000,
-                1px  1px 0 #000,
-                4px  4px 0px rgba(0,0,0,0.85); 
+                -2px -2px 0 #000,  
+                2px -2px 0 #000,
+                -2px  2px 0 #000,
+                2px  2px 0 #000,
+                5px  5px 0px rgba(0,0,0,0.85); 
             }
             .pixel-subtitle {
-                font-size: 0.85rem;
+                font-size: 1rem;
                 line-height: 1.6;
             }
         }
@@ -358,9 +358,9 @@
         .pixel-subtitle {
             font-family: 'Press Start 2P', monospace;
             color: #000000;
-            font-size: 1.25rem;
+            font-size: 1.65rem; /* Expanded to capture high-impact focus */
             line-height: 1.5;
-            margin: 0 0 1.5rem 0;
+            margin: 0 0 2rem 0;
             letter-spacing: -1px;
         }
 
@@ -652,6 +652,15 @@
             transform-origin: bottom center; /* Crucial for grounding the squash */
         }
 
+        /* --- DISCORD COPY SUCCESS STATES --- */
+        .discord-copied-text {
+            color: #5865F2 !important;
+            transform: scale(1.15) translateY(-6px) !important;
+        }
+        .discord-copied-tooltip {
+            color: #facc15 !important;
+        }
+
         /* --- RETRO HARDWARE ELEMENT WORK --- */
         .canvas-panel-8bit {
             background-color: #18181b;
@@ -834,14 +843,14 @@
                 <span class="text-[1em] leading-none md:leading-tight">BUILD GREAT GAMES</span>
                 <span class="text-[1em] leading-none md:leading-tight mt-2 md:mt-4">WITHOUT BURNING OUT</span>
             </h1>
-            <p class="font-mono text-xl md:text-2xl text-black font-bold text-center leading-relaxed mt-6 mb-4 max-w-3xl mx-auto px-4 drop-shadow-sm">
+            <p class="font-['Press_Start_2P'] text-[10px] md:text-sm text-black font-normal text-center leading-loose mt-4 mb-16 md:mb-20 max-w-5xl mx-auto px-4 tracking-widest uppercase">
                 For gamedevs who are stuck in stress and conflict and want to get their momentum back
             </p>
 
-            <<div id="hero-panel" class="canvas-panel-8bit w-full max-w-2xl p-6 md:p-8 text-left mb-10 flex flex-col md:flex-row gap-6 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
-                <div class="flex flex-col items-center flex-shrink-0">
+            <div id="hero-panel" class="canvas-panel-8bit w-full max-w-4xl p-8 md:p-10 text-left mb-10 flex flex-col md:flex-row gap-8 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
+                <div class="flex flex-col items-center flex-shrink-0 relative">
                     <div id="hero-avatar-wrapper" class="animate-head-drift">
-                        <a href="https://discord.com/users/198813370441269249" target="_blank" class="discord-avatar-container cursor-pointer block">
+                        <button onclick="copyDiscordId(this, 'portrait')" class="discord-avatar-container cursor-pointer block bg-transparent border-none p-0 outline-none appearance-none w-full text-left">
                             <div class="discord-avatar-mask">
                                 <img id="discord-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%2318181b'></svg>" 
                                      alt="Magnus" class="w-full h-full object-cover transition-opacity duration-300 opacity-0">
@@ -851,25 +860,26 @@
                             <div class="discord-tooltip">
                                 <span id="discord-tooltip-text">Connecting...</span>
                             </div>
-                        </a>
+                        </button>
                     </div>
+                    <span id="portrait-copy-feedback" class="absolute -bottom-8 font-['Press_Start_2P'] text-[9px] text-yellow-400 opacity-0 transition-opacity duration-200 pointer-events-none whitespace-nowrap drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">ID COPIED!</span>
                 </div>
 
                 <div class="flex-1 w-full text-center md:text-left flex flex-col h-full">
-                    <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-300">
+                    <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[13px] font-['Press_Start_2P'] tracking-widest text-zinc-300">
                         <span id="discord-username-display">Welcome, I'm Magnus!</span>
                     </div>
 
-                    <div id="dialogue-zone" class="dialogue-text-area min-h-[140px] md:min-h-[100px]" onclick="advanceDialogue()">
-                        <p id="dialogue-text" class="font-mono text-sm md:text-base text-zinc-300 leading-relaxed text-left m-0">
-                            I help solodevs and teams who are stuck in stress, conflict or burnout to finish the game they want to make.
+                    <div id="dialogue-zone" class="dialogue-text-area min-h-[160px] md:min-h-[120px]" onclick="advanceDialogue()">
+                        <p id="dialogue-text" class="font-mono text-base md:text-lg text-zinc-300 leading-relaxed text-left m-0">
+                            I'm a professional coach who helps solodevs and teams who are stuck in stress, conflict or burnout to get <em>unstuck</em> and finish the game they want to make.
                         </p>
                         
                         <div id="dialogue-arrow" class="dialogue-arrow">▼</div>
                     </div>
 
                     <div id="hero-unlocked-btns" class="hidden flex-col w-full mt-6 md:mt-8 fade-in">
-                        <button onclick="bootQuestEngine()" class="btn-8bit w-full text-[10px] tracking-widest">
+                        <button onclick="bootQuestEngine()" class="btn-8bit w-full text-[12px] tracking-widest">
                             FREE RESOURCES
                         </button>
                     </div>
@@ -1435,14 +1445,14 @@
                         <span class="font-['Press_Start_2P'] text-[10px] text-zinc-500 uppercase tracking-widest group-hover:text-white transition-colors duration-75 leading-relaxed contact-text-spring">Email Me</span>
                     </button>
 
-                    <a href="https://discord.com/users/198813370441269249" target="_blank" onclick="closeModals()" class="group flex flex-col items-center no-underline relative">
+                    <button onclick="copyDiscordId(this, 'block')" class="group flex flex-col items-center no-underline relative bg-transparent border-none outline-none cursor-pointer appearance-none">
                         <div class="flex items-center justify-center w-28 h-28 mb-4 bg-zinc-800 border-4 border-black shadow-[6px_6px_0px_black] group-hover:bg-[#5865F2] group-active:translate-x-[4px] group-active:translate-y-[4px] group-active:shadow-[2px_2px_0px_black] transition-all duration-75">
                             <svg class="w-14 h-14 text-white transition-colors duration-75 render-pixel contact-icon-jump" viewBox="0 0 24 24" fill="currentColor">
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4h4v2h4V4h4v4h2v8h-2v2h-4v-2h-4v2H6v-2H4V8h2V4zm3 6H7v2h2v-2zm6 0h-2v2h2v-2z" />
                             </svg>
                         </div>
-                        <span class="font-['Press_Start_2P'] text-[10px] text-zinc-500 uppercase tracking-widest group-hover:text-white transition-colors duration-75 leading-relaxed contact-text-spring">Discord DM</span>
-                    </a>
+                        <span class="font-['Press_Start_2P'] text-[10px] text-zinc-500 uppercase tracking-widest group-hover:text-white transition-colors duration-75 leading-relaxed contact-text-spring">COPY DISCORD ID</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -1612,7 +1622,7 @@
 
             <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-4 leading-tight tracking-wide">Contact</h2>
 
-            <p class="text-lg text-zinc-400">Reach out directly or join the studio server.</p>
+            <p class="text-lg text-zinc-400">Email me or send me a message on Discord!</p>
 
         </div>
 
@@ -1640,7 +1650,7 @@
 
             </button>
 
-            <a href="https://discord.com/users/198813370441269249" target="_blank" class="group flex flex-col items-center no-underline relative">
+            <button onclick="copyDiscordId(this, 'block')" class="group flex flex-col items-center no-underline relative bg-transparent border-none outline-none cursor-pointer appearance-none">
                 
                 <div class="flex items-center justify-center w-32 h-32 mb-6 bg-zinc-800 border-4 border-black shadow-[6px_6px_0px_black] group-hover:bg-[#5865F2] group-active:translate-x-[4px] group-active:translate-y-[4px] group-active:shadow-[2px_2px_0px_black] transition-all duration-75">
                     <svg class="w-16 h-16 text-white transition-colors duration-75 render-pixel contact-icon-jump" viewBox="0 0 24 24" fill="currentColor">
@@ -1648,9 +1658,9 @@
                     </svg>
                 </div>
 
-                <span class="font-['Press_Start_2P'] text-[10px] text-zinc-500 uppercase tracking-widest group-hover:text-white transition-colors duration-75 leading-relaxed contact-text-spring">Discord DM</span>
+                <span class="font-['Press_Start_2P'] text-[10px] text-zinc-500 uppercase tracking-widest group-hover:text-white transition-colors duration-75 leading-relaxed contact-text-spring">COPY DISCORD ID</span>
 
-            </a>
+            </button>
 
         </div>
 
@@ -3765,7 +3775,45 @@
             if (testiTrack) startTestiTimer();
         });
 
+// --- DISCORD ID COPY ENGINE ---
+        const TARGET_DISCORD_ID = "198813370441269249";
+
+        function copyDiscordId(element, type) {
+            navigator.clipboard.writeText(TARGET_DISCORD_ID).then(() => {
+                
+                if (type === 'portrait') {
+                    // Target the dedicated feedback span below the portrait
+                    const feedbackSpan = document.getElementById('portrait-copy-feedback');
+                    
+                    // Fade it in
+                    feedbackSpan.classList.remove('opacity-0');
+                    feedbackSpan.classList.add('opacity-100');
+                    
+                    // Fade it out after 2.5 seconds
+                    setTimeout(() => {
+                        feedbackSpan.classList.remove('opacity-100');
+                        feedbackSpan.classList.add('opacity-0');
+                    }, 2500);
+
+                } else if (type === 'block') {
+                    const textSpan = element.querySelector('.contact-text-spring');
+                    const originalText = "COPY DISCORD ID";
+                    
+                    textSpan.innerText = "ID COPIED!";
+                    textSpan.classList.add('discord-copied-text');
+                    
+                    setTimeout(() => {
+                        textSpan.innerText = originalText;
+                        textSpan.classList.remove('discord-copied-text');
+                    }, 2500);
+                }
+            }).catch(err => {
+                console.error("Failed to copy Discord ID: ", err);
+            });
+        }
+
     </script>
+
 
 
 </body>
