@@ -783,8 +783,8 @@
                     </button>
                     <div class="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-64 bg-zinc-900 border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-150 flex flex-col z-50">
                         <button onclick="fastTravelQuest('state-topic')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Free guides</button>
-                        <button onclick="fastTravelQuest('state-draw-prompt')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Free workshops</button>
-                        <button onclick="fastTravelQuest('state-test')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors">Do a quick diagnostic</button>
+                        <button onclick="fastTravelQuest('menu-workshops')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Free workshops</button>
+                        <button onclick="fastTravelQuest('state-test')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors">Do a quick test</button>
                     </div>
                 </div>
 
@@ -798,7 +798,7 @@
                 <div class="flex flex-col items-center gap-5 w-full my-2">
                     <span class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400">--- Resources ---</span>
                     <button onclick="fastTravelQuest('state-topic');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Free guides</button>
-                    <button onclick="fastTravelQuest('state-draw-prompt');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Free workshops</button>
+                    <button onclick="fastTravelQuest('menu-workshops');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Free workshops</button>
                     <button onclick="fastTravelQuest('state-test');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Do quick diagnostic</button>
                 </div>
                 
@@ -844,7 +844,7 @@
                 <span class="text-[1em] leading-none md:leading-tight mt-2 md:mt-4">WITHOUT BURNING OUT</span>
             </h1>
             <p class="font-['Press_Start_2P'] text-[10px] md:text-sm text-black font-normal text-center leading-loose mt-4 mb-16 md:mb-20 max-w-5xl mx-auto px-4 tracking-widest uppercase">
-                For gamedevs who are stuck in stress and conflict and want to get their momentum back
+                For gamedevs who are stuck in stress and conflict<br><br>and want to get their momentum back
             </p>
 
             <div id="hero-panel" class="canvas-panel-8bit w-full max-w-4xl p-8 md:p-10 text-left mb-10 flex flex-col md:flex-row gap-8 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
@@ -947,8 +947,8 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto text-left">
                 <button onclick="selectHubQuest(this, 'state-topic')" data-desc="Choose and download guides on common topics!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Free guides</button>
-                <button onclick="selectHubQuest(this, 'state-draw-prompt')" data-desc="I usually do these together with my clients. Try them out!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Free workshops</button>
-                <button onclick="selectHubQuest(this, 'state-test')" data-desc="Do a test to and get a suggested topic to work on!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Do a Test</button>
+                <button onclick="selectHubQuest(this, 'menu-workshops')" data-desc="I usually do these together with my clients. Try them out!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Free workshops</button>
+                <button onclick="selectHubQuest(this, 'state-test')" data-desc="Answer 12 questions and get a suggested topic to work on!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Do a Test</button>
             </div>
 
             <div id="guides-expansion-zone" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl mx-auto text-left custom-scrollbar pr-2 md:pr-4 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] max-h-0 opacity-0 pointer-events-none overflow-hidden">
@@ -1002,6 +1002,35 @@
                 </button>
             </div>
 
+            <div id="workshops-expansion-zone" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl mx-auto text-left custom-scrollbar pr-2 md:pr-4 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] max-h-0 opacity-0 pointer-events-none overflow-hidden">
+                
+                <button onclick="goToQuestState('state-draw-prompt')" class="relative flex items-start gap-5 md:gap-6 bg-zinc-900 border-2 border-black p-5 md:p-6 hover:border-yellow-400 hover:bg-zinc-800 transition-all group w-full cursor-pointer shadow-[4px_4px_0px_#000]">
+                    <svg class="w-12 h-12 text-white flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M5 2h12v2H5zm0 2h2v10H5zm12-2h2v12h-2z"/><path d="M13 2h2v6h-2zM9 2h2v4H9zm-4 8h14v2H5zm0 4h14v2H5zm4 2h2v4H9zm4 0h2v4h-2zm-4 4h6v2H9z"/>
+                    </svg>
+                    <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left">
+                        <span class="font-['Press_Start_2P'] text-[13px] text-yellow-400 leading-relaxed tracking-widest uppercase mb-3">Creative Workshop: Paint Your Problem</span>
+                        <span class="font-mono text-sm text-zinc-300 leading-relaxed group-hover:text-white transition-colors">A creative diagnostic tool. We'll use a retro canvas to sketch out the underlying blockers in your studio.</span>
+                    </div>
+                    <div class="absolute bottom-4 right-4">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-yellow-400 render-pixel transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" fill="currentColor"><path d="M4 16H6V18H8V20H10V22H2V14H4V16ZM12 20H10V18H12V20ZM14 18H12V16H14V18ZM10 16H8V14H10V16ZM16 16H14V14H16V16ZM6 14H4V12H6V14ZM12 14H10V12H12V14ZM18 14H16V12H18V14ZM8 12H6V10H8V12ZM14 12H12V10H14V12ZM20 12H18V10H20V12ZM10 10H8V8H10V10ZM18 10H16V8H18V10ZM22 10H20V8H22V10ZM12 8H10V6H12V8ZM16 8H14V6H16V8ZM20 8H18V6H20V8ZM14 6H12V4H14V6ZM18 6H16V4H18V6ZM16 4H14V2H16V4Z"/></svg>
+                    </div>
+                </button>
+
+                <button onclick="window.open('#', '_blank')" class="relative flex items-start gap-5 md:gap-6 bg-zinc-900 border-2 border-black p-5 md:p-6 hover:border-yellow-400 hover:bg-zinc-800 transition-all group w-full cursor-pointer shadow-[4px_4px_0px_#000]">
+                    <svg class="w-12 h-12 text-white flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M15 22H9v-6h6v6Zm-4-2h2v-2h-2v2Zm-2-4H7v-2h2v2Zm8 0h-2v-2h2v2ZM7 14H5V8h2v6Zm12 0h-2V8h2v6ZM3 12H0v-2h3v2Zm21 0h-3v-2h3v2ZM9 8H7V6h2v2Zm8 0h-2V6h2v2ZM5 6H3V4h2v2Zm10 0H9V4h6v2Zm6 0h-2V4h2v2ZM3 4H1V2h2v2Zm20 0h-2V2h2v2ZM13 3h-2V0h2v3Z"/>
+                    </svg>
+                    <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left">
+                        <span class="font-['Press_Start_2P'] text-[13px] text-yellow-400 leading-relaxed tracking-widest uppercase mb-3">Miro Board Workout</span>
+                        <span class="font-mono text-sm text-zinc-300 leading-relaxed group-hover:text-white transition-colors">A strategic workshop template. Map out your goals and identify friction points using this interactive board.</span>
+                    </div>
+                    <div class="absolute bottom-4 right-4">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-yellow-400 render-pixel transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" fill="currentColor"><path d="M4 16H6V18H8V20H10V22H2V14H4V16ZM12 20H10V18H12V20ZM14 18H12V16H14V18ZM10 16H8V14H10V16ZM16 16H14V14H16V16ZM6 14H4V12H6V14ZM12 14H10V12H12V14ZM18 14H16V12H18V14ZM8 12H6V10H8V12ZM14 12H12V10H14V12ZM20 12H18V10H20V12ZM10 10H8V8H10V10ZM18 10H16V8H18V10ZM22 10H20V8H22V10ZM12 8H10V6H12V8ZM16 8H14V6H16V8ZM20 8H18V6H20V8ZM14 6H12V4H14V6ZM18 6H16V4H18V6ZM16 4H14V2H16V4Z"/></svg>
+                    </div>
+                </button>
+            </div>
+
             <div id="hub-confirm-container" class="flex flex-col items-center transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] max-h-0 opacity-0 pointer-events-none overflow-hidden">
                 <p id="quest-desc-text" class="text-sm md:text-base text-white font-mono mb-6 min-h-[32px] px-4 flex items-center justify-center text-center"></p>
                 
@@ -1009,8 +1038,8 @@
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
                     <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">Select</span>
-                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">Select</span>
+                    <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">START TEST</span>
+                    <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">START TEST</span>
                 </button>
             </div>
         </div>
@@ -2021,7 +2050,22 @@
             
             // Allow the modal's display:block to physically register before we force the state change
             setTimeout(() => {
-                goToQuestState(targetState);
+                // Intercept the routing if we are targeting one of our accordions
+                if (targetState === 'state-topic' || targetState === 'menu-workshops') {
+                    // Send them to the Hub
+                    goToQuestState('state-hub');
+                    
+                    // Programmatically "click" the correct button to spring open the accordion
+                    setTimeout(() => {
+                        const targetBtn = document.querySelector(`.hub-quest-btn[onclick*="${targetState}"]`);
+                        if (targetBtn) {
+                            selectHubQuest(targetBtn, targetState);
+                        }
+                    }, 50);
+                } else {
+                    // Standard routing (e.g. Do a test)
+                    goToQuestState(targetState);
+                }
             }, 50);
         }
 
@@ -2063,35 +2107,60 @@
             }
 
             document.querySelectorAll('.hub-quest-btn').forEach(b => b.classList.remove('is-active'));
-            btn.classList.add('is-active');
+            if (btn) btn.classList.add('is-active');
             selectedHubTargetState = targetState;
 
-            const descText = btn.getAttribute('data-desc');
-            const descEl = document.getElementById('quest-desc-text');
-            if (descEl) descEl.innerText = descText;
+            if (btn) {
+                const descText = btn.getAttribute('data-desc');
+                const descEl = document.getElementById('quest-desc-text');
+                if (descEl) descEl.innerText = descText;
+            }
 
             const confirmContainer = document.getElementById('hub-confirm-container');
             const confirmBtn = document.getElementById('hub-confirm-btn');
             const expansionZone = document.getElementById('guides-expansion-zone');
+            const workshopsZone = document.getElementById('workshops-expansion-zone');
 
-            // Accordion toggle expansion zone vs confirm button
+            // 3-Way Accordion switch
             if (targetState === 'state-topic') {
                 if (confirmContainer) {
                     confirmContainer.classList.remove('max-h-[200px]', 'opacity-100', 'pointer-events-auto', 'mt-8');
                     confirmContainer.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
                 }
+                if (workshopsZone) {
+                    workshopsZone.classList.remove('max-h-[420px]', 'opacity-100', 'pointer-events-auto', 'mt-8', 'pb-4', 'overflow-y-auto');
+                    workshopsZone.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
+                }
                 if (expansionZone) {
                     expansionZone.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none', 'hidden', 'overflow-hidden');
                     expansionZone.classList.add('max-h-[420px]', 'opacity-100', 'pointer-events-auto', 'mt-8', 'pb-4', 'overflow-y-auto');
                 }
-            } else {
+            } else if (targetState === 'menu-workshops') {
                 if (confirmContainer) {
-                    confirmContainer.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none', 'hidden', 'overflow-hidden');
-                    confirmContainer.classList.add('max-h-[200px]', 'opacity-100', 'pointer-events-auto', 'mt-8');
+                    confirmContainer.classList.remove('max-h-[200px]', 'opacity-100', 'pointer-events-auto', 'mt-8');
+                    confirmContainer.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
                 }
                 if (expansionZone) {
                     expansionZone.classList.remove('max-h-[420px]', 'opacity-100', 'pointer-events-auto', 'mt-8', 'pb-4', 'overflow-y-auto');
                     expansionZone.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
+                }
+                if (workshopsZone) {
+                    workshopsZone.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none', 'hidden', 'overflow-hidden');
+                    workshopsZone.classList.add('max-h-[420px]', 'opacity-100', 'pointer-events-auto', 'mt-8', 'pb-4', 'overflow-y-auto');
+                }
+            } else {
+                // 'state-test'
+                if (expansionZone) {
+                    expansionZone.classList.remove('max-h-[420px]', 'opacity-100', 'pointer-events-auto', 'mt-8', 'pb-4', 'overflow-y-auto');
+                    expansionZone.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
+                }
+                if (workshopsZone) {
+                    workshopsZone.classList.remove('max-h-[420px]', 'opacity-100', 'pointer-events-auto', 'mt-8', 'pb-4', 'overflow-y-auto');
+                    workshopsZone.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
+                }
+                if (confirmContainer) {
+                    confirmContainer.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none', 'hidden', 'overflow-hidden');
+                    confirmContainer.classList.add('max-h-[200px]', 'opacity-100', 'pointer-events-auto', 'mt-8');
                 }
                 if (confirmBtn) confirmBtn.disabled = false;
             }
@@ -2100,6 +2169,8 @@
             setTimeout(() => {
                 if (targetState === 'state-topic' && expansionZone) {
                     expansionZone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else if (targetState === 'menu-workshops' && workshopsZone) {
+                    workshopsZone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 } else if (confirmBtn) {
                     confirmBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
@@ -2147,10 +2218,15 @@
                 
                 // Reset Hub Expansion UI
                 const expansionZone = document.getElementById('guides-expansion-zone');
+                const workshopsZone = document.getElementById('workshops-expansion-zone');
                 const confirmContainer = document.getElementById('hub-confirm-container');
                 if (expansionZone) {
                     expansionZone.classList.remove('max-h-[420px]', 'opacity-100', 'pointer-events-auto', 'mt-8', 'pb-4', 'overflow-y-auto');
                     expansionZone.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
+                }
+                if (workshopsZone) {
+                    workshopsZone.classList.remove('max-h-[420px]', 'opacity-100', 'pointer-events-auto', 'mt-8', 'pb-4', 'overflow-y-auto');
+                    workshopsZone.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
                 }
                 if (confirmContainer) {
                     confirmContainer.classList.remove('max-h-[200px]', 'opacity-100', 'pointer-events-auto', 'mt-8');
