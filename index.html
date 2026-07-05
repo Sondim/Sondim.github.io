@@ -951,7 +951,58 @@
                 <button onclick="selectHubQuest(this, 'state-test')" data-desc="Do a test to and get a suggested topic to work on!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Do a Test</button>
             </div>
 
-            <div id="hub-confirm-container" class="mt-10 flex flex-col items-center">
+            <div id="guides-expansion-zone" class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl mx-auto text-left custom-scrollbar pr-2 md:pr-4 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] max-h-0 opacity-0 pointer-events-none overflow-hidden">
+                <button onclick="fastTrackToGuide('critical')" class="relative flex items-start gap-5 md:gap-6 bg-zinc-900 border-2 border-black p-5 md:p-6 hover:border-yellow-400 hover:bg-zinc-800 transition-all group w-full cursor-pointer shadow-[4px_4px_0px_#000]">
+                    <svg class="w-12 h-12 text-white flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 32 32">
+                        <path d="M30.472 6.1H25.9V1.525h1.53V0H6.092v12.2h-1.52v1.52h1.52v3.05h-1.52v-3.05h-1.52v12.19h1.52v1.52h1.52V32H32V4.575h-1.53ZM7.622 18.285h4.57v4.57h-3.05v3.05h-1.52Zm22.85 12.19H7.622v-3.05H25.9v-1.52h1.53v-7.62H25.9v-1.52H7.622V1.525h16.76v6.09h6.09Zm-12.19 -10.67v4.58h-1.52v1.52h-3.05v-7.62h3.05v1.52Zm6.1 1.53v1.52h-3.05v3.05h-1.52v-7.62h4.57v1.52h-3.05v1.53Z"></path><path d="M28.952 3.045h1.52v1.53h-1.52Z"></path><path d="M27.432 1.525h1.52v1.52h-1.52Z"></path><path d="M15.242 19.805h1.52v4.58h-1.52Z"></path><path d="M9.142 19.805h1.53v1.53h-1.53Z"></path>
+                    </svg>
+                    <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left">
+                        <span class="font-['Press_Start_2P'] text-[13px] text-yellow-400 leading-relaxed tracking-widest uppercase mb-3">Critical Self Talk</span>
+                        <span class="font-mono text-sm text-zinc-300 leading-relaxed group-hover:text-white transition-colors">Quiet the internal critic and build sustainable motivation. Your exhaustion comes from pushing against that voice all day, not the actual work.</span>
+                    </div>
+                    <div class="absolute bottom-4 right-4">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-yellow-400 render-pixel transition-transform group-hover:translate-y-1" fill="currentColor"><path d="M5 19h14v-4h2v6H3v-6h2v4Zm8-8h4v2h-2v2h-2v2h-2v-2H9v-2H7v-2h4V3h2v8Z"/></svg>
+                    </div>
+                </button>
+                <button onclick="fastTrackToGuide('imposter')" class="relative flex items-start gap-5 md:gap-6 bg-zinc-900 border-2 border-black p-5 md:p-6 hover:border-yellow-400 hover:bg-zinc-800 transition-all group w-full cursor-pointer shadow-[4px_4px_0px_#000]">
+                    <svg class="w-12 h-12 text-white flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 32 32">
+                        <path d="M30.472 6.1H25.9V1.525h1.53V0H6.092v12.2h-1.52v1.52h1.52v3.05h-1.52v-3.05h-1.52v12.19h1.52v1.52h1.52V32H32V4.575h-1.53ZM7.622 18.285h4.57v4.57h-3.05v3.05h-1.52Zm22.85 12.19H7.622v-3.05H25.9v-1.52h1.53v-7.62H25.9v-1.52H7.622V1.525h16.76v6.09h6.09Zm-12.19 -10.67v4.58h-1.52v1.52h-3.05v-7.62h3.05v1.52Zm6.1 1.53v1.52h-3.05v3.05h-1.52v-7.62h4.57v1.52h-3.05v1.53Z"></path><path d="M28.952 3.045h1.52v1.53h-1.52Z"></path><path d="M27.432 1.525h1.52v1.52h-1.52Z"></path><path d="M15.242 19.805h1.52v4.58h-1.52Z"></path><path d="M9.142 19.805h1.53v1.53h-1.53Z"></path>
+                    </svg>
+                    <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left">
+                        <span class="font-['Press_Start_2P'] text-[13px] text-yellow-400 leading-relaxed tracking-widest uppercase mb-3">Imposter Syndrome</span>
+                        <span class="font-mono text-sm text-zinc-300 leading-relaxed group-hover:text-white transition-colors">Stop waiting for permission and own your studio's vision. When you stop resisting the underlying fear, it stops turning into chronic anxiety.</span>
+                    </div>
+                    <div class="absolute bottom-4 right-4">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-yellow-400 render-pixel transition-transform group-hover:translate-y-1" fill="currentColor"><path d="M5 19h14v-4h2v6H3v-6h2v4Zm8-8h4v2h-2v2h-2v2h-2v-2H9v-2H7v-2h4V3h2v8Z"/></svg>
+                    </div>
+                </button>
+                <button onclick="fastTrackToGuide('procrastination')" class="relative flex items-start gap-5 md:gap-6 bg-zinc-900 border-2 border-black p-5 md:p-6 hover:border-yellow-400 hover:bg-zinc-800 transition-all group w-full cursor-pointer shadow-[4px_4px_0px_#000]">
+                    <svg class="w-12 h-12 text-white flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 32 32">
+                        <path d="M30.472 6.1H25.9V1.525h1.53V0H6.092v12.2h-1.52v1.52h1.52v3.05h-1.52v-3.05h-1.52v12.19h1.52v1.52h1.52V32H32V4.575h-1.53ZM7.622 18.285h4.57v4.57h-3.05v3.05h-1.52Zm22.85 12.19H7.622v-3.05H25.9v-1.52h1.53v-7.62H25.9v-1.52H7.622V1.525h16.76v6.09h6.09Zm-12.19 -10.67v4.58h-1.52v1.52h-3.05v-7.62h3.05v1.52Zm6.1 1.53v1.52h-3.05v3.05h-1.52v-7.62h4.57v1.52h-3.05v1.53Z"></path><path d="M28.952 3.045h1.52v1.53h-1.52Z"></path><path d="M27.432 1.525h1.52v1.52h-1.52Z"></path><path d="M15.242 19.805h1.52v4.58h-1.52Z"></path><path d="M9.142 19.805h1.53v1.53h-1.53Z"></path>
+                    </svg>
+                    <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left">
+                        <span class="font-['Press_Start_2P'] text-[13px] text-yellow-400 leading-relaxed tracking-widest uppercase mb-3">Procrastination</span>
+                        <span class="font-mono text-sm text-zinc-300 leading-relaxed group-hover:text-white transition-colors">Move past the freeze response when the work gets overwhelming. Giving space to the emotion under the surface will make your next step surprisingly clear.</span>
+                    </div>
+                    <div class="absolute bottom-4 right-4">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-yellow-400 render-pixel transition-transform group-hover:translate-y-1" fill="currentColor"><path d="M5 19h14v-4h2v6H3v-6h2v4Zm8-8h4v2h-2v2h-2v2h-2v-2H9v-2H7v-2h4V3h2v8Z"/></svg>
+                    </div>
+                </button>
+                <button onclick="fastTrackToGuide('relationship')" class="relative flex items-start gap-5 md:gap-6 bg-zinc-900 border-2 border-black p-5 md:p-6 hover:border-yellow-400 hover:bg-zinc-800 transition-all group w-full cursor-pointer shadow-[4px_4px_0px_#000]">
+                    <svg class="w-12 h-12 text-white flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 32 32">
+                        <path d="M30.472 6.1H25.9V1.525h1.53V0H6.092v12.2h-1.52v1.52h1.52v3.05h-1.52v-3.05h-1.52v12.19h1.52v1.52h1.52V32H32V4.575h-1.53ZM7.622 18.285h4.57v4.57h-3.05v3.05h-1.52Zm22.85 12.19H7.622v-3.05H25.9v-1.52h1.53v-7.62H25.9v-1.52H7.622V1.525h16.76v6.09h6.09Zm-12.19 -10.67v4.58h-1.52v1.52h-3.05v-7.62h3.05v1.52Zm6.1 1.53v1.52h-3.05v3.05h-1.52v-7.62h4.57v1.52h-3.05v1.53Z"></path><path d="M28.952 3.045h1.52v1.53h-1.52Z"></path><path d="M27.432 1.525h1.52v1.52h-1.52Z"></path><path d="M15.242 19.805h1.52v4.58h-1.52Z"></path><path d="M9.142 19.805h1.53v1.53h-1.53Z"></path>
+                    </svg>
+                    <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left">
+                        <span class="font-['Press_Start_2P'] text-[13px] text-yellow-400 leading-relaxed tracking-widest uppercase mb-3">Relationship to Self & Others</span>
+                        <span class="font-mono text-sm text-zinc-300 leading-relaxed group-hover:text-white transition-colors">Thinking that you have to be fixed only slows this process down. Release the hidden agenda and get to know yourself with genuine curiosity.</span>
+                    </div>
+                    <div class="absolute bottom-4 right-4">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-yellow-400 render-pixel transition-transform group-hover:translate-y-1" fill="currentColor"><path d="M5 19h14v-4h2v6H3v-6h2v4Zm8-8h4v2h-2v2h-2v2h-2v-2H9v-2H7v-2h4V3h2v8Z"/></svg>
+                    </div>
+                </button>
+            </div>
+
+            <div id="hub-confirm-container" class="flex flex-col items-center transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] max-h-0 opacity-0 pointer-events-none overflow-hidden">
                 <p id="quest-desc-text" class="text-sm md:text-base text-white font-mono mb-6 min-h-[32px] px-4 flex items-center justify-center text-center"></p>
                 
                 <button id="hub-confirm-btn" disabled onclick="confirmHubQuest()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn w-full max-w-md disabled:opacity-50 disabled:grayscale transition-all duration-300">
@@ -965,7 +1016,7 @@
         </div>
 
         <!-- LEVEL 2: QUEST MECHANICS (Isolated placeholders for testing flow) -->
-        <div id="state-topic" class="hidden text-center fade-in w-full max-w-3xl mx-auto">
+        <!--<div id="state-topic" class="hidden text-center fade-in w-full max-w-3xl mx-auto">
             <h2 class="text-xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase tracking-widest">Free guides</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left" id="topic-selection-grid">
@@ -985,8 +1036,8 @@
                 </button>
             </div>
 
-            <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Return to Hub ]</button>
-        </div>
+            <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2 text-center w-full block">[ Back ]</button>
+        </div>-->
         
         <div id="state-draw-prompt" class="hidden text-center fade-in w-full max-w-3xl mx-auto">
             <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-6 leading-tight tracking-wide">Select A Prompt</h2>
@@ -1252,7 +1303,7 @@
                 <p id="generalStatusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center mt-2"></p>
             </div>
 
-            <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2 text-center w-full block">[ Do another quest ]</button>
+            <button onclick="goToQuestState('state-hub')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2 text-center w-full block">[ Back ]</button>
         </div>
 
             </div>
@@ -2019,12 +2070,40 @@
             const descEl = document.getElementById('quest-desc-text');
             if (descEl) descEl.innerText = descText;
 
+            const confirmContainer = document.getElementById('hub-confirm-container');
             const confirmBtn = document.getElementById('hub-confirm-btn');
-            if (confirmBtn) confirmBtn.disabled = false;
+            const expansionZone = document.getElementById('guides-expansion-zone');
+
+            // Accordion toggle expansion zone vs confirm button
+            if (targetState === 'state-topic') {
+                if (confirmContainer) {
+                    confirmContainer.classList.remove('max-h-[200px]', 'opacity-100', 'pointer-events-auto', 'mt-8');
+                    confirmContainer.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
+                }
+                if (expansionZone) {
+                    expansionZone.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none', 'hidden', 'overflow-hidden');
+                    expansionZone.classList.add('max-h-[420px]', 'opacity-100', 'pointer-events-auto', 'mt-8', 'pb-4', 'overflow-y-auto');
+                }
+            } else {
+                if (confirmContainer) {
+                    confirmContainer.classList.remove('max-h-0', 'opacity-0', 'pointer-events-none', 'hidden', 'overflow-hidden');
+                    confirmContainer.classList.add('max-h-[200px]', 'opacity-100', 'pointer-events-auto', 'mt-8');
+                }
+                if (expansionZone) {
+                    expansionZone.classList.remove('max-h-[420px]', 'opacity-100', 'pointer-events-auto', 'mt-8', 'pb-4', 'overflow-y-auto');
+                    expansionZone.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
+                }
+                if (confirmBtn) confirmBtn.disabled = false;
+            }
             
+            // Allow physics to settle before scrolling
             setTimeout(() => {
-                if (confirmBtn) confirmBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 50);
+                if (targetState === 'state-topic' && expansionZone) {
+                    expansionZone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else if (confirmBtn) {
+                    confirmBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 300);
         }
 
         function confirmHubQuest() {
@@ -2066,6 +2145,18 @@
                 if (descEl) descEl.innerText = '';
                 if (topicDescEl) topicDescEl.innerText = '';
                 
+                // Reset Hub Expansion UI
+                const expansionZone = document.getElementById('guides-expansion-zone');
+                const confirmContainer = document.getElementById('hub-confirm-container');
+                if (expansionZone) {
+                    expansionZone.classList.remove('max-h-[420px]', 'opacity-100', 'pointer-events-auto', 'mt-8', 'pb-4', 'overflow-y-auto');
+                    expansionZone.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
+                }
+                if (confirmContainer) {
+                    confirmContainer.classList.remove('max-h-[200px]', 'opacity-100', 'pointer-events-auto', 'mt-8');
+                    confirmContainer.classList.add('max-h-0', 'opacity-0', 'pointer-events-none', 'overflow-hidden');
+                }
+
                 // Scrub prompt state
                 if (promptText) promptText.innerText = "Click the button for a random drawing prompt, click until you have one you want.";
                 if (typeof currentActivePrompt !== 'undefined') currentActivePrompt = "";
@@ -2188,6 +2279,38 @@
             setTimeout(() => {
                 if (confirmBtn) confirmBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }, 50);
+        }
+
+        function fastTrackToGuide(topicKey) {
+            if(typeof topicsData !== 'undefined' && topicsData[topicKey]) {
+                const data = topicsData[topicKey];
+                
+                // Track this specific guide
+                visitedTopics.add(topicKey);
+                
+                // Instantly open the PDF in a new tab
+                window.open(data.pdfFile, '_blank');
+
+                // Gray out the specific PDF card you just clicked so you know you've read it
+                document.querySelectorAll('#guides-expansion-zone button').forEach(btn => {
+                    if (btn.getAttribute('onclick').includes(topicKey)) {
+                        btn.classList.add('opacity-40', 'grayscale');
+                    }
+                });
+
+                // Check if all 4 are completed
+                if (visitedTopics.size >= 4) {
+                    completedHubQuests.add('state-topic'); 
+                    
+                    // Update the main Hub button's gray-out state WITHOUT resetting the UI layout
+                    document.querySelectorAll('.hub-quest-btn').forEach(btn => {
+                        const match = btn.getAttribute('onclick').match(/'([^']+)'/);
+                        if (match && completedHubQuests.has(match[1])) {
+                            btn.classList.add('opacity-40', 'grayscale');
+                        }
+                    });
+                }
+            }
         }
 
         function confirmQuestTopic() {
