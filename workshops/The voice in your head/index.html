@@ -272,11 +272,11 @@
 
             <div class="w-full flex flex-col md:flex-row justify-center items-center md:items-end gap-8 md:gap-16 mt-2">
                 <div class="flex flex-col items-center md:items-start w-full md:w-auto">
-                    <span class="font-['Press_Start_2P'] text-[10px] block text-zinc-500 mb-4 uppercase tracking-widest text-center md:text-left w-full">Choose a timer</span>
+                    <span class="font-['Press_Start_2P'] text-[10px] block text-zinc-500 mb-4 uppercase tracking-widest text-center md:text-left w-full">Choose a timer (I recommend 10 minutes)</span>
                     <div class="flex flex-wrap justify-center gap-4 md:gap-6">
                         <label class="cursor-pointer relative">
-                            <input type="radio" name="duration" value="10" class="hidden">
-                            <span class="btn-8bit text-[10px]">10 Sec</span>
+                            <input type="radio" name="duration" value="180" class="hidden">
+                            <span class="btn-8bit text-[10px]">3 Min</span>
                         </label>
                         <label class="cursor-pointer relative">
                             <input type="radio" name="duration" value="300" class="hidden" checked>
@@ -304,13 +304,15 @@
                 <span id="timer-display" class="font-['Press_Start_2P'] text-sm md:text-lg text-black">[ 00:00 ]</span>
             </div>
             
-            <div class="flex flex-col relative mt-2 flex-grow">
-                <textarea id="thought-input" class="w-full h-48 md:h-64 resize-none p-5 md:p-6 font-mono text-sm md:text-base leading-relaxed" placeholder="Type your thought and press Enter to commit..."></textarea>
-                
-                <div class="absolute -bottom-12 left-0 right-0 text-center pointer-events-none">
-                    <span id="log-confirmation" class="font-['Press_Start_2P'] text-[9px] opacity-0 transition-opacity duration-300 border-4 border-black px-4 py-2 uppercase tracking-widest bg-white shadow-[6px_6px_0_#000]">
-                        ✓ Logged
-                    </span>
+            <div class="flex flex-col mt-2 flex-grow">
+                <div class="relative w-full">
+                    <textarea id="thought-input" class="w-full h-48 md:h-64 resize-none p-5 md:p-6 font-mono text-sm md:text-base leading-relaxed" placeholder="Type your thought and press Enter to commit..."></textarea>
+                    
+                    <div class="absolute top-full left-0 right-0 pt-4 text-center pointer-events-none z-10">
+                        <span id="log-confirmation" class="inline-block font-['Press_Start_2P'] text-[9px] opacity-0 transition-opacity duration-300 border-4 border-black px-4 py-2 uppercase tracking-widest bg-white shadow-[4px_4px_0_#000]">
+                            ✓ Logged
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
