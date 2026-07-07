@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Voice in Your Head</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* Smooth fade-in for screen transitions */
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 8-BIT BUTTON SYSTEM --- */
+        .btn-8bit {
+            font-family: 'Press Start 2P', monospace;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff; 
+            color: black !important;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            padding: 1.25rem 2rem;
+            border: 4px solid black;
+            box-shadow: 6px 6px 0px black;
+            transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.15s ease, border-color 0.15s ease;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+        }
+
+        @media (hover: hover) {
+            .btn-8bit:hover:not(:disabled) {
+                background-color: #f4f4f5; 
+            }
+        }
+
+        .btn-8bit:active:not(:disabled), .tactile-press {
+            transform: translate(4px, 4px) !important;
+            box-shadow: 2px 2px 0px black !important;
+        }
+        
+        .btn-8bit:disabled {
+            background-color: #e4e4e7 !important;
+            color: #a1a1aa !important;
+            box-shadow: 0px 0px 0px black !important;
+            transform: translate(4px, 4px) !important;
+            cursor: not-allowed;
+        }
+
+        /* Attention Anchors: High converted signature yellow out of the box */
+        .btn-attention-yellow {
+            background-color: #facc15 !important;
+        }
+        @media (hover: hover) {
+            .btn-attention-yellow:hover:not(:disabled) {
+                background-color: #fde047 !important;
+            }
+        }
+        .btn-attention-yellow:active, .btn-attention-yellow.tactile-press {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+
+        /* Radio Toggle Custom Settings */
+        input[type="radio"]:checked + .btn-8bit {
+            background-color: #000000;
+            color: #ffffff !important;
+            transform: translate(4px, 4px);
+            box-shadow: 2px 2px 0px black;
+        }
+
+        /* Specific override for the generated thought list items */
+        .thought-item {
+            box-shadow: none !important;
+        }
+        
+        .thought-item:active, .thought-item.tactile-press {
+            transform: translate(2px, 2px) !important; 
+            box-shadow: none !important;
+        }
+
+        /* Custom Sprite Sheet Pixel Star Display Engine */
+        .star-container-slot {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .star-indicator {
+            display: none;
+            width: 44px;
+            height: 44px;
+        }
+        .thought-item.is-critical .star-indicator {
+            display: block;
+        }
+
+        /* Custom inputs matching the clean panel system */
+        #thought-input {
+            background-color: #ffffff;
+            border: 4px solid #000000;
+            color: #000000;
+            box-shadow: 6px 6px 0px #000000;
+            outline: none;
+        }
+
+        .render-pixel { shape-rendering: crispEdges; }
+
+        /* TRUE DESIGN MIRROR PDF EXPORT - SINGLE PAGE LOCK */
+        @media print {
+            /* Margin 0 kills browser URLs, dates, and "Page 1 of X" */
+            @page { size: A4 portrait; margin: 0; }
+            
+            body, html {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 100% !important;
+                height: 100vh !important; 
+                max-height: 100vh !important;
+                background: white !important; 
+                color: black !important; 
+                overflow: hidden !important; 
+            }
+
+            .min-h-screen, .w-full.max-w-5xl { 
+                min-height: 100vh !important;
+                height: 100vh !important;
+                max-height: 100vh !important;
+                margin: 0 !important;
+                /* Manual padding acts as the page margin */
+                padding: 1.5cm !important; 
+                box-sizing: border-box !important;
+                display: flex !important;
+                flex-direction: column !important;
+                overflow: hidden !important;
+            }
+
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .print-only-flex { display: flex !important; } /* Dedicated flex override for print */
+            .py-8 { padding-top: 0 !important; padding-bottom: 0 !important; }
+            
+            #print-header { 
+                border-bottom: 2px solid #000; 
+                padding-bottom: 8px; 
+                margin-bottom: 20px; 
+                margin-top: 0;
+                flex-shrink: 0 !important;
+            }
+            #print-header h1 { font-size: 16px !important; margin-bottom: 6px !important; }
+            #print-header p { font-size: 10px !important; margin-bottom: 0 !important; }
+
+            #review-screen {
+                display: flex !important;
+                flex-direction: column !important;
+                flex: 1 !important;
+                height: 100% !important;
+                overflow: hidden !important;
+            }
+            
+            /* Fill vertically first, wrap if needed, crop if over limits */
+            #thought-list { 
+                display: flex !important;
+                flex-direction: column !important;
+                flex-wrap: wrap !important;
+                align-content: space-between !important;
+                gap: 1rem !important;
+                flex: 1 !important;
+                min-height: 0 !important;
+                overflow: hidden !important;
+                margin-bottom: 0 !important;
+            }
+            
+            .btn-8bit, .thought-item {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                background-color: #ffffff !important;
+                /* Slimmed to 2px for realistic print proportion */
+                border: 2px solid #000000 !important;
+                box-shadow: none !important; 
+                break-inside: avoid;
+                page-break-inside: avoid;
+                height: auto !important;
+                min-height: 56px !important; 
+                width: 100% !important; /* Default to 1 column width */
+            }
+            
+            .btn-attention-yellow { background-color: #facc15 !important; }
+
+            /* Remove drop shadow securely for the contact buttons in print */
+            .shadow-\[4px_4px_0px_\#000\] { box-shadow: none !important; }
+            .text-zinc-500 { color: #000 !important; }
+
+            /* High Density: Squeezes margins and sets 2 column width */
+            body.print-dense #thought-list {
+                gap: 0.5rem !important;
+            }
+            
+            body.print-dense .thought-item {
+                width: calc(50% - 0.5rem) !important;
+                min-height: 44px !important; 
+                padding: 0.4rem !important;
+                font-size: 9.5px !important;
+                line-height: 1.3 !important;
+                border: 1px solid #000000 !important; /* Slimmer for high density */
+            }
+            
+            body.print-dense .star-container-slot, 
+            body.print-dense .star-indicator {
+                width: 20px !important;
+                height: 20px !important;
+            }
+
+            /* Fixed footer securely anchored to bottom */
+            #go-deeper-section {
+                margin-top: auto !important;
+                flex-shrink: 0 !important;
+                padding-top: 1rem !important;
+                border-top: 2px solid #000 !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 font-sans">
+
+    <div id="progress-container" class="fixed top-0 left-0 right-0 h-6 bg-white border-b-4 border-black hidden z-50">
+        <div id="progress-bar" class="h-full w-0 bg-black transition-all duration-1000 ease-linear"></div>
+    </div>
+
+    <div class="w-full max-w-5xl min-h-[600px] flex flex-col justify-center py-8">
+
+        <div id="setup-screen" class="flex flex-col items-center text-center fade-in max-w-4xl mx-auto w-full">
+            <h1 class="font-['Press_Start_2P'] text-2xl md:text-4xl text-black mb-8 leading-relaxed tracking-wide uppercase">
+                THE VOICE<br>IN YOUR HEAD
+            </h1>
+            
+            <p class="font-mono text-zinc-700 text-sm md:text-base mb-12 max-w-3xl leading-relaxed">
+                Self-talk affects how you feel about yourself, your goals, stress, energy levels and even how you relate to others. This exercise shows you how you talk to yourself. Once you see what that inner voice is saying, you can decide to do something about it.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full mb-12 text-left">
+                <div class="border-4 border-black p-5 flex flex-col gap-3">
+                    <span class="font-['Press_Start_2P'] text-[10px] uppercase text-black">Step 1</span>
+                    <p class="font-mono text-xs md:text-sm text-zinc-700 leading-relaxed">Write down every thought you have for your selected time without filtering yourself.</p>
+                </div>
+                
+                <div class="border-4 border-black p-5 flex flex-col gap-3">
+                    <span class="font-['Press_Start_2P'] text-[10px] uppercase text-black">Step 2</span>
+                    <p class="font-mono text-xs md:text-sm text-zinc-700 leading-relaxed">Afterwards you mark the ones that feel self-critical or judgemental, anything you wouldn't say to a friend.</p>
+                </div>
+                
+                <div class="border-4 border-black p-5 flex flex-col gap-3">
+                    <span class="font-['Press_Start_2P'] text-[10px] uppercase text-black">Step 3</span>
+                    <p class="font-mono text-xs md:text-sm text-zinc-700 leading-relaxed">As a final step you'll be able to export it as a pdf and reflect, or reach out to me afterwards if you want.</p>
+                </div>
+            </div>
+
+            <div class="w-full flex flex-col md:flex-row justify-center items-center md:items-end gap-8 md:gap-16 mt-2">
+                <div class="flex flex-col items-center md:items-start w-full md:w-auto">
+                    <span class="font-['Press_Start_2P'] text-[10px] block text-zinc-500 mb-4 uppercase tracking-widest text-center md:text-left w-full">Choose a timer</span>
+                    <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                        <label class="cursor-pointer relative">
+                            <input type="radio" name="duration" value="10" class="hidden">
+                            <span class="btn-8bit text-[10px]">10 Sec</span>
+                        </label>
+                        <label class="cursor-pointer relative">
+                            <input type="radio" name="duration" value="300" class="hidden" checked>
+                            <span class="btn-8bit text-[10px]">5 Min</span>
+                        </label>
+                        <label class="cursor-pointer relative">
+                            <input type="radio" name="duration" value="600" class="hidden">
+                            <span class="btn-8bit text-[10px]">10 Min</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button onclick="startExercise()" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest">
+                    Start timer
+                </button>
+            </div>
+        </div>
+
+        <div id="writing-screen" class="hidden flex-grow flex flex-col fade-in max-w-3xl mx-auto w-full">
+            <div class="flex justify-between items-end mb-8 border-b-4 border-black pb-4">
+                <div>
+                    <h2 class="font-['Press_Start_2P'] text-sm md:text-base text-black uppercase tracking-wider">Capture Thoughts</h2>
+                    <p id="thought-counter" class="font-mono text-xs text-zinc-500 mt-2">Logged Matrix: 0</p>
+                </div>
+                <span id="timer-display" class="font-['Press_Start_2P'] text-sm md:text-lg text-black">[ 00:00 ]</span>
+            </div>
+            
+            <div class="flex flex-col relative mt-2 flex-grow">
+                <textarea id="thought-input" class="w-full h-48 md:h-64 resize-none p-5 md:p-6 font-mono text-sm md:text-base leading-relaxed" placeholder="Type your thought and press Enter to commit..."></textarea>
+                
+                <div class="absolute -bottom-12 left-0 right-0 text-center pointer-events-none">
+                    <span id="log-confirmation" class="font-['Press_Start_2P'] text-[9px] opacity-0 transition-opacity duration-300 border-4 border-black px-4 py-2 uppercase tracking-widest bg-white shadow-[6px_6px_0_#000]">
+                        ✓ Logged
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div id="review-screen" class="hidden flex-grow flex flex-col fade-in w-full">
+            
+            <div id="print-header" class="hidden print-only text-center">
+                <h1 class="font-['Press_Start_2P'] text-xl text-black mb-4 uppercase">THE VOICE IN YOUR HEAD</h1>
+                <p class="font-mono text-xs text-zinc-600 mb-6">Read the list again, notice what stands out.</p>
+            </div>
+
+            <div class="no-print text-center mb-10 max-w-3xl mx-auto w-full">
+                <h2 class="font-['Press_Start_2P'] text-base md:text-xl text-black mb-4 uppercase tracking-wider">Time's Up. Review.</h2>
+                <p class="font-mono text-zinc-600 text-sm leading-relaxed">
+                    Mark each thought in the list below that feel harsh, critical or judgemental, anything you wouldn't say to a friend.
+                </p>
+            </div>
+
+            <div id="thought-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full">
+                </div>
+
+            <div class="pt-8 border-t-4 border-black no-print mt-12 w-full">
+                <p id="review-stats" class="font-['Press_Start_2P'] text-[9px] md:text-[10px] text-center text-zinc-500 mb-8 uppercase tracking-widest"></p>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <button onclick="exportTranscript()" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest">
+                        Export PDF
+                    </button>
+                    <button onclick="resetApp()" class="btn-8bit text-[10px] tracking-widest">
+                        Start Over
+                    </button>
+                </div>
+            </div>
+                
+            <div id="go-deeper-section" class="mt-12 pt-8 border-t-2 border-black w-full text-center">
+                <h2 class="font-['Press_Start_2P'] text-sm md:text-base text-black mb-4 uppercase tracking-wider">I invite you to go deeper</h2>
+                <p class="font-mono text-xs md:text-sm text-zinc-700 leading-relaxed mb-6 max-w-2xl mx-auto">
+                    I offer everyone who completes this test a free coaching session, view it as a kind of taste test or sample of what it's like to do this work together with me. If you're interested email me or dm me on discord and attach this pdf to the message!
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-8 sm:gap-16 mt-6 pb-4 no-print">
+                    <button onclick="copyContact(event, 'magnus@sondim.com', this, 'EMAIL COPIED!')" class="group flex flex-col items-center border-none bg-transparent outline-none text-black cursor-pointer appearance-none w-56">
+                        <div class="bg-white border-4 border-black shadow-[4px_4px_0px_#000] group-active:translate-x-[2px] group-active:translate-y-[2px] group-active:shadow-[2px_2px_0px_#000] transition-all w-16 h-16 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-black render-pixel">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 5 h20 v14 H2 V5 z M4 7 h2 v2 H4 V7 z M18 7 h2 v2 h-2 V7 z M6 9 h2 v2 H6 V9 z M16 9 h2 v2 h-2 V9 z M8 11 h2 v2 H8 V11 z M14 11 h2 v2 h-2 V11 z M10 13 h4 v2 h-4 V13 z" />
+                            </svg>
+                        </div>
+                        <span class="contact-label font-['Press_Start_2P'] text-[9px] text-zinc-500 group-hover:text-black uppercase tracking-widest leading-relaxed transition-colors block w-full text-center">magnus@sondim.com</span>
+                    </button>
+
+                    <button onclick="copyContact(event, 'Magnus Chirgwin#6053', this, 'USERNAME COPIED!')" class="group flex flex-col items-center border-none bg-transparent outline-none text-black cursor-pointer appearance-none w-56">
+                        <div class="bg-white border-4 border-black shadow-[4px_4px_0px_#000] group-active:translate-x-[2px] group-active:translate-y-[2px] group-active:shadow-[2px_2px_0px_#000] transition-all w-16 h-16 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-black render-pixel">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4h4v2h4V4h4v4h2v8h-2v2h-4v-2h-4v2H6v-2H4V8h2V4zm3 6H7v2h2v-2zm6 0h-2v2h2v-2z" />
+                            </svg>
+                        </div>
+                        <span class="contact-label font-['Press_Start_2P'] text-[9px] text-zinc-500 group-hover:text-black uppercase tracking-widest leading-relaxed transition-colors block w-full text-center">Magnus Chirgwin#6053</span>
+                    </button>
+                </div>
+
+                <div class="hidden print-only-flex flex-row justify-center gap-16 mt-6 pb-4">
+                    <div class="flex flex-col items-center text-black w-56">
+                        <div class="bg-white border-4 border-black w-16 h-16 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-black render-pixel">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 5 h20 v14 H2 V5 z M4 7 h2 v2 H4 V7 z M18 7 h2 v2 h-2 V7 z M6 9 h2 v2 H6 V9 z M16 9 h2 v2 h-2 V9 z M8 11 h2 v2 H8 V11 z M14 11 h2 v2 h-2 V11 z M10 13 h4 v2 h-4 V13 z" />
+                            </svg>
+                        </div>
+                        <span class="font-['Press_Start_2P'] text-[9px] text-black uppercase tracking-widest leading-relaxed block w-full text-center">magnus@sondim.com</span>
+                    </div>
+
+                    <div class="flex flex-col items-center text-black w-56">
+                        <div class="bg-white border-4 border-black w-16 h-16 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-black render-pixel">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4h4v2h4V4h4v4h2v8h-2v2h-4v-2h-4v2H6v-2H4V8h2V4zm3 6H7v2h2v-2zm6 0h-2v2h2v-2z" />
+                            </svg>
+                        </div>
+                        <span class="font-['Press_Start_2P'] text-[9px] text-black uppercase tracking-widest leading-relaxed block w-full text-center">Magnus Chirgwin#6053</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        let thoughts = [];
+        let totalTime;
+        let timeLeft;
+        let timerInterval;
+        let logTimeout;
+        let markedCount = 0;
+
+        const screens = {
+            setup: document.getElementById('setup-screen'),
+            writing: document.getElementById('writing-screen'),
+            review: document.getElementById('review-screen')
+        };
+        const thoughtInput = document.getElementById('thought-input');
+        const timerDisplay = document.getElementById('timer-display');
+        const thoughtCounter = document.getElementById('thought-counter');
+        const thoughtList = document.getElementById('thought-list');
+        const logConfirmation = document.getElementById('log-confirmation');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const reviewStats = document.getElementById('review-stats');
+
+        function switchScreen(screenKey) {
+            Object.values(screens).forEach(screen => screen.classList.add('hidden'));
+            screens[screenKey].classList.remove('hidden');
+        }
+
+        function startExercise() {
+            const startBtn = document.querySelector('#setup-screen button:last-child');
+            startBtn.classList.add('tactile-press');
+            
+            setTimeout(() => {
+                startBtn.classList.remove('tactile-press');
+                const durationSeconds = parseInt(document.querySelector('input[name="duration"]:checked').value);
+                totalTime = durationSeconds;
+                timeLeft = totalTime;
+                thoughts = []; 
+                markedCount = 0;
+                
+                updateTimerDisplay();
+                thoughtCounter.textContent = `Logged Matrix: 0`;
+                
+                progressContainer.classList.remove('hidden');
+                progressBar.style.width = '0%';
+                
+                switchScreen('writing');
+                
+                thoughtInput.value = '';
+                setTimeout(() => thoughtInput.focus(), 100);
+
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    updateProgressBar();
+                    
+                    if (timeLeft <= 0) {
+                        endExercise();
+                    }
+                }, 1000);
+            }, 120);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `[ ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ]`;
+        }
+
+        function updateProgressBar() {
+            const percentage = ((totalTime - timeLeft) / totalTime) * 100;
+            progressBar.style.width = `${percentage}%`;
+        }
+
+        function updateReviewStats() {
+            reviewStats.innerHTML = `Number of thoughts: <span class="text-black font-bold">${thoughts.length}</span> &nbsp;|&nbsp; Flagged as critical/judgemental: <span class="text-black font-bold">${markedCount}</span>`;
+        }
+
+        thoughtInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault(); 
+                const text = this.value.trim();
+                
+                this.classList.add('tactile-press');
+                setTimeout(() => this.classList.remove('tactile-press'), 100); 
+
+                if (text) {
+                    thoughts.push({ text: text, isCritical: false });
+                    this.value = '';
+                    
+                    thoughtCounter.textContent = `Logged Matrix: ${thoughts.length}`;
+                    
+                    logConfirmation.style.opacity = '1';
+                    clearTimeout(logTimeout);
+                    logTimeout = setTimeout(() => {
+                        logConfirmation.style.opacity = '0';
+                    }, 1200);
+                }
+            }
+        });
+
+        function endExercise() {
+            clearInterval(timerInterval);
+            progressContainer.classList.add('hidden');
+            
+            if(thoughtInput.value.trim() !== '') {
+                thoughts.push({ text: thoughtInput.value.trim(), isCritical: false });
+            }
+
+            renderReviewList();
+            updateReviewStats();
+            switchScreen('review');
+        }
+
+        function renderReviewList() {
+            thoughtList.innerHTML = '';
+            
+            // Dynamic Print Density Logic
+            if (thoughts.length > 20) {
+                document.body.classList.add('print-dense');
+            } else {
+                document.body.classList.remove('print-dense');
+            }
+            
+            if (thoughts.length === 0) {
+                thoughtList.innerHTML = '<div class="col-span-1 md:col-span-2 text-center font-mono text-zinc-400 text-sm py-12">[ NO THOUGHT ENTRIES TRANSCRIPTED ]</div>';
+                return;
+            }
+
+            thoughts.forEach((thought) => {
+                const item = document.createElement('div');
+                item.className = 'thought-item btn-8bit text-left px-4 py-2 md:px-5 md:py-3 flex items-center justify-between w-full h-[63px] md:h-[72px] overflow-hidden normal-case font-mono text-xs md:text-sm font-normal leading-relaxed gap-4 flex-shrink-0 select-none';
+                
+                item.innerHTML = `
+                    <span class="flex-1 break-words line-clamp-2 md:line-clamp-2">${thought.text}</span>
+                    <div class="star-container-slot">
+                        <svg class="star-indicator" xmlns="http://www.w3.org/2000/svg" fill="#facc15" viewBox="0 0 24 24"><path d="M5 20h3v2H3v-6h2v4Zm16 2h-5v-2h3v-4h2v6Zm-11-2H8v-2h2v2Zm6 0h-2v-2h2v2Zm-2-2h-4v-2h4v2Zm-7-2H5v-3h2v3Zm12 0h-2v-3h2v3ZM5 13H3v-2h2v2Zm16 0h-2v-2h2v2ZM9 9H3v2H1V7h8v2Zm14 2h-2V9h-6V7h8v4ZM11 7H9V3h2v4Zm4 0h-2V3h2v4Zm-2-4h-2V1h2v2Z"/></svg>
+                    </div>
+                `;
+                
+                if (thought.isCritical) {
+                    item.classList.add('is-critical');
+                }
+
+                item.addEventListener('click', () => {
+                    thought.isCritical = !thought.isCritical;
+
+                    item.classList.add('tactile-press');
+                    setTimeout(() => item.classList.remove('tactile-press'), 100);
+
+                    if (thought.isCritical) {
+                        markedCount++;
+                        item.classList.add('is-critical');
+                    } else {
+                        markedCount--;
+                        item.classList.remove('is-critical');
+                    }
+                    updateReviewStats();
+                });
+
+                thoughtList.appendChild(item);
+            });
+        }
+
+        // Web Copy functionality for contact blocks
+        function copyContact(event, text, element, successMsg) {
+            // Guarantee no navigation happens
+            event.preventDefault(); 
+            navigator.clipboard.writeText(text).then(() => {
+                const label = element.querySelector('.contact-label');
+                
+                // Store original text strictly the first time
+                if (!label.hasAttribute('data-original')) {
+                    label.setAttribute('data-original', label.innerText);
+                }
+                const originalText = label.getAttribute('data-original');
+                
+                // Flash success message
+                label.innerText = successMsg;
+                label.classList.add('text-black');
+                
+                // Reset after 2.5 seconds
+                setTimeout(() => {
+                    label.innerText = originalText;
+                    label.classList.remove('text-black');
+                }, 2500);
+            }).catch(err => {
+                console.error("Failed to copy text: ", err);
+            });
+        }
+
+        function exportTranscript() {
+            const printBtn = document.querySelector('#review-screen button');
+            printBtn.classList.add('tactile-press');
+            
+            setTimeout(() => {
+                printBtn.classList.remove('tactile-press');
+                window.print();
+            }, 120);
+        }
+
+        function resetApp() {
+            if(confirm("Start over? Your current session buffer will be erased.")) {
+                clearInterval(timerInterval);
+                progressContainer.classList.add('hidden');
+                switchScreen('setup');
+            }
+        }
+    </script>
+</body>
+</html>
