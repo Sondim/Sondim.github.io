@@ -530,6 +530,16 @@
             display: none !important; 
             animation: none !important; 
         }
+
+        .no-shimmer::before { 
+            display: none !important; 
+            animation: none !important; 
+        }
+
+        .hover-shimmer:not(:hover)::before {
+            display: none !important;
+            animation: none !important;
+        }
         
     </style>
 </head>
@@ -566,7 +576,7 @@
             </div>
 
             <div class="w-full flex justify-center mt-2">
-                <button onclick="goToState('state-setup')" class="btn-8bit text-[10px] tracking-widest shadow-[6px_6px_0px_#000] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[2px_2px_0px_#000]">
+                <button onclick="goToState('state-setup')" class="btn-8bit no-shimmer text-[10px] tracking-widest shadow-[6px_6px_0px_#000] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[2px_2px_0px_#000]">
                     PROCEED TO STEP 1
                 </button>
             </div>
@@ -585,7 +595,7 @@
             <div class="w-full max-w-xl mx-auto mb-10 text-left">
                 <label class="font-['Press_Start_2P'] text-[10px] uppercase text-zinc-400 mb-4 block">1. Select a focus prompt</label>
                 <div class="relative w-full">
-                    <select id="prompt-select" autocomplete="off" class="w-full bg-[#18181b] border-4 border-black text-white font-mono text-sm md:text-base p-4 appearance-none shadow-[4px_4px_0px_#000] focus:outline-none cursor-pointer">
+                    <select id="prompt-select" autocomplete="off" class="w-full bg-[#18181b] border-4 border-black text-white font-mono text-sm md:text-base py-4 pl-4 pr-14 truncate appearance-none shadow-[4px_4px_0px_#000] focus:outline-none cursor-pointer">
                         <option value="" disabled selected>[ SELECT A PROMPT ]</option>
                         <option value="What your inner critic looks like">What your inner critic looks like</option>
                         <option value="The animal you think other people see you a">The animal you think other people see you as</option>
@@ -623,7 +633,7 @@
             </div>
 
             <div class="w-full flex justify-center">
-                <button id="start-drawing-btn" onclick="startDrawingSession()" disabled class="btn-8bit btn-attention-yellow text-[10px] tracking-widest shadow-[6px_6px_0px_#000] disabled:opacity-50 disabled:grayscale transition-all duration-300">
+                <button id="start-drawing-btn" onclick="startDrawingSession()" disabled class="btn-8bit hover-shimmer btn-attention-yellow text-[10px] tracking-widest shadow-[6px_6px_0px_#000] disabled:opacity-50 disabled:grayscale transition-all duration-300">
                     CONFIRM AND START
                 </button>
             </div>
@@ -824,7 +834,7 @@
                 <button onclick="hideQuestSendForm()" class="absolute -top-3 -right-3 bg-zinc-900 border-4 border-black p-2 text-zinc-500 hover:text-white hover:bg-zinc-800 transition-all shadow-[4px_4px_0px_black] z-20 rounded-none" title="Cancel">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
-                <p class="text-zinc-300 text-sm font-medium text-center mb-2 leading-relaxed">Send it over and I'll get back to you with some thoughts and ways forward.</p>
+                <p class="text-zinc-300 text-sm font-medium text-center mb-2 leading-relaxed">I'm looking forward to hearing from you, I read all emails! The drawing you just finished will be automatically attached if you use this form. Otherwise email me on <a href="mailto:magnus@sondim.com" class="text-yellow-400 hover:underline transition-colors">magnus@sondim.com</a></p>
                 <div class="flex flex-col sm:flex-row gap-4 w-full">
                     <input type="text" id="questSenderName" placeholder="Your Name" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600 rounded-none">
                     <input type="email" id="questSenderEmail" placeholder="Your Email" class="w-full sm:w-1/2 bg-black border-4 border-zinc-800 text-white px-4 py-3 focus:outline-none focus:border-yellow-400 transition-colors font-mono text-sm placeholder:text-zinc-600 rounded-none">
