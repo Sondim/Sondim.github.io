@@ -587,12 +587,14 @@
                 <div class="relative w-full">
                     <select id="prompt-select" autocomplete="off" class="w-full bg-[#18181b] border-4 border-black text-white font-mono text-sm md:text-base p-4 appearance-none shadow-[4px_4px_0px_#000] focus:outline-none cursor-pointer">
                         <option value="" disabled selected>[ SELECT A PROMPT ]</option>
-                        <option value="A recent failure or mistake">What my inner critic loos like</option>
-                        <option value="A project I am avoiding">Yourself in a boat on the ocean that captures how you feel about the problem</option>
-                        <option value="A difficult conversation I need to have">How you feel about your </option>
-                        <option value="My biggest fear regarding my studio">My biggest fear regarding my studio</option>
-                        <option value="What burnout looks like for me">What burnout looks like for me</option>
-                        <option value="The bottleneck I refuse to acknowledge">The bottleneck I refuse to acknowledge</option>
+                        <option value="What your inner critic looks like">What your inner critic looks like</option>
+                        <option value="The animal you think other people see you a">The animal you think other people see you as</option>
+                        <option value="The exact kind of support or help you need to reach your goal">The exact kind of support or help you need to reach your goal</option>
+                        <option value="What success looks like for you">What success looks like for you</option>
+                        <option value="What burnout looks like for you">What burnout looks like for you</option>
+                        <option value="Yourself in a boat on the ocean that captures how you feel about the probleme">Yourself in a boat on the ocean that captures how you feel about the problem</option>
+                        <option value="A landscape where the weather matches how you feel about your current project">A landscape where the weather matches how you feel about your current project</option>
+                        <option value="A battery that shows how much energy you have left and what is draining or charging it">A battery that shows how much energy you have left and what is draining or charging it</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-yellow-400">
                         <svg class="fill-current h-5 w-5 render-pixel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -1208,7 +1210,20 @@
             if (targetColor[0] === fillColor[0] && targetColor[1] === fillColor[1] &&
                 targetColor[2] === fillColor[2] && targetColor[3] === fillColor[3]) { return; }
 
-            const matchColor = (pos) => data[pos] === targetColor[0] && data[pos + 1] === targetColor[1] && data[pos + 2] === targetColor[2] && data[pos + 3] === targetColor[3];
+            // Tolerance threshold for anti-aliasing gaps. 
+            // 60 is a solid sweet spot for closing gaps without bleeding through solid lines.
+            const tolerance = 60;
+
+            const matchColor = (pos) => {
+                const rDiff = Math.abs(data[pos] - targetColor[0]);
+                const gDiff = Math.abs(data[pos + 1] - targetColor[1]);
+                const bDiff = Math.abs(data[pos + 2] - targetColor[2]);
+                const aDiff = Math.abs(data[pos + 3] - targetColor[3]);
+                
+                // If the total difference across all channels is within our tolerance, it's a match.
+                return (rDiff + gDiff + bDiff + aDiff) <= tolerance;
+            };
+
             const colorPixel = (pos) => { data[pos] = fillColor[0]; data[pos + 1] = fillColor[1]; data[pos + 2] = fillColor[2]; data[pos + 3] = fillColor[3]; };
 
             const pixelStack = [[startX, startY]];
