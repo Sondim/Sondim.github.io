@@ -9,16 +9,16 @@
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         html {
             scroll-behavior: smooth;
-            height: 100%;
-            overflow: hidden;
+            min-height: 100%;
         }
 
         body {
             background-color: #09090b;
             color: #f4f4f5;
-            overflow: hidden;
-            height: 100dvh;
-            max-height: 100dvh;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden; /* Prevent horizontal wobble */
         }
 
         /* --- GARTIC-STYLE DRAW WORKSPACE --- */
@@ -497,38 +497,71 @@
             box-shadow: 2px 2px 0px black !important;
             background-color: #fde047 !important;
         }
+
+        /* --- CONTACT BUTTON PHYSICS --- */
+        .contact-text-spring {
+            transition: transform 0.35s cubic-bezier(0.34, 2.5, 0.64, 1), color 0.075s ease;
+            display: inline-block;
+        }
+
+        .group:hover .contact-text-spring {
+            transform: translateY(-6px);
+        }
+
+        @keyframes pixelSquashJump {
+            0%   { transform: translateY(0) scale(1, 1); }
+            20%  { transform: translateY(4px) scale(1.15, 0.85); } /* Anticipation squash */
+            50%  { transform: translateY(-12px) scale(0.85, 1.15); } /* Stretch up */
+            80%  { transform: translateY(2px) scale(1.1, 0.9); } /* Impact squash */
+            100% { transform: translateY(0) scale(1, 1); } /* Settle */
+        }
+
+        .group:hover .contact-icon-jump {
+            animation: pixelSquashJump 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            transform-origin: bottom center;
+        }
+
+        .discord-copied-text {
+            color: #5865F2 !important;
+            transform: scale(1.15) translateY(-6px) !important;
+        }
+
+        .no-shimmer::before { 
+            display: none !important; 
+            animation: none !important; 
+        }
         
     </style>
 </head>
 
-<body class="flex flex-col h-dvh overflow-hidden">
+<body class="flex flex-col">
 
-    <main class="flex-1 min-h-0 overflow-hidden flex flex-col w-full max-w-7xl mx-auto px-1 sm:px-2">
+    <main class="flex-1 flex flex-col w-full max-w-7xl mx-auto px-1 sm:px-2">
         
         <!-- PHASE 1: THE INTRO -->
-        <div id="state-intro" class="text-center fade-in w-full max-w-4xl mx-auto px-4 py-8 overflow-y-auto flex-1 flex flex-col justify-center">
+        <div id="state-intro" class="text-center fade-in w-full max-w-4xl mx-auto px-4 py-8 flex-1 flex flex-col justify-center">
             <h1 class="font-['Press_Start_2P'] text-2xl md:text-3xl text-yellow-400 mb-8 leading-relaxed tracking-wide uppercase">
                 Paint Your<br>Problem
             </h1>
             
-            <p class="font-mono text-zinc-400 text-sm md:text-base mb-12 max-w-3xl mx-auto leading-relaxed">
+            <p class="font-mono text-zinc-300 text-sm md:text-base mb-12 max-w-3xl mx-auto leading-relaxed">
                 Words can be deceptive; they let our logical brain hide the real issues. Bypassing words is a powerful diagnostic tool. We'll use a retro canvas to sketch out the underlying blockers in your studio and find what's really going on.
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full mb-12 text-left">
-                <div class="bg-[#18181b] border-4 border-black shadow-[4px_4px_0px_#000] p-5 flex flex-col gap-3">
+                <div class="bg-[#18181b] border-4 border-black p-5 flex flex-col gap-3">
                     <span class="font-['Press_Start_2P'] text-[10px] uppercase text-yellow-400">Step 1</span>
-                    <p class="font-mono text-xs md:text-sm text-zinc-400 leading-relaxed">Pick a prompt from the list to focus your mind on a specific challenge.</p>
+                    <p class="font-mono text-xs md:text-sm text-zinc-300 leading-relaxed">Pick a prompt from the list to focus your mind on a specific challenge.</p>
                 </div>
                 
-                <div class="bg-[#18181b] border-4 border-black shadow-[4px_4px_0px_#000] p-5 flex flex-col gap-3">
+                <div class="bg-[#18181b] border-4 border-black p-5 flex flex-col gap-3">
                     <span class="font-['Press_Start_2P'] text-[10px] uppercase text-yellow-400">Step 2</span>
-                    <p class="font-mono text-xs md:text-sm text-zinc-400 leading-relaxed">Draw your problem before the timer runs out. Don't overthink or judge your art.</p>
+                    <p class="font-mono text-xs md:text-sm text-zinc-300 leading-relaxed">Draw your problem before the timer runs out. Don't overthink or judge your art.</p>
                 </div>
                 
-                <div class="bg-[#18181b] border-4 border-black shadow-[4px_4px_0px_#000] p-5 flex flex-col gap-3">
+                <div class="bg-[#18181b] border-4 border-black p-5 flex flex-col gap-3">
                     <span class="font-['Press_Start_2P'] text-[10px] uppercase text-yellow-400">Step 3</span>
-                    <p class="font-mono text-xs md:text-sm text-zinc-400 leading-relaxed">Download your image to reflect, or send it directly to me for thoughts and feedback.</p>
+                    <p class="font-mono text-xs md:text-sm text-zinc-300 leading-relaxed">Download your image to reflect, or send it directly to me for thoughts and feedback.</p>
                 </div>
             </div>
 
@@ -540,19 +573,23 @@
         </div>
 
         <!-- PHASE 2: THE SETUP (SKELETON) -->
-        <div id="state-setup" class="hidden text-center fade-in w-full max-w-4xl mx-auto px-4 py-8 overflow-y-auto flex-1 flex flex-col justify-center items-center">
-            <h2 class="font-['Press_Start_2P'] text-xl md:text-2xl text-yellow-400 mb-10 leading-relaxed tracking-wide uppercase">
+        <div id="state-setup" class="hidden text-center fade-in w-full max-w-4xl mx-auto px-4 py-8 flex-1 flex flex-col justify-center items-center">
+            <h2 class="font-['Press_Start_2P'] text-xl md:text-2xl text-yellow-400 mb-8 leading-relaxed tracking-wide uppercase">
                 Configure Session
             </h2>
+            
+            <p class="text-sm md:text-base text-zinc-300 font-mono leading-relaxed text-center max-w-2xl mx-auto mb-12">
+                Pick a prompt to draw from. I've handpicked these because they've been really effective for my clients.
+            </p>
             
             <div class="w-full max-w-xl mx-auto mb-10 text-left">
                 <label class="font-['Press_Start_2P'] text-[10px] uppercase text-zinc-400 mb-4 block">1. Select a focus prompt</label>
                 <div class="relative w-full">
                     <select id="prompt-select" autocomplete="off" class="w-full bg-[#18181b] border-4 border-black text-white font-mono text-sm md:text-base p-4 appearance-none shadow-[4px_4px_0px_#000] focus:outline-none cursor-pointer">
                         <option value="" disabled selected>[ SELECT A PROMPT ]</option>
-                        <option value="A recent failure or mistake">A recent failure or mistake</option>
-                        <option value="A project I am avoiding">A project I am avoiding</option>
-                        <option value="A difficult conversation I need to have">A difficult conversation I need to have</option>
+                        <option value="A recent failure or mistake">What my inner critic loos like</option>
+                        <option value="A project I am avoiding">Yourself in a boat on the ocean that captures how you feel about the problem</option>
+                        <option value="A difficult conversation I need to have">How you feel about your </option>
                         <option value="My biggest fear regarding my studio">My biggest fear regarding my studio</option>
                         <option value="What burnout looks like for me">What burnout looks like for me</option>
                         <option value="The bottleneck I refuse to acknowledge">The bottleneck I refuse to acknowledge</option>
@@ -591,15 +628,15 @@
         </div>
 
         <div id="state-draw" class="hidden draw-shell fade-in w-full flex-1 min-h-0">
-            <div class="draw-header flex items-center gap-3">
-                <span class="text-[8px] font-['Press_Start_2P'] uppercase text-yellow-400 tracking-widest flex-shrink-0 hidden sm:inline">Draw</span>
-                <p id="active-drawing-prompt" class="text-[11px] sm:text-xs text-zinc-300 font-mono italic truncate flex-1 min-w-0"></p>
+            <div class="draw-header flex items-center justify-center gap-3 relative">
+                <div class="flex items-center gap-2 max-w-full truncate px-4">
+                    <span class="text-[8px] font-['Press_Start_2P'] uppercase text-yellow-400 tracking-widest flex-shrink-0 hidden sm:inline">Draw:</span>
+                    <p id="active-drawing-prompt" class="text-[11px] sm:text-xs text-zinc-300 font-mono italic truncate min-w-0"></p>
+                </div>
                 
-                <div class="md:hidden flex items-center justify-center bg-black border-2 border-black px-2 py-1 shadow-[inset_2px_2px_0px_rgba(255,255,255,0.1)]">
+                <div class="absolute right-2 md:hidden flex items-center justify-center bg-black border-2 border-black px-2 py-1 shadow-[inset_2px_2px_0px_rgba(255,255,255,0.1)]">
                     <span id="mobile-session-timer-display" class="font-['Press_Start_2P'] text-yellow-400 text-[10px] tracking-widest">00:00</span>
                 </div>
-
-                <button onclick="clearInterval(sessionTimerInterval); goToState('state-setup');" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[8px] uppercase transition-colors bg-transparent border-none cursor-pointer flex-shrink-0 whitespace-nowrap">[ Quit ]</button>
             </div>
 
             <div id="quest-workspace-container" class="flex-1 min-h-0 w-full">
@@ -688,12 +725,8 @@
                         </div>
 
                         <div class="gartic-done-col">
-                            <button onclick="finishQuestDrawing()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit btn-compact sparkle-btn hidden md:inline-flex">
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                                <span class="btn-text-back font-['Press_Start_2P'] tracking-widest" aria-hidden="true">DONE!</span>
-                                <span class="btn-text-front font-['Press_Start_2P'] tracking-widest text-black">DONE!</span>
+                            <button onclick="finishQuestDrawing()" class="btn-8bit no-shimmer hidden md:inline-flex text-[10px] tracking-widest uppercase shadow-[6px_6px_0px_#000] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[2px_2px_0px_#000]">
+                                FINISH DRAWING
                             </button>
                         </div>
                     </div>
@@ -726,55 +759,65 @@
                             <button class="quest-brush-btn pixel-circle-btn" data-size="24"><svg viewBox="0 0 24 24"><path d="M9 2h6v1h-6z M6 3h12v2h-12z M4 5h16v2h-16z M3 7h18v2h-18z M2 9h20v6h-20z M3 15h18v2h-18z M4 17h16v2h-16z M6 19h12v2h-12z M9 21h6v1h-6z" /></svg></button>
                         </div>
 
-                        <button onclick="finishQuestDrawing()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit btn-compact sparkle-btn flex-shrink-0">
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <span class="btn-text-back font-['Press_Start_2P'] tracking-widest" aria-hidden="true">Finish drawing</span>
-                            <span class="btn-text-front font-['Press_Start_2P'] tracking-widest text-black">Finish drawing</span>
+                        <button onclick="finishQuestDrawing()" class="btn-8bit no-shimmer flex-shrink-0 text-[10px] tracking-widest uppercase shadow-[6px_6px_0px_#000] active:translate-y-[4px] active:translate-x-[4px] active:shadow-[2px_2px_0px_#000]">
+                            FINISH DRAWING
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="quest-drawing-complete-state" class="hidden flex-col items-center justify-center w-full max-w-4xl mx-auto fade-in text-center px-4 py-8 overflow-y-auto flex-1">
+        <div id="quest-drawing-complete-state" class="hidden flex-col items-center justify-start w-full max-w-4xl mx-auto fade-in text-center px-4 py-12 md:py-16 flex-1 h-full pb-32">
             
-            <h2 class="text-xl md:text-2xl text-yellow-400 mb-6 font-['Press_Start_2P'] uppercase w-full">Paint finished!</h2>
+            <h2 class="text-xl md:text-2xl text-yellow-400 mb-8 font-['Press_Start_2P'] uppercase w-full flex-shrink-0">Time's up. Reflect.</h2>
             
-            <p class="font-mono text-zinc-400 text-sm md:text-base mb-10 max-w-2xl mx-auto leading-relaxed">
-                Take a breath. Look at the shapes, colors, and the feeling of what you just put down. Do not judge your art skills—this is a diagnostic map of your studio's underlying blockers.
+            <p class="text-sm md:text-base text-zinc-300 font-mono leading-relaxed text-center italic max-w-2xl mx-auto mb-10">
+                The last part of this creative workshop is to reflect. What thoughts do you get by looking at your painting? I recommend that you write it down.
             </p>
 
-            <div class="canvas-panel-8bit p-4 text-left mb-10 w-full max-w-xs mx-auto flex flex-col items-center">
-                <h3 class="text-[10px] font-['Press_Start_2P'] text-white mb-4 uppercase tracking-widest text-center w-full">Diagnostic Sketch</h3>
-                <div class="w-full bg-white border-4 border-black flex items-center justify-center overflow-hidden shadow-[inset_2px_2px_0px_rgba(0,0,0,0.2)] rounded-none p-2">
+            <div class="mb-12 w-full max-w-[200px] md:max-w-[240px] mx-auto flex flex-col items-center">
+                <div class="w-full bg-white border-4 border-black flex items-center justify-center overflow-hidden rounded-none p-2">
                     <img id="quest-drawing-thumbnail" src="" alt="Your drawing" class="w-full h-auto object-contain">
                 </div>
             </div>
             
-            <div id="quest-action-choices" class="w-full mb-4 max-w-xl mx-auto flex flex-col items-center">
-                <button onclick="downloadQuestDrawing()" class="btn-8bit w-full max-w-sm text-center mb-12">
+            <div id="quest-action-choices" class="w-full mb-8 max-w-2xl mx-auto flex flex-col items-center">
+                <!-- Static 8-bit Download Button (No Shimmer class added) -->
+                <button onclick="downloadQuestDrawing()" class="btn-8bit no-shimmer w-full max-w-[280px] text-center mb-16">
                     DOWNLOAD DRAWING
                 </button>
                 
-                <div class="w-full border-t-4 border-zinc-900 pt-10 flex flex-col items-center">
-                    <h3 class="font-['Press_Start_2P'] text-lg text-white mb-6 uppercase tracking-widest">Go Deeper</h3>
-                    <p class="font-mono text-zinc-400 text-sm md:text-base mb-8 leading-relaxed max-w-lg">
-                        Want a second pair of eyes on this? Send it over. I offer a free coaching session for studio founders to help translate these raw sketches into concrete next steps.
+                <!-- THE GO DEEPER FOOTER -->
+                <div class="w-full border-t-4 border-zinc-900 pt-16 flex flex-col items-center">
+                    <h3 class="font-['Press_Start_2P'] text-lg md:text-xl text-white mb-8 uppercase tracking-widest text-center leading-relaxed">I invite you to go deeper.</h3>
+                    
+                    <p class="font-mono text-zinc-400 text-sm md:text-base mb-12 leading-relaxed max-w-2xl text-center">
+                        I offer everyone who completes this workshop a free coaching session, a sample of what it's like to do this work together with me. If you're interested email me or dm me on discord and attach this image to the message!
                     </p>
                     
-                    <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
-                        <button onclick="showQuestSendForm()" style="--sparkle-color: rgba(255, 255, 255, 0.9);" class="btn-8bit sparkle-btn flex-1 max-w-[240px]">
-                            <svg viewBox="0 0 96 96" fill="none"><path d="M93.781 51.578C95 50.969 96 49.359 96 48c0-1.375-1-2.969-2.219-3.578 0 0-22.868-1.514-31.781-10.422-8.915-8.91-10.438-31.781-10.438-31.781C50.969 1 49.375 0 48 0s-2.969 1-3.594 2.219c0 0-1.5 22.87-10.406 31.781-8.908 8.913-31.781 10.422-31.781 10.422C1 45.031 0 46.625 0 48c0 1.359 1 2.969 2.219 3.578 0 0 22.873 1.51 31.781 10.422 8.906 8.911 10.406 31.781 10.406 31.781C45.031 95 46.625 96 48 96s2.969-1 3.562-2.219c0 0 1.523-22.871 10.438-31.781 8.913-8.908 31.781-10.422 31.781-10.422Z"/></svg>
-                            <span class="btn-text-back font-['Press_Start_2P'] text-[10px] tracking-widest" aria-hidden="true">EMAIL</span>
-                            <span class="btn-text-front font-['Press_Start_2P'] text-[10px] tracking-widest text-black">EMAIL</span>
+                    <div class="grid grid-cols-2 gap-8 md:gap-16 items-center justify-items-center w-full max-w-lg">
+                        <button onclick="showQuestSendForm()" class="group flex flex-col items-center no-underline relative bg-transparent border-none appearance-none outline-none cursor-pointer">
+                            <div class="flex items-center justify-center w-20 h-20 md:w-24 md:h-24 mb-4 bg-zinc-800 border-4 border-black shadow-[4px_4px_0px_black] group-hover:bg-[#facc15] group-active:translate-x-[2px] group-active:translate-y-[2px] group-active:shadow-[2px_2px_0px_black] transition-all duration-75">
+                                <svg class="w-10 h-10 md:w-12 md:h-12 text-white group-hover:text-black transition-colors duration-75 render-pixel contact-icon-jump" viewBox="0 0 24 24" fill="currentColor">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2 5 h20 v14 H2 V5 z M4 7 h2 v2 H4 V7 z M18 7 h2 v2 h-2 V7 z M6 9 h2 v2 H6 V9 z M16 9 h2 v2 h-2 V9 z M8 11 h2 v2 H8 V11 z M14 11 h2 v2 h-2 V11 z M10 13 h4 v2 h-4 V13 z" />
+                                </svg>
+                            </div>
+                            <span class="font-['Press_Start_2P'] text-[8px] md:text-[10px] text-zinc-500 uppercase tracking-widest group-hover:text-white transition-colors duration-75 leading-relaxed contact-text-spring">Email Me</span>
                         </button>
-                        <button id="discord-copy-btn" onclick="copyDiscordHandle()" class="btn-8bit flex-1 max-w-[240px] !bg-[#18181b] !text-white hover:!bg-[#27272a] hover:!border-white">
-                            DISCORD
+
+                        <button onclick="copyDiscordId(this, 'block')" class="group flex flex-col items-center no-underline relative bg-transparent border-none outline-none cursor-pointer appearance-none">
+                            <div class="flex items-center justify-center w-20 h-20 md:w-24 md:h-24 mb-4 bg-zinc-800 border-4 border-black shadow-[4px_4px_0px_black] group-hover:bg-[#5865F2] group-active:translate-x-[2px] group-active:translate-y-[2px] group-active:shadow-[2px_2px_0px_black] transition-all duration-75">
+                                <svg class="w-10 h-10 md:w-12 md:h-12 text-white transition-colors duration-75 render-pixel contact-icon-jump" viewBox="0 0 24 24" fill="currentColor">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4h4v2h4V4h4v4h2v8h-2v2h-4v-2h-4v2H6v-2H4V8h2V4zm3 6H7v2h2v-2zm6 0h-2v2h2v-2z" />
+                                </svg>
+                            </div>
+                            <span class="font-['Press_Start_2P'] text-[8px] md:text-[10px] text-zinc-500 uppercase tracking-widest group-hover:text-white transition-colors duration-75 leading-relaxed contact-text-spring">DISCORD ID</span>
                         </button>
                     </div>
                 </div>
             </div>
 
+            <!-- The Webhook Form -->
             <div id="quest-send-form" class="canvas-panel-8bit flex-col gap-4 w-full max-w-lg p-4 md:p-6 hidden fade-in relative mx-auto mt-4">
                 <button onclick="hideQuestSendForm()" class="absolute -top-3 -right-3 bg-zinc-900 border-4 border-black p-2 text-zinc-500 hover:text-white hover:bg-zinc-800 transition-all shadow-[4px_4px_0px_black] z-20 rounded-none" title="Cancel">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -792,7 +835,6 @@
                 <p id="questStatusMsg" class="text-sm font-mono tracking-widest h-6 text-zinc-500 text-center"></p>
             </div>
             
-            <button onclick="goToState('state-setup')" class="text-zinc-500 hover:text-white font-['Press_Start_2P'] text-[10px] uppercase mt-12 transition-colors bg-transparent border-none cursor-pointer p-2">[ Start Over ]</button>
         </div>
 
     </main>
@@ -912,6 +954,9 @@
         const states = ['state-intro', 'state-setup', 'state-draw', 'quest-drawing-complete-state'];
         
         function goToState(targetId) {
+            // Camera Snap: Instant cut to the top of the new scene
+            window.scrollTo({ top: 0, behavior: 'instant' });
+
             states.forEach(id => {
                 const el = document.getElementById(id);
                 if(el) {
@@ -924,14 +969,16 @@
                 targetEl.classList.remove('hidden');
                 if(targetId === 'quest-drawing-complete-state') targetEl.classList.add('flex');
             }
+            
+            // Scroll Lock Physics
             if (targetId === 'state-draw') {
-                document.body.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden'; // Lock canvas tightly
                 requestAnimationFrame(() => {
                     fitCanvasDisplay();
                     requestAnimationFrame(fitCanvasDisplay);
                 });
-            } else if (targetId === 'state-draw-prompt' || targetId === 'quest-drawing-complete-state') {
-                document.body.style.overflow = targetId === 'quest-drawing-complete-state' ? 'hidden' : '';
+            } else {
+                document.body.style.overflow = ''; // Release to native browser scroll
             }
         }
 
@@ -1310,6 +1357,28 @@
             }
         });
 
+        // --- CANVAS HOTKEYS ---
+        document.addEventListener('keydown', (e) => {
+            const drawState = document.getElementById('state-draw');
+            // Only fire hotkeys if the canvas is currently visible
+            if (drawState && !drawState.classList.contains('hidden')) {
+                const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+                const modifier = isMac ? e.metaKey : e.ctrlKey;
+                
+                if (modifier && e.key.toLowerCase() === 'z') {
+                    e.preventDefault();
+                    if (e.shiftKey) {
+                        btnRedo.click(); // Cmd+Shift+Z
+                    } else {
+                        btnUndo.click(); // Cmd+Z / Ctrl+Z
+                    }
+                } else if (modifier && e.key.toLowerCase() === 'y') {
+                    e.preventDefault();
+                    btnRedo.click(); // Ctrl+Y
+                }
+            }
+        });
+
         canvas.addEventListener('mousedown', startDraw); canvas.addEventListener('mousemove', draw);
         canvas.addEventListener('mouseup', stopDraw); canvas.addEventListener('mouseout', stopDraw);
         canvas.addEventListener('touchstart', startDraw, { passive: false });
@@ -1387,6 +1456,29 @@
                 }
             });
         }
+
+        // --- DISCORD ID COPY ENGINE ---
+        const TARGET_DISCORD_ID = "YOUR_DISCORD_USERNAME_HERE";
+
+        function copyDiscordId(element, type) {
+            navigator.clipboard.writeText(TARGET_DISCORD_ID).then(() => {
+                if (type === 'block') {
+                    const textSpan = element.querySelector('.contact-text-spring');
+                    const originalText = "DISCORD ID";
+                    
+                    textSpan.innerText = "ID COPIED!";
+                    textSpan.classList.add('discord-copied-text');
+                    
+                    setTimeout(() => {
+                        textSpan.innerText = originalText;
+                        textSpan.classList.remove('discord-copied-text');
+                    }, 2500);
+                }
+            }).catch(err => {
+                console.error("Failed to copy Discord ID: ", err);
+            });
+        }
+
     </script>
 </body>
 </html>
