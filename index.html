@@ -283,28 +283,121 @@
 
 
         /* Modal Animations */
-
+        
         .fade-in { animation: fadeIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
-
+        
         .fade-out { animation: fadeOut 0.3s ease-in forwards; }
-
+        
         @keyframes fadeIn {
-
+        
             from { opacity: 0; transform: translateY(20px); }
-
+        
             to { opacity: 1; transform: translateY(0); }
-
+        
         }
-
+        
         @keyframes fadeOut {
-
+        
             from { opacity: 1; transform: translateY(0); }
-
+        
             to { opacity: 0; transform: translateY(-20px); }
-
+        
         }
 
 
+        /* ================= WHITE CANVAS SPA ENGINE ================= */
+
+        /* Base container for hash-routed views */
+        .spa-view {
+            opacity: 0;
+            transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .spa-view-active {
+            opacity: 1;
+        }
+
+        .spa-view-hidden {
+            display: none;
+        }
+
+        /* Light-mode white canvas views (scoped, no bleed into dark UI) */
+        .white-canvas-root {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .white-canvas-root .white-canvas-inner {
+            min-height: calc(100vh - 76px);
+        }
+
+        /* 8-bit button system, scoped to white canvas only */
+        .white-canvas-root .btn-8bit {
+            font-family: 'Press Start 2P', monospace;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            color: #000000 !important;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            padding: 1.25rem 2rem;
+            border: 4px solid #000000;
+            box-shadow: 6px 6px 0px #000000;
+            transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.15s ease, border-color 0.15s ease;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+        }
+
+        @media (hover: hover) {
+            .white-canvas-root .btn-8bit:hover:not(:disabled) {
+                background-color: #f4f4f5;
+            }
+        }
+
+        .white-canvas-root .btn-8bit:active:not(:disabled),
+        .white-canvas-root .btn-8bit.tactile-press {
+            transform: translate(4px, 4px) !important;
+            box-shadow: 2px 2px 0px #000000 !important;
+        }
+
+        .white-canvas-root .btn-8bit:disabled {
+            background-color: #e4e4e7 !important;
+            color: #a1a1aa !important;
+            box-shadow: 0px 0px 0px #000000 !important;
+            transform: translate(4px, 4px) !important;
+            cursor: not-allowed;
+        }
+
+        /* High-conversion yellow attention buttons */
+        .white-canvas-root .btn-attention-yellow {
+            background-color: #facc15 !important;
+        }
+
+        @media (hover: hover) {
+            .white-canvas-root .btn-attention-yellow:hover:not(:disabled) {
+                background-color: #fde047 !important;
+            }
+        }
+
+        .white-canvas-root .btn-attention-yellow:active,
+        .white-canvas-root .btn-attention-yellow.tactile-press {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+
+        /* Instructional grid panels */
+        .white-canvas-root .instruction-panel {
+            border-width: 4px;
+            border-color: #000000;
+        }
+
+        .white-canvas-root .instruction-panel p {
+            color: #3f3f46;
+        }
+        
+        
         /* --- PIXEL HERO PHYSICS --- */
         .hero-container {
             position: relative;
@@ -732,7 +825,7 @@
     <nav class="sticky top-0 z-40 bg-zinc-900 border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 py-2.5 md:py-4 flex justify-between items-center relative">
             
-            <a href="#" class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-pointer z-50">
+            <a href="#home" class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-pointer z-50">
                 <span>S</span><span>O</span><span class="text-yellow-400">N</span><span>D</span><span>I</span><span>M</span>
             </a>
 
@@ -753,8 +846,8 @@
                         Resources <span class="text-[8px] transform group-hover:rotate-180 transition-transform">▼</span>
                     </button>
                     <div class="absolute top-full left-1/2 -translate-x-1/2 mt-0 w-64 bg-zinc-900 border-4 border-black shadow-[6px_6px_0px_rgba(0,0,0,1)] opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-150 flex flex-col z-50">
-                        <button onclick="fastTravelQuest('state-topic')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Free guides</button>
-                        <button onclick="fastTravelQuest('menu-workshops')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Free workshops</button>
+                        <button onclick="navigateTo('#guides')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Free guides</button>
+                        <button onclick="navigateTo('#workshops')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors border-b border-black">Free workshops</button>
                         <button onclick="fastTravelQuest('state-test')" class="text-left px-5 py-4 text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 hover:bg-zinc-800 transition-colors">Do a quick test</button>
                     </div>
                 </div>
@@ -768,8 +861,8 @@
                 
                 <div class="flex flex-col items-center gap-5 w-full my-2">
                     <span class="text-[10px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400">--- Resources ---</span>
-                    <button onclick="fastTravelQuest('state-topic');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Free guides</button>
-                    <button onclick="fastTravelQuest('menu-workshops');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Free workshops</button>
+                    <button onclick="navigateTo('#guides');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Free guides</button>
+                    <button onclick="navigateTo('#workshops');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Free workshops</button>
                     <button onclick="fastTravelQuest('state-test');" class="mobile-link text-[9px] font-['Press_Start_2P'] uppercase tracking-widest text-zinc-400 hover:text-yellow-400 transition-colors cursor-pointer">> Do quick diagnostic</button>
                 </div>
                 
@@ -804,6 +897,11 @@
             </div>
         </div>-->
     </nav>
+
+    <!-- ================= HASH-ROUTED VIEWS ================= -->
+
+    <!-- VIEW 1: HOME (Dark Mode) -->
+    <main id="view-home" class="spa-view spa-view-active" data-view="home">
 
 
     <section class="hero-container">
@@ -917,8 +1015,8 @@
             <h2 class="text-xl md:text-2xl font-['Press_Start_2P'] uppercase text-yellow-400 mb-8 md:mb-16 leading-tight tracking-wide text-shadow-sm">Resources</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto text-left">
-                <button onclick="selectHubQuest(this, 'state-topic')" data-desc="Choose and download guides on common topics!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Free guides</button>
-                <button onclick="selectHubQuest(this, 'menu-workshops')" data-desc="I usually do these together with my clients. Try them out!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Free workshops</button>
+                <button onclick="navigateTo('#guides'); closeModals();" data-desc="Choose and download guides on common topics!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Free guides</button>
+                <button onclick="navigateTo('#workshops'); closeModals();" data-desc="I usually do these together with my clients. Try them out!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Free workshops</button>
                 <button onclick="selectHubQuest(this, 'state-test')" data-desc="Answer 12 questions and get a suggested topic to work on!" class="hub-quest-btn canvas-tool-btn p-6 font-['Press_Start_2P'] text-[10px] uppercase tracking-widest leading-loose w-full">Do a Test</button>
             </div>
 
@@ -1525,10 +1623,223 @@
 
     </section>
 
+    </main>
+
+
+    <!-- VIEW 2: GUIDES (White Canvas) -->
+    <main id="view-guides" class="spa-view spa-view-hidden white-canvas-root" data-view="guides">
+        <div class="white-canvas-inner w-full">
+            <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
+                <header class="mb-10 md:mb-12 text-center">
+                    <h1 class="font-['Press_Start_2P'] text-xl md:text-3xl leading-relaxed tracking-wide uppercase mb-4">
+                        Free Guides
+                    </h1>
+                    <p class="font-mono text-sm md:text-base text-zinc-700 max-w-2xl mx-auto leading-relaxed">
+                        Download focused PDF guides on the most common founder and gamedev blockers. Use them on your own or as a shared language with your team.
+                    </p>
+                </header>
+
+                <section aria-label="Downloadable guides" class="mt-12">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                        <!-- Critical Self Talk -->
+                        <button onclick="fastTrackToGuide('critical')" class="relative flex items-start gap-4 md:gap-6 bg-white border-4 border-black p-6 hover:bg-zinc-200 transition-colors group w-full cursor-pointer shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] text-left min-h-[160px] md:min-h-[180px]">
+                            <svg class="w-10 h-10 md:w-12 md:h-12 text-black flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 32 32">
+                                <path d="M30.472 6.1H25.9V1.525h1.53V0H6.092v12.2h-1.52v1.52h1.52v3.05h-1.52v-3.05h-1.52v12.19h1.52v1.52h1.52V32H32V4.575h-1.53ZM7.622 18.285h4.57v4.57h-3.05v3.05h-1.52Zm22.85 12.19H7.622v-3.05H25.9v-1.52h1.53v-7.62H25.9v-1.52H7.622V1.525h16.76v6.09h6.09Zm-12.19 -10.67v4.58h-1.52v1.52h-3.05v-7.62h3.05v1.52Zm6.1 1.53v1.52h-3.05v3.05h-1.52v-7.62h4.57v1.52h-3.05v1.53Z"></path><path d="M28.952 3.045h1.52v1.53h-1.52Z"></path><path d="M27.432 1.525h1.52v1.52h-1.52Z"></path><path d="M15.242 19.805h1.52v4.58h-1.52Z"></path><path d="M9.142 19.805h1.53v1.53h-1.53Z"></path>
+                            </svg>
+                            <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left h-full">
+                                <span class="font-['Press_Start_2P'] text-[12px] md:text-[13px] text-black leading-relaxed tracking-widest uppercase mb-3">Critical Self Talk</span>
+                                <span class="font-mono text-sm text-zinc-700 leading-relaxed">Quiet the internal critic and build sustainable motivation. Your exhaustion comes from pushing against that voice all day, not the actual work.</span>
+                            </div>
+                            <div class="absolute bottom-4 right-4">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-[#facc15] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] render-pixel transition-transform duration-200 group-hover:-translate-y-1 group-active:translate-y-1 group-active:scale-90" fill="currentColor"><path d="M5 19h14v-4h2v6H3v-6h2v4Zm8-8h4v2h-2v2h-2v2h-2v-2H9v-2H7v-2h4V3h2v8Z"/></svg>
+                            </div>
+                        </button>
+
+                        <!-- Imposter Syndrome -->
+                        <button onclick="fastTrackToGuide('imposter')" class="relative flex items-start gap-4 md:gap-6 bg-white border-4 border-black p-6 hover:bg-zinc-200 transition-colors group w-full cursor-pointer shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] text-left min-h-[160px] md:min-h-[180px]">
+                            <svg class="w-10 h-10 md:w-12 md:h-12 text-black flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 32 32">
+                                <path d="M30.472 6.1H25.9V1.525h1.53V0H6.092v12.2h-1.52v1.52h1.52v3.05h-1.52v-3.05h-1.52v12.19h1.52v1.52h1.52V32H32V4.575h-1.53ZM7.622 18.285h4.57v4.57h-3.05v3.05h-1.52Zm22.85 12.19H7.622v-3.05H25.9v-1.52h1.53v-7.62H25.9v-1.52H7.622V1.525h16.76v6.09h6.09Zm-12.19 -10.67v4.58h-1.52v1.52h-3.05v-7.62h3.05v1.52Zm6.1 1.53v1.52h-3.05v3.05h-1.52v-7.62h4.57v1.52h-3.05v1.53Z"></path><path d="M28.952 3.045h1.52v1.53h-1.52Z"></path><path d="M27.432 1.525h1.52v1.52h-1.52Z"></path><path d="M15.242 19.805h1.52v4.58h-1.52Z"></path><path d="M9.142 19.805h1.53v1.53h-1.53Z"></path>
+                            </svg>
+                            <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left h-full">
+                                <span class="font-['Press_Start_2P'] text-[12px] md:text-[13px] text-black leading-relaxed tracking-widest uppercase mb-3">Imposter Syndrome</span>
+                                <span class="font-mono text-sm text-zinc-700 leading-relaxed">Stop waiting for permission and own your studio's vision. When you stop resisting the underlying fear, it stops turning into chronic anxiety.</span>
+                            </div>
+                            <div class="absolute bottom-4 right-4">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-[#facc15] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] render-pixel transition-transform duration-200 group-hover:-translate-y-1 group-active:translate-y-1 group-active:scale-90" fill="currentColor"><path d="M5 19h14v-4h2v6H3v-6h2v4Zm8-8h4v2h-2v2h-2v2h-2v-2H9v-2H7v-2h4V3h2v8Z"/></svg>
+                            </div>
+                        </button>
+
+                        <!-- Procrastination -->
+                        <button onclick="fastTrackToGuide('procrastination')" class="relative flex items-start gap-4 md:gap-6 bg-white border-4 border-black p-6 hover:bg-zinc-200 transition-colors group w-full cursor-pointer shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] text-left min-h-[160px] md:min-h-[180px]">
+                            <svg class="w-10 h-10 md:w-12 md:h-12 text-black flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 32 32">
+                                <path d="M30.472 6.1H25.9V1.525h1.53V0H6.092v12.2h-1.52v1.52h1.52v3.05h-1.52v-3.05h-1.52v12.19h1.52v1.52h1.52V32H32V4.575h-1.53ZM7.622 18.285h4.57v4.57h-3.05v3.05h-1.52Zm22.85 12.19H7.622v-3.05H25.9v-1.52h1.53v-7.62H25.9v-1.52H7.622V1.525h16.76v6.09h6.09Zm-12.19 -10.67v4.58h-1.52v1.52h-3.05v-7.62h3.05v1.52Zm6.1 1.53v1.52h-3.05v3.05h-1.52v-7.62h4.57v1.52h-3.05v1.53Z"></path><path d="M28.952 3.045h1.52v1.53h-1.52Z"></path><path d="M27.432 1.525h1.52v1.52h-1.52Z"></path><path d="M15.242 19.805h1.52v4.58h-1.52Z"></path><path d="M9.142 19.805h1.53v1.53h-1.53Z"></path>
+                            </svg>
+                            <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left h-full">
+                                <span class="font-['Press_Start_2P'] text-[12px] md:text-[13px] text-black leading-relaxed tracking-widest uppercase mb-3">Procrastination</span>
+                                <span class="font-mono text-sm text-zinc-700 leading-relaxed">Move past the freeze response when the work gets overwhelming. Giving space to the emotion under the surface will make your next step surprisingly clear.</span>
+                            </div>
+                            <div class="absolute bottom-4 right-4">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-[#facc15] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] render-pixel transition-transform duration-200 group-hover:-translate-y-1 group-active:translate-y-1 group-active:scale-90" fill="currentColor"><path d="M5 19h14v-4h2v6H3v-6h2v4Zm8-8h4v2h-2v2h-2v2h-2v-2H9v-2H7v-2h4V3h2v8Z"/></svg>
+                            </div>
+                        </button>
+
+                        <!-- Relationship to Self & Others -->
+                        <button onclick="fastTrackToGuide('relationship')" class="relative flex items-start gap-4 md:gap-6 bg-white border-4 border-black p-6 hover:bg-zinc-200 transition-colors group w-full cursor-pointer shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] text-left min-h-[160px] md:min-h-[180px]">
+                            <svg class="w-10 h-10 md:w-12 md:h-12 text-black flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 32 32">
+                                <path d="M30.472 6.1H25.9V1.525h1.53V0H6.092v12.2h-1.52v1.52h1.52v3.05h-1.52v-3.05h-1.52v12.19h1.52v1.52h1.52V32H32V4.575h-1.53ZM7.622 18.285h4.57v4.57h-3.05v3.05h-1.52Zm22.85 12.19H7.622v-3.05H25.9v-1.52h1.53v-7.62H25.9v-1.52H7.622V1.525h16.76v6.09h6.09Zm-12.19 -10.67v4.58h-1.52v1.52h-3.05v-7.62h3.05v1.52Zm6.1 1.53v1.52h-3.05v3.05h-1.52v-7.62h4.57v1.52h-3.05v1.53Z"></path><path d="M28.952 3.045h1.52v1.53h-1.52Z"></path><path d="M27.432 1.525h1.52v1.52h-1.52Z"></path><path d="M15.242 19.805h1.52v4.58h-1.52Z"></path><path d="M9.142 19.805h1.53v1.53h-1.53Z"></path>
+                            </svg>
+                            <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left h-full">
+                                <span class="font-['Press_Start_2P'] text-[12px] md:text-[13px] text-black leading-relaxed tracking-widest uppercase mb-3">Relationship to Self & Others</span>
+                                <span class="font-mono text-sm text-zinc-700 leading-relaxed">Thinking that you have to be fixed only slows this process down. Release the hidden agenda and get to know yourself with genuine curiosity.</span>
+                            </div>
+                            <div class="absolute bottom-4 right-4">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-[#facc15] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] render-pixel transition-transform duration-200 group-hover:-translate-y-1 group-active:translate-y-1 group-active:scale-90" fill="currentColor"><path d="M5 19h14v-4h2v6H3v-6h2v4Zm8-8h4v2h-2v2h-2v2h-2v-2H9v-2H7v-2h4V3h2v8Z"/></svg>
+                            </div>
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+
+    <!-- VIEW 3: WORKSHOPS (White Canvas) -->
+    <main id="view-workshops" class="spa-view spa-view-hidden white-canvas-root" data-view="workshops">
+        <div class="white-canvas-inner w-full">
+            <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
+                <header class="mb-10 md:mb-12 text-center">
+                    <h1 class="font-['Press_Start_2P'] text-xl md:text-3xl leading-relaxed tracking-wide uppercase mb-4">
+                        Free Workshops
+                    </h1>
+                    <p class="font-mono text-sm md:text-base text-zinc-700 max-w-2xl mx-auto leading-relaxed">
+                        Hands-on tools you can use with your team or on your own. Each one is designed to surface what is actually going on underneath the surface.
+                    </p>
+                </header>
+
+                <section aria-label="Interactive workshops" class="mt-12">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                        <!-- Paint Your Problem -->
+                        <button onclick="window.open('./workshops/Paint%20your%20problem/index.html', '_blank')" class="relative flex items-start gap-4 md:gap-6 bg-white border-4 border-black p-6 hover:bg-zinc-200 transition-colors group w-full cursor-pointer shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] text-left min-h-[160px] md:min-h-[180px]">
+                            <svg class="w-10 h-10 md:w-12 md:h-12 text-black flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M5 2h12v2H5zm0 2h2v10H5zm12-2h2v12h-2z"/><path d="M13 2h2v6h-2zM9 2h2v4H9zm-4 8h14v2H5zm0 4h14v2H5zm4 2h2v4H9zm4 0h2v4h-2zm-4 4h6v2H9z"/>
+                            </svg>
+                            <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left h-full">
+                                <span class="font-['Press_Start_2P'] text-[12px] md:text-[13px] text-black leading-relaxed tracking-widest uppercase mb-3">Creative Workshop: Paint Your Problem</span>
+                                <span class="font-mono text-sm text-zinc-700 leading-relaxed">A creative diagnostic tool. We'll use a retro canvas to sketch out the underlying blockers in your studio.</span>
+                            </div>
+                            <div class="absolute bottom-4 right-4">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-[#facc15] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] render-pixel transition-transform duration-200 group-hover:-translate-y-1 group-active:translate-y-1 group-active:scale-90" fill="currentColor"><path d="M4 16H6V18H8V20H10V22H2V14H4V16ZM12 20H10V18H12V20ZM14 18H12V16H14V18ZM10 16H8V14H10V16ZM16 16H14V14H16V16ZM6 14H4V12H6V14ZM12 14H10V12H12V14ZM18 14H16V12H18V14ZM8 12H6V10H8V12ZM14 12H12V10H14V12ZM20 12H18V10H20V12ZM10 10H8V8H10V10ZM18 10H16V8H18V10ZM22 10H20V8H22V10ZM12 8H10V6H12V8ZM16 8H14V6H16V8ZM20 8H18V6H20V8ZM14 6H12V4H14V6ZM18 6H16V4H18V6ZM16 4H14V2H16V4Z"/></svg>
+                            </div>
+                        </button>
+
+                        <!-- Miro Board Workout -->
+                        <button onclick="window.open('https://miro.com/app/board/uXjVH-4FM_8=/?share_link_id=184262634978', '_blank')" class="relative flex items-start gap-4 md:gap-6 bg-white border-4 border-black p-6 hover:bg-zinc-200 transition-colors group w-full cursor-pointer shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] text-left min-h-[160px] md:min-h-[180px]">
+                            <svg class="w-10 h-10 md:w-12 md:h-12 text-black flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M15 22H9v-6h6v6Zm-4-2h2v-2h-2v2Zm-2-4H7v-2h2v2Zm8 0h-2v-2h2v2ZM7 14H5V8h2v6Zm12 0h-2V8h2v6ZM3 12H0v-2h3v2Zm21 0h-3v-2h3v2ZM9 8H7V6h2v2Zm8 0h-2V6h2v2ZM5 6H3V4h2v2Zm10 0H9V4h6v2Zm6 0h-2V4h2v2ZM3 4H1V2h2v2Zm20 0h-2V2h2v2ZM13 3h-2V0h2v3Z"/>
+                            </svg>
+                            <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left h-full">
+                                <span class="font-['Press_Start_2P'] text-[12px] md:text-[13px] text-black leading-relaxed tracking-widest uppercase mb-3">Miro Board Workout</span>
+                                <span class="font-mono text-sm text-zinc-700 leading-relaxed">A strategic workshop template. Map out your goals and identify friction points using this interactive board.</span>
+                            </div>
+                            <div class="absolute bottom-4 right-4">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-[#facc15] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] render-pixel transition-transform duration-200 group-hover:-translate-y-1 group-active:translate-y-1 group-active:scale-90" fill="currentColor"><path d="M4 16H6V18H8V20H10V22H2V14H4V16ZM12 20H10V18H12V20ZM14 18H12V16H14V18ZM10 16H8V14H10V16ZM16 16H14V14H16V16ZM6 14H4V12H6V14ZM12 14H10V12H12V14ZM18 14H16V12H18V14ZM8 12H6V10H8V12ZM14 12H12V10H14V12ZM20 12H18V10H20V12ZM10 10H8V8H10V10ZM18 10H16V8H18V10ZM22 10H20V8H22V10ZM12 8H10V6H12V8ZM16 8H14V6H16V8ZM20 8H18V6H20V8ZM14 6H12V4H14V6ZM18 6H16V4H18V6ZM16 4H14V2H16V4Z"/></svg>
+                            </div>
+                        </button>
+
+                        <!-- The Voice in Your Head -->
+                        <button onclick="window.open('./workshops/The%20voice%20in%20your%20head/index.html', '_blank')" class="relative flex items-start gap-4 md:gap-6 bg-white border-4 border-black p-6 hover:bg-zinc-200 transition-colors group w-full cursor-pointer shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] text-left min-h-[160px] md:min-h-[180px] md:col-span-2 lg:col-span-1">
+                            <svg class="w-10 h-10 md:w-12 md:h-12 text-black flex-shrink-0 render-pixel mt-1" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22 22h-2v-2h-2v-2h2V4h2v18Zm-4-4H4v-2h14v2ZM4 16H2V4h2v12Zm8-4H6v-2h6v2Zm6-4H6V6h12v2Zm2-4H4V2h16v2Z"/>
+                            </svg>
+                            <div class="flex flex-col pr-2 pb-6 md:pb-4 md:pr-10 text-left h-full">
+                                <span class="font-['Press_Start_2P'] text-[12px] md:text-[13px] text-black leading-relaxed tracking-widest uppercase mb-3">The Voice in Your Head</span>
+                                <span class="font-mono text-sm text-zinc-700 leading-relaxed">Self-talk can be stealthy. Feeling like you're behind or worse than other devs or like you're not enough etc. This exercise helps you see how you talk to yourself.</span>
+                            </div>
+                            <div class="absolute bottom-4 right-4">
+                                <svg viewBox="0 0 24 24" class="w-6 h-6 md:w-8 md:h-8 text-[#facc15] drop-shadow-[2px_2px_0_rgba(0,0,0,1)] render-pixel transition-transform duration-200 group-hover:-translate-y-1 group-active:translate-y-1 group-active:scale-90" fill="currentColor"><path d="M4 16H6V18H8V20H10V22H2V14H4V16ZM12 20H10V18H12V20ZM14 18H12V16H14V18ZM10 16H8V14H10V16ZM16 16H14V14H16V16ZM6 14H4V12H6V14ZM12 14H10V12H12V14ZM18 14H16V12H18V14ZM8 12H6V10H8V12ZM14 12H12V10H14V12ZM20 12H18V10H20V12ZM10 10H8V8H10V10ZM18 10H16V8H18V10ZM22 10H20V8H22V10ZM12 8H10V6H12V8ZM16 8H14V6H16V8ZM20 8H18V6H20V8ZM14 6H12V4H14V6ZM18 6H16V4H18V6ZM16 4H14V2H16V4Z"/></svg>
+                            </div>
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
     
     <!-- ========================================== -->
 
     <script>
+
+        // ================= HASH ROUTING ENGINE =================
+
+        const SPA_VIEWS = ['view-home', 'view-guides', 'view-workshops'];
+        let activeViewId = null;
+
+        function hashToViewId(hash) {
+            switch (hash) {
+                case '#guides':
+                    return 'view-guides';
+                case '#workshops':
+                    return 'view-workshops';
+                case '#home':
+                default:
+                    return 'view-home';
+            }
+        }
+
+        function showView(viewId) {
+            const targetId = SPA_VIEWS.includes(viewId) ? viewId : 'view-home';
+            const nextEl = document.getElementById(targetId);
+            if (!nextEl) return;
+
+            const currentEl = activeViewId ? document.getElementById(activeViewId) : null;
+            if (currentEl === nextEl) return;
+
+            // Snap scroll to top for each view change
+            window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+
+            if (currentEl) {
+                currentEl.classList.remove('spa-view-active');
+                currentEl.addEventListener('transitionend', function handle(ev) {
+                    if (ev.propertyName === 'opacity') {
+                        currentEl.classList.add('spa-view-hidden');
+                        currentEl.removeEventListener('transitionend', handle);
+                    }
+                });
+            }
+
+            nextEl.classList.remove('spa-view-hidden');
+            // Force reflow so opacity transition runs reliably
+            void nextEl.offsetWidth;
+            nextEl.classList.add('spa-view-active');
+            activeViewId = targetId;
+        }
+
+        function handleHashChange() {
+            const hash = window.location.hash || '#home';
+            const viewId = hashToViewId(hash);
+            showView(viewId);
+        }
+
+        function navigateTo(hash) {
+            if (window.location.hash === hash) {
+                handleHashChange();
+            } else {
+                window.location.hash = hash;
+            }
+        }
+
+        window.addEventListener('hashchange', handleHashChange);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!window.location.hash) {
+                window.location.hash = '#home';
+            } else {
+                handleHashChange();
+            }
+        });
+
+
         // --- DISCORD TELEMETRY ENGINE ---
         const DISCORD_USER_ID = "198813370441269249"; 
 
