@@ -418,14 +418,22 @@
             background: #7dd3fc;
         }
 
+        /* Mobile-First Default (Portrait Image) */
         .static-hero-bg {
             position: absolute;
             inset: 0; 
+            background-image: url('https://raw.githubusercontent.com/Sondim/Sondim.github.io/a5c1da5798644088ba738233daa1c9828c136766/staticmobileheroimage.jpg');
             background-size: cover;
-            /* 25% pulls it up slightly from the center, but doesn't pin it strictly to the top */
             background-position: center 25%; 
             background-repeat: no-repeat;
             image-rendering: pixelated; 
+        }
+
+        /* Desktop Override (Landscape Image) */
+        @media (min-width: 768px) {
+            .static-hero-bg {
+                background-image: url('https://raw.githubusercontent.com/Sondim/Sondim.github.io/028ce08aa3995700c93a6780e2127e9ba25a0e97/staticimagehero.jpg');
+            }
         }
 
         .pixel-title {
@@ -906,7 +914,7 @@
 
 
     <section class="hero-container relative overflow-hidden">
-        <div class="static-hero-bg" style="background-image: url('https://raw.githubusercontent.com/Sondim/Sondim.github.io/028ce08aa3995700c93a6780e2127e9ba25a0e97/staticimagehero.jpg');"></div>
+        <div class="static-hero-bg"></div>
 
         <div class="relative z-10 w-full h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-start pt-[30vh] md:pt-[50vh]">
             
