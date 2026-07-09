@@ -17,6 +17,7 @@
     <style>
         
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap');
         html { scroll-behavior: smooth; }
 
         :root {
@@ -218,7 +219,7 @@
             position: absolute;
             inset: 0;
             pointer-events: none;
-            z-index: 1; /* Sits beneath the button text */
+            z-index: 1; 
             display: none; 
             background: linear-gradient(
                 108deg,
@@ -233,8 +234,8 @@
             background-size: 200% 100%;
         }
 
-        /* Activate continuous animation only on the primary yellow buttons */
-        .btn-8bit:not(.btn-8bit-secondary):not(:disabled)::before {
+        /* Added :not(.no-shimmer) to the exclusion list! */
+        .btn-8bit:not(.btn-8bit-secondary):not(:disabled):not(.no-shimmer)::before {
             display: block;
             animation: shimmerSweep 2.5s infinite linear;
         }
@@ -413,9 +414,7 @@
         .hero-container {
             position: relative;
             width: 100vw;
-            height: calc(100vh - 76px);
-            /* The Steel Rod: Never compress smaller than 800px tall */
-            min-height: 800px; 
+            height: 100vh; /* Now fills the entire monitor */
             background: #7dd3fc;
         }
 
@@ -423,7 +422,8 @@
             position: absolute;
             inset: 0; 
             background-size: cover;
-            background-position: center top; /* Anchors the top of the art to the bottom of the nav */
+            /* 25% pulls it up slightly from the center, but doesn't pin it strictly to the top */
+            background-position: center 25%; 
             background-repeat: no-repeat;
             image-rendering: pixelated; 
         }
@@ -431,10 +431,7 @@
         .pixel-title {
             font-family: 'Press Start 2P', monospace;
             color: #ffcc00; 
-            /* 25% REDUCTION: Desktop size 4.25rem -> 3.2rem */
-            font-size: 3.2rem; 
             line-height: 1.2;
-            margin: 0 0 2rem 0;
             letter-spacing: -2px;
             text-shadow: 
             -2px -2px 0 #000,  
@@ -446,19 +443,12 @@
 
         @media (max-width: 768px) {
             .pixel-title { 
-            /* 25% REDUCTION: Mobile size 2.5rem -> 1.85rem */
-            font-size: 1.85rem; 
-            text-shadow: 
+                text-shadow: 
                 -1.5px -1.5px 0 #000,  
                 1.5px -1.5px 0 #000,
                 -1.5px  1.5px 0 #000,
                 1.5px  1.5px 0 #000,
                 4px  4px 0px rgba(0,0,0,0.85); 
-            }
-            .pixel-subtitle {
-                /* 25% REDUCTION: 1rem -> 0.75rem */
-                font-size: 0.75rem;
-                line-height: 1.6;
             }
         }
 
@@ -833,7 +823,7 @@
 <body class="bg-zinc-950 text-zinc-100 font-sans selection:bg-blue-500/30 overflow-x-hidden">
 
 
-    <nav class="sticky top-0 z-40 bg-zinc-900 border-b border-white/5">
+    <nav class="fixed top-0 left-0 w-full z-40 bg-zinc-950 border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 py-2.5 md:py-4 flex justify-between items-center relative">
             
             <a href="#home" class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-pointer z-50">
@@ -915,58 +905,67 @@
     <main id="view-home" class="spa-view spa-view-active" data-view="home">
 
 
-    <section class="hero-container">
+    <section class="hero-container relative overflow-hidden">
         <div class="static-hero-bg" style="background-image: url('https://raw.githubusercontent.com/Sondim/Sondim.github.io/028ce08aa3995700c93a6780e2127e9ba25a0e97/staticimagehero.jpg');"></div>
 
-        <div class="absolute top-[6%] md:top-[6%] left-1/2 -translate-x-1/2 text-center z-10 w-11/12 md:w-full flex flex-col items-center">
-            <h1 class="pixel-title flex flex-col items-center text-center">
-                <span class="text-[1em] leading-none md:leading-tight">BUILD GREAT GAMES</span>
-                <span class="text-[1em] leading-none md:leading-tight mt-2 md:mt-4">WITHOUT BURNING OUT</span>
+        <div class="relative z-10 w-full h-full max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-start pt-[30vh] md:pt-[50vh]">
+            
+            <h1 class="pixel-title flex flex-col items-start text-left text-[22px] md:text-[38px]">
+                <span class="leading-none">BUILD GAMES</span>
+                <span class="leading-none mt-3 md:mt-5">WITH LESS BURNOUT</span>
             </h1>
-            <p class="font-['Press_Start_2P'] text-[9px] md:text-xs text-black font-normal text-center leading-loose mt-4 mb-10 md:mb-12 max-w-4xl mx-auto px-4 tracking-widest uppercase">
-                For gamedevs who are stuck in stress and conflict<br><br>and want to get their momentum back
+            
+            <p class="text-white text-[18px] md:text-[22px] font-normal text-left leading-[1.4] mt-6 mb-10 max-w-[650px]" style="font-family: 'Open Sans', sans-serif;">
+                For gamedevs who are stuck in stress and conflict<br>and want to get their momentum back
             </p>
 
-            <div id="hero-panel" class="canvas-panel-8bit w-full max-w-2xl p-5 md:p-6 text-left mb-6 flex flex-col md:flex-row gap-6 items-center md:items-start z-10 mx-4" style="background-color: rgba(24, 24, 27, 0.95); box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.95); border-color: rgba(0, 0, 0, 0.95);">
-                <div class="flex flex-col items-center flex-shrink-0 relative">
-                    <div id="hero-avatar-wrapper" class="animate-head-drift">
-                        <button onclick="copyDiscordId(this, 'portrait')" class="discord-avatar-container cursor-pointer block bg-transparent border-none p-0 outline-none appearance-none w-full text-left">
-                            <div class="discord-avatar-mask">
-                                <img id="discord-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%2318181b'></svg>" 
-                                     alt="Magnus" class="w-full h-full object-cover transition-opacity duration-300 opacity-0">
-                            </div>
-                            <div id="discord-badge-element" class="discord-badge offline"></div>
-                            
-                            <div class="discord-tooltip">
-                                <span id="discord-tooltip-text">Connecting...</span>
-                            </div>
-                        </button>
-                    </div>
-                    <span id="portrait-copy-feedback" class="absolute -bottom-8 font-['Press_Start_2P'] text-[9px] text-yellow-400 opacity-0 transition-opacity duration-200 pointer-events-none whitespace-nowrap drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">ID COPIED!</span>
+            <button onclick="fastTravelQuest('state-test')" class="btn-8bit no-shimmer text-[8px] md:text-[12px] px-6 py-4 md:px-8 md:py-5 tracking-widest">
+                GET FREE ASSESSMENT
+            </button>
+            
+        </div>  
+    </section>
+
+    <!-- MOVED RPG DIALOGUE SECTION -->
+    <section id="dialogue-section" class="w-full bg-zinc-950 py-12 md:py-16 border-b border-white/5 relative z-20 flex justify-center shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+        <div id="hero-panel" class="canvas-panel-8bit w-full max-w-3xl p-5 md:p-6 text-left flex flex-col md:flex-row gap-6 items-center md:items-start mx-4" style="background-color: rgba(24, 24, 27, 1); box-shadow: 8px 8px 0px rgba(0, 0, 0, 1); border-color: rgba(0, 0, 0, 1);">
+            <div class="flex flex-col items-center flex-shrink-0 relative">
+                <div id="hero-avatar-wrapper" class="animate-head-drift">
+                    <button onclick="copyDiscordId(this, 'portrait')" class="discord-avatar-container cursor-pointer block bg-transparent border-none p-0 outline-none appearance-none w-full text-left">
+                        <div class="discord-avatar-mask">
+                            <img id="discord-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%2318181b'></svg>" 
+                                 alt="Magnus" class="w-full h-full object-cover transition-opacity duration-300 opacity-0">
+                        </div>
+                        <div id="discord-badge-element" class="discord-badge offline"></div>
+                        
+                        <div class="discord-tooltip">
+                            <span id="discord-tooltip-text">Connecting...</span>
+                        </div>
+                    </button>
+                </div>
+                <span id="portrait-copy-feedback" class="absolute -bottom-8 font-['Press_Start_2P'] text-[9px] text-yellow-400 opacity-0 transition-opacity duration-200 pointer-events-none whitespace-nowrap drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">ID COPIED!</span>
+            </div>
+
+            <div class="flex-1 w-full text-center md:text-left flex flex-col h-full">
+                <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-300">
+                    <span id="discord-username-display">Welcome, I'm Magnus!</span>
                 </div>
 
-                <div class="flex-1 w-full text-center md:text-left flex flex-col h-full">
-                    <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-4 text-[10px] font-['Press_Start_2P'] tracking-widest text-zinc-300">
-                        <span id="discord-username-display">Welcome, I'm Magnus!</span>
-                    </div>
+                <div id="dialogue-zone" class="dialogue-text-area min-h-[120px] md:min-h-[90px]" onclick="advanceDialogue()">
+                    <p id="dialogue-text" class="font-mono text-xs md:text-sm text-zinc-300 leading-relaxed text-left m-0">
+                        I'm a professional coach who helps solodevs and teams who are stuck in stress, conflict or burnout to get <em>unstuck</em> and finish the game they want to make.
+                    </p>
+                    
+                    <div id="dialogue-arrow" class="dialogue-arrow">▼</div>
+                </div>
 
-                    <div id="dialogue-zone" class="dialogue-text-area min-h-[120px] md:min-h-[90px]" onclick="advanceDialogue()">
-                        <p id="dialogue-text" class="font-mono text-xs md:text-sm text-zinc-300 leading-relaxed text-left m-0">
-                            I'm a professional coach who helps solodevs and teams who are stuck in stress, conflict or burnout to get <em>unstuck</em> and finish the game they want to make.
-                        </p>
-                        
-                        <div id="dialogue-arrow" class="dialogue-arrow">▼</div>
-                    </div>
-
-                    <div id="hero-unlocked-btns" class="hidden flex-col w-full mt-4 md:mt-5 fade-in">
-                        <button onclick="bootQuestEngine()" class="btn-8bit w-full text-[9px] tracking-widest">
-                            RESOURCES
-                        </button>
-                    </div>
-
+                <div id="hero-unlocked-btns" class="hidden flex-col w-full mt-4 md:mt-5 fade-in">
+                    <button onclick="bootQuestEngine()" class="btn-8bit w-full text-[9px] tracking-widest">
+                        RESOURCES
+                    </button>
                 </div>
             </div>
-        </div>  
+        </div>
     </section>
 
     <section id="testimonials-ticker" class="w-full bg-zinc-950 py-2 md:py-4 border-b border-white/5 relative z-20 shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
@@ -987,7 +986,7 @@
                 
                 <div class="w-full flex-shrink-0 px-4">
                     <div class="flex items-center justify-center text-center text-zinc-300 min-h-[80px]">
-                        <p class="text-base md:text-lg leading-relaxed font-mono">"Magnus is extremely professional!"</p>
+                        <p class="text-base md:text-lg leading-relaxed font-mono">"The coaching was extremely professional"</p>
                     </div>
                 </div>
 
