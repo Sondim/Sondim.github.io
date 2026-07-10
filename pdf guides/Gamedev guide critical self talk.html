@@ -34,44 +34,10 @@
             padding: 10mm 15mm; 
         }
 
-        /* 8-bit Typography & Brutalist Borders */
+        /* 8-bit Typography */
         .font-8bit {
             font-family: 'Press Start 2P', monospace;
             text-transform: uppercase;
-        }
-
-        .brutalist-box {
-            border: 4px solid #000000;
-            box-shadow: 5px 5px 0px #000000;
-            background-color: #ffffff;
-        }
-
-        .brutalist-accent {
-            background-color: #facc15 !important; /* Attention Yellow */
-        }
-
-        /* Interactive Button Styles for Web */
-        .btn-8bit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            color: #000000;
-            transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
-            cursor: pointer;
-        }
-
-        @media (hover: hover) {
-            .btn-8bit:hover {
-                transform: translate(2px, 2px);
-                box-shadow: 3px 3px 0px #000000;
-            }
-        }
-
-        .btn-8bit:active {
-            transform: translate(5px, 5px);
-            box-shadow: 0px 0px 0px #000000;
         }
 
         /* Print Specific Spacing Guardrails */
@@ -109,16 +75,6 @@
             /* Enforce grid layouts clearly in print mode */
             .grid-cols-2 { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
             .grid-cols-3 { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
-
-            .brutalist-box {
-                border: 3px solid #000000 !important;
-                box-shadow: 4px 4px 0px #000000 !important; 
-                break-inside: avoid;
-            }
-            
-            .btn-8bit {
-                transform: none !important;
-            }
         }
     </style>
 </head>
@@ -161,25 +117,34 @@
                 <h3 class="font-8bit text-[12px] mb-4 border-b-2 border-black pb-2">PATTERNS TO EXPLORE</h3>
                 <div class="grid grid-cols-3 gap-4 text-left">
                     
-                    <div class="brutalist-box p-4 flex flex-col gap-2">
-                        <span class="font-8bit text-[9px] uppercase text-black leading-snug">CRITICIZING OTHERS</span>
-                        <p class="text-[10px] text-zinc-800 leading-relaxed mt-1">
-                            We can’t truly accept in others what we refuse to accept in ourselves. If you get mad at a friend or colleague for being messy or making mistakes, it's usually because you get mad at yourself for the exact same things. Noticing this is the first step to silencing your own inner critic.
-                        </p>
+                    <div class="relative h-full">
+                        <div class="absolute inset-0 bg-black translate-x-[5px] translate-y-[5px] print:translate-x-[3px] print:translate-y-[3px]"></div>
+                        <div class="relative h-full bg-white border-4 border-black print:border-[3px] p-4 flex flex-col gap-2">
+                            <span class="font-8bit text-[9px] uppercase text-black leading-snug">CRITICIZING OTHERS</span>
+                            <p class="text-[10px] text-zinc-800 leading-relaxed mt-1">
+                                We can’t truly accept in others what we refuse to accept in ourselves. If you get mad at a friend or colleague for being messy or making mistakes, it's usually because you get mad at yourself for the exact same things. Noticing this is the first step to silencing your own inner critic.
+                            </p>
+                        </div>
                     </div>
                     
-                    <div class="brutalist-box p-4 flex flex-col gap-2">
-                        <span class="font-8bit text-[9px] uppercase text-black leading-snug">DEFENSIVENESS</span>
-                        <p class="text-[10px] text-zinc-800 leading-relaxed mt-1">
-                            When someone’s words hurt, it’s usually because you already say the exact same things to yourself. You get defensive because they just said out loud what your own mind is whispering. Noticing what makes you snap is a great way to uncover your negative self-talk.
-                        </p>
+                    <div class="relative h-full">
+                        <div class="absolute inset-0 bg-black translate-x-[5px] translate-y-[5px] print:translate-x-[3px] print:translate-y-[3px]"></div>
+                        <div class="relative h-full bg-white border-4 border-black print:border-[3px] p-4 flex flex-col gap-2">
+                            <span class="font-8bit text-[9px] uppercase text-black leading-snug">DEFENSIVENESS</span>
+                            <p class="text-[10px] text-zinc-800 leading-relaxed mt-1">
+                                When someone’s words hurt, it’s usually because you already say the exact same things to yourself. You get defensive because they just said out loud what your own mind is whispering. Noticing what makes you snap is a great way to uncover your negative self-talk.
+                            </p>
+                        </div>
                     </div>
                     
-                    <div class="brutalist-box p-4 flex flex-col gap-2">
-                        <span class="font-8bit text-[9px] uppercase text-black leading-snug">BURNOUT</span>
-                        <p class="text-[10px] text-zinc-800 leading-relaxed mt-1">
-                            Burnout is not always about the workload, instead it's often that you use "dirty fuel" to motivate yourself, like the perfectionist harsh voice in your head or fear of failure. Notice when you feel completely drained, it's a great way to spot your negative self-talk.
-                        </p>
+                    <div class="relative h-full">
+                        <div class="absolute inset-0 bg-black translate-x-[5px] translate-y-[5px] print:translate-x-[3px] print:translate-y-[3px]"></div>
+                        <div class="relative h-full bg-white border-4 border-black print:border-[3px] p-4 flex flex-col gap-2">
+                            <span class="font-8bit text-[9px] uppercase text-black leading-snug">BURNOUT</span>
+                            <p class="text-[10px] text-zinc-800 leading-relaxed mt-1">
+                                Burnout is not always about the workload, instead it's often that you use "dirty fuel" to motivate yourself, like the perfectionist harsh voice in your head or fear of failure. Notice when you feel completely drained, it's a great way to spot your negative self-talk.
+                            </p>
+                        </div>
                     </div>
 
                 </div>
@@ -194,9 +159,11 @@
                     </p>
                 </div>
                 
-                <!-- Removed the indicator arrow icon to maintain visual alignment and simplicity -->
-                <a href="https://sondim.github.io/workshops/The%20voice%20in%20your%20head/index.html" target="_blank" class="btn-8bit brutalist-box brutalist-accent py-4 w-full">
-                    <span class="font-8bit text-[12px]">LAUNCH ONLINE TOOL</span>
+                <a href="https://sondim.github.io/workshops/The%20voice%20in%20your%20head/index.html" target="_blank" class="relative block group w-full cursor-pointer">
+                    <div class="absolute inset-0 bg-black translate-x-[5px] translate-y-[5px] print:translate-x-[3px] print:translate-y-[3px]"></div>
+                    <div class="relative bg-yellow-400 border-4 border-black print:border-[3px] py-4 w-full flex items-center justify-center transition-transform duration-100 ease-in-out group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-active:translate-x-[5px] group-active:translate-y-[5px] print:group-hover:translate-x-0 print:group-hover:translate-y-0 print:group-active:translate-x-0 print:group-active:translate-y-0">
+                        <span class="font-8bit text-[12px]">LAUNCH ONLINE TOOL</span>
+                    </div>
                 </a>
 
                 <div class="flex items-center justify-center gap-4">
@@ -205,31 +172,33 @@
                     <div class="h-[2px] bg-black w-16"></div>
                 </div>
 
-                <div class="brutalist-box brutalist-accent p-4 w-full">
-                    <!-- Changed the title heading string here as requested -->
-                    <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-3">
-                        <h2 class="font-8bit text-[12px] text-black uppercase tracking-wider">THE VOICE IN YOUR HEAD</h2>
-                        <span class="font-8bit text-[9px] bg-black text-yellow-400 px-2 py-1">TIME: 10 MIN</span>
-                    </div>
-                    
-                    <div class="grid grid-cols-3 gap-5">
-                        <div>
-                            <h4 class="font-8bit text-[9px] mb-2 leading-snug">STEP 1:<br>TRANSCRIBE</h4>
-                            <p class="text-[10px] leading-relaxed text-black font-medium">
-                                Write down every thought you have for your selected time without filtering yourself.
-                            </p>
+                <div class="relative w-full">
+                    <div class="absolute inset-0 bg-black translate-x-[5px] translate-y-[5px] print:translate-x-[3px] print:translate-y-[3px]"></div>
+                    <div class="relative w-full bg-yellow-400 border-4 border-black print:border-[3px] p-4">
+                        <div class="flex items-center justify-between border-b-2 border-black pb-3 mb-3">
+                            <h2 class="font-8bit text-[12px] text-black uppercase tracking-wider">THE VOICE IN YOUR HEAD</h2>
+                            <span class="font-8bit text-[9px] bg-black text-yellow-400 px-2 py-1">TIME: 10 MIN</span>
                         </div>
-                        <div>
-                            <h4 class="font-8bit text-[9px] mb-2 leading-snug">STEP 2:<br>REVIEW</h4>
-                            <p class="text-[10px] leading-relaxed text-black font-medium">
-                                Afterwards you mark the ones that feel self-critical or judgemental, anything you wouldn't say to a friend.
-                            </p>
-                        </div>
-                        <div>
-                            <h4 class="font-8bit text-[9px] mb-2 leading-snug">STEP 3:<br>REPEAT</h4>
-                            <p class="text-[10px] leading-relaxed text-black font-medium">
-                                Read the list back at the end of the exercise to fully recognize the tone of your inner voice. Repeat this entire process 3 times this week.
-                            </p>
+                        
+                        <div class="grid grid-cols-3 gap-5">
+                            <div>
+                                <h4 class="font-8bit text-[9px] mb-2 leading-snug">STEP 1:<br>TRANSCRIBE</h4>
+                                <p class="text-[10px] leading-relaxed text-black font-medium">
+                                    Write down every thought you have for your selected time without filtering yourself.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-8bit text-[9px] mb-2 leading-snug">STEP 2:<br>REVIEW</h4>
+                                <p class="text-[10px] leading-relaxed text-black font-medium">
+                                    Afterwards you mark the ones that feel self-critical or judgemental, anything you wouldn't say to a friend.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-8bit text-[9px] mb-2 leading-snug">STEP 3:<br>REPEAT</h4>
+                                <p class="text-[10px] leading-relaxed text-black font-medium">
+                                    Read the list back at the end of the exercise to fully recognize the tone of your inner voice. Repeat this entire process 3 times this week.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
