@@ -335,7 +335,7 @@
 
         /* Light-mode white canvas views (scoped, no bleed into dark UI) */
         .white-canvas-root {
-            background-color: #ffffff;
+            background-color: #FAF9F6;
             color: #000000;
         }
 
@@ -1684,17 +1684,23 @@
     <!-- VIEW 2: GUIDES (White Canvas) -->
     <main id="view-guides" class="spa-view spa-view-hidden white-canvas-root" data-view="guides">
         <div class="white-canvas-inner w-full">
-            <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
-                <header class="mb-10 md:mb-12 text-center">
+            <div class="max-w-5xl mx-auto px-6 pt-32 pb-16 md:pt-40 md:pb-20">
+                <header class="mb-12 text-center flex flex-col items-center">
                     <h1 class="font-['Press_Start_2P'] text-xl md:text-3xl leading-relaxed tracking-wide uppercase mb-4">
                         Free Guides
                     </h1>
-                    <p class="font-mono text-sm md:text-base text-zinc-700 max-w-2xl mx-auto leading-relaxed">
+                    <p class="font-mono text-sm md:text-base text-zinc-700 max-w-2xl mx-auto leading-relaxed mb-8">
                         Download focused PDF guides on the most common founder and gamedev blockers. Use them on your own or as a shared language with your team.
                     </p>
+                    
+                    <div class="w-full max-w-md relative">
+                        <input type="text" id="guides-search-input" placeholder="Search for a topic..." class="w-full bg-white border-4 border-black text-black px-5 py-4 outline-none focus:border-yellow-400 focus:-translate-y-1 focus:shadow-[6px_6px_0px_#000] transition-all duration-100 font-mono text-sm md:text-base placeholder:text-zinc-500 shadow-[4px_4px_0px_#000]">
+                    </div>
                 </header>
 
-                <section aria-label="Downloadable guides" class="mt-12">
+                <hr class="w-full border-black border-t-2 my-10 md:my-12">
+
+                <section id="guides-card-container" aria-label="Downloadable guides">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                         <!-- Critical Self Talk -->
                         <button onclick="fastTrackToGuide('critical')" class="relative flex items-start gap-4 md:gap-6 bg-white border-4 border-black p-6 hover:bg-zinc-200 transition-colors group w-full cursor-pointer shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] text-left min-h-[160px] md:min-h-[180px]">
@@ -1761,17 +1767,23 @@
     <!-- VIEW 3: WORKSHOPS (White Canvas) -->
     <main id="view-workshops" class="spa-view spa-view-hidden white-canvas-root" data-view="workshops">
         <div class="white-canvas-inner w-full">
-            <div class="max-w-5xl mx-auto px-6 py-16 md:py-20">
-                <header class="mb-10 md:mb-12 text-center">
+            <div class="max-w-5xl mx-auto px-6 pt-32 pb-16 md:pt-40 md:pb-20">
+                <header class="mb-12 text-center flex flex-col items-center">
                     <h1 class="font-['Press_Start_2P'] text-xl md:text-3xl leading-relaxed tracking-wide uppercase mb-4">
                         Free Workshops
                     </h1>
-                    <p class="font-mono text-sm md:text-base text-zinc-700 max-w-2xl mx-auto leading-relaxed">
+                    <p class="font-mono text-sm md:text-base text-zinc-700 max-w-2xl mx-auto leading-relaxed mb-8">
                         Hands-on tools you can use with your team or on your own. Each one is designed to surface what is actually going on underneath the surface.
                     </p>
+                    
+                    <div class="w-full max-w-md relative">
+                        <input type="text" id="workshops-search-input" placeholder="Search for a topic..." class="w-full bg-white border-4 border-black text-black px-5 py-4 outline-none focus:border-yellow-400 focus:-translate-y-1 focus:shadow-[6px_6px_0px_#000] transition-all duration-100 font-mono text-sm md:text-base placeholder:text-zinc-500 shadow-[4px_4px_0px_#000]">
+                    </div>
                 </header>
 
-                <section aria-label="Interactive workshops" class="mt-12">
+                <hr class="w-full border-black border-t-2 my-10 md:my-12">
+
+                <section id="workshops-card-container" aria-label="Interactive workshops">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
                         <!-- Paint Your Problem -->
                         <button onclick="window.open('./workshops/Paint%20your%20problem/index.html', '_blank')" class="relative flex items-start gap-4 md:gap-6 bg-white border-4 border-black p-6 hover:bg-zinc-200 transition-colors group w-full cursor-pointer shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] text-left min-h-[160px] md:min-h-[180px]">
@@ -3674,6 +3686,46 @@ function openMainContactGateway() {
 
         window.addEventListener('DOMContentLoaded', () => {
             if (testiTrack) startTestiTimer();
+        });
+
+        // --- 8-BIT SEARCH FILTER ENGINE ---
+        function attachSearchEngine(inputId, containerId) {
+            const searchInput = document.getElementById(inputId);
+            const cardContainer = document.getElementById(containerId);
+            
+            if (!searchInput || !cardContainer) return;
+
+            // Target the physical buttons inside the grid wrapper
+            const gridWrapper = cardContainer.querySelector('.grid');
+            if (!gridWrapper) return;
+            const cards = Array.from(gridWrapper.children);
+
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase().trim();
+                
+                cards.forEach(card => {
+                    // Pulls text from title and description spans
+                    const cardText = card.innerText.toLowerCase();
+                    
+                    if (cardText.includes(term)) {
+                        if (card.style.display === 'none') {
+                            card.style.display = 'flex';
+                            // Fire existing CSS physics fade-in when revealed
+                            card.style.animation = 'none';
+                            void card.offsetWidth; // Force hardware reflow
+                            card.style.animation = 'fadeIn 0.25s cubic-bezier(0.25, 1, 0.5, 1) forwards';
+                        }
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Boot engine for both views
+        window.addEventListener('DOMContentLoaded', () => {
+            attachSearchEngine('guides-search-input', 'guides-card-container');
+            attachSearchEngine('workshops-search-input', 'workshops-card-container');
         });
 
 // --- DISCORD ID COPY ENGINE ---
