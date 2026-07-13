@@ -1854,7 +1854,7 @@
             }
         }
 
-        function showView(viewId) {
+        function showView(viewId, isInstant = false) {
             const targetId = SPA_VIEWS.includes(viewId) ? viewId : 'view-home';
             const nextEl = document.getElementById(targetId);
             if (!nextEl) return;
@@ -1867,12 +1867,17 @@
 
             if (currentEl) {
                 currentEl.classList.remove('spa-view-active');
-                currentEl.addEventListener('transitionend', function handle(ev) {
-                    if (ev.propertyName === 'opacity') {
-                        currentEl.classList.add('spa-view-hidden');
-                        currentEl.removeEventListener('transitionend', handle);
-                    }
-                });
+                // If it's a page refresh, we hide the old view instantly to prevent flashing
+                if (isInstant) {
+                    currentEl.classList.add('spa-view-hidden');
+                } else {
+                    currentEl.addEventListener('transitionend', function handle(ev) {
+                        if (ev.propertyName === 'opacity') {
+                            currentEl.classList.add('spa-view-hidden');
+                            currentEl.removeEventListener('transitionend', handle);
+                        }
+                    });
+                }
             }
 
             nextEl.classList.remove('spa-view-hidden');
@@ -1899,14 +1904,23 @@
         window.addEventListener('hashchange', handleHashChange);
 
         document.addEventListener('DOMContentLoaded', () => {
+            // BUG FIX: The HTML hardcodes 'view-home' as visible. We must inform the 
+            // script engine that this is our starting point so it knows what to hide!
+            activeViewId = 'view-home'; 
+
+            const hash = window.location.hash || '#home';
+            const targetId = hashToViewId(hash);
+
+            if (targetId !== 'view-home') {
+                // If refreshing on a sub-page, swap instantly to avoid a flash of the home page
+                showView(targetId, true);
+            }
+            
             if (!window.location.hash) {
-                window.location.hash = '#home';
-            } else {
-                handleHashChange();
+                // Replace state to avoid adding useless history entries on boot
+                history.replaceState(null, null, '#home');
             }
         });
-
-
         // --- DISCORD TELEMETRY ENGINE ---
         const DISCORD_USER_ID = "198813370441269249"; 
 
