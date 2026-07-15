@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humanize the Enemy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: #FAF9F6;
+            color: #000000;
+        }
+
+        /* Smooth fade-in for screen transitions */
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden-state { display: none !important; }
+
+        /* --- 8-BIT BUTTON SYSTEM --- */
+        .btn-8bit {
+            font-family: 'Press Start 2P', monospace;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff; 
+            color: black !important;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            padding: 1.25rem 2rem;
+            border: 4px solid black;
+            box-shadow: 6px 6px 0px black;
+            transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.15s ease, border-color 0.15s ease;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+        }
+
+        @media (hover: hover) {
+            .btn-8bit:hover:not(:disabled) {
+                background-color: #f4f4f5; 
+            }
+        }
+
+        .btn-8bit:active:not(:disabled), .tactile-press {
+            transform: translate(4px, 4px) !important;
+            box-shadow: 2px 2px 0px black !important;
+        }
+        
+        .btn-8bit:disabled {
+            background-color: #e4e4e7 !important;
+            color: #a1a1aa !important;
+            box-shadow: 0px 0px 0px black !important;
+            transform: translate(4px, 4px) !important;
+            cursor: not-allowed;
+            border-color: #a1a1aa !important;
+        }
+
+        .btn-attention-yellow {
+            background-color: #facc15 !important;
+        }
+        @media (hover: hover) {
+            .btn-attention-yellow:hover:not(:disabled) {
+                background-color: #fde047 !important;
+            }
+        }
+        .btn-attention-yellow:active, .btn-attention-yellow.tactile-press {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+
+        /* --- RETRO CHECKBOXES --- */
+        .retro-checkbox-container {
+            display: flex;
+            align-items: center; /* Centered with the text */
+            gap: 1.5rem;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .retro-checkbox-input {
+            display: none; 
+        }
+        
+        .retro-checkbox-box {
+            width: 36px; /* Scaled up to 36px */
+            height: 36px; /* Scaled up to 36px */
+            border: 4px solid black;
+            background-color: white;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.1s;
+        }
+
+        .retro-checkbox-input:checked + .retro-checkbox-box {
+            background-color: #facc15;
+            box-shadow: inset 3px 3px 0px rgba(0,0,0,0.2);
+        }
+
+        .retro-checkbox-input:checked + .retro-checkbox-box::after {
+            content: 'x';
+            font-family: 'Press Start 2P', monospace;
+            color: black;
+            font-size: 16px; /* Larger cross */
+            display: inline-block;
+            line-height: 0;
+            transform: translateY(-2px); /* Optical centering for baseline */
+        }
+
+        /* Textarea inputs matching warmup style */
+        .retro-textarea {
+            background-color: #ffffff;
+            border: 4px solid #000000;
+            color: #000000;
+            box-shadow: 6px 6px 0px #000000;
+            outline: none;
+            width: 100%;
+            height: 12rem;
+            min-height: 8rem;
+            padding: 1.5rem;
+            resize: vertical;
+        }
+        .retro-textarea:focus {
+            border-color: #facc15;
+        }
+
+        .render-pixel { shape-rendering: crispEdges; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 font-sans">
+
+    <main class="w-full max-w-5xl flex-grow flex flex-col items-center justify-center min-h-[600px] py-8">
+
+        <div id="state-intro" class="w-full fade-in flex flex-col items-center text-center max-w-4xl">
+            <h1 class="font-['Press_Start_2P'] text-2xl md:text-3xl text-black mb-8 leading-relaxed tracking-wide uppercase">
+                <br>Humanize your enemy
+            </h1>
+            
+            <p class="font-mono text-zinc-700 text-sm md:text-base mb-12 leading-relaxed max-w-3xl">
+                When you want to promote your game online, the internet can feel like a hostile and harsh place that you want to avoid. So you back off and don't promote your game at all!<br><br>This workshop will help you shift your perspective so you can post more often and care less about what other people think and say.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full mb-12 text-left">
+                <div class="bg-white border-4 border-black p-5 flex flex-col gap-3">
+                    <span class="font-['Press_Start_2P'] text-[10px] uppercase text-black">Step 1</span>
+                    <p class="font-mono text-xs md:text-sm text-zinc-700 leading-relaxed">Find a harsh comment online</p>
+                </div>
+                
+                <div class="bg-white border-4 border-black p-5 flex flex-col gap-3">
+                    <span class="font-['Press_Start_2P'] text-[10px] uppercase text-black">Step 2</span>
+                    <p class="font-mono text-xs md:text-sm text-zinc-700 leading-relaxed">Change your perspective of the person behind the comment</p>
+                </div>
+                
+                <div class="bg-white border-4 border-black p-5 flex flex-col gap-3">
+                    <span class="font-['Press_Start_2P'] text-[10px] uppercase text-black">Step 3</span>
+                    <p class="font-mono text-xs md:text-sm text-zinc-700 leading-relaxed">Practice lowering your guard while remembering you can still stand your ground</p>
+                </div>
+            </div>
+
+            <button onclick="switchState('state-step1')" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest">
+                START workshop
+            </button>
+        </div>
+
+        <div id="state-step1" class="w-full hidden-state flex-col items-center max-w-3xl text-left">
+            <h2 class="font-['Press_Start_2P'] text-2xl md:text-3xl text-black mb-8 leading-relaxed tracking-wide uppercase text-center w-full">
+                Preparations
+            </h2>
+            
+            <p class="font-mono text-sm md:text-base text-zinc-700 mb-8 text-center w-full">
+                Go to a public forum or social feed and select a critical or harsh post. It could be directed toward you or someone else. A comment or a review. Ideally it makes you feel something!
+            </p>
+
+            <div class="w-full bg-white border-4 border-black p-6 md:p-8 mb-10 flex flex-col gap-6 shadow-[6px_6px_0px_#000]">
+                <label class="retro-checkbox-container">
+                    <input type="checkbox" id="check-step1-1" class="retro-checkbox-input" onchange="validateStep1()">
+                    <div class="retro-checkbox-box"></div>
+                    <span class="font-mono text-sm md:text-base text-zinc-800 leading-relaxed"><b>Find a comment:</b> I have found a harsh, rude, or critical comment.</span>
+                </label>
+                <label class="retro-checkbox-container">
+                    <input type="checkbox" id="check-step1-2" class="retro-checkbox-input" onchange="validateStep1()">
+                    <div class="retro-checkbox-box"></div>
+                    <span class="font-mono text-sm md:text-base text-zinc-800 leading-relaxed"><b>Check your feelings:</b> I'm feeling something about this comment</span>
+                </label>
+            </div>
+
+            <div class="w-full flex justify-center">
+                <button id="btn-proceed-step1" disabled onclick="switchState('state-step2')" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest w-full sm:w-auto">
+                    PROCEED TO STEP 2
+                </button>
+            </div>
+        </div>
+
+        <div id="state-step2" class="w-full hidden-state flex-col items-center max-w-3xl text-left">
+            <h2 class="font-['Press_Start_2P'] text-2xl md:text-3xl text-black mb-8 leading-relaxed tracking-wide uppercase text-center w-full">
+                STEP 2:<br>UNCOVER STRUGGLE
+            </h2>
+            
+            <p class="font-mono text-sm md:text-base text-zinc-700 mb-4 text-center w-full">
+                Now look at the person who wrote the message with a different perspective. Write down all the potential human realities that could drive someone to lash out at strangers online (for example stress, problems at home, bad luck, loneliness, etc.)
+            </p>
+
+            <p class="font-mono text-sm md:text-base text-zinc-700 mb-8 text-center w-full font-bold">
+                Remember: Humanizing someone does not mean you have to accept abuse, nor does it mean you can't draw strong boundaries. Set that aside for now and trust that you can pick up that sword again whenever you want. 
+            </p>
+
+            <div class="w-full flex flex-col items-center mb-10">
+                <textarea id="struggles-textarea" class="retro-textarea mb-2 font-mono text-sm md:text-base leading-relaxed" oninput="validateStep2()" placeholder="What kind of week/life are they having? Stressed? Conflicts at home? Unhappy? Unlucky? Feeling lonely..."></textarea>
+            </div>
+
+            <div class="w-full flex justify-center">
+                <button id="btn-proceed-step2" disabled onclick="submitStep2()" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest w-full sm:w-auto">
+                    PROCEED TO STEP 3
+                </button>
+            </div>
+        </div>
+
+        <div id="state-step3" class="w-full hidden-state flex-col items-center max-w-3xl text-left">
+            <h2 class="font-['Press_Start_2P'] text-2xl md:text-3xl text-black mb-8 leading-relaxed tracking-wide uppercase text-center w-full">
+                STEP 3:<br>OPEN YOUR HEART
+            </h2>
+            
+            <p class="font-mono text-sm md:text-base text-zinc-700 mb-6 text-center w-full">
+                Look at what you wrote. Hold this person, and all the possible things they might be going through, in your mind. Let your shoulders drop, relax your jaw, and breathe out. Can you look on them with kindness?
+            </p>
+
+            <div class="bg-white border-4 border-black p-6 md:p-8 mb-8 w-full text-left max-h-48 overflow-y-auto shadow-[6px_6px_0px_#000]">
+                <p id="user-struggles-text" class="font-mono text-sm md:text-base text-zinc-800 italic whitespace-pre-wrap break-words leading-relaxed"></p>
+            </div>
+
+            <!-- PULSING 1-MINUTE TIMER -->
+            <div class="w-full flex flex-col items-center mb-8">
+                <p class="font-mono text-xs text-zinc-500 uppercase tracking-wider mb-3">1-Minute Timer</p>
+                <div id="step3-timer-display" class="font-['Press_Start_2P'] text-4xl md:text-5xl text-black select-none tracking-widest animate-[pulse_2s_infinite_ease-in-out]">01:00</div>
+            </div>
+
+            <div id="step3-interactive-panel" class="w-full bg-white border-4 border-black p-6 md:p-8 mb-10 hidden-state flex-col gap-6 shadow-[6px_6px_0px_#000]">
+                <label class="retro-checkbox-container">
+                    <input type="checkbox" id="check-step3" class="retro-checkbox-input" onchange="validateStep3()">
+                    <div class="retro-checkbox-box"></div>
+                    <span class="font-mono text-sm md:text-base text-zinc-800 leading-relaxed"><b>Open Your Heart:</b>It's ok if nothing happens for you, if you need to sit for longer that's ok too. Take your time</span>
+                </label>
+            </div>
+
+            <div class="w-full flex justify-center">
+                <button id="btn-proceed-step3" disabled onclick="switchState('state-complete')" class="btn-8bit text-[10px] tracking-widest w-full sm:w-auto">
+                    Proceed
+                </button>
+            </div>
+        </div>
+
+        <div id="state-complete" class="w-full hidden-state flex-col items-center text-center max-w-3xl">
+            <h2 class="font-['Press_Start_2P'] text-xl md:text-2xl text-black mb-8 uppercase tracking-wider">
+                WORKSHOP COMPLETE
+            </h2>
+            
+            <!-- REFLECTION PANEL CARD -->
+            <div class="bg-white border-4 border-black p-6 md:p-8 mb-12 w-full text-left shadow-[6px_6px_0px_#000] max-w-2xl mx-auto">
+                <p class="font-mono text-sm md:text-base text-zinc-800 leading-relaxed text-center italic">
+                    Great job! You did fantastic, I hope that was ok for you! If you didn't feel anything or couldn't conjure up empathy, that's not strange and there's nothing wrong with you.<br><br> This exercise is designed to rewire your brain by making it less threatful. By seeing the person behind the screen, the internet becomes a place of connection rather than a battlefield.<br><br>If you do this enough you'll become more comfortable around other people's criticism and create connection with your audience! 
+                </p>
+            </div>
+
+            <!-- STARK SEPARATOR LINE -->
+            <hr class="w-full border-t-4 border-black my-8" />
+
+            <!-- READY FOR THE NEXT STEP? (CLEAN, UNBOXED WITH BIG YELLOW BUTTON) -->
+            <div class="w-full flex flex-col items-center text-center mb-16">
+                <span class="font-['Press_Start_2P'] text-[10px] text-yellow-500 uppercase tracking-widest mb-3">Next step</span>
+                <h3 class="font-['Press_Start_2P'] text-base md:text-lg text-black uppercase tracking-wide mb-6">
+                    Ready for the next step?
+                </h3>
+                <p class="font-mono text-sm md:text-base text-zinc-700 max-w-2xl leading-relaxed mb-8">
+                    If you're interested in going further and actually posting but you feel hesitant, try this workshop!
+                </p>
+                <a href="the 10 min drop.html" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest w-full sm:w-auto py-4 px-8 border-4 border-black shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] transition-all">
+                    Do workshop
+                </a>
+            </div>
+
+            <div id="go-deeper-section" class="mt-4 pt-12 border-t-4 border-black w-full text-center">
+                <h2 class="font-['Press_Start_2P'] text-base md:text-lg text-black mb-6 uppercase tracking-wider">I invite you to go deeper</h2>
+                <p class="font-mono text-sm md:text-base text-zinc-700 leading-relaxed mb-10 max-w-2xl mx-auto">
+                    I offer everyone who completes this exercise a free coaching session, view it as a kind of taste test or sample of what it's like to do this work together with me. If you're interested email me or dm me on discord!
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-8 sm:gap-16 mt-6 pb-4">
+                    <button onclick="copyContact(event, 'magnus@sondim.com', this, 'EMAIL COPIED!')" class="group flex flex-col items-center border-none bg-transparent outline-none text-black cursor-pointer appearance-none w-56">
+                        <div class="bg-white border-4 border-black shadow-[4px_4px_0px_#000] group-active:translate-x-[2px] group-active:translate-y-[2px] group-active:shadow-[2px_2px_0px_#000] transition-all w-16 h-16 md:w-20 md:h-20 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 md:w-10 md:h-10 text-black render-pixel group-hover:-translate-y-1 transition-transform">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 5 h20 v14 H2 V5 z M4 7 h2 v2 H4 V7 z M18 7 h2 v2 h-2 V7 z M6 9 h2 v2 H6 V9 z M16 9 h2 v2 h-2 V9 z M8 11 h2 v2 H8 V11 z M14 11 h2 v2 h-2 V11 z M10 13 h4 v2 h-4 V13 z" />
+                            </svg>
+                        </div>
+                        <span class="contact-label font-['Press_Start_2P'] text-[9px] md:text-[10px] text-zinc-500 group-hover:text-black uppercase tracking-widest leading-relaxed transition-colors block w-full text-center">Email Me</span>
+                    </button>
+
+                    <button onclick="copyContact(event, 'Magnus Chirgwin#6053', this, 'ID COPIED!')" class="group flex flex-col items-center border-none bg-transparent outline-none text-black cursor-pointer appearance-none w-56">
+                        <div class="bg-white border-4 border-black shadow-[4px_4px_0px_#000] group-active:translate-x-[2px] group-active:translate-y-[2px] group-active:shadow-[2px_2px_0px_#000] transition-all w-16 h-16 md:w-20 md:h-20 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 md:w-10 md:h-10 text-black render-pixel group-hover:-translate-y-1 transition-transform">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4h4v2h4V4h4v4h2v8h-2v2h-4v-2h-4v2H6v-2H4V8h2V4zm3 6H7v2h2v-2zm6 0h-2v2h2v-2z" />
+                            </svg>
+                        </div>
+                        <span class="contact-label font-['Press_Start_2P'] text-[9px] md:text-[10px] text-zinc-500 group-hover:text-black uppercase tracking-widest leading-relaxed transition-colors block w-full text-center">DISCORD ID</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const states = ['state-intro', 'state-step1', 'state-step2', 'state-step3', 'state-complete'];
+        let step3TimerInterval = null;
+        let step3TimeLeft = 60; // 1 minute countdown
+        let audioCtx = null;
+        
+        function initAudio() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContextClass();
+            }
+        }
+        
+        function playSingleRetroAlarm() {
+            if (!audioCtx) return;
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Pitch (A5)
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                const step = 0.15;
+                let time = audioCtx.currentTime;
+                
+                gainNode.gain.setValueAtTime(0, time);
+                
+                // Play exactly ONE round of 5 crisp micro-beeps
+                for (let i = 0; i < 5; i++) {
+                    gainNode.gain.setValueAtTime(0, time);
+                    gainNode.gain.linearRampToValueAtTime(0.2, time + 0.02);
+                    time += step;
+                    gainNode.gain.setValueAtTime(0.2, time - 0.02);
+                    gainNode.gain.linearRampToValueAtTime(0, time);
+                    time += step;
+                }
+                
+                osc.start();
+                osc.stop(time); 
+            } catch (e) {
+                console.warn("Audio hardware block: ", e);
+            }
+        }
+        
+        function switchState(targetId) {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            
+            // Warm up Web Audio API inside user interaction boundaries
+            initAudio();
+
+            // Clear any active timers if switching screens
+            if (step3TimerInterval) {
+                clearInterval(step3TimerInterval);
+            }
+
+            states.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.add('hidden-state');
+                    el.classList.remove('flex'); 
+                }
+            });
+            
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+                targetEl.classList.remove('hidden-state');
+                targetEl.classList.add('flex'); 
+                
+                targetEl.classList.remove('fade-in');
+                void targetEl.offsetWidth; 
+                targetEl.classList.add('fade-in');
+            }
+
+            // Trigger Step 3 countdown automatically when entered
+            if (targetId === 'state-step3') {
+                startStep3Timer();
+            }
+        }
+
+        function validateStep1() {
+            const check1 = document.getElementById('check-step1-1').checked;
+            const check2 = document.getElementById('check-step1-2').checked;
+            document.getElementById('btn-proceed-step1').disabled = !(check1 && check2);
+        }
+
+        function validateStep2() {
+            const text = document.getElementById('struggles-textarea').value.trim();
+            document.getElementById('btn-proceed-step2').disabled = text.length === 0;
+        }
+
+        function submitStep2() {
+            const text = document.getElementById('struggles-textarea').value.trim();
+            if (!text) return;
+
+            document.getElementById('user-struggles-text').textContent = `"${text}"`;
+            switchState('state-step3');
+        }
+
+        function startStep3Timer() {
+            step3TimeLeft = 60; // Reset to 60 seconds
+            renderStep3Time(step3TimeLeft);
+
+            // Hide interactive panel and lock button on reset
+            const panel = document.getElementById('step3-interactive-panel');
+            const checkbox = document.getElementById('check-step3');
+            const btn = document.getElementById('btn-proceed-step3');
+            
+            panel.classList.add('hidden-state');
+            panel.classList.remove('flex', 'fade-in');
+            checkbox.checked = false;
+            btn.disabled = true;
+            btn.classList.remove('btn-attention-yellow');
+
+            const display = document.getElementById('step3-timer-display');
+            display.classList.remove('text-green-600');
+
+            step3TimerInterval = setInterval(() => {
+                step3TimeLeft--;
+                renderStep3Time(step3TimeLeft);
+
+                if (step3TimeLeft <= 0) {
+                    clearInterval(step3TimerInterval);
+                    
+                    // Trigger single round of retro beeps
+                    playSingleRetroAlarm();
+                    
+                    // Unlock the somatic interactives
+                    panel.classList.remove('hidden-state');
+                    panel.classList.add('flex', 'fade-in');
+                    display.classList.add('text-green-600');
+                }
+            }, 1000);
+        }
+
+        function renderStep3Time(seconds) {
+            const display = document.getElementById('step3-timer-display');
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            display.textContent = `${m}:${s}`;
+        }
+
+        function validateStep3() {
+            const check = document.getElementById('check-step3').checked;
+            const btn = document.getElementById('btn-proceed-step3');
+            btn.disabled = !check;
+            
+            if (check) {
+                btn.classList.add('btn-attention-yellow');
+            } else {
+                btn.classList.remove('btn-attention-yellow');
+            }
+        }
+
+        function copyContact(event, text, element, successMsg) {
+            event.preventDefault(); 
+            navigator.clipboard.writeText(text).then(() => {
+                const label = element.querySelector('.contact-label');
+                
+                if (!label.hasAttribute('data-original')) {
+                    label.setAttribute('data-original', label.innerText);
+                }
+                const originalText = label.getAttribute('data-original');
+                
+                label.innerText = successMsg;
+                label.classList.add('text-black');
+                label.classList.remove('text-zinc-500');
+                
+                setTimeout(() => {
+                    label.innerText = originalText;
+                    label.classList.remove('text-black');
+                    label.classList.add('text-zinc-500');
+                }, 2500);
+            }).catch(err => {
+                console.error("Failed to copy text: ", err);
+            });
+        }
+    </script>
+</body>
+</html>

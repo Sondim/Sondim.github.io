@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 1 star review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: #FAF9F6;
+            color: #000000;
+        }
+
+        /* Smooth fade-in for screen transitions */
+        .fade-in { animation: fadeIn 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden-state { display: none !important; }
+
+        /* --- 8-BIT BUTTON SYSTEM --- */
+        .btn-8bit {
+            font-family: 'Press Start 2P', monospace;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff; 
+            color: black !important;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            padding: 1.25rem 2rem;
+            border: 4px solid black;
+            box-shadow: 6px 6px 0px black;
+            transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out, background-color 0.15s ease, border-color 0.15s ease;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+        }
+
+        @media (hover: hover) {
+            .btn-8bit:hover:not(:disabled) {
+                background-color: #f4f4f5; 
+            }
+        }
+
+        .btn-8bit:active:not(:disabled), .tactile-press {
+            transform: translate(4px, 4px) !important;
+            box-shadow: 2px 2px 0px black !important;
+        }
+        
+        .btn-8bit:disabled {
+            background-color: #e4e4e7 !important;
+            color: #a1a1aa !important;
+            box-shadow: 0px 0px 0px black !important;
+            transform: translate(4px, 4px) !important;
+            cursor: not-allowed;
+            border-color: #a1a1aa !important;
+        }
+
+        .btn-attention-yellow {
+            background-color: #facc15 !important;
+        }
+        @media (hover: hover) {
+            .btn-attention-yellow:hover:not(:disabled) {
+                background-color: #fde047 !important;
+            }
+        }
+        .btn-attention-yellow:active, .btn-attention-yellow.tactile-press {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+
+        /* --- RETRO CHECKBOXES --- */
+        .retro-checkbox-container {
+            display: flex;
+            align-items: center; /* Centered with the text */
+            gap: 1.5rem;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .retro-checkbox-input {
+            display: none; 
+        }
+        
+        .retro-checkbox-box {
+            width: 36px; /* Scaled up from 24px */
+            height: 36px; /* Scaled up from 24px */
+            border: 4px solid black;
+            background-color: white;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.1s;
+        }
+
+        .retro-checkbox-input:checked + .retro-checkbox-box {
+            background-color: #facc15;
+            box-shadow: inset 3px 3px 0px rgba(0,0,0,0.2);
+        }
+
+        .retro-checkbox-input:checked + .retro-checkbox-box::after {
+            content: 'x';
+            font-family: 'Press Start 2P', monospace;
+            color: black;
+            font-size: 16px; /* Scaled up from 10px */
+            line-height: 1;
+        }
+
+        /* Custom inputs matching the clean panel system */
+        .retro-textarea {
+            background-color: #ffffff;
+            border: 4px solid #000000;
+            color: #000000;
+            box-shadow: 6px 6px 0px #000000;
+            outline: none;
+            width: 100%;
+            height: 16rem;
+            min-height: 8rem;
+            padding: 1.5rem;
+            resize: vertical;
+        }
+        .retro-textarea:focus {
+            border-color: #facc15;
+        }
+
+        .render-pixel { shape-rendering: crispEdges; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 font-sans">
+
+    <main class="w-full max-w-5xl flex-grow flex flex-col items-center justify-center min-h-[600px] py-8">
+
+        <div id="state-intro" class="w-full fade-in flex flex-col items-center text-center max-w-4xl">
+            <h1 class="font-['Press_Start_2P'] text-2xl md:text-3xl text-black mb-8 leading-relaxed tracking-wide uppercase">
+                The<br>1 star review
+            </h1>
+            
+            <p class="font-mono text-zinc-700 text-sm md:text-base mb-12 leading-relaxed max-w-3xl">
+                Not promoting your game is just a subtle trick your mind uses to protect you from the feeling of being seen or citizied.<br><br>In this workshop, we are going to explore how to face the discomfort of negative feedback and be okay with the fact that some people won't like it.<br><br>By learning to let the uncomfortable feelings move all the way through your body instead of running away from it, you will finally clear the space to share your game and build the audience your game deserves</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full mb-12 text-left">
+                <div class="bg-white border-4 border-black p-5 flex flex-col gap-3 shadow-[4px_4px_0px_#000]">
+                    <span class="font-['Press_Start_2P'] text-[10px] uppercase text-black">Step 1</span>
+                    <p class="font-mono text-xs md:text-sm text-zinc-700 leading-relaxed">Get comfortable and prepare your environment</p>
+                </div>
+                
+                <div class="bg-white border-4 border-black p-5 flex flex-col gap-3 shadow-[4px_4px_0px_#000]">
+                    <span class="font-['Press_Start_2P'] text-[10px] uppercase text-black">Step 2</span>
+                    <p class="font-mono text-xs md:text-sm text-zinc-700 leading-relaxed">Write a 1-star review/comment of your own game</p>
+                </div>
+                
+                <div class="bg-white border-4 border-black p-5 flex flex-col gap-3 shadow-[4px_4px_0px_#000]">
+                    <span class="font-['Press_Start_2P'] text-[10px] uppercase text-black">Step 3</span>
+                    <p class="font-mono text-xs md:text-sm text-zinc-700 leading-relaxed">Read it out loud and face the discomfort</p>
+                </div>
+            </div>
+
+            <button onclick="switchState('state-setup')" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest">
+                START WORKSHOP
+            </button>
+        </div>
+
+        <div id="state-setup" class="w-full hidden-state flex-col items-center max-w-2xl text-left">
+            <h2 class="font-['Press_Start_2P'] text-xl md:text-2xl text-black mb-8 uppercase text-center w-full">
+                ENVIRONMENT CHECK
+            </h2>
+            
+            <div class="w-full bg-white border-4 border-black p-6 md:p-8 mb-10 flex flex-col gap-6 shadow-[6px_6px_0px_#000]">
+                <label class="retro-checkbox-container">
+                    <input type="checkbox" id="setup-check" class="retro-checkbox-input" onchange="validateSetup()">
+                    <div class="retro-checkbox-box"></div>
+                    <span class="font-mono text-sm md:text-base text-zinc-800 font-semibold leading-relaxed">Make sure you're in a private space where you won't be disturbed and you feel completely comfortable speaking out loud</span>
+                </label>
+            </div>
+
+            <div class="w-full flex justify-center">
+                <button id="btn-proceed" disabled onclick="switchState('state-write')" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest w-full sm:w-auto">
+                    PROCEED
+                </button>
+            </div>
+        </div>
+
+        <div id="state-write" class="w-full hidden-state flex-col items-center max-w-3xl">
+            <h2 class="font-['Press_Start_2P'] text-base md:text-lg text-black mb-6 uppercase text-center">WRITE THE 1 star REVIEW</h2>
+            
+            <p class="font-mono text-sm md:text-base text-zinc-700 mb-8 text-center">
+                Write the most brutal, unfair, 1-star Steam review or comment of your game you can imagine. Make it highly personal. Don't hold back.
+            </p>
+            
+            <div class="w-full flex flex-col items-center">
+                <textarea id="review-textarea" class="retro-textarea mb-10 font-mono text-sm md:text-base leading-relaxed" placeholder="Type the harsh review here..."></textarea>
+                <button onclick="submitReview()" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest">
+                    Proceed
+                </button>
+            </div>
+        </div>
+
+        <div id="state-read" class="w-full hidden-state flex-col items-center max-w-3xl">
+            <h2 class="font-['Press_Start_2P'] text-base md:text-lg text-black mb-6 uppercase text-center">Read it out loud</h2>
+            
+            <p class="font-mono text-sm md:text-base text-zinc-700 mb-8 text-center font-bold">
+                Read what you wrote out loud and notice where the sting lands in your body. <br><br>Accept and try to welcome the feeling and physical sensation in your body. If you lose focus and start thinking just come back to the feeling again, keep your focus there for a minute before moving on. 
+            </p>
+
+            <div class="bg-white border-4 border-black p-6 md:p-8 mb-10 w-full text-left max-h-80 overflow-y-auto shadow-[6px_6px_0px_#000]">
+                <p id="user-review-text" class="font-mono text-sm md:text-base text-zinc-800 italic whitespace-pre-wrap break-words leading-relaxed"></p>
+            </div>
+
+            <button onclick="switchState('state-complete')" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest">
+                I'm done
+            </button>
+        </div>
+
+        <div id="state-complete" class="w-full hidden-state flex-col items-center text-center max-w-3xl">
+            <!-- WORKSHOP COMPLETE UNBOXED (SAME SCALE AS THE 1 STAR REVIEW) -->
+            <h1 class="font-['Press_Start_2P'] text-2xl md:text-3xl text-black mb-8 leading-relaxed tracking-wide uppercase">
+                Workshop Complete
+            </h1>
+            
+            <p class="font-mono text-zinc-700 text-sm md:text-base mb-12 leading-relaxed max-w-3xl">
+                You did fantastic! Take a deep breath and relax, I hope that felt ok for you!<br><br>The only way to completely avoid being rejected by others is to hide, but if you want to promote your game you can't stay hidden so you need to reject yourself first. Which can sound strange but it's about allowing yourself to physically feel the hurt and discomfort of rejection in a safe space so that you can be more resilient and put your game out there!
+            </p>
+
+            <!-- STARK SEPARATOR LINE -->
+            <hr class="w-full border-t-4 border-black my-8" />
+
+            <!-- READY FOR THE NEXT STEP? (CLEAN, UNBOXED WITH BIG YELLOW BUTTON) -->
+            <div class="w-full flex flex-col items-center text-center mb-16">
+                <span class="font-['Press_Start_2P'] text-[10px] text-yellow-500 uppercase tracking-widest mb-3">Next step</span>
+                <h3 class="font-['Press_Start_2P'] text-base md:text-lg text-black uppercase tracking-wide mb-6">
+                    Ready for the next step?
+                </h3>
+                <p class="font-mono text-sm md:text-base text-zinc-700 max-w-2xl leading-relaxed mb-8">
+                    This free workshop is a good next step if you feel ready to start sharing your work but would like some guidance!
+                </p>
+                <a href="#" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest w-full sm:w-auto py-4 px-8 border-4 border-black shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] transition-all">
+                    Do workshop
+                </a>
+            </div>
+
+            <!-- NEED MORE SUPPORT? SECTION -->
+            <div id="go-deeper-section" class="pt-12 border-t-4 border-black w-full text-center">
+                <h2 class="font-['Press_Start_2P'] text-base md:text-lg text-black mb-6 uppercase tracking-wider">Need more support?</h2>
+                <p class="font-mono text-sm md:text-base text-zinc-700 leading-relaxed mb-10 max-w-2xl mx-auto">
+                    I offer everyone who completes this exercise a free coaching session, view it as a kind of taste test or sample of what it's like to do this work together with me. If you're interested email me or dm me on discord!
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-8 sm:gap-16 mt-6 pb-4">
+                    <button onclick="copyContact(event, 'magnus@sondim.com', this, 'EMAIL COPIED!')" class="group flex flex-col items-center border-none bg-transparent outline-none text-black cursor-pointer appearance-none w-56">
+                        <div class="bg-white border-4 border-black shadow-[4px_4px_0px_#000] group-active:translate-x-[2px] group-active:translate-y-[2px] group-active:shadow-[2px_2px_0px_#000] transition-all w-16 h-16 md:w-20 md:h-20 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 md:w-10 md:h-10 text-black render-pixel group-hover:-translate-y-1 transition-transform">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 5 h20 v14 H2 V5 z M4 7 h2 v2 H4 V7 z M18 7 h2 v2 h-2 V7 z M6 9 h2 v2 H6 V9 z M16 9 h2 v2 h-2 V9 z M8 11 h2 v2 H8 V11 z M14 11 h2 v2 h-2 V11 z M10 13 h4 v2 h-4 V13 z" />
+                            </svg>
+                        </div>
+                        <span class="contact-label font-['Press_Start_2P'] text-[9px] md:text-[10px] text-zinc-500 group-hover:text-black uppercase tracking-widest leading-relaxed transition-colors block w-full text-center">Email Me</span>
+                    </button>
+
+                    <button onclick="copyContact(event, 'Magnus Chirgwin#6053', this, 'ID COPIED!')" class="group flex flex-col items-center border-none bg-transparent outline-none text-black cursor-pointer appearance-none w-56">
+                        <div class="bg-white border-4 border-black shadow-[4px_4px_0px_#000] group-active:translate-x-[2px] group-active:translate-y-[2px] group-active:shadow-[2px_2px_0px_#000] transition-all w-16 h-16 md:w-20 md:h-20 flex items-center justify-center mb-4">
+                            <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 md:w-10 md:h-10 text-black render-pixel group-hover:-translate-y-1 transition-transform">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M6 4h4v2h4V4h4v4h2v8h-2v2h-4v-2h-4v2H6v-2H4V8h2V4zm3 6H7v2h2v-2zm6 0h-2v2h2v-2z" />
+                            </svg>
+                        </div>
+                        <span class="contact-label font-['Press_Start_2P'] text-[9px] md:text-[10px] text-zinc-500 group-hover:text-black uppercase tracking-widest leading-relaxed transition-colors block w-full text-center">DISCORD ID</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const states = ['state-intro', 'state-setup', 'state-write', 'state-read', 'state-complete'];
+        
+        function switchState(targetId) {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+
+            states.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.add('hidden-state');
+                    el.classList.remove('flex'); 
+                }
+            });
+            
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+                targetEl.classList.remove('hidden-state');
+                targetEl.classList.add('flex'); 
+                
+                targetEl.classList.remove('fade-in');
+                void targetEl.offsetWidth; 
+                targetEl.classList.add('fade-in');
+            }
+        }
+
+        function validateSetup() {
+            const check = document.getElementById('setup-check').checked;
+            document.getElementById('btn-proceed').disabled = !check;
+        }
+
+        function submitReview() {
+            const textarea = document.getElementById('review-textarea');
+            const userText = textarea.value.trim();
+            
+            if (!userText) {
+                textarea.focus();
+                // Brief visual feedback if empty
+                textarea.style.borderColor = 'red';
+                setTimeout(() => textarea.style.borderColor = '', 1000);
+                return;
+            }
+
+            document.getElementById('user-review-text').textContent = `"${userText}"`;
+            switchState('state-read');
+        }
+
+        function copyContact(event, text, element, successMsg) {
+            event.preventDefault(); 
+            navigator.clipboard.writeText(text).then(() => {
+                const label = element.querySelector('.contact-label');
+                
+                if (!label.hasAttribute('data-original')) {
+                    label.setAttribute('data-original', label.innerText);
+                }
+                const originalText = label.getAttribute('data-original');
+                
+                label.innerText = successMsg;
+                label.classList.add('text-black');
+                label.classList.remove('text-zinc-500');
+                
+                setTimeout(() => {
+                    label.innerText = originalText;
+                    label.classList.remove('text-black');
+                    label.classList.add('text-zinc-500');
+                }, 2500);
+            }).catch(err => {
+                console.error("Failed to copy text: ", err);
+            });
+        }
+    </script>
+</body>
+</html>

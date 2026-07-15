@@ -109,12 +109,13 @@
         /* --- TEXTAREA --- */
         .retro-textarea {
             width: 100%;
-            height: 8rem;
+            height: 16rem; /* Doubled the starting height */
+            min-height: 8rem;
             border: 4px solid black;
             padding: 1rem;
             font-family: 'Open Sans', sans-serif;
             font-size: 1rem;
-            resize: none;
+            resize: vertical; /* Allows the user to drag the box even taller if needed */
             box-shadow: inset 4px 4px 0px rgba(0,0,0,0.05);
             outline: none;
         }
@@ -161,7 +162,7 @@
             </div>
 
             <button onclick="switchState('state-setup')" class="btn-8bit text-[10px] tracking-widest">
-                PROCEED TO SETUP
+                START WORKSHOP
             </button>
         </div>
 
@@ -178,14 +179,20 @@
                 </label>
 
                 <label class="retro-checkbox-container">
+                    <input type="checkbox" id="setup-check-3" class="retro-checkbox-input" onchange="validateSetup()">
+                    <div class="retro-checkbox-box"></div>
+                    <span class="font-sans text-sm md:text-base text-zinc-800 font-semibold leading-snug pt-1">Make sure you're in a space where you feel comfortable to read out loud.</span>
+                </label>
+
+                <label class="retro-checkbox-container">
                     <input type="checkbox" id="setup-check-2" class="retro-checkbox-input" onchange="validateSetup()">
                     <div class="retro-checkbox-box"></div>
-                    <span class="font-sans text-sm md:text-base text-zinc-800 font-semibold leading-snug pt-1">Play a sound when the timer hits zero.</span>
+                    <span class="font-sans text-sm md:text-base text-zinc-800 font-semibold leading-snug pt-1">Play a sound when the timer hits zero. (Optional)</span>
                 </label>
             </div>
 
             <button id="btn-start-gauntlet" disabled onclick="startGauntlet()" class="btn-8bit text-[10px] tracking-widest w-full sm:w-auto">
-                START GAUNTLET
+                PROCEED TO STEP 1
             </button>
         </div>
 
@@ -193,7 +200,8 @@
             
             <div id="phase-1-container" class="w-full flex flex-col items-center">
                 <h2 class="font-['Press_Start_2P'] text-lg text-black mb-4 uppercase">PHASE 1: SOMATIC WARM-UP</h2>
-                <p class="font-sans text-sm md:text-base text-zinc-700 mb-6 font-semibold">
+                
+                <p id="phase-1-prompt" class="font-sans text-sm md:text-base text-zinc-700 mb-6 font-semibold">
                     Write the most brutal, unfair, 1-star Steam review of your game you can imagine. Make it highly personal.
                 </p>
                 
@@ -205,13 +213,9 @@
                 </div>
 
                 <div id="phase-1-read-area" class="w-full hidden-state flex-col items-center">
-                    <div class="bg-black text-white border-4 border-black p-6 mb-8 w-full text-left">
-                        <p class="font-sans text-base leading-relaxed mb-6">
-                            Read what you wrote out loud. Close your eyes and find where the sting lands in your body. Welcome the physical sensation of failure without trying to think your way out of it.
-                        </p>
-                        <div class="bg-zinc-900 border-l-4 border-yellow-400 p-4 shadow-[inset_2px_2px_0px_rgba(0,0,0,0.5)]">
-                            <p id="phase-1-user-text" class="font-sans text-sm md:text-base text-zinc-300 italic whitespace-pre-wrap leading-relaxed"></p>
-                        </div>
+                    <!-- Cleaned out the box so it ONLY contains their text -->
+                    <div class="bg-white text-black border-4 border-black p-6 md:p-8 mb-8 w-full text-left h-64 overflow-y-auto shadow-[inset_4px_4px_0px_rgba(0,0,0,0.05)]">
+                        <p id="phase-1-user-text" class="font-sans text-sm md:text-base text-zinc-800 italic whitespace-pre-wrap break-all leading-relaxed"></p>
                     </div>
                     <button onclick="showPhase(2)" class="btn-8bit text-[10px] tracking-widest">
                         PROCEED TO PHASE 2
@@ -221,8 +225,13 @@
 
             <div id="phase-2-container" class="w-full hidden-state flex flex-col items-center text-left">
                 <h2 class="font-['Press_Start_2P'] text-lg text-black mb-4 uppercase text-center w-full">PHASE 2: HUMANIZE THE ENEMY</h2>
-                <p class="font-sans text-sm md:text-base text-zinc-700 mb-8 font-semibold text-center">
+                
+                <p class="font-sans text-sm md:text-base text-zinc-700 mb-3 font-semibold text-center">
                     Shift your perception of an online forum from an "enemy" to "human beings" to drop hyper-vigilance. Complete these tasks in another tab.
+                </p>
+                
+                <p class="font-sans text-xs md:text-sm text-zinc-500 font-bold text-center mb-8 italic px-4">
+                    Remember: Humanizing someone doesn't mean you can't draw boundaries, or that you have to accept abuse.
                 </p>
 
                 <div class="w-full bg-white border-4 border-black p-6 mb-8 flex flex-col gap-5">
@@ -307,33 +316,59 @@
 
     </main>
 
-    <script>
+   <script>
         // --- GLOBALS & PHYSICS ---
         let currentInterval = null;
         let playAudio = false;
+        let audioCtx = null; // Pre-warmed audio hardware
 
-        // 8-bit Synthesizer Beep (Zero footprint, heavy retro feel)
+        // 150 BPM Sine Alarm (5 rounds of 3 dots, 20% volume)
         function playRetroBeep() {
-            if (!playAudio) return;
+            if (!playAudio || !audioCtx) return;
             try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                const ctx = new AudioContext();
-                const osc = ctx.createOscillator();
-                const gainNode = ctx.createGain();
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
                 
-                osc.type = 'square'; // Classic 8-bit sound
-                osc.frequency.setValueAtTime(600, ctx.currentTime); // Pitch
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
                 
-                gainNode.gain.setValueAtTime(0.1, ctx.currentTime); // Volume
-                gainNode.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.3); // Quick fade
+                osc.type = 'sine'; // Cleaner, urgent tone
+                osc.frequency.setValueAtTime(1000, audioCtx.currentTime); // 1kHz
                 
                 osc.connect(gainNode);
-                gainNode.connect(ctx.destination);
+                gainNode.connect(audioCtx.destination);
+                
+                // 150 BPM Timing Math
+                const dotOn = 0.1;  // 100ms sound
+                const dotOff = 0.1; // 100ms silence
+                const space = 0.6;  // 600ms silence (equivalent to 3 dots)
+                
+                let time = audioCtx.currentTime;
+                
+                gainNode.gain.setValueAtTime(0, time);
+                
+                for (let group = 0; group < 5; group++) {
+                    for (let dot = 0; dot < 3; dot++) {
+                        gainNode.gain.setValueAtTime(0, time);
+                        gainNode.gain.linearRampToValueAtTime(0.2, time + 0.01); 
+                        
+                        time += dotOn;
+                        
+                        gainNode.gain.setValueAtTime(0.2, time - 0.01);
+                        gainNode.gain.linearRampToValueAtTime(0, time);
+                        
+                        time += dotOff;
+                    }
+                    if (group < 4) {
+                        time += space;
+                    }
+                }
                 
                 osc.start();
-                osc.stop(ctx.currentTime + 0.3);
+                osc.stop(time); 
             } catch (e) {
-                console.log("Audio not supported or blocked.");
+                console.log("Audio playback failed.", e);
             }
         }
 
@@ -341,25 +376,23 @@
         const states = ['state-intro', 'state-setup', 'state-gauntlet', 'state-complete'];
         
         function switchState(targetId) {
-            // Camera Snap to top
             window.scrollTo({ top: 0, behavior: 'instant' });
 
             states.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
                     el.classList.add('hidden-state');
-                    el.classList.remove('flex'); // Reset tailwind display
+                    el.classList.remove('flex'); 
                 }
             });
             
             const targetEl = document.getElementById(targetId);
             if (targetEl) {
                 targetEl.classList.remove('hidden-state');
-                targetEl.classList.add('flex'); // Re-apply flexbox layout
+                targetEl.classList.add('flex'); 
                 
-                // Retrigger fade-in animation
                 targetEl.classList.remove('fade-in');
-                void targetEl.offsetWidth; // Trigger DOM reflow
+                void targetEl.offsetWidth; 
                 targetEl.classList.add('fade-in');
             }
         }
@@ -368,12 +401,13 @@
         function validateSetup() {
             const check1 = document.getElementById('setup-check-1').checked;
             const check2 = document.getElementById('setup-check-2').checked;
+            const check3 = document.getElementById('setup-check-3').checked;
             const btn = document.getElementById('btn-start-gauntlet');
             
-            // The audio permission flag
             playAudio = check2;
             
-            if (check1 && check2) {
+            // Both the game asset (check1) and safe space (check3) are strictly required
+            if (check1 && check3) {
                 btn.disabled = false;
             } else {
                 btn.disabled = true;
@@ -383,6 +417,24 @@
         function startGauntlet() {
             const btn = document.getElementById('btn-start-gauntlet');
             btn.classList.add('tactile-press');
+            
+            // WARM UP THE AUDIO HARDWARE ON DIRECT USER CLICK
+            if (playAudio && !audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+                const osc = audioCtx.createOscillator();
+                const silentGain = audioCtx.createGain();
+                silentGain.gain.value = 0; 
+                osc.connect(silentGain);
+                silentGain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.001);
+            }
+
+            // REQUEST SYSTEM NOTIFICATION PERMISSION
+            if ("Notification" in window && Notification.permission !== "denied") {
+                Notification.requestPermission();
+            }
             
             setTimeout(() => {
                 btn.classList.remove('tactile-press');
@@ -400,7 +452,6 @@
             const targetPhase = document.getElementById(`phase-${phaseNum}-container`);
             targetPhase.classList.remove('hidden-state');
             
-            // Retrigger fade animation for the phase
             targetPhase.classList.remove('fade-in');
             void targetPhase.offsetWidth;
             targetPhase.classList.add('fade-in');
@@ -412,18 +463,18 @@
 
         // Phase 1 Logic
         function submitPhase1() {
-            // Grab the text and inject it, maintaining line breaks
             const userText = document.getElementById('phase-1-textarea').value.trim() || "[ No review provided ]";
             document.getElementById('phase-1-user-text').textContent = `"${userText}"`;
             
-            // State transition physics
+            // Swap out the main prompt text dynamically
+            document.getElementById('phase-1-prompt').textContent = "Read what you wrote out loud. Close your eyes and find where the sting lands in your body. Welcome the physical sensation of failure without trying to think your way out of it.";
+            
             document.getElementById('phase-1-input-area').classList.add('hidden-state');
             
             const readArea = document.getElementById('phase-1-read-area');
             readArea.classList.remove('hidden-state');
             readArea.classList.add('flex');
             
-            // Retrigger the slide-projector fade in
             readArea.classList.remove('fade-in');
             void readArea.offsetWidth;
             readArea.classList.add('fade-in');
@@ -438,8 +489,20 @@
 
         // Phase 3 Logic
         function startPhase3Timer() {
-            startTimer(600, 'phase-3-timer-display', () => {
+            startTimer(6, 'phase-3-timer-display', () => {
+                // 1. Play the uninterrupted sound
                 playRetroBeep();
+                
+                // 2. Fire a system-level popup if they are in another tab/minimized
+                if ("Notification" in window && Notification.permission === "granted") {
+                    new Notification("TIME'S UP!", {
+                        body: "Time is up. Great job. There's one last step and the workshop is complete",
+                        requireInteraction: true // Keeps the notification on screen until they dismiss it
+                    });
+                }
+                
+                // 3. Automatically push the UI to the final screen
+                completeGauntlet();
             });
         }
 
@@ -454,14 +517,12 @@
             const display = document.getElementById(displayId);
             let timer = durationSeconds;
             
-            // Initial render
             renderTime(timer, display);
             
             currentInterval = setInterval(() => {
                 timer--;
                 renderTime(timer, display);
                 
-                // Add psychological pressure text color in last 30 seconds
                 if (timer <= 30) {
                     display.classList.add('text-red-600');
                 }
