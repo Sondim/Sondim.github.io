@@ -184,7 +184,7 @@
                     <div class="h-[2px] bg-black w-16"></div>
                 </div>
 
-                <a href="#" class="relative block group w-full cursor-pointer">
+                <a href="#" id="download-pdf-workshops-btn" class="relative block group w-full cursor-pointer">
                     <div class="absolute inset-0 bg-black translate-x-[5px] translate-y-[5px] print:translate-x-[3px] print:translate-y-[3px]"></div>
                     <div class="relative bg-white border-4 border-black print:border-[3px] py-4 w-full flex items-center justify-center transition-transform duration-100 ease-in-out group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-active:translate-x-[5px] group-active:translate-y-[5px] print:group-hover:translate-x-0 print:group-hover:translate-y-0 print:group-active:translate-x-0 print:group-active:translate-y-0">
                         <span class="font-8bit text-[12px]">DOWNLOAD PDF WORKSHOPS</span>
@@ -194,6 +194,30 @@
             </section>
         </main>
     </div>
+
+    <script>
+        document.getElementById('download-pdf-workshops-btn').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const pdfs = [
+                '../../pdf guides/Gamedev workshop Humanize the enemy - Print.pdf',
+                '../../pdf guides/Gamedev workshop Reject yourself - Print.pdf',
+                '../../pdf guides/Gamedev workshop Stop hiding - Print.pdf'
+            ];
+
+            pdfs.forEach(function (url, index) {
+                setTimeout(function () {
+                    const link = document.createElement('a');
+                    link.href = encodeURI(url);
+                    link.download = url.split('/').pop();
+                    link.rel = 'noopener noreferrer';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }, index * 400);
+            });
+        });
+    </script>
 
 </body>
 </html>
