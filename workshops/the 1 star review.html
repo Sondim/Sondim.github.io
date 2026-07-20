@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I AM NOT MY GAME</title>
+    <title>REJECT YOURSELF FIRST</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -79,7 +79,7 @@
         /* --- RETRO CHECKBOXES --- */
         .retro-checkbox-container {
             display: flex;
-            align-items: center; /* Centered with the text */
+            align-items: center;
             gap: 1.5rem;
             cursor: pointer;
             user-select: none;
@@ -90,8 +90,8 @@
         }
         
         .retro-checkbox-box {
-            width: 36px; /* Scaled up from 24px */
-            height: 36px; /* Scaled up from 24px */
+            width: 36px; 
+            height: 36px; 
             border: 4px solid black;
             background-color: white;
             flex-shrink: 0;
@@ -110,7 +110,7 @@
             content: 'x';
             font-family: 'Press Start 2P', monospace;
             color: black;
-            font-size: 16px; /* Scaled up from 10px */
+            font-size: 16px; 
             line-height: 1;
         }
 
@@ -140,11 +140,11 @@
 
         <div id="state-intro" class="w-full fade-in flex flex-col items-center text-center max-w-4xl">
             <h1 class="font-['Press_Start_2P'] text-2xl md:text-3xl text-black mb-8 leading-relaxed tracking-wide uppercase">
-                I AM NOT MY GAME
+                REJECT YOURSELF FIRST
             </h1>
             
             <p class="font-mono text-zinc-700 text-sm md:text-base mb-12 leading-relaxed max-w-3xl">
-                This workshop helps you to face the discomfort of negative feedback and be okay with the fact that some people won't like what you post.<br><br>The goal is to help you share your game more freely and build the audience your game deserves</p>
+                This workshop helps you to face the discomfort of negative feedback and be okay with the fact that some people won't like what you post.<br><br>We do it here in a safe space first with the goal to help you share your game more freely and build the audience your game deserves</p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full mb-12 text-left">
                 <div class="bg-white border-4 border-black p-5 flex flex-col gap-3 shadow-[4px_4px_0px_#000]">
@@ -170,7 +170,7 @@
 
         <div id="state-setup" class="w-full hidden-state flex-col items-center max-w-2xl text-left">
             <h2 class="font-['Press_Start_2P'] text-xl md:text-2xl text-black mb-8 uppercase text-center w-full">
-                ENVIRONMENT CHECK
+                PREPARATIONS
             </h2>
             
             <div class="w-full bg-white border-4 border-black p-6 md:p-8 mb-10 flex flex-col gap-6 shadow-[6px_6px_0px_#000]">
@@ -179,10 +179,16 @@
                     <div class="retro-checkbox-box"></div>
                     <span class="font-mono text-sm md:text-base text-zinc-800 font-semibold leading-relaxed">Make sure you're in a private space where you won't be disturbed and you feel completely comfortable speaking out loud</span>
                 </label>
+                
+                <label class="retro-checkbox-container">
+                    <input type="checkbox" id="setup-audio" class="retro-checkbox-input">
+                    <div class="retro-checkbox-box"></div>
+                    <span class="font-mono text-sm md:text-base text-zinc-800 font-semibold leading-relaxed">Play an alarm sound when the 1-minute timer reaches zero (Optional)</span>
+                </label>
             </div>
 
             <div class="w-full flex justify-center">
-                <button id="btn-proceed" disabled onclick="switchState('state-write')" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest w-full sm:w-auto">
+                <button id="btn-proceed" disabled onclick="startWorkshopSession()" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest w-full sm:w-auto">
                     PROCEED
                 </button>
             </div>
@@ -204,23 +210,25 @@
         </div>
 
         <div id="state-read" class="w-full hidden-state flex-col items-center max-w-3xl">
-            <h2 class="font-['Press_Start_2P'] text-base md:text-lg text-black mb-6 uppercase text-center">Read it out loud</h2>
+            <h2 class="font-['Press_Start_2P'] text-base md:text-lg text-black mb-6 uppercase text-center">Read it out loud slowly</h2>
             
             <p class="font-mono text-sm md:text-base text-zinc-700 mb-8 text-center font-bold">
-                Read what you wrote out loud and notice where the sting lands in your body. <br><br>Accept and try to welcome the feeling and physical sensation in your body. If you lose focus and start thinking just come back to the feeling again, keep your focus there for a minute before moving on. 
+                Read what you wrote out loud and feel for the "sting"! <br><br>Accept and try to welcome the feeling and physical sensation in your body. If you lose focus and start thinking just come back to the feeling again, keep your focus there for a minute before moving on. 
             </p>
 
             <div class="bg-white border-4 border-black p-6 md:p-8 mb-10 w-full text-left max-h-80 overflow-y-auto shadow-[6px_6px_0px_#000]">
                 <p id="user-review-text" class="font-mono text-sm md:text-base text-zinc-800 italic whitespace-pre-wrap break-words leading-relaxed"></p>
             </div>
 
-            <button onclick="switchState('state-complete')" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest">
+            <!-- Pulsing 1-minute countdown -->
+            <div id="read-display" class="font-['Press_Start_2P'] text-5xl md:text-7xl text-black mb-12 select-none tracking-widest animate-[pulse_2s_infinite_ease-in-out]">01:00</div>
+
+            <button id="btn-read-complete" disabled onclick="switchState('state-complete')" class="btn-8bit text-[10px] tracking-widest">
                 I'm done
             </button>
         </div>
 
         <div id="state-complete" class="w-full hidden-state flex-col items-center text-center max-w-3xl">
-            <!-- WORKSHOP COMPLETE UNBOXED (SAME SCALE AS THE 1 STAR REVIEW) -->
             <h1 class="font-['Press_Start_2P'] text-2xl md:text-3xl text-black mb-8 leading-relaxed tracking-wide uppercase">
                 Workshop Complete
             </h1>
@@ -229,28 +237,25 @@
                 You did fantastic! Take a deep breath and relax, I hope that felt ok for you!<br><br>The only way to completely avoid being rejected by others is to hide, but if you want to promote your game you can't stay hidden so you need to reject yourself first. Which can sound strange but it's about allowing yourself to physically feel the hurt and discomfort of rejection in a safe space so that you can be more resilient and put your game out there!
             </p>
 
-            <!-- STARK SEPARATOR LINE -->
             <hr class="w-full border-t-4 border-black my-8" />
 
-            <!-- READY FOR THE NEXT STEP? (CLEAN, UNBOXED WITH BIG YELLOW BUTTON) -->
             <div class="w-full flex flex-col items-center text-center mb-16">
-                <span class="font-['Press_Start_2P'] text-[10px] text-yellow-500 uppercase tracking-widest mb-3">Next step</span>
+                <span class="font-['Press_Start_2P'] text-[10px] text-yellow-500 uppercase tracking-widest mb-3">Ready for the next step?</span>
                 <h3 class="font-['Press_Start_2P'] text-base md:text-lg text-black uppercase tracking-wide mb-6">
-                    Ready for the next step?
+                    Free workshop: Stop hiding
                 </h3>
                 <p class="font-mono text-sm md:text-base text-zinc-700 max-w-2xl leading-relaxed mb-8">
-                    This free workshop is a good next step if you feel ready to start sharing your work but would like some guidance!
+                    If you're interested in going further and actually do an exercise where you post, try this workshop!
                 </p>
-                <a href="#" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest w-full sm:w-auto py-4 px-8 border-4 border-black shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] transition-all">
+                <a href="the 10 min post.html" class="btn-8bit btn-attention-yellow text-[10px] tracking-widest w-full sm:w-auto py-4 px-8 border-4 border-black shadow-[6px_6px_0px_#000] active:translate-x-[4px] active:translate-y-[4px] active:shadow-[2px_2px_0px_#000] transition-all">
                     Do workshop
                 </a>
             </div>
 
-            <!-- NEED MORE SUPPORT? SECTION -->
             <div id="go-deeper-section" class="pt-12 border-t-4 border-black w-full text-center">
                 <h2 class="font-['Press_Start_2P'] text-base md:text-lg text-black mb-6 uppercase tracking-wider">Need more support?</h2>
                 <p class="font-mono text-sm md:text-base text-zinc-700 leading-relaxed mb-10 max-w-2xl mx-auto">
-                    I offer everyone who completes this exercise a free coaching session, view it as a kind of taste test or sample of what it's like to do this work together with me. If you're interested email me or dm me on discord!
+                    I offer everyone who completes this exercise a free coaching session, no creditcard or email signups required.If you're interested email me or dm me on discord!
                 </p>
                 
                 <div class="flex flex-col sm:flex-row justify-center gap-8 sm:gap-16 mt-6 pb-4">
@@ -280,6 +285,12 @@
     <script>
         const states = ['state-intro', 'state-setup', 'state-write', 'state-read', 'state-complete'];
         
+        // --- NEW GLOBALS FOR TIMER & AUDIO ---
+        let readInterval = null;
+        let readTimeLeft = 60; // 1 minute
+        let playAudio = false;
+        let audioCtx = null;
+
         function switchState(targetId) {
             window.scrollTo({ top: 0, behavior: 'instant' });
 
@@ -303,8 +314,79 @@
         }
 
         function validateSetup() {
+            // Environment check must be completed to proceed
             const check = document.getElementById('setup-check').checked;
             document.getElementById('btn-proceed').disabled = !check;
+        }
+
+        // --- AUDIO ENGINE ---
+        function playRetroAlarm() {
+            if (!playAudio || !audioCtx) return;
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Pitch (A5)
+                
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                const step = 0.15;
+                let time = audioCtx.currentTime;
+                
+                gainNode.gain.setValueAtTime(0, time);
+                
+                const playBeeps = (count) => {
+                    for (let i = 0; i < count; i++) {
+                        gainNode.gain.setValueAtTime(0, time);
+                        gainNode.gain.linearRampToValueAtTime(0.2, time + 0.02);
+                        time += step;
+                        gainNode.gain.setValueAtTime(0.2, time - 0.02);
+                        gainNode.gain.linearRampToValueAtTime(0, time);
+                        time += step;
+                    }
+                };
+                
+                const playSilence = (count) => {
+                    time += step * 2 * count;
+                };
+
+                // Sequence layout: 5 beeps -> 1 silence -> 5 beeps -> 1 silence -> 5 beeps
+                playBeeps(5);
+                playSilence(1);
+                playBeeps(5);
+                playSilence(1);
+                playBeeps(5);
+                
+                osc.start();
+                osc.stop(time); 
+            } catch (e) {
+                console.warn("Audio hardware error: ", e);
+            }
+        }
+
+        // --- WORKSHOP INITIALIZATION ---
+        function startWorkshopSession() {
+            const btn = document.getElementById('btn-proceed');
+            btn.classList.add('tactile-press');
+            
+            playAudio = document.getElementById('setup-audio').checked;
+
+            // Warm up Web Audio API inside user interaction boundary
+            if (playAudio) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContextClass();
+            }
+
+            setTimeout(() => {
+                btn.classList.remove('tactile-press');
+                switchState('state-write');
+            }, 120);
         }
 
         function submitReview() {
@@ -313,7 +395,6 @@
             
             if (!userText) {
                 textarea.focus();
-                // Brief visual feedback if empty
                 textarea.style.borderColor = 'red';
                 setTimeout(() => textarea.style.borderColor = '', 1000);
                 return;
@@ -321,6 +402,36 @@
 
             document.getElementById('user-review-text').textContent = `"${userText}"`;
             switchState('state-read');
+            runReadCountdown(); // Start the 1 minute reading timer
+        }
+
+        // --- TIMER ENGINE ---
+        function runReadCountdown() {
+            readTimeLeft = 60; // reset to 1 minute
+            renderReadTime(readTimeLeft);
+            
+            const btn = document.getElementById('btn-read-complete');
+            btn.disabled = true;
+            btn.classList.remove('btn-attention-yellow');
+            
+            readInterval = setInterval(() => {
+                readTimeLeft--;
+                renderReadTime(readTimeLeft);
+                
+                if (readTimeLeft <= 0) {
+                    clearInterval(readInterval);
+                    btn.disabled = false;
+                    btn.classList.add('btn-attention-yellow');
+                    playRetroAlarm(); // Audio signals completion
+                }
+            }, 1000);
+        }
+
+        function renderReadTime(seconds) {
+            const display = document.getElementById('read-display');
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            display.textContent = `${m}:${s}`;
         }
 
         function copyContact(event, text, element, successMsg) {
