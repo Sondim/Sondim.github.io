@@ -20,10 +20,10 @@
             margin: 0;
         }
 
-        /* A4 Page Layout */
+        /* Mobile First Layout */
         .a4-page {
-            width: 210mm;
-            height: 297mm;
+            width: 100%;
+            min-height: 100vh;
             background: #FAF9F6;
             box-shadow: 10px 10px 0px rgba(0,0,0,0.15);
             display: flex;
@@ -31,7 +31,17 @@
             position: relative;
             overflow: hidden;
             box-sizing: border-box;
-            padding: 10mm 15mm; 
+            padding: 5mm; 
+        }
+
+        /* Desktop A4 Layout Guardrail */
+        @media (min-width: 768px) {
+            .a4-page {
+                width: 210mm;
+                height: 297mm;
+                min-height: auto;
+                padding: 10mm 15mm; 
+            }
         }
 
         /* 8-bit Typography */
@@ -81,20 +91,22 @@
 <body>
 
     <div class="a4-page">
-        <header class="border-b-4 border-black pb-4 mb-4 shrink-0 flex justify-between items-end">
+        <!-- Header updated for flex-col on mobile, flex-row on md+ -->
+        <header class="border-b-4 border-black pb-4 mb-4 shrink-0 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-0">
             <div>
                 <h1 class="font-8bit text-xl leading-snug tracking-wide text-black mb-2">
                     FEELING STUCK<br>PROMOTING YOUR GAME
                 </h1>
             </div>
-            <div class="font-8bit text-[8px] text-right text-zinc-400 leading-relaxed">
+            <div class="font-8bit text-[8px] text-left md:text-right text-zinc-400 leading-relaxed">
                 SONDIM<br>GAMEDEV<br>COACHING
             </div>
         </header>
 
         <main class="flex flex-col flex-grow gap-y-10 pb-2">
             
-            <section class="grid grid-cols-2 gap-5 shrink-0">
+            <!-- Grid updated to 1 col on mobile, 2 cols on md+ -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-5 shrink-0">
                 <div>
                     <h3 class="font-8bit text-[10px] mb-3 bg-black text-white inline-block px-2 py-1">IT'S NOT ABOUT YOUR GAME</h3>
                     <p class="text-[12px] leading-relaxed text-zinc-800">
@@ -111,7 +123,8 @@
 
             <section>
                 <h3 class="font-8bit text-[14px] mb-4 border-b-2 border-black pb-2">THREE COMMON PATTERNS</h3>
-                <div class="grid grid-cols-3 gap-4 text-left">
+                <!-- Grid updated to 1 col on mobile, 3 cols on md+ -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
                     
                     <div class="relative h-full">
                         <div class="absolute inset-0 bg-black translate-x-[5px] translate-y-[5px] print:translate-x-[3px] print:translate-y-[3px]"></div>
@@ -155,7 +168,8 @@
                     </p>
                 </div>
                 
-                <div class="grid grid-cols-3 gap-4">
+                <!-- Grid updated to 1 col on mobile, 3 cols on md+ -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <a href="../stop_hiding.html" target="_blank" rel="noopener noreferrer" class="relative block group w-full cursor-pointer">
                         <div class="absolute inset-0 bg-black translate-x-[5px] translate-y-[5px] print:translate-x-[3px] print:translate-y-[3px]"></div>
                         <div class="relative bg-[#7ED2FC] border-4 border-black print:border-[3px] py-4 w-full flex items-center justify-center transition-transform duration-100 ease-in-out group-hover:translate-x-[2px] group-hover:translate-y-[2px] group-active:translate-x-[5px] group-active:translate-y-[5px] print:group-hover:translate-x-0 print:group-hover:translate-y-0 print:group-active:translate-x-0 print:group-active:translate-y-0">
