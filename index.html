@@ -3,12 +3,14 @@
 <html lang="en">
 
 <head>
+    <!-- HTML5 Routing Anchor: Forces all relative assets (images, PDFs) to resolve from the root domain -->
+    <base href="/">
 
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sondim | Founder Coaching</title>
+    <title>Sondim | For healthier gamedev</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -834,7 +836,7 @@
     <nav class="fixed top-0 left-0 w-full z-40 bg-zinc-950 border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 py-2.5 md:py-4 flex justify-between items-center relative">
             
-            <a href="#home" class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-pointer z-50">
+            <a href="/" onclick="event.preventDefault(); navigateTo('home');" class="text-xl font-black tracking-[0.2em] text-white flex gap-1 group cursor-pointer z-50">
                 <span>S</span><span>O</span><span class="text-yellow-400">N</span><span>D</span><span>I</span><span>M</span>
             </a>
 
@@ -1861,18 +1863,22 @@
 
     <script>
 
-        // ================= HASH ROUTING ENGINE =================
+        // ================= HTML5 BROWSER ROUTING ENGINE =================
 
         const SPA_VIEWS = ['view-home', 'view-guides', 'view-workshops'];
         let activeViewId = null;
 
-        function hashToViewId(hash) {
-            switch (hash) {
+        function pathToViewId(path) {
+            switch (path) {
+                case 'guides':
                 case '#guides':
                     return 'view-guides';
+                case 'workshops':
                 case '#workshops':
                     return 'view-workshops';
+                case 'home':
                 case '#home':
+                case '':
                 default:
                     return 'view-home';
             }
@@ -1886,63 +1892,92 @@
             const currentEl = activeViewId ? document.getElementById(activeViewId) : null;
             if (currentEl === nextEl) return;
 
-            // Snap scroll to top for each view change
             window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+            activeViewId = targetId;
+
+            const revealNext = () => {
+                nextEl.classList.remove('spa-view-hidden');
+                void nextEl.offsetWidth; // Force hardware reflow
+                nextEl.classList.add('spa-view-active');
+            };
 
             if (currentEl) {
                 currentEl.classList.remove('spa-view-active');
-                // If it's a page refresh, we hide the old view instantly to prevent flashing
                 if (isInstant) {
                     currentEl.classList.add('spa-view-hidden');
+                    revealNext();
                 } else {
+                    // Wait for the opacity transition to finish BEFORE unhiding the next view
                     currentEl.addEventListener('transitionend', function handle(ev) {
                         if (ev.propertyName === 'opacity') {
                             currentEl.classList.add('spa-view-hidden');
                             currentEl.removeEventListener('transitionend', handle);
+                            revealNext();
                         }
                     });
+                    
+                    // Safety lock: if the transition event fails to fire, force it
+                    setTimeout(() => {
+                        if (!currentEl.classList.contains('spa-view-hidden')) {
+                            currentEl.classList.add('spa-view-hidden');
+                            revealNext();
+                        }
+                    }, 350);
                 }
+            } else {
+                revealNext();
             }
-
-            nextEl.classList.remove('spa-view-hidden');
-            // Force reflow so opacity transition runs reliably
-            void nextEl.offsetWidth;
-            nextEl.classList.add('spa-view-active');
-            activeViewId = targetId;
         }
 
-        function handleHashChange() {
-            const hash = window.location.hash || '#home';
-            const viewId = hashToViewId(hash);
+        function handleRouteChange(overridePath = null) {
+            let path = overridePath;
+            if (!path) {
+                path = window.location.pathname.split('/').filter(Boolean).pop() || 'home';
+                if (path.includes('.html')) path = 'home';
+            }
+            const viewId = pathToViewId(path);
             showView(viewId);
         }
 
-        function navigateTo(hash) {
-            if (window.location.hash === hash) {
-                handleHashChange();
-            } else {
-                window.location.hash = hash;
+        function navigateTo(target) {
+            const cleanPath = target.replace('#', '');
+            
+            // Dynamically calculate base path to support GitHub Project Page subdirectories
+            let currentPath = window.location.pathname;
+            let basePath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
+            let newUrl = basePath + (cleanPath === 'home' ? '' : cleanPath);
+            
+            if (window.location.pathname !== newUrl) {
+                try {
+                    window.history.pushState(null, null, newUrl);
+                } catch (e) {
+                    console.warn("History API blocked (local file testing). Bypassing URL update.");
+                }
             }
+            handleRouteChange(cleanPath);
         }
 
-        window.addEventListener('hashchange', handleHashChange);
+        window.addEventListener('popstate', () => handleRouteChange());
 
         document.addEventListener('DOMContentLoaded', () => {
-            // BUG FIX: The HTML hardcodes 'view-home' as visible. We must inform the 
-            // script engine that this is our starting point so it knows what to hide!
             activeViewId = 'view-home'; 
-
-            const hash = window.location.hash || '#home';
-            const targetId = hashToViewId(hash);
-
-            if (targetId !== 'view-home') {
-                // If refreshing on a sub-page, swap instantly to avoid a flash of the home page
-                showView(targetId, true);
-            }
             
-            if (!window.location.hash) {
-                // Replace state to avoid adding useless history entries on boot
-                history.replaceState(null, null, '#home');
+            // 1. Intercept the GitHub Pages 404 redirect safely
+            const l = window.location;
+            if (l.search.length > 1 && l.search[1] === '/' ) {
+                const decoded = l.search.slice(1).split('&').map(s => s.replace(/~and~/g, '&')).join('?');
+                try {
+                    window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+                } catch(e) {}
+            }
+
+            // 2. Load the current route seamlessly
+            let initialPath = window.location.pathname.split('/').filter(Boolean).pop() || 'home';
+            if (initialPath.includes('.html')) initialPath = 'home';
+            
+            const targetId = pathToViewId(initialPath);
+            if (targetId !== 'view-home') {
+                showView(targetId, true);
             }
         });
         // --- DISCORD TELEMETRY ENGINE ---
@@ -2882,9 +2917,11 @@ function openMainContactGateway() {
                 toggleMenu();
             }
 
-            // Route logic
-            if (window.location.hash !== '#home' && window.location.hash !== '') {
-                navigateTo('#home'); // Switch view
+            // Route logic (Updated for HTML5 History API)
+            const currentPath = window.location.pathname.split('/').filter(Boolean).pop() || 'home';
+            
+            if (currentPath !== 'home' && !window.location.pathname.endsWith('.html')) {
+                navigateTo('home'); // Switch view
                 // Wait for the DOM to physically unhide the home page before scrolling
                 setTimeout(() => {
                     const el = document.getElementById(sectionId);
