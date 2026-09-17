@@ -2,7 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const { ChannelType } = require('discord.js');
 
-const DATA_FILE = path.join(__dirname, 'data', 'progress.json');
+// On Railway, mount a volume at /data so progress survives redeploys.
+const DATA_DIR = (process.env.DATA_DIR || path.join(__dirname, 'data')).trim();
+const DATA_FILE = path.join(DATA_DIR, 'progress.json');
 
 function loadProgress() {
     try {

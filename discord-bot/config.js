@@ -10,7 +10,7 @@ function envValue(name) {
 function required(name) {
     const value = envValue(name);
     if (!value) {
-        throw new Error(`Missing ${name}. Add it in discord-bot/.env (the file you upload to Discloud).`);
+        throw new Error(`Missing ${name}. Set it in Railway Variables (or local discord-bot/.env).`);
     }
     return value;
 }
